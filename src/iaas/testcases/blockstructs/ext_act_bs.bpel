@@ -1,0 +1,21 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <extensionActivity name="myExtensionActivity" suppressJoinFailure="yes">
+      <targets>
+        <target linkName="whatever"/>
+      </targets>
+      <sources>
+        <source linkName="sth"/>
+      </sources>
+      <![CDATA[
+      <user:userInteraction type="user:approval">
+      <user:userResolution role="manager"/>
+      </user:userInteraction>
+      ]]>
+    </extensionActivity>
+
+  </sequence>
+</process>

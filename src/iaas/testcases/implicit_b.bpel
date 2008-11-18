@@ -1,0 +1,27 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <variables>
+    <variable name="risk"/>
+    <variable name="request"/>
+    <variable name="approval"/>
+  </variables>
+
+  <sequence>
+    <invoke partnerLink="assessor" operation="check" outputVariable="risk" inputVariable="request"/>
+
+    <assign>
+      <copy>
+        <from>
+          <literal>
+            "yes"
+          </literal>
+        </from>
+        <to variable="approval"/>
+      </copy>
+    </assign>
+    <receive partnerLink="customer" operation="request" variable="request"/>
+
+  </sequence>
+</process>

@@ -1,0 +1,20 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ suppressJoinFailure="no"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <if>
+      <sources>
+        <source linkName="sCond"/>
+      </sources>
+      <condition>
+        expr
+      </condition>
+      <sequence>
+        <exit/>
+      </sequence>
+
+    </if>
+  </sequence>
+</process>

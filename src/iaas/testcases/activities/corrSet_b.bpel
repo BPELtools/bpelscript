@@ -1,0 +1,14 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <correlationSets>
+    <correlationSet name="cs_name" properties="prop1, prop2"/>
+    <correlationSet name="cs2_name" properties="prop3, prop4"/>
+  </correlationSets>
+
+  <sequence>
+
+    <empty/>
+  </sequence>
+</process>

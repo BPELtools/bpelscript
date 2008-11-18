@@ -1,0 +1,14 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ suppressJoinFailure="no"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <rethrow name="bla">
+      <sources>
+        <source linkName="blubb"/>
+      </sources>
+
+    </rethrow>
+  </sequence>
+</process>

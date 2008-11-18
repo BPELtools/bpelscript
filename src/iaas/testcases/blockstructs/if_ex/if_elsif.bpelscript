@@ -1,0 +1,12 @@
+namespace pns = "http://example.com/loan-approval/";
+
+@suppressJoinFailure no 
+process pns::loanApprovalProcess {
+
+if (expr) {
+exit;
+} elseif (expr) {
+exit;
+} elseif (expr) {
+exit;
+}}

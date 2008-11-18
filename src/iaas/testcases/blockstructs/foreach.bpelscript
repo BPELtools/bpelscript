@@ -1,0 +1,7 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+for (i=1; 50; 30) {
+exit;
+} }

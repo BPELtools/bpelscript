@@ -1,0 +1,19 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+try {
+nop;
+
+} @faultElement "fltElt" 
+catch (pns::loanProcessTypeError) { |lPT_exc|
+nop;
+}
+
+@faultMessageType "msgType" 
+catch (pns::loanProcessFault) { |lPF_exc|
+@portType "lns::loanServicePT" 
+@faultName "unableToHandleReqeust" 
+reply(customer, request, error);
+}
+}

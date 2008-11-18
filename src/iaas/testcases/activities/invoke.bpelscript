@@ -1,0 +1,10 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+join(receive-to-assess);
+invoke(assessor, check, request);
+signal(assess-to-setMessage, [$risk.level='low']);
+signal(assess-to-approval, [$risk.level!='low']);
+
+}

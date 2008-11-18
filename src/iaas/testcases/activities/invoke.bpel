@@ -1,0 +1,26 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <invoke partnerLink="assessor" operation="check" inputVariable="request">
+      <targets>
+        <target linkName="receive-to-assess"/>
+      </targets>
+      <sources>
+        <source linkName="assess-to-setMessage">
+          <transitionCondition>
+            $risk.level='low'
+          </transitionCondition>
+        </source>
+        <source linkName="assess-to-approval">
+          <transitionCondition>
+            $risk.level!='low'
+          </transitionCondition>
+        </source>
+      </sources>
+
+    </invoke>
+
+  </sequence>
+</process>

@@ -1,0 +1,22 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <faultHandlers>
+    <catch faultName="pns:loanProcessTypeError"
+           faultVariable="lPT_exc"
+           faultElement="fltElt">
+      <empty/>
+    </catch>
+    <catch faultName="pns:loanProcessFault"
+           faultVariable="lPF_exc"
+           faultMessageType="msgType">
+      <reply partnerLink="customer" portType="lns::loanServicePT" operation="request" variable="error" faultName="unableToHandleReqeust"/>
+
+    </catch>
+  </faultHandlers>
+
+  <sequence>
+    <empty/>
+  </sequence>
+</process>

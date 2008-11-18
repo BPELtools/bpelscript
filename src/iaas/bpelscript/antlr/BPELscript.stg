@@ -1,0 +1,1053 @@
+/*
+ * Copyright 2008 Marc Bischof 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0 
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+
+group BPELscript;
+
+//####################### AUXILLIARY TEMPLATES ###########################################
+/*
+ * tagging template
+ *
+ * handles tagging of xml
+ *
+ * a tag is enclose by angle brackets. 
+ * it has a name and an incontent direct following the name.
+ * an xml tag contains a content.
+ * if there is no content this template provides a shortcut like <name/>
+ *
+ * Variables
+ *  tagname: the tagname
+ *  incontent: the content following direct after the tagname
+ *  content: the content between named tags
+ *  after_block: a block directly invoked by taggin
+ */
+taggin(tagname, incontent, content, after_block, empty) ::=
+<<
+<!Start with Tagname!>
+\<<tagname><if (incontent)><incontent>
+<endif>
+<if (content)><if (!empty)>\>
+  <content><\n>\</<tagname>\><if (after_block)>
+<\n><after_block><endif><else>/\><endif>
+<else>/\><endif>
+>>
+
+/*
+ * template for standard elements for all acivities
+ *
+ * Variables
+ *  join: optional bool-expr of the join condition
+ *  target: non empty list of target linkNames
+ *  source: non empty list of source linkNames
+ *  trans: optional bool-expr of the transition condition
+ */
+std_elt(join, target, source, trans) ::=
+<<
+<if (target)>
+<taggin(tagname="targets", 
+		content=target(join=join, target=target)
+		)>
+<endif>
+>>
+
+/*
+ * auxilliary template for standard elements
+ *
+ *
+ */
+std_aux(join, signal, empty) ::= <<
+<if (join)><join><\n>
+<endif><if (signal)><taggin(tagname="sources", content={<signal:{s|<s>};separator="\n">})><\n><endif>
+>>
+
+
+
+/*
+ * handles target container
+ *
+ * Variables
+ *  join: optional joinCondition
+ *  target: non empty list of target linkNames
+ */
+target(join, target) ::= 
+<<
+<if (join)><taggin(tagname="joinCondition",
+				   content=join)><endif>
+<if (target)><target:{t| \<target linkName="<t>"/\>};separator="\n"><endif>
+>>
+
+
+/*
+ * handles source container
+ *
+ * Variables
+ *  source: non empty list of source linkNames which contains optional transitionCondition
+ *  trans: optional transitionCondition
+ */
+source(source, trans, empty) ::= 
+<<
+<if (source)><taggin(tagname="source",
+					 incontent=" linkName=\""+source+"\"",
+					 content={<trans:{t|<taggin(tagname="transitionCondition", content=t)>};separator="\n">},
+					 empty=empty
+					 )><endif>
+>>
+
+/*
+ * auxilliary list output template
+ * items separated by new line
+ *
+ */
+list(content_st) ::= <<
+<content_st; separator="\n">
+>>
+
+
+std_attr(name, sjf) ::= <<
+<if(name)> name=<name><endif><if(sjf)> <sjf><endif>
+>>
+
+portType(port) ::= <<
+ portType=<port>
+>>
+
+msgEx(msgEx) ::= <<
+ messageExchange=<msgEx>
+>>
+
+msgType(msgT) ::= <<
+ messageType=<msgT>
+>>
+
+viType(type) ::= <<
+ type=<type>
+>>
+
+viElt(elt) ::= <<
+ element=<elt>
+>>
+
+faultName(faultName) ::= <<
+ faultName=<faultName>
+>>
+
+with_ex(fromParts, toParts) ::= 
+<<
+<if (toParts)><taggin(tagname="toParts",
+					  content={<toParts.keys, toParts.values:{k,v|<taggin(tagname="toPart", incontent={ part="<v>" fromVariable="<k>"})>};separator="\n">}
+					 )><endif>
+<if (fromParts)><taggin(tagname="fromParts",
+						content={<fromParts.keys, fromParts.values:{k,v|<taggin(tagname="fromPart", incontent={ part="<v>" toVariable="<k>"})>};separator="\n">}
+						)><endif>
+>>
+//####################### END AUXILLIARY TEMPLATES ########################################
+
+/*
+ * Provide Declaration template # walkthrough
+ *
+ * Variables
+ *  name_st: StringTemplate of a process
+ */
+decl(name_st) ::= "<name_st>"
+
+
+/*
+ * Process Template
+ *
+ * A process contains at least a name, a targetNamespace and some content.
+ * Additional it contains other Namespaces. 
+ *
+ * Variables
+ *  name: the Namespace location
+ *  tns: the Target Namespace
+ *  local: the local namespaces
+ *  content_st: the process body
+ */
+process(name, tns, local, content_st, 
+		queryLg, exprLg, sjf, eOSF,
+		exts, imports, plinks_p, messages, vars, cors, 
+		faultHdl, faultHdl_pb, eventHdl,
+		std_attr, join, signal) ::= 
+<<
+<taggin(tagname="process", 
+		incontent=" name=\""+name+"\""
+				 +"\n targetNamespace="+tns
+				 +{<if (queryLg)><\n> queryLanguage=<queryLg><endif>}
+				 +{<if (exprLg)><\n> expressionLanguage=<exprLg><endif>}
+				 +{<if (sjf)><\n> <sjf><endif>}
+				 +{<if (eOSF)><\n> <eOSF><endif>}
+				 +"\n xmlns=\"http://docs.oasis-open.org/wsbpel/2.0/process/executable\"" 
+				 +aux_ns(local=local),
+		content="\n"+{<if (exts)><taggin(tagname="extensions",
+				   						 content={<exts.keys,exts:{k,e|<extension(name=k, content=e)>}; separator="\n">}
+				  						)><\n><endif>
+<imports:{im|<import(content=im)><\n>};separator="\n">
+<aux_Hash(plinks=plinks_p, messages=messages, vars=vars, cors=cors, faultHdl=faultHdl, faultHdl_pb=faultHdl_pb, eventHdl=eventHdl)>
+}+sequence(content=content_st, join=join, signal=signal, std_attr=std_attr)
+		)>
+>>
+
+
+aux_Hash(plinks, messages, vars, cors, faultHdl, faultHdl_pb, compHdl, eventHdl) ::= <<
+<if (plinks)><taggin(tagname="partnerLinks", 
+					   content={<plinks.keys,plinks.values:{pl,val|\<partnerLink name="<pl>"<\n> <val>/\>}; separator="\n">}
+)><\n><endif>
+<if (messages)><taggin(tagname="messagesExchanges", 
+					   content={<messages.keys:{m|<taggin(tagname="messageExchange", incontent="name=\""+m+"\"")>};separator="\n">}
+					   )><\n><endif><if (vars)>
+<aux_var(vars)><\n><endif><if (cors)>
+<taggin(tagname="correlationSets", 
+					content={<cors.keys, cors.values:{k,v|<taggin(tagname="correlationSet", incontent=" name=\""+k+"\" properties=\""+v+"\"")>};separator="\n">}
+					   )><\n><endif><if (faultHdl)>
+<taggin(tagname="faultHandlers", 
+        			   content={<faultHdl.keys,faultHdl.values,faultHdl_pb:{fault, attr, pb|<catch_ex(ns=fault, incontent=attr, content=pb)>}; separator="\n">}
+					  )><\n><endif><if (compHdl)>
+<compHdl><\n><endif><if(eventHdl)>
+<eventHdl><\n><endif>
+>>
+
+
+/*
+ * auxialliary template to handle several namespaces in process template.
+ * proceeds output only if >local< is not empty
+ */
+aux_ns(local) ::= 
+<<
+<if (local)>
+<\n> <local.keys:{k| xmlns:<k>=<local.(k)>}; separator="\n ">
+<endif>
+>>
+
+
+/*
+ * Provide Extension Template
+ */
+extension(name, content) ::= <<
+<taggin(tagname="extension",
+		incontent=" namespace="+content
+		)>
+>>
+
+
+/*
+ * Provide Import Template
+ */
+import(content) ::= <<
+<taggin(tagname="import",
+		incontent=content
+		)>
+>>
+
+
+correlation(cors_p) ::= 
+<<
+<if(cors_p)>
+<taggin(tagname="correlations",
+		content=cors_p
+		)><endif>
+>>
+
+correlation_map(id, expr, init, pattern)::= 
+<<
+<taggin(tagname="correlation",
+		incontent={ set="<id>"<if(init)><\n> <init><endif><if(pattern)><\n> <pattern><endif>}
+		)>
+>>
+
+/*
+ * handles partnerlinks
+ *
+ * provides tas for 'partnerLinks' and 'variables' # straightforward
+ *
+ * Variables
+ *  plinks_p: non empty list of partnerlinks
+ *  vars: non empty list of partner variables
+ */
+partner(plinks_p, vars, exts) ::= 
+<<
+<if (plinks_p)><taggin(tagname="partnerLinks", 
+					   content={<plinks_p:{pl|\<partnerLink name="<pl>"/\>}; separator="\n">}
+					  )><\n><endif>
+<if (vars)><aux_var(vars)><endif>
+>>
+
+/* NOT USED YET
+ * auxialliary template to handle variables.
+ * proceeds output only if >local< is not empty
+ */
+aux_var(local) ::= 
+<<
+<if (local)><taggin(tagname="variables", 
+					content={<local.keys, local.values:{var, mods | <if (mods)><mods><else>\<variable name="<var>"/\><endif>};separator="\n">})><endif>
+>>
+//content={<local.keys, local.values:{var, mods |\<variable name="<var>"<if (mods)> type="<mods>"<endif>/\>};separator="\n">})><endif>
+
+///////////////// Fault handling ///////////////////////////////////////////////////////
+/* 
+ * try expression template
+ *
+ * switch appearence order of try and catch.
+ * handle catchs if it is non empty and provide content handling.
+ * can't use taggin template here because faultHandler must appear befor activities
+ *
+ * Variables
+ *  body_st: the try expression body
+ *  catchs: possible empty list of fault handlers
+ */
+try_ex(name, pb) ::= 
+<<
+<taggin(tagname="faultHandlers", 
+        content=catch_ex(ns=name, content=pb)
+		)><\n>
+<endif>
+>>
+//<body_st>
+//>>
+
+
+/*
+ * catch expression template
+ *
+ * provide 'faultHandlers' tag with 'catch' inside
+ *
+ * Variables
+ *  ns: the namespace identifier
+ *  content_st: the content
+ */
+catch_ex(ns, incontent, content) ::= 
+<<
+<if (ns)>
+<taggin(tagname="catch", 
+ 	    incontent=" faultName=\""+ns+"\""+incontent,
+		content=content.stmts_p
+		)>
+<else>
+<taggin(tagname="catchAll", 
+		content=content.stmts_p
+		)>
+<endif>
+>>
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+ * parameter block template
+ *
+ * a parameter block contains a possible empty list of IDs followed by statements
+ *
+ * Variables
+ *  ids: possible empty list of IDs
+ *  stmts_p: non empty list of statements
+ *<if (ids)><ids; separator="\n"><endif>
+ */
+block(ids, stmts_p, pb) ::= 
+<<
+<stmts_p;separator="\n">
+>>
+
+
+/*
+ * handle assigns 
+ *
+ * walkthrough
+ *
+ * dependencies
+ *  respective <rvalue>
+ */
+assign(rvalue_st, join, signal, empty, valid, std_attr, real) ::= 
+<<
+<if (real)>
+<taggin(tagname="assign",
+		incontent=valid+{<if (std_attr)><attribute_base(std_attr=std_attr)><endif>},
+		content=std_aux(join=join,signal=signal)+rvalue_st)>
+<else>
+<rvalue_st>
+<endif>
+>>
+
+
+/* 
+ * handle receive activity ############################## TODO #####################
+ *
+ * call receive_base template indirect; set variables
+ *
+ * Variables
+ *  name: the activity name (not used here)
+ *  base: the receive base (call receive_assign)
+ *  path: the LHS
+ *
+ * dependencies
+ *  receive_base #indirect over <base> 
+ */
+/*receive_assign(base_st,path_st) ::= 
+<<
+<base_st>
+ variable="<path_st>"
+>>*/
+
+
+
+/**
+ * handles receive activity
+ *
+ * content-param: handle standard elements and correlations if present.
+ *				  (differ correlation handling in absence/presence of 'rec_tpl' template)
+ * inconctent_param: handle attributes by calling central 'attribute_base' template
+ * empty_param: empty signalizes if there are any contents to replace
+ *				(if not, a shortcut will be provided by the 'taggin' template
+ *
+ * Variables:
+ *	rec_tpl: a receive template (when using 'assign')
+ *	path_st: the variable (when using 'assign')
+ *	join, signal: the standard elements
+ *	partner, operation, correlation, portType, standard_attributes, createInstance, messageExchange: used by 'attribute_base' template  
+ */
+receive(rec_name, pb, rec_tpl, path_st, join, signal, empty, partner, op, portType, std_attr, crt_inst, msgEx, correlation_opt, with_ex)::=  
+<<
+<taggin(tagname={<if (rec_name)><rec_name><else>receive<endif>},
+		content=content_base(join=join, signal=signal, empty=empty, tpl=rec_tpl, correlation_opt=correlation_opt, with_ex=with_ex)+{<if(pb)><pb><endif>},
+		incontent=attribute_base(tpl=rec_tpl, partner=partner, op=op, path_st=path_st, 
+								 portType=portType, std_attr=std_attr, crt_inst=crt_inst, msgEx=msgEx),
+		empty=empty
+		)><\n>
+>>
+
+
+/* 
+ * reply template
+ *
+ * reply contains mandatory partnerLink and optional operation and fault variable
+ *
+ * Variables
+ *  partner: reply partner
+ *  op_opt: optional operation
+ *  faultvar_opt: optional faultvar
+ */
+reply(partner, op, inv, join, signal, empty, portType, std_attr, faultName, msgEx, correlation_opt, with_ex) ::= 
+<<
+<taggin(tagname="reply",
+		content=content_base(join=join, signal=signal, empty=empty, correlation_opt=correlation_opt, with_ex=with_ex),
+		incontent=attribute_base(partner=partner, op=op, path_st=inv, 
+								 portType=portType, std_attr=std_attr, fault=faultName, msgEx=msgEx),
+		empty=empty
+		)><\n>
+>>
+
+
+/*
+ * handle invoke activity
+ *
+ * call receive_base-template to set up partnerlink and operation
+ * set optional values if necessary 
+ *
+ * Variables
+ *  name: the activity name (not used here)
+ *  partner: the LinkPartner
+ *  op: the operation
+ *  var: the input variable (optional)
+ *  path: the output variable (optional)
+ *
+ * dependencies
+ *  receive_base(partner, op)
+ */
+invoke(inv_tpl, path_st, outvar, partner, op, inv, join, signal, empty, portType, std_attr, 
+		correlation_opt, with_ex, faults, compensation) ::=
+<<
+<taggin(tagname="invoke",
+		content=content_base(join=join, signal=signal, empty=empty, correlation_opt=correlation_opt, with_ex=with_ex)
+		+{<if (faults)><\n><faults.keys,faults.values,faults_pb:{fault, attr, pb|<catch_ex(ns=fault, incontent=attr, content=pb)>}; separator="\n"><endif>}
+		+{<if(compensation)><\n><compensation><endif>},
+		incontent=attribute_base(tpl=inv_tpl, outvar=outvar, partner=partner, op=op, invar=inv, 
+								 portType=portType, std_attr=std_attr),
+        empty=empty
+		)><\n>
+>>
+
+
+content_base(join, signal, empty, tpl, correlation_opt, with_ex) ::=
+<<
+<if(!empty)><std_aux(join=join, signal=signal)><endif><if(tpl)>
+<correlation(cors_p=tpl.correlation_opt)><else><correlation(cors_p=correlation_opt)><endif><if(with_ex)>
+<with_ex><endif>
+>>
+
+/* 
+ * handles simple activity attributes
+ *
+ * since there is a high similarity in the attributes of simple activieties
+ * this template provides a central place to handle them.
+ * A specific feature is that this template will also handle assign statements
+ * when a template is given in the 'tpl' parameter.
+ *
+ * Variables
+ *  tpl: a template which contains the parameter itself
+ *  partner: the PartnerLink to set
+ *  op: the operation to set
+ *  path_st: the variable to set (only when using 'tpl')
+ *  portType: the portType to set
+ *  crt_inst: createInstance?
+ *  msgEx: messageExchange?
+ */
+attribute_base(tpl, partner, op, path_st, outvar, invar, fault, portType, std_attr, crt_inst, msgEx) ::= 
+<<
+<if(tpl)>
+<if (tpl.partner)> partnerLink="<tpl.partner>"<endif><if (portType)>
+ <portType><endif><if (tpl.op)>
+ operation="<tpl.op>"<endif><if (outvar)>
+ outputVariable="<outvar>"<endif><if (tpl.inv)>
+ inputVariable="<tpl.inv>"<endif><if (path_st)>
+ variable="<path_st>"<endif><if (fault)>
+ <tpl.fault><endif><if (crt_inst)>
+ <crt_inst><endif><if (msgEx)>
+ <tpl.msgEx><endif><if (std_attr)>
+ <std_attr><endif>
+<else>
+<if (partner)> partnerLink="<partner>"<endif><if (portType)>
+ <portType><endif><if (op)>
+ operation="<op>"<endif><if (invar)>
+ inputVariable="<invar>"<endif><if (path_st)>
+ variable="<path_st>"<endif><if (fault)>
+ <fault><endif><if (crt_inst)>
+ <crt_inst><endif><if (msgEx)> 
+ <msgEx><endif><if (std_attr)>
+ <std_attr><endif>
+<endif>
+>>
+
+
+/*
+ * handles (variable)-assignment 
+ *
+ * provide 'assign' tag with 'copy' tag inside
+ *
+ * Variables
+ *  name: the activity name (not used here)
+ *  value: the copy value (RHS)
+ *  var: the copy variable (LHS)
+ * 
+ */
+copy(from, ext, empty, 
+	 pl, pl_p,
+	 var, part, prop,
+	 tovar, topl, topart, toprop, toempty,
+	 keep, ignore) ::= 	
+<<
+<taggin(tagname="copy", 
+		content=from_to_base(name="from", from=from, pl=pl, pl_p=pl_p, 
+							 var=var, part=part, prop=prop, ext=ext, empty=empty)
++"\n"+from_to_base(name="to", from="null", pl=topl,  
+				   var=tovar, part=topart, prop=toprop, empty=toempty),
+		incontent=keep+ignore)>
+>>
+
+
+from_to_base(name, from, pl, pl_p, var, part, prop, ext, empty) ::=
+<<
+<taggin(tagname=name,
+		incontent={<if(pl)> partnerLink="<pl>"<if(pl_p)> endpointReference="<pl_p>"<endif><endif><if (var)>
+ variable="<var>"<if(part)> part="<part>"<endif><if(prop)> property="<prop>"<endif><endif>},
+		content={<if (from)><if(!pl)><if(!var)><if(ext)><from><else><taggin(tagname="literal", content=from)><endif><endif><endif><endif>},
+		empty=empty
+		)>
+>>
+
+
+/*
+ * handles statement expressions (BPEL assigns) 		TODO######################
+ *
+ * contains the two parts >from< and >to<
+ * the >from< part contains the value
+ * the >to< part contains the target variable
+ *  if there is no second element in the path-expression-list there is only 
+ *  a variable to set. else the >to< part will contains an extra part attribute.  
+ *
+ * Variables
+ *  value: the value to be set (RHS)
+ *  path: the target variable (LHS) - with optional part representation 
+ */
+s_expr(value, path) ::= 
+<<
+<value>
+>>
+//<<
+//<taggin(tagname="from",content={<taggin(tagname="literal",content=value)>})><if (path)>
+//\<to variable="<first(path.pns_p)>"<if (rest(path.pns_p))> part="<rest(path.pns_p)>"<endif>\><endif>
+//>>
+
+
+/*
+ * walkthrough path expression
+ */
+path_expr(pns_p) ::= 
+<<
+<pns_p;separator=".">
+>>
+
+
+/* 
+ * Handling of ns_id
+ *
+ * walkthrough namespace identifier
+ *
+ * Variables
+ *  pre_opt: optional Prefix
+ *  loc: locator
+ */
+ns_id(pre_opt,loc) ::=
+<<
+<if (pre_opt)><pre_opt>.<endif><loc>
+>>
+
+
+/*
+ * handles signals 	TODO#################
+ *
+ * provide 'source' tag with its content
+ *
+ * Variables
+ *  id: the linkname
+ *  expr_opt: optional content
+ */
+/*signal(id,expr_opt) ::= 
+<<
+<taggin(tagname="source",
+		incontent="linkName=\""+id+"\"",
+		content=expr_opt)><\n>
+>>*/
+
+
+/*
+ * handles expressions
+ *
+ * provide 'transitionCondition' tag
+ *
+ * Variables
+ *  expr: the condition expression
+ */
+expr(expr) ::= 
+<<
+<expr>
+>>
+
+
+
+/*
+ * handles joins ################## TODO: verify
+ *
+ * walkthrough >std_elt<
+ */
+ 
+join (ids_p,expr_opt) ::= 
+<<
+<std_elt(target=ids_p)>
+>>
+
+
+/*
+ * Handling of extension activity
+ *
+ * Provide 'extensionActivity' tag with namespace (BPELscript double ':' is stripped to single one)
+ * and extension content as content 
+ *
+ * Variables
+ *  ns: namespace ifentifier
+ *  ext_act: extension content
+ */
+ext_act(ext_act, join, signal, std_attr)::=
+<<
+<taggin(tagname="extensionActivity",
+		content=std_aux(join=join, signal=signal)
+				+"<![CDATA[\n"+ext_act+"\n]]>",
+		incontent=std_attr
+		)><\n>
+>>
+
+
+//////////////////// Selective Event Processing – Pick ////////////////////////////////////////////
+/* 
+ * Handling of pick
+ *
+ * The pick activity consists a list of onMessage activities followed by a list of onAlarm activities
+ *
+ * Variables
+ *	oms: list of onMessage activities (non-empty at executable processes)
+ *	timeouts: list of timeouts
+ */
+pick(oms, onalarm, join, signal, empty, crt_inst, std_attr) ::=
+<<
+<taggin(tagname="pick",
+		content=std_aux(join=join, signal=signal, empty=empty)
+				+{<oms:{mes| <mes>}; separator="\n"><if (oms)><\n><endif>}
+				+{<onalarm:{to| <to>}; separator="\n">},
+		incontent={<if(crt_inst)><crt_inst><\n><endif><if(std_attr)><std_attr><endif>}
+		)><\n>
+>>
+
+
+/*
+ * Handling of onAlarm
+ *
+ * timeouts are tagged onAlarm activities with an expression followed by an activity
+ *
+ * Variables
+ *	expr_st: expression string template
+ *	block_st: block string template
+ */
+onAlarm(alarm, timeout, repeat, scope_ex) ::= 
+<<
+<taggin(tagname="onAlarm",
+		content=alarm+timeout+{<if(repeat)><\n><repeat><endif>}+"\n"+scope_ex
+		)>
+>>
+
+
+/*
+ * Handling of onMessage
+ *
+ * onmessages are tagged onMessage activities with the receive_base as incontent and the param_block as content
+ *
+ * Variables
+ *	rb_st: the receive base string template
+ *	pb_st: the param block string template
+ */
+onmessage(rb_st, pb_st) ::=
+<<
+<pb_st>
+>>
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////// Conditional Behavior – If ///////////////////////////////////////////////////////
+/*
+ * Helper for if_ex handling -- handles elsif behavior
+ *
+ * Provides elsif tags by using string templates map function.
+ * The two lists are traversed in parallel. T
+ * The expression is filtered in 'condition' tag and the body follows after newline
+ *
+ * Variables
+ *  ex: list of elsif expressions
+ *  ei: list of elsif bodies
+ */
+elsif(ex, ei) ::=
+<<
+<ex,ei:{c,b| <taggin(tagname="elseif", 
+					 content={<taggin(tagname="condition",
+					 				  content=c)><\n><b>})>};separator="\n">
+>>
+
+
+/*
+ * Handling of if expression
+ *
+ * Provides if expression tag with expression and then part and optional elsif, else handling
+ * 
+ * Variables
+ *  expr_st: the 'if' expression
+ *  then_st: the 'then' body
+ *  elsifex: possible empty list of 'elsif' expressions
+ *  elsif: possible empty list of 'elsif' bodies
+ *  else_st: optional 'else' body
+ */
+if_ex(iex, seq, eiex, seqei, seqe, join, signal, std_attr) ::=
+<<
+<taggin(tagname="if",
+		content=std_aux(join=join, signal=signal)
+				+{<taggin(tagname="condition",content=iex)><\n>}+seq
+				+{<if (seqei)><\n><elsif(ex=eiex, ei=seqei)><endif>}+"\n"
+				+{<if (seqe)><taggin(tagname="else", content=seqe)><endif>},
+		incontent=std_attr
+		)>
+>>
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////// Parallel Behavior – Flow ///////////////////////////////////////////////////////
+sequence(content, join, signal, std_attr) ::= 
+<<
+<taggin(tagname="sequence",
+		content=std_aux(join=join, signal=signal)+content,
+		incontent=std_attr
+		)>
+>>
+
+
+scope_sequence(content, join, signal, plinks, messages, vars, cors, faultHdl, faultHdl_pb, compHdl) ::= <<
+<aux_Hash(plinks=plinks, messages=messages, vars=vars, cors=cors, faultHdl=faultHdl, faultHdl_pb=faultHdl_pb, compHdl=compHdl)><taggin(tagname="sequence",content={<std_aux(join=join, signal=signal)>}+content)>
+>>
+
+
+flow(sequence, join, signal, std_attr) ::= <<
+<taggin(tagname="flow",
+		content=std_aux(join=join, signal=signal)+{<sequence:{s|<s>};separator="\n">},
+		incontent=std_attr
+		)>
+>>
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+ * handles while loop
+ *
+ * provides 'while' tag with condition and body
+ *
+ * Variables
+ *  expr_st: the while expression
+ *  body_st: the while body
+ */
+while(expr_st, body_st, join, signal, std_attr) ::= <<
+<taggin(tagname="while",
+		content=std_aux(join=join, signal=signal)
+				+{<taggin(tagname="condition", content=expr_st)><\n><body_st>},
+		incontent=std_attr
+		)>
+>>
+
+/*
+ * handles until loop
+ *
+ * provides 'repeatUntil' tag with body and condition
+ *
+ * Variables
+ *  expr_st: the while expression
+ *  body_st: the while body
+ */
+until(expr_st, body_st, join, signal, std_attr) ::= <<
+<taggin(tagname="repeatUntil",
+		content=std_aux(join=join, signal=signal)
+				+{<body_st><\n><taggin(tagname="condition", content=expr_st)>},
+		incontent=std_attr
+		)>
+>>
+
+/*
+ * handles foreach loop 
+ *
+ * 
+ *
+ * Variables
+ *  id: the init expression identifier
+ *  init_st: the init expression
+ *  cond_st: the loop condition
+ *  assign_st: the loop assignment
+ *  body_st: the loop body
+ */
+foreach(id, init_st, cond_st, complete, body_st, join, signal, std_attr, parallel, sbo) ::= <<
+<taggin(tagname="forEach",
+		content=std_aux(join=join, signal=signal)
+				+{<taggin(tagname="startCounterValue",
+						  content=init_st)><\n><taggin(tagname="finalCounterValue", 
+						 							   content=cond_st)><\n><if(complete)><taggin(tagname="completionCondition", 
+						 							  							    content=taggin(tagname="branches", content=complete, incontent={<if(sbo)><sbo><endif>})
+						 							  							    			  )><\n><endif><body_st>},
+		incontent={ counterName="<id>"<if(parallel)> <parallel><endif><std_attr>}
+		)>
+		
+>>
+
+/*
+ * handles forall loop (BPEL foreach without 'completionCondition'
+ *
+ * ################### TODO: handle body
+ *
+ * Variables
+ *  id: the init expression identifier
+ *  from_st: the from expression
+ *  to_st: the to expression
+ *  body_st: the loop body
+ */
+forall(id, from_st, to_st, body_st, join, signal) ::= <<
+<taggin(tagname="forEach",
+		content=std_aux(join=join, signal=signal)
+				+{<taggin(tagname="startCounterValue",
+						 content=from_st)><\n><taggin(tagname="finalCounterValue", 
+						 							  content=to_st)><\n><body_st>}
+		)>
+>>
+
+
+///////////////// Scopes //////////////////////////////////////////////////////////////////////////
+/*
+ * handles scope activity
+ *
+ * Variables
+ *  id_opt: the optional identifier
+ *  body_st: the body
+ *  stmts: possible empty list of scoped statements
+ */
+scope_ex(id_opt, body_st, handler, join, signal, isolated, eosf, std_attr) ::= <<
+<taggin(tagname="scope",
+		content=std_aux(join=join, signal=signal)
+				+{<body_st><if (handler)><handler:{s|<s>}; separator="\n"><endif>},
+		incontent={<if(isolated)><isolated><\n>       <endif><if(eosf)><eosf><\n>       <endif><if (id_opt)> name="<id_opt>"<endif><std_attr>}
+		)><\n>
+>>
+
+
+/*
+ * walkthrough
+ */
+ walk(st) ::= "<st>"
+
+
+/*
+ * handles event statement
+ *
+ * Event is contained in 'eventHandler'
+ *
+ * Variables
+ *  p: the partnerLink
+ *  p: the operation
+ *  param_block_st: the parameter block template
+ */
+ 
+event(p, o, param_block_st) ::= <<
+<taggin(tagname="onEvent", 
+ 	    incontent=" partnerLink=\""+p+"\" operation=\""+o+"\"", 
+		content=param_block_st
+		)>
+>>
+
+eventHdl(content) ::= <<
+<taggin(tagname="eventHandlers",
+		content=list(content_st=content)
+		)><\n>
+>>
+
+
+/*
+ * handles alarm statement
+ *
+ * Alarm is contained in 'terminationHandler'
+ *
+ * Variables
+ *  expr_st: the expression template
+ *  body_st: the body template
+ */
+alarm(expr_st, body_st) ::= <<
+<taggin(tagname="terminationHandler",
+		content={<timeout(expr_st=expr_st, block_st=body_st)>}
+		)><\n>
+>>
+
+
+/*
+ * handles compensation statement
+ *
+ * Compensation is contained in 'compensationHandler'
+ *
+ * Variables
+ *  body_st: the body template
+ */
+compensation(body_st) ::= <<
+<taggin(tagname="compensationHandler",
+		content=body_st
+		)>
+>>
+
+/*
+ * handles termination statement
+ *
+ * Termination is contained in 'compensationHandler'
+ *
+ * Variables
+ *  body: the body template
+ */
+termination(body) ::= <<
+<taggin(tagname="terminationHandler",
+		content=body
+		)>
+>>
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+exit(join, signal, empty, std_attr) ::= <<
+<taggin(tagname="exit",
+		content=std_aux(join=join, signal=signal),
+		incontent=std_attr,
+		empty=empty
+		)>
+>>
+
+
+throw(ns_pre, ns_loc, join, signal, empty, faultVar, std_attr) ::= <<
+<taggin(tagname="throw",
+		content=std_aux(join=join, signal=signal),
+		incontent={faultName="<if (ns_pre)><ns_pre>:<endif><ns_loc>"<if(faultVar)><\n> faultVariable="<faultVar>"<endif><if (std_attr)><\n> <std_attr><endif>},
+		empty=empty
+		)>
+>>
+
+rethrow(join, signal, empty,std_attr) ::= <<
+<taggin(tagname="rethrow",
+		content=std_aux(join=join, signal=signal),
+		incontent=std_attr,
+		empty=empty
+		)>
+>>
+
+
+/**
+ * art=for | until
+ *
+ */
+wait(art, expr, join, signal, empty, std_attr, isWait) ::= 
+<<
+<if(isWait)>
+<taggin(tagname="wait",
+		content=std_aux(join=join, signal=signal)+{<taggin(tagname=art, content=expr)>},
+		incontent=std_attr
+		)>
+<else><taggin(tagname=art, content=expr)><endif>
+>>
+
+
+compensate(id_opt, join, signal, empty, sdt_attr) ::= 
+<<
+<taggin(tagname="compensate"+{<if(id_opt)>Scope<endif>},
+		content=std_aux(join=join, signal=signal),
+		incontent={<if(id_opt)>target="<id_opt>"<endif><if(std_attr)><\n> <std_attr><endif>},
+		empty=empty
+		)>
+>>
+
+nop(join, signal, empty, std_attr) ::= 
+<<
+<taggin(tagname="empty",
+		content=std_aux(join=join, signal=signal),
+		incontent=std_attr,
+		empty=empty
+		)>
+>>
+
+
+validate(join, signal, empty, std_attr, var) ::=
+<<
+<taggin(tagname="validate",
+		content=std_aux(join=join, signal=signal),
+		incontent={variables="<var:{v|<v>};separator=" ">"<\n> }+std_attr,
+		empty=empty
+		)>
+>>
+
+variable(id, msgT, viT, viE, with, empty) ::= <<
+<taggin(tagname="variable",
+	    content=with,
+	    incontent=" name=\""+id+"\""+msgT+viT+viE,
+	    empty=empty)>
+>>
+
+faultElt(name) ::= <<
+<\n>       faultElement=<name>
+>>

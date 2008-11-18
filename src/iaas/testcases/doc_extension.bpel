@@ -1,0 +1,16 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+ xmlns:retr="http://example.com/bpel/userRetrieval"
+ xmlns:user="http://example.com/bpel/userInteractions"
+ xmlns:lns="http://example.com/loan-approval/wsdl/">
+
+  <extensions>
+    <extension namespace="http://example.com/bpel/userRetrieval"/>
+    <extension namespace="http://example.com/bpel/userInteractions"/>
+  </extensions>
+
+  <sequence>
+    <empty/>
+  </sequence>
+</process>

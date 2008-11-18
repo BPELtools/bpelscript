@@ -1,0 +1,63 @@
+/*
+ * Copyright 2008 Marc Bischof 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0 
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+gunit Bpel;
+
+@header{package iaas.bpel.antlr;}
+
+//syntax: 'grammar-rule-name' walks 'walker-rule-name' : 'file' -> 'directory-in testcases'
+
+document:
+	doc_extension 		-> ""
+	doc_loanApproval 	-> ""
+	doc_simpelProcess	-> ""
+
+// Administration Stuff
+	vars		-> ""
+	partner		-> ""
+	import		-> ""
+	faultHdl	-> ""
+	implicit_b	-> ""
+	
+// Simple Activities
+	assign_b 	-> "activities/"
+	corrSet_b	-> "activities/"
+	invoke 	-> "activities/"
+	pick	-> "activities/"
+	receive -> "activities/"
+	receive2-> "activities/"
+	reply 	-> "activities/"
+	rethrow -> "activities/"
+	
+// Blockstructured Activities
+	ext_act_b	-> "blockstructs/"
+	forall	-> "blockstructs/"
+	foreach	-> "blockstructs/"
+	scope	-> "blockstructs/"
+	until	-> "blockstructs/"
+	while	-> "blockstructs/"
+// if_ex
+	if_all			-> "blockstructs/if_ex/"
+	if_combInner	-> "blockstructs/if_ex/"
+	if_combJS		-> "blockstructs/if_ex/"
+	if_combMultInner-> "blockstructs/if_ex/"
+	if_else_elsif	-> "blockstructs/if_ex/"
+	if_else			-> "blockstructs/if_ex/"
+	if_elsif		-> "blockstructs/if_ex/"
+	if_innerJoin	-> "blockstructs/if_ex/"
+	if_innerSignal	-> "blockstructs/if_ex/"
+	if_join			-> "blockstructs/if_ex/"
+	if_signal		-> "blockstructs/if_ex/"
+	if_simple		-> "blockstructs/if_ex/"

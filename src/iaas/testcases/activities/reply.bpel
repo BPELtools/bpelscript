@@ -1,0 +1,19 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <reply partnerLink="customer" portType="Wall E" operation="request" variable="approval" faultName="Eve" 
+      messageExchange="MEXME">
+      <targets>
+        <target linkName="setMessage-to-reply"/>
+        <target linkName="approval-to-reply"/>
+      </targets>
+      <toParts>
+        <toPart part="SwissNo" fromVariable="myID"/>
+      </toParts>
+
+    </reply>
+
+  </sequence>
+</process>

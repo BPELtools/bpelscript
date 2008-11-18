@@ -1,0 +1,70 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ suppressJoinFailure="no"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <scope>
+      <partnerLinks>
+        <partnerLink name="myPL"
+         partnerLinkType="pns:LoanService"
+         myRole="roleA"
+         partnerRole="roleB"/>
+      </partnerLinks>
+
+      <variables>
+        <variable name="myOutVar"/>
+      </variables>
+      <compensationHandler>
+        <reply partnerLink="myPL" operation="doSth"/>
+
+      </compensationHandler>
+      <terminationHandler>
+        <scope>
+          <targets>
+            <target linkName="loneboy"/>
+          </targets>
+          <sources>
+            <source linkName="caretaker"/>
+          </sources>
+
+          <sequence>
+            <reply partnerLink="myPL" operation="doAnything"/>
+
+          </sequence>
+        </scope>
+
+      </terminationHandler>
+      <eventHandlers>
+        <onEvent partnerLink="myPL" operation="suddenDeathError">
+          <scope>
+
+            <sequence>
+              <scope name="scopeID">
+
+                <sequence>
+                  <targets>
+                    <target linkName="approval"/>
+                  </targets>
+                  <sources>
+                    <source linkName="manager"/>
+                  </sources>
+                  <empty/>
+                </sequence>
+              </scope>
+
+            </sequence>
+          </scope>
+
+        </onEvent>
+      </eventHandlers>
+
+      <sequence>
+
+
+        <empty/>
+      </sequence>
+    </scope>
+
+  </sequence>
+</process>

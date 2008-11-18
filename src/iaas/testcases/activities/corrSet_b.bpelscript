@@ -1,0 +1,9 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+correlates {cs_name(prop1, prop2);
+            cs2_name(prop3, prop4);
+           }
+nop;
+}

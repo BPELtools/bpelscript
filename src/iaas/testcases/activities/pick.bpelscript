@@ -1,0 +1,23 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+pick {
+@portType "orderEntry" 
+onMessage (buyer, inputLineItem) {
+|lineItem|
+nop;
+
+}
+@portType "orderEntry" 
+onMessage (buyer, orderComplete) {
+|completionDetail|
+nop;
+
+}
+alarm (['P3DT10H']) {
+join(setMessage-to-reply, approval-to-reply);
+@portType "lns::loanServicePT" 
+reply(customer, request, approval);
+} }
+}

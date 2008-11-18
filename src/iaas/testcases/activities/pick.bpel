@@ -1,0 +1,37 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <pick>
+      <onMessage partnerLink="buyer" portType="orderEntry" operation="inputLineItem" variable="lineItem">
+        <empty/>
+      </onMessage>
+
+      <onMessage partnerLink="buyer" portType="orderEntry" operation="orderComplete" variable="completionDetail">
+        <empty/>
+      </onMessage>
+
+      <onAlarm>
+        <for>
+          'P3DT10H'
+        </for>
+        <scope>
+
+          <sequence>
+            <reply partnerLink="customer" portType="lns::loanServicePT" operation="request" variable="approval">
+              <targets>
+                <target linkName="setMessage-to-reply"/>
+                <target linkName="approval-to-reply"/>
+              </targets>
+
+            </reply>
+
+          </sequence>
+        </scope>
+
+      </onAlarm>
+    </pick>
+
+  </sequence>
+</process>

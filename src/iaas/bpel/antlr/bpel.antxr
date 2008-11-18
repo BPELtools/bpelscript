@@ -1,0 +1,1517 @@
+header {
+/*
+ * Copyright 2008 Marc Bischof 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0 
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+package iaas.bpel.antlr;
+
+import iaas.bpel.antlr.BpelBoolean;
+import iaas.bpel.antlr.JoinBool;
+import iaas.bpel.antlr.JoinPattern;
+import iaas.bpel.antlr.Helper;
+
+import java.util.List;
+import java.util.Iterator;
+}
+
+class BpelParser extends Parser;
+
+document returns [String bpelscript=""]
+  : bpelscript=<process> EOF
+  ;
+
+<process> returns [String text=""]
+  {
+    String name = @name;
+    String tns = @targetNamespace; //handled via HashMap
+    String qLang = @queryLanguage;
+    String exprLang = @expressionLanguage;
+    BpelBoolean dpe = BpelBoolean.toBpelBoolean(@suppressJoinFailure);
+    BpelBoolean eOSF = BpelBoolean.toBpelBoolean(@exitOnStandardFault);
+    String xmlns = @xmlns; //handled via HashMap
+    //
+    String proc; //process elements content
+    String attr="";//handle attributes
+  }
+  : 
+  { /*
+   	 * namespace handling
+   	 *
+   	 * - extract process namespace.
+   	 * - then handle all other namespace by extracting their namespace names
+   	 */
+   	 
+  	//handle targetNamespace separate
+	text += "namespace pns = \""+((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"targetNamespace")+"\";\n";	
+				
+	//handle all other namespaces (remove xmlns prefix)
+	for(Iterator t = ((XMLToken)__xml_startTag).getAttributes(); t.hasNext();) {
+		Attribute m = (Attribute) t.next();
+								
+		if (m.getLocalName().contains(":")) {//extract namespace name
+			getNamespaceMap().put("namespace "+m.getLocalName().substring(m.getLocalName().indexOf(':')+1)+" ", " \""+m.getValue()+"\";");
+		}
+	}
+  }
+  proc=proc_elt
+  {
+    /*
+     * fetch all namespaces and extensions from the namespace map
+     */
+    String ns_ext = "";
+	for(Object o : getNamespaceMap().entrySet()) {
+		ns_ext += o.toString();
+	}
+	//sort ns_ext
+	ns_ext=Helper.cvNS(ns_ext);
+	
+	//handle attributes as annotations
+	attr=Helper.cvAttr("queryLanguage", qLang);
+	attr+=Helper.cvAttr("expressionLanguage", exprLang);
+	attr+=Helper.cvBoolAttr("suppressJoinFailure", dpe);
+	attr+=Helper.cvBoolAttr("exitOnStandardFault", eOSF);
+	
+	// set result
+	text += ns_ext + "\n";
+	
+	//handle attributes
+	if (!attr.isEmpty()) text+=attr;
+	
+	//handle content
+	text+="process pns::"+name+" {\n\n"+proc+"}";
+	
+	//reset namespace map
+	getNamespaceMap().clear();
+  }
+  ;
+
+
+proc_elt returns [String proc=""] //#####################
+  {
+    String text="";
+    String handler=null;
+    String act="";
+  }
+  : (<extensions>)? //handled via namespace map
+   (<import>)* 		//handled via namespace map
+   (text=<messageExchanges>)? {if (text!=null && !text.isEmpty()) proc+=text+"\n"; text="";}
+   (text=<partnerLinks> {if (text!=null && !text.isEmpty()) proc+=text+"\n"; text="";} )?
+   (text=<variables> {if (text!=null && !text.isEmpty()) proc+=text+"\n"; text="";} )?
+   (text=<correlationSets>)? {if (text!=null && !text.isEmpty()) proc+=text+"\n"; text="";}
+   (text=<faultHandlers> {if (text!=null && !text.isEmpty()) handler=text; text="";} )?
+   (text=<eventHandlers>)? {if (text!=null && !text.isEmpty()) proc+=text+"\n"; text="";}
+   act=activity[act] 
+   {
+   	if (handler!=null)
+	   	proc += "try {\n"+act+"\n} "+handler;
+   	else
+   		proc += act;
+   } 
+  ;
+
+
+/*
+ * first level rules of process elements ####################################
+ */
+<extensions>
+  : (<extension>)+
+  ;
+
+
+<extension>
+  {
+    String ns = @namespace;
+    BpelBoolean mUnderstand = BpelBoolean.toBpelBoolean(@mustUnderstand);
+    //
+    String content="";
+  }
+  : //handled via ns_map
+  { 
+  	/*
+	 * lookup extension namespaces and change tagging in the namespace map.
+	 * 
+	 * Therefor, get the keySet and compare the namespaces.
+	 * If their namespaces are equal, replace the 'namespace' tag with 'extension' and insert it to the tmp_map
+	 * else: insert the 'real' namespace in the tmp_map
+	 */
+	Map tmp_map = new HashMap<String, String>();
+	for (Object o : getNamespaceMap().keySet()) {
+		String str_o = (String) o;
+		String attr = getNamespaceMap().get(o).toString();
+			
+		if (ns.equals(attr.subSequence(2, attr.length()-2))) {//omit quotes in attr string
+			
+			//handle mustUnderstand annotation
+			if (mUnderstand!=null) {
+			  if(mUnderstand.equals(BpelBoolean.YES)) content="@mustUnderstand\n";
+			  else content="@mustUnderstand no\n";
+			}
+			//prepare content
+			content+="extension"+str_o.substring(9);
+			
+			tmp_map.put(content, attr); //substring(9) = omit 'namespace'
+		} else { tmp_map.put(o, attr); }	
+	}
+	//reset namespace map
+	__xml_namespaceMap = tmp_map;
+  }
+  ;
+
+
+<import>
+  {
+    String ns = @namespace;
+    String loc = @location;
+    String importType = @importType;
+    //
+    String mod_import = ""; //to build the import object stored in the ns map
+  }
+  : //handled via ns_map
+  {
+    /*
+	 * lookup namespaces and add a import in the namespace map
+	 * 
+	 * Therefor, get the keySet and compare the namespaces.
+	 * If their namespaces are equal, duplicate the object.
+	 *  1) put old one in the map
+	 *  2) process the import object
+	 *   2.1) check if type present (if yes > append to mod_import)
+	 *   2.2) process main part
+	 *    2.2.1) process an ID from location
+	 *    2.2.2) process namespace and location 
+	 * else: insert the 'real' namespace in the tmp_map
+	 */
+	Map tmp_map = new HashMap<String, String>();
+	for (Object o : getNamespaceMap().keySet()) {
+		String str_o = (String) o;
+		String attr = getNamespaceMap().get(o).toString();
+			
+		if (ns.equals(attr.subSequence(2, attr.length()-2))) {//omit quotes in attr string
+			// put old object back in the map
+			tmp_map.put(o, attr);
+			//2.1
+			if (importType!=null) mod_import+=Helper.cvAttr("type", importType);
+			//2.2.1
+			// process modified import object for the map
+			mod_import+="import "+loc.substring(0, loc.indexOf('.'))+" ";
+			
+			//2.2.2
+			// put modified import to the map
+			tmp_map.put(mod_import, str_o.substring(9,13)+"::\""+loc+"\";"); 
+			
+		} else { tmp_map.put(o, attr); }	
+	}
+	//reset namespace map
+	__xml_namespaceMap = tmp_map;
+  }
+  ;
+
+
+<messageExchanges> returns [String text=""]//SEMI
+  {String mex = "";}
+  : ( mex=<messageExchange>[mex] )+
+  {text+="messages "+mex+";\n";}
+  ;
+  
+
+<messageExchange> [String ret] returns [String text=""]
+  {String name = @name;}
+  :
+  {
+    if (ret!=null && !ret.isEmpty()) text+=ret+", ";
+  	text+=name;
+  }
+  ;
+
+
+<partnerLinks> returns [String text=""]//SEMI
+  {String pl="";}
+  : ( pl=<partnerLink>[pl] )+
+  {text+="partnerLink "+pl+";\n";}
+  ;
+  
+  
+<partnerLink> [String pl] returns [String text=""]
+  {
+    String name = @name;
+  	String plType = @partnerLinkType;
+  	String mRole = @myRole;
+  	String pRole = @partnerRole;
+  	BpelBoolean initPRole = BpelBoolean.toBpelBoolean(@initializePartnerRole);
+  	//
+  	String attr="";
+  	String[] plSplit;
+  }
+  : otherTag | 
+  { 
+  	//separate previous PLs by a comma and newline
+  	if (pl!=null && !pl.isEmpty()) text+=pl+",\n "; 
+  	
+  	//handle attributes
+  	if (plType!=null) attr+=Helper.strip(plType);
+  	
+  	//handle the rest
+  	if (mRole!=null) attr+=", "+mRole; else attr+=", "+"null";
+  	if (pRole!=null) attr+=", "+pRole; else attr+=", "+"null";
+  	
+  	//handle initPRole annotation
+	if (initPRole!=null) attr+=", "+Helper.cvBoolAttr("init", initPRole, false);
+  	
+  	text+=name+" = ("+attr+")";
+  }
+  ;
+  
+  
+<variables> returns [String text=""]//SEMI 
+  {String ret="";}
+  : (ret=<variable>[ret])+
+  {text+="var "+ret+";\n";}
+  ;
+  
+  
+<variable> [String ret] returns [String text=""]
+  {
+    String name = @name;
+    String msgType = @messageType;
+    String type = @type;
+    String elt = @element;
+    //
+    String fr = "";
+    String var = "";
+    String with = "";
+  }
+  : (fr=<fromParts>)?
+  {
+    if (ret!=null && !ret.isEmpty()) text+=ret+", \n    ";
+    
+    // handle attributes
+    var+=Helper.cvAttr("messageType", msgType, null, "\n    ");
+    var+=Helper.cvAttr("type", type, null, "\n    ");
+    var+=Helper.cvAttr("element", elt, null, "\n    ");
+  
+    // handle fromParts
+    if (fr!=null && !fr.isEmpty()) with=" with ("+fr+")";
+  
+  	text+=var+name+with;
+  }
+  ;
+
+
+<correlationSets> returns [String text=""]//SEMI
+  {	String cors=""; }
+  : (cors=<correlationSet>[cors])+
+  {
+  	text="correlates {"+cors+"\n           }";						
+  }
+  ;
+  
+  
+<correlationSet> [String cors] returns [String text=""]
+  {
+    String name = @name;
+    String prop = @properties;
+  }
+  :
+  {	
+  	if (cors!=null && !cors.isEmpty()) text+=cors+"\n            ";
+  	
+  	text+=name+"("+prop+");";
+  }
+  ;
+
+
+<faultHandlers> returns [String text=""]
+  {
+  	String retval="";  
+  	String catchs="";  
+  	String catcha="";
+  }
+  : (catchs=<catch>[catchs])* (catcha=<catchAll>)?	
+  {
+    text+=catchs;
+    if (catcha!=null && !catcha.isEmpty()) text+="\n"+catcha;
+  }
+  ;
+
+
+<eventHandlers> returns [String text=""]
+  {	String oE=""; String oA="";}
+  : (oE=<onEvent>[oE])* (oA=<onAlarm>[oA, false])*
+  {
+  	text+="events {\n"+oE+"\n"+oA+"}";
+  }
+  ;
+
+
+<onEvent> [String oE] returns [String text=""]
+  {
+    String pl = @partnerLink;
+    String pt = @portType;
+    String op = @operation;
+    //msgType OR elt
+    String msgType = @messageType; String elt = @element;
+    String var = @variable;
+    String mex = @messageExchange;
+    //
+    String cor=""; String sc=""; String fr =""; //rulevars
+    String content=""; //for content handling
+    String attr = ""; //for annotation handling
+  }
+  : (cor=<correlations>)? (fr=<fromParts>)? sc=<scope>[true]
+  {
+    //prelude with newline if multiple onEvents 
+  	if (oE!=null && !oE.isEmpty()) text+=oE+"\n";
+  	
+  	//handle attributes as annotations
+  	attr+=Helper.cvAttr("portType", pt);  	  
+  	attr+=Helper.cvAttr("messageExchange", mex);
+  	if (msgType!=null) attr+=Helper.cvAttr("messageType", msgType);
+  	else if (elt!=null) attr+=Helper.cvAttr("element", elt);
+  	  	
+  	//optional variable
+  	if (var!=null) content+=var+" = ";
+  	
+  	//prepare content (mandatory partnerLink and operation)
+  	content+=pl;
+  	content+=", "+op;
+  	
+ 	//optional correlation
+  	if (cor!=null && !cor.isEmpty()) content+=", "+cor;
+  	  	
+  	//put it all together
+  	text+="event ("+content+")";
+  	
+  	//handle optional fromPart
+  	if (fr!=null && !fr.isEmpty()) text+=" with ("+fr+")";
+  	
+  	//handle mandatory scope as scope_short without preluding keyword
+  	text+=sc;
+  }
+  ;
+  
+  
+<onAlarm> [String oA, Boolean scope] returns [String text=""]
+  {
+  	String sc=""; String cond=""; String rE="";
+  	String alarm=""; String timeout="";  
+  }
+  : (alarm=<for> | timeout=<until>)? (rE=<repeatEvery>)? sc=<scope>[scope] 
+  {
+  	if (oA!=null && !oA.isEmpty()) text+=oA+"\n";
+  	
+  	if (alarm!=null && !alarm.isEmpty()) text+="alarm (["+alarm+"])";
+  	else if (timeout!=null && !timeout.isEmpty()) text+="timeout (["+timeout+"])";
+  	
+  	if (rE!=null && !rE.isEmpty()) text+=rE+" ";
+  	text+=sc;
+  }
+  ;
+   
+  
+activity [String rets] returns [String text=""]
+  {String ret="";}
+  : ret=<receive> {text+=rets+ret;} 
+  | ret=<reply> {text+=rets+ret;}
+  | ret=<invoke> {text+=rets+ret;}
+  | ret=<assign> {text+=rets+ret;}
+  | ret=<throw> {text+=rets+ret;}
+  | ret=<exit> {text+=rets+ret;}
+  | ret=<wait> {text+=rets+ret;}
+  | ret=<empty> {text+=rets+ret;}
+  | ret=<sequence> {text+=rets+ret;}
+  | ret=<if> {text+=rets+ret;}
+  | ret=<while> {text+=rets+ret;}
+  | ret=<repeatUntil> {text+=rets+ret;}
+  | ret=<forEach> {text+=rets+ret;}
+  | ret=<pick> {text+=rets+ret;}
+  | ret=<flow> {text+=rets+ret;} 
+  | ret=<scope>[false] {text+=rets+ret;} //full scope=false
+  | ret=<compensate> {text+=rets+ret;}
+  | ret=<compensateScope> {text+=rets+ret;}
+  | ret=<rethrow> {text+=rets+ret;}
+  | ret=<validate> {text+=rets+ret;} 					
+  | ret=<extensionActivity> {text+=rets+ret;}
+  ;
+   
+   
+/*
+ * activity rules #################################################
+ */
+<receive> returns [String text=""]//SEMI 
+  {
+    String pl = @partnerLink;
+    String pt = @portType;
+    String op = @operation;
+    String var = @variable;
+    BpelBoolean ci = BpelBoolean.toBpelBoolean(@createInstance);
+    String mex = @messageExchange;
+    String name = @name; BpelBoolean dpe = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se=null; String ret=""; String cors="";;String content="";String fr="";
+  }
+  : se=std_elts (cors=<correlations>)? (fr=<fromParts>)?
+  { 	
+  	//handle attributes as annotations
+  	text+=Helper.cvAttr("portType", pt);
+  	text+=Helper.cvBoolAttr("createInstance", ci);
+  	text+=Helper.cvAttr("messageExchange", mex);
+  	text+=Helper.cvStdAttr(name, dpe);
+  
+    //handle optional variable
+   	if (var!=null) text+=var+" = ";
+   	
+   	//handle mandatory content and optional correlation
+   	content+=pl+", "+op;
+   	if (cors!=null && !cors.isEmpty()) content+=", "+cors;
+   	text+="receive("+content+")";
+   	
+   	//handle fromParts
+   	if (fr!=null && !fr.isEmpty()) text+="with ("+fr+")";
+   	
+   	text+=";\n";//close with semicolon
+   	
+   	//handle stdElts
+   	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<reply> returns [String text=""]//SEMI 
+  {
+    String pl = @partnerLink;
+    String pt = @portType;
+    String op = @operation;
+    String var = @variable;
+    String fault = @faultName;
+    String mex = @messageExchange;
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String content=""; String se=""; String cor=null; String to="";
+  }
+  : se=std_elts (cor=<correlations>)? (to=<toParts>)?
+  {
+    //handle attributes as annotations
+  	text+=Helper.cvAttr("portType", pt);
+    text+=Helper.cvAttr("faultName", fault);
+    text+=Helper.cvAttr("messageExchange", mex);
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle optional variable
+   	if (var!=null) op+=", "+var;
+   	
+   	//handle mandatory content and optional correlation
+   	content+=pl+", "+op;
+   	if (cor!=null && !cor.isEmpty()) content+=", "+cor;
+   	text+="reply("+content+")";
+  	
+  	//handle toParts
+   	if (to!=null && !to.isEmpty()) text+="with ("+to+")";
+   	
+   	text+=";\n";//close with semicolon
+   	
+   	//handle stdElts
+   	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<invoke> returns [String text=""]//SEMI 
+  {
+    String pl = @partnerLink;
+    String pt = @portType;
+    String op = @operation;
+    String inVar = @inputVariable;
+    String outVar = @outputVariable;
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se=""; String content=""; String cor=""; String ca="";String cc="";
+    String fr=""; String ch=""; String to="";
+  }
+  : se=std_elts (cor=<correlations>)? (cc=<catch>[ca])* (ca=<catchAll>)? (ch=<compensationHandler>)? (to=<toParts>)? (fr=<fromParts>)?
+  {
+    //if catchs are present enclose with a try statement
+    if (cc!=null && !cc.isEmpty() || ca!=null && !ca.isEmpty()) {
+      text+="try {\n";
+    }
+    
+    //handle attributes as annotations
+  	text+=Helper.cvAttr("portType", pt);
+  	text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle outVar
+    if (outVar!=null) text+=outVar+" = ";
+    
+    //handle mandatory content and optional correlation
+   	content+=pl+", "+op;
+   	if (inVar!=null && !inVar.isEmpty()) content+=", "+inVar;
+   	if (cor!=null && !cor.isEmpty()) content+=", "+cor;  
+    text+="invoke("+content+")";
+    
+    //handle toParts + fromParts
+   	if (to!=null || fr!=null) text+=fr+to;
+   	
+   	//handle compensation
+   	text+=ch;
+   	
+   	text+=";\n";//close with semicolon
+   	
+   	//handle stdElts
+   	text=Helper.cvStdElt(se, text);
+   	
+   	//if catchs are present enclose with a try statement (here: closing curly bracket)
+    if (cc!=null && !cc.isEmpty() || ca!=null && !ca.isEmpty()) {
+      text+="}\n";
+      
+      //provide the catch statements
+      if (cc!=null && !cc.isEmpty()) text+=cc+"\n";
+      if (ca!=null && !ca.isEmpty()) text+=ca+"\n";
+    }
+  }
+  ;
+  
+  
+<assign> returns [String text=""]//SEMI 
+  {
+    BpelBoolean val = BpelBoolean.toBpelBoolean(@validate);
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se="";String copy=""; String eAOp ="";
+  }
+  : se=std_elts (copy=<copy> | eAOp=<extensionAssignOperation>)+
+  {
+    //handle attributes
+    text+=Helper.cvBoolAttr("validate", val);
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle content
+    if(copy!=null && !copy.isEmpty()) text+=copy;
+    if(eAOp!=null && !eAOp.isEmpty()) text+=eAOp;
+    
+    if (!text.contains(";")) text+=";\n";//close with semicolon if not present
+    
+    //handle stdElts
+   	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<throw> returns [String text="";]//SEMI
+  {
+    String fault = @faultName;
+    String faultVar = @faultVariable;
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se=""; //standard elements
+  }
+  : se=std_elts
+  {
+    //handle attributes
+    text+=Helper.cvAttr("faultVariable", faultVar);
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle content
+    text+="throw ("+fault+")";
+    
+    text+=";\n";//close with semicolon
+    
+    //handle stdElts
+   	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<exit> returns [String text="";]//SEMI 
+  {
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se="";
+  }
+  : se=std_elts
+  {
+    //handle attributes
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle content
+  	text+="exit;\n";
+  	
+  	//handle stdElts
+   	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<wait> returns [String text="";]//SEMI 
+  {    
+  	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+  	//
+    String se=""; String cond="";
+  }
+  : se=std_elts (cond=<for> | cond=<until>)
+  {
+  	//handle attributes
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle content
+  	text+=cond;
+  	
+  	text+=";\n";//close with semicolon
+  	
+  	//handle stdElts
+   	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<empty> returns [String text="";] 
+  {    
+  	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+  	//
+    String se="";
+  }
+  : se=std_elts
+  { 
+  	//handle attributes
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle content
+  	text+="nop;\n";
+  	
+  	//handle stdElts
+   	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<sequence> returns [String text="";] 
+  {    
+  	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+  	//
+    String se=""; String ac="";
+  }
+  : se=std_elts (ac=activity[ac])+
+  {
+  	//handle attributes
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle stdElts (block structured)
+   	text=Helper.cvStdElt(se, text, false);
+    
+    //handle content
+  	text+=ac;
+  }
+  ;
+  
+  
+<if> returns [String text=""] 
+  {    
+  	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+  	//
+    String se=""; String ac=""; String expr=""; String elsi=""; String els="";
+  }
+  : se=std_elts expr=<condition> ac=activity[ac] (elsi=<elseif>[elsi])* (els=<else>)?
+  {
+  	//handle attributes
+    text+=Helper.cvStdAttr(name, supprJF);
+     	
+  	//handle content
+  	text+="if ("+expr+")";
+  	
+  	//put '{' newline only without std_elts 
+  	if (!ac.substring(1,2).contains("@"))
+  	text+=" {\n";
+  	
+  	text+=ac+"} "; //introduction
+  	
+  	if (elsi!=null && !elsi.isEmpty()) {//handle else if
+  		text+=elsi + els;
+  	} else {//handle else
+  		text+=els;
+  	}
+  	
+  	//handle stdElts (block structured)
+   	text=Helper.cvStdElt(se, text, true);
+  }
+  ;
+  
+  
+<while> returns [String text=""] 
+  { 
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+   	//
+    String se=""; String ac=""; String cond="";
+  }
+  : se=std_elts cond=<condition> ac=activity[ac]
+  {
+  	//handle attributes
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle stdElts (block structured)
+   	text=Helper.cvStdElt(se, text, false);
+  	
+  	text+="while ("+ cond +") {\n"+ ac +"}\n";
+  }
+  ;
+  
+  
+<repeatUntil> returns [String text=""] 
+  {    
+  	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+  	//
+    String se=""; String ac=""; String cond="";
+  }
+  : se=std_elts ac=activity[ac] cond=<condition>
+  {
+  	//handle attributes
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle stdElts (block structured)
+   	text=Helper.cvStdElt(se, text, false);
+  	
+  	text+="repeat {\n"+ ac +"} until ("+ cond +")\n";
+  }
+  ;
+  
+  
+<forEach> returns [String text=""] 
+  {    
+    String cntName = @counterName;
+    BpelBoolean parallel = BpelBoolean.toBpelBoolean(@parallel);
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se=""; String sc=""; String sCount=""; String fCount=""; String[] cC=null; String content="";
+  }
+  : se=std_elts sCount=<startCounterValue> fCount=<finalCounterValue> (cC=<completionCondition>)? sc=<scope>[true]
+  {
+    //handle attributes
+    text+=Helper.cvBoolAttr("parallel", parallel);
+    
+    //handle content
+    content+=cntName+"="+sCount+"; "+fCount;
+    if (cC!=null && !cC[1].isEmpty()) {
+      content+="; "+cC[1]; //set completionCondition content (stored in [0])
+      text+=cC[0]; //set successfulBranchesOnly annotation (stored in [1])
+    } 
+    
+    //handle standard attributes (after SBO)
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    text+="for ("+content+")";
+    
+    //handle stdElts (block structured)
+   	text=Helper.cvStdElt(se, text, false);
+    
+    //handle scope
+    text+=sc;
+  }
+  ;
+  
+  
+<pick> returns [String text=""] 
+  {
+    BpelBoolean crtInst = BpelBoolean.toBpelBoolean(@createInstance);
+    String name = @name; BpelBoolean dpe = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se=""; String onM=""; String oA="";
+    String ci="";
+  }
+  : se=std_elts (onM=<onMessage>[onM])+ (oA=<onAlarm>[oA, true])*
+  {
+    //handle attributes
+    text+=Helper.cvBoolAttr("createInstance", crtInst);
+    text+=Helper.cvStdAttr(name, dpe);
+    
+    //handle content    
+    text+="pick {\n"+ onM +"\n"+ oA +"}\n";
+  }
+  ;
+  
+  
+  <onMessage> [String oM] returns [String text=""] 
+  {
+    String pl = @partnerLink;
+    String pt = @portType;
+    String op = @operation;
+    String var = @variable;
+    String mex = @messageExchange;
+    //
+  	String ac=""; String cor="";String fr="";String attr="";
+  	String content="";
+  }
+  : (cor=<correlations>)? (fr=<fromParts>)? ac=activity[ac]
+  {
+  	if (oM!=null && !oM.isEmpty()) text+=oM+"\n"; //handle previos artefacts
+    
+    //handle attributes as annotations
+  	text+=Helper.cvAttr("portType", pt);
+  	text+=Helper.cvAttr("messageExchange", mex);
+    
+   	//handle content part
+	content=pl+", "+op;
+	if (cor!=null && !cor.isEmpty()) content+=", "+cor;
+   	text+="onMessage ("+content+")";
+   	   	  	
+   	//handle activity
+   	text+=" {\n";
+   	//var+fromPart andling via param block
+   	if (var!=null && !var.isEmpty()) text+="|"+var+"|\n";
+   	if (fr!=null && !fr.isEmpty()) text+="|"+fr+"|\n";
+   	
+   	text+=ac+"\n}";
+  }
+  ;
+  
+  
+<flow> returns [String text=""] 
+  {
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String content="";
+    String se="";
+    String act="";
+  }				//links are not supported in BPELscript
+  : se=std_elts (<links>)? ({if (!act.isEmpty()) act+="} and {\n";} act=activity[act] )+
+  {
+    //handle attributes as annotations
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //text+="parallel";
+    
+    //handle standard elements if present
+    text+=Helper.cvStdElt(se, text, false);
+    text="parallel"+text;
+    
+    //handle content
+    text+=" {\n"+act+"\n}";
+  }
+  ;
+  
+  
+<scope> [Boolean isShort] returns [String text=""] 
+  {
+    BpelBoolean isolated = BpelBoolean.toBpelBoolean(@isolated);
+    BpelBoolean exitOnStdFault = BpelBoolean.toBpelBoolean(@exitOnStandardFault);
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se=""; String fh=""; String var=""; String pl=""; String mex=""; 
+    String ac=""; String cor="";String ch="";String eh="";String th="";
+  }
+  : se=std_elts (pl=<partnerLinks>)? (mex=<messageExchanges>)? (var=<variables>)? (fh=<faultHandlers>)?
+  (cor=<correlationSets>)? (ch=<compensationHandler>)? (th=<terminationHandler>)? (eh=<eventHandlers>)? 
+  ac=activity[ac]
+  {
+    //handle attributes as annotations
+  	text+=Helper.cvBoolAttr("isolated", isolated);
+  	text+=Helper.cvBoolAttr("exitOnStandardFault", exitOnStdFault);
+  	text+=Helper.cvBoolAttr("suppressJoinFailure", supprJF);
+  	
+  	//if isShort, provide an embedded scope without preluding keyword
+  	if (!isShort) text+="scope";
+  	
+  	//handle scope name/id
+  	if (name!=null && !name.isEmpty()) text+=" ("+name+")";
+  	
+  	//put '{' newline only without std_elts 
+  	if (!ac.substring(1,2).contains("@"))
+  	text+=" {\n";
+  	
+  	//if faultHandler present, use try stmt
+  	if (fh!=null && !fh.isEmpty()) text+="try {\n";
+  		
+  	//handle content
+  	text+=pl+var+cor+mex+ac;
+  	
+  	//if faultHandler present, close try stmt
+  	if (fh!=null && !fh.isEmpty()) text+="} "+fh;
+  	
+  	//handle content
+  	text+="} "+ch+th+eh;
+  	
+  	//handle std_elts
+  	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<compensate> returns [String text=""]
+  {
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se="";
+  }
+  : se=std_elts
+  {
+  	//handle attributes as annotations
+  	text+=Helper.cvStdAttr(name, supprJF);
+  
+  	//handle content
+  	text+="compensate;\n";
+  	
+  	//handle standard element
+  	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<compensateScope> returns [String text=""] 
+  {
+    String target = @target;
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se="";
+  }
+  : se=std_elts
+  {
+    //handle attributes as annotations
+  	text+=Helper.cvStdAttr(name, supprJF);
+  
+  	//handle content
+  	text+="compensate ("+ target +");\n";
+  	
+  	//handle standard element
+  	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<rethrow> returns [String text=""] 
+  {
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se="";
+  }
+  : se=std_elts
+  {
+  	//handle attributes as annotations
+  	text+=Helper.cvStdAttr(name, supprJF);
+  	
+  	//handle content
+  	text+="rethrow;\n";
+  	text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  
+<validate> returns [String text=""] 
+  {
+    String vars = @variables;
+    String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se="";
+  }
+  : se=std_elts
+  {
+    //handle attributes as annotations
+    text+=Helper.cvStdAttr(name, supprJF);
+    
+    //handle content
+    text+="validate "+vars+";";
+    
+    //handle standard elements
+    text=Helper.cvStdElt(se, text);
+  }
+  ;
+  
+  /*
+   * Attention! Preprocessed BPEL! See Chapter 4.2
+   *
+   */
+<extensionActivity> returns [String text="";]
+  {
+  	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
+    //
+    String se="";
+    String tg=""; String sc="";
+  }
+  : se=std_elts (tg=<targets>)? (sc=<sources>)? ExtAct:PCDATA
+  { 
+  	//handle attributes as annotations
+  	text+=Helper.cvStdAttr(name, supprJF);
+  	
+  	//handle content
+  	text+="{{{\n"+ExtAct.getText().trim()+"\n}}}\n";
+  	
+  	//handle standard elements
+  	text=Helper.cvStdElt(se, text);
+  }
+  ; 
+    
+        
+// standard elements handling  ###########################################
+
+std_elts returns [String text=""] 
+  {String tg=""; String sc="";}
+  : (tg=<targets>)? (sc=<sources>)?
+  {
+  	text=tg+sc; //list targets and sources
+  }
+  ;
+  
+  
+<targets> returns [String text=""]
+  {
+    String jc=""; String tg="";
+  }
+  : (jc=<joinCondition>)? (tg=<target>[tg])+
+  {
+    text+="join("+tg+jc+");"; //list optional joinCondition and list of targets
+  }
+  ;
+    
+    
+<joinCondition> returns [String text=""]
+  {
+    String exprLg = @expressionLanguage;//not supported by BPELscript
+  }
+  : boolExpr:PCDATA
+  {
+  	text+=", ["+boolExpr.getText().trim()+"]"; //convert PCDATA
+  }
+  ;
+  
+  
+<target> [String tgs] returns [String text=""]//SEMI
+  {
+    String ln = @linkName;
+  }
+  :
+  { 
+    if (tgs!=null && !tgs.isEmpty()) text+=tgs+", "; //handle list of targets
+    
+    //handle content
+    text+=ln;
+  }
+  ;
+
+
+<sources> returns [String text=""]
+  {String sc="";}
+  : (sc=<source>[sc])+
+  {text+=sc;} //list sources
+  ;
+
+
+<source> [String scs] returns [String text=""]//SEMI
+  {
+    String ln = @linkName;
+    //
+    String tc="";
+  }
+  : (tc=<transitionCondition>)?
+  { 
+    text+=scs+"signal("+ln;
+    
+    if (tc!=null && !tc.isEmpty()) text+=", "+tc;
+    
+    text+=");";
+  }
+  ;
+  
+  
+<transitionCondition> returns [String text=""]
+  {
+    String exprLG = @expressionLanguage;//not supported by BPELscript
+  }
+  : boolExpr:PCDATA
+  {
+  	text+="["+boolExpr.getText().trim()+"]"; //convert PCDATA
+  }
+  ;  
+  
+//########################################################################  
+  
+  
+<correlations> returns [String text=""] 
+  {	String cor="";}
+  : (cor=<correlation>[cor])+
+  {	
+  	text+="{"+cor+"}"; //list correlations
+  }
+  ;
+  
+  
+<correlation> [String cor] returns [String text=""]
+  {
+    String set = @set;
+    JoinBool init = JoinBool.toJoinBool(@initiate);
+    JoinPattern pattern = JoinPattern.toJoinPattern(@pattern);
+  }
+  :
+  {
+  	if (cor!=null && !cor.isEmpty()) text+=", "+cor; //handle list of correlations
+  	
+  	//handle attributes as prefix
+  	text+=Helper.cvCorrAttr(init, pattern);
+  	
+  	//handle content
+  	text+=set;
+  }
+  ;
+  
+  
+<catch> [String ca] returns [String text=""] 
+  {
+    String fName = @faultName;
+    String fVar = @faultVariable;
+    String fMsgType = @faultMessageType;
+    String fElt = @faultElement;
+    //
+    String ac="";
+  }
+  : ac=activity[ac]
+  {
+  	if (ca!=null && !ca.isEmpty()) text+=ca+"\n";//handle previous catchs
+    
+    //handle attributes as annotations
+    text+=Helper.cvAttr("faultMessageType", fMsgType);
+    text+=Helper.cvAttr("faultElement", fElt);
+    
+    //handle content
+    text+="catch ("+Helper.strip(fName)+") { |"+fVar+"|\n"+ac+"}\n";
+  }
+  ;
+  
+  
+<catchAll> returns [String catcha=""]
+  {String ac="";}
+  : ac=activity[ac]
+  {
+    catcha+="catchAll {\n"+ ac +"}\n";
+  }
+  ;
+  
+  
+<compensationHandler> returns [String text=""] 
+  {
+  	String ac="";
+  }
+  : ac=activity[ac]
+  {
+  	text+="compensation {\n"+ac+"}\n";
+  }
+  ;
+    
+    
+<toParts> returns [String text=""]
+  {
+    String to="";
+  }
+  : (to=<to>[to])* | to=<toPart>
+  {
+  	text+=to;
+  }
+  
+  ;
+  
+  
+  <toPart> returns [String text=""]
+  {
+    String part = @part;
+    String frVar = @fromVariable;
+  }
+  :
+  {
+  	text=frVar+" : out "+part;
+  }
+  ;
+  
+
+<to> [String ret] returns [String text=""] 
+  {
+    String var = @variable;
+    String part = @part; //
+    String pl = @partnerLink; //
+    String prop = @property; //
+ 	String exprLg = @expressionLanguage;
+ 	//
+ 	String optPart=""; String q="";
+  } 
+  : (q=<query>)? 
+  { 
+  	if (part!=null && !part.isEmpty()) optPart="."+part;
+  	if (prop!=null && !prop.isEmpty()) optPart="."+prop+" @property";
+  	text+=var+optPart;
+  }
+  | expr:PCDATA 
+  { 
+  	text+=expr.getText().trim();
+  }
+  ;
+
+  
+<fromParts> returns [String text=""]
+  {
+    String fr="";
+  }
+  : (fr=<from>[fr])* | fr=<fromPart>
+  {
+  	text+=fr;
+  }
+  
+  ;
+  
+  
+  <fromPart> returns [String text=""]
+  {
+    String part = @part;
+    String toVar = @toVariable;
+  }
+  :
+  {
+  	text=toVar+" : in "+part;
+  }
+  ;
+  
+  
+  <from> [String ret] returns [String text=""] 
+  {
+    String var = @variable;
+    String part = @part; //
+    String pl = @partnerLink;
+    String epRef = @endpointReference; //
+    String prop = @property; //+var
+    String exprLg = @expressionLanguage;
+    //
+    String lit=""; String q="";String optPart="";
+  }
+  : (q=<query>)? {
+  	if (part!=null && !part.isEmpty()) optPart="."+part;
+  	if (prop!=null && !prop.isEmpty()) optPart="."+prop+" @property";
+  	text+=q;
+  	}
+    | expr:PCDATA {text+=expr.getText().trim();}
+  	| lit=<literal> {text+=lit;}
+    | 
+  {
+    // handle variable variant
+    if (var!=null && prop!=null) {
+    	if (ret!=null && !ret.isEmpty()) text+=ret+",\n      ";
+    	text+=var+" : in "+prop;
+    }
+    
+    // handle partnerlink variant 
+    if (pl!=null && epRef!=null) text+=pl+"."+epRef;
+  }
+  ;
+  
+  
+<extensionAssignOperation> returns [String text=""]
+  : assignElementOfOtherNamespace:PCDATA
+  {
+    text+="{{{\n"+assignElementOfOtherNamespace.getText().trim()+"}}}";
+  }
+  ;
+  
+  
+<for> returns [String text=""]
+  {
+    String exprLg = @expressionLanguage;//not supported by BPELscript
+  }
+  : durationExpr:PCDATA
+  {
+    text+=durationExpr.getText().trim();
+  }
+  ;
+    
+    
+<until> returns [String text=""] 
+  {
+    String exprLg = @expressionLanguage;//not supported by BPELscript
+  }
+  : deadlineExpr:PCDATA
+  {
+    text+=deadlineExpr.getText().trim();
+  }
+  ;
+  
+  
+<copy> returns [String text=""] 
+  {
+    BpelBoolean keepSrcElt = BpelBoolean.toBpelBoolean(@keepSrcElementName);
+    BpelBoolean ignMissingData = BpelBoolean.toBpelBoolean(@ignoreMissingFromData);
+    //
+    String from="";String to="";
+  }
+  : from=<from>[""] to=<to>[""]
+  {
+    //handle attributes as annotations
+    text+=Helper.cvBoolAttr("keepSrcElementName", keepSrcElt);
+    text+=Helper.cvBoolAttr("ignoreMissingFromData", ignMissingData);
+    
+    //handle content
+    text+=to+" = "+from+";\n";
+  }
+  ;
+  
+  
+<condition> returns [String text="";] 
+  {
+    String exprLg = @expressionLanguage;//not supported by BPELscript
+  }
+  : boolExpr:PCDATA
+  {	
+  	text+=Helper.strip(boolExpr.getText().trim());
+  }
+  ;
+  
+  
+<elseif> [String els] returns [String text=""] 
+  {
+  	String ac=""; String expr="";
+  }
+  : expr=<condition> ac=activity[ac]
+  {
+  	if (els!=null && !els.isEmpty()) text+=els+" "; //handle previous else ifs
+  	
+  	//handle content 
+  	text+="elseif ("+expr+")";
+  	
+  	//put '{' newline only without std_elts 
+  	if (!ac.substring(1,2).contains("@"))
+  	text+=" {\n";
+  	
+  	text+=ac+"}";
+  }
+  ;
+  
+  
+<else> returns [String text=""]
+  {
+  	String ac="";
+  } 
+  : ac=activity[ac]
+  {
+  	text+=" else";
+  	
+  	//put '{' newline only without std_elts 
+  	if (!ac.substring(1,2).contains("@"))
+  	text+=" {\n";
+  	text+=ac+"}\n";
+  }
+  ;
+  
+  
+<startCounterValue> returns [String text="";] 
+  {
+    String exprLg = @expressionLanguage;//not supported by BPELscript
+  }
+  : intExpr:PCDATA
+  {
+    text+=intExpr.getText().trim();
+  }
+  ;
+  
+  
+<finalCounterValue> returns [String text="";] 
+  {
+    String exprLg = @expressionLanguage;//not supported by BPELscript
+  }
+  : intExpr:PCDATA
+  {
+    text+=intExpr.getText().trim();
+  }
+  ;
+  
+  /*
+   * Attention: Propagate Attribute to OWNER
+   * [0] Attribute
+   * [1] content
+   */
+<completionCondition> returns [String[] text={"",""}] 
+  {String[] br={"",""};}
+  : (br=<branches>)?
+  {
+  	text=br;
+  }
+  ;
+  
+  /*
+   * Attention: Propagate Attribute to OWNER
+   * [0] Attribut
+   * [1] content
+   */
+<branches> returns [String[] text={"",""};] 
+  {
+    String exprLg = @expressionLanguage;//not supported by BPELscript
+    BpelBoolean successfulOnly = BpelBoolean.toBpelBoolean(@successfulBranchesOnly);
+  }
+  : intExpr:PCDATA
+  {
+    //handle attribute as annotation
+    text[0]=Helper.cvBoolAttr("successfulBranchesOnly", successfulOnly);
+    
+    //handle content
+    text[1]=intExpr.getText().trim();
+  }
+  ;
+  
+    
+<repeatEvery> returns [String text=""]
+  {
+    String exprLg = @expressionLanguage; //not supported by BPElscript
+  }
+  : durationExpr:PCDATA
+  {
+    text+=durationExpr.getText().trim();
+  }
+  ;  
+
+  
+<links> //not supported by BPELscript 
+  : (<link>)+
+  ;
+  
+  
+<link> //not supported by BPELscript
+  {
+    String name = @name;
+  }
+  : ;
+  
+  
+<terminationHandler> returns [String text=""] 
+  {
+  	String ac="";
+  }
+  : ac=activity[ac]
+  {
+    text+="onTermination {\n"+ac+"}\n";
+  }
+  ;
+  
+  
+<query> returns [String text="";] 
+  {
+    String qLg = @queryLanguage; //not supported by BPELscript
+  }
+  : queryContent:PCDATA
+  {
+    text+=queryContent.getText().trim();
+  }
+  ;
+  
+  
+<literal> returns [String text=""]
+  : literalValue:PCDATA {text+=literalValue.getText().trim();}
+  ;
+  
+    
+// Support of wildcards  ###########################################
+otherTag
+  :  OTHER_TAG
+     ( otherTag
+     | PCDATA
+     )*
+     XML_END_TAG
+  ;
+  
