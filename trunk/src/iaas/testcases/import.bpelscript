@@ -1,0 +1,9 @@
+namespace pns = "http://example.com/loan-approval/";
+namespace lns = "http://example.com/loan-approval/wsdl/";
+@type "http:://schemas.xmlsoap.org/wsdl/" 
+import loanServicePT = lns::"loanServicePT.wsdl";
+
+process pns::loanApprovalProcess {
+
+nop;
+}

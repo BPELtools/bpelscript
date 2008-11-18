@@ -1,0 +1,15 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+join(join1, join2, [jjs]);
+@portType "port42" 
+@createInstance
+@messageExchange "send a mail" 
+@name "MyName" 
+@suppressJoinFailure
+receive(partner, op, {corr});
+signal(signal1, [ksfkj]);
+signal(signal2);
+
+}

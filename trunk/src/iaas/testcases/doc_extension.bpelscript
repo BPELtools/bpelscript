@@ -1,0 +1,9 @@
+namespace pns = "http://example.com/loan-approval/";
+namespace lns = "http://example.com/loan-approval/wsdl/";
+extension retr = "http://example.com/bpel/userRetrieval";
+extension user = "http://example.com/bpel/userInteractions";
+
+process pns::loanApprovalProcess {
+
+nop;
+}

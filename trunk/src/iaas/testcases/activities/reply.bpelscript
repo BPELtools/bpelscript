@@ -1,0 +1,10 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+join(setMessage-to-reply, approval-to-reply);
+@portType "Wall E" 
+@faultName "Eve" 
+@messageExchange "MEXME" 
+reply(customer, request, approval)with (myID : out SwissNo);
+}

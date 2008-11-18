@@ -1,0 +1,29 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <receive partnerLink="partner" portType="port42" operation="op" createInstance="yes" 
+      messageExchange="send a mail" name="MyName" suppressJoinFailure="yes">
+      <targets>
+        <joinCondition>
+          jjs
+        </joinCondition>
+        <target linkName="join1"/>
+        <target linkName="join2"/>
+      </targets>
+      <sources>
+        <source linkName="signal1">
+          <transitionCondition>
+            ksfkj
+          </transitionCondition>
+        </source>
+        <source linkName="signal2"/>
+      </sources>
+      <correlations>
+        <correlation set="corr"/>
+      </correlations>
+    </receive>
+
+  </sequence>
+</process>

@@ -1,0 +1,15 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <reply partnerLink="customer" operation="request" variable="approval">
+      <targets>
+        <target linkName="setMessage-to-reply"/>
+        <target linkName="approval-to-reply"/>
+      </targets>
+
+    </reply>
+
+  </sequence>
+</process>

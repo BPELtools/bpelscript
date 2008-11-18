@@ -1,0 +1,7 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+join(setMessage-to-reply, approval-to-reply);
+reply(customer, request, approval);
+}

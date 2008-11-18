@@ -1,0 +1,25 @@
+namespace pns = "http://example.com/loan-approval/";
+
+@suppressJoinFailure no 
+process pns::loanApprovalProcess {
+
+scope {
+partnerLink myPL = (pns::LoanService, roleA, roleB);
+var myOutVar;
+nop;
+} compensation {
+reply(myPL, doSth);
+}
+onTermination {
+join(loneboy);
+scope {
+reply(myPL, doAnything);
+} signal(caretaker);
+
+}
+events {
+event (myPL, suddenDeathError) {
+scope (scopeID) @join(approval) @signal(manager) {
+nop;
+} } 
+}}

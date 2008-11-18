@@ -1,0 +1,27 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <receive partnerLink="customer" portType="lns::loanServicePT" operation="request" createInstance="yes">
+      <targets>
+        <target linkName="setMessage-to-reply"/>
+        <target linkName="approval-to-reply"/>
+      </targets>
+      <sources>
+        <source linkName="receive-to-assess">
+          <transitionCondition>
+            $request.amount &lt; 10000
+          </transitionCondition>
+        </source>
+        <source linkName="receive-to-approval">
+          <transitionCondition>
+            $request.amount >= 10000
+          </transitionCondition>
+        </source>
+      </sources>
+
+    </receive>
+
+  </sequence>
+</process>

@@ -1,0 +1,62 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ suppressJoinFailure="no"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <if>
+      <condition>
+        expr
+      </condition>
+      <sequence>
+        <targets>
+          <target linkName="a"/>
+        </targets>
+        <exit/>
+      </sequence>
+      <elseif>
+        <condition>
+          expr
+        </condition>
+        <sequence>
+          <sources>
+            <source linkName="b"/>
+            <source linkName="c"/>
+          </sources>
+          <exit/>
+        </sequence>
+      </elseif>
+      <elseif>
+        <condition>
+          expr
+        </condition>
+        <sequence>
+          <targets>
+            <target linkName="d"/>
+            <target linkName="e"/>
+            <target linkName="f"/>
+          </targets>
+          <sources>
+            <source linkName="g"/>
+          </sources>
+          <exit/>
+        </sequence>
+      </elseif>
+      <else>
+        <sequence>
+          <targets>
+            <target linkName="a"/>
+            <target linkName="b"/>
+            <target linkName="g"/>
+          </targets>
+          <sources>
+            <source linkName="g"/>
+            <source linkName="k"/>
+            <source linkName="i"/>
+          </sources>
+          <exit/>
+        </sequence>
+      </else>
+    </if>
+  </sequence>
+</process>

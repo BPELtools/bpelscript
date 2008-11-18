@@ -1,0 +1,12 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+join(setMessage-to-reply, approval-to-reply);
+@portType "lns::loanServicePT" 
+@createInstance
+receive(customer, request);
+signal(receive-to-assess, [$request.amount < 10000]);
+signal(receive-to-approval, [$request.amount >= 10000]);
+
+}

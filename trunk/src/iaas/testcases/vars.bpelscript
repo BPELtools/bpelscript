@@ -1,0 +1,14 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+var @element "elt" 
+    risk, 
+    @messageType "msgType" 
+    @type "myType" 
+    @element "elt" 
+    request with (me : in Bla), 
+    approval with (me : in Bla);
+
+nop;
+}

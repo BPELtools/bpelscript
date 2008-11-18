@@ -1,0 +1,23 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <sequence>
+    <forEach counterName="i">
+      <startCounterValue>
+        1
+      </startCounterValue>
+      <finalCounterValue>
+        10
+      </finalCounterValue>
+      <scope>
+
+        <sequence>
+          <exit/>
+        </sequence>
+      </scope>
+
+    </forEach>
+    		
+  </sequence>
+</process>

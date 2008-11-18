@@ -1,0 +1,15 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+join(whatever);
+@name "myExtensionActivity" 
+@suppressJoinFailure
+{{{
+<user:userInteraction type="user:approval">
+      <user:userResolution role="manager"/>
+      </user:userInteraction>
+}}}
+signal(sth);
+
+}

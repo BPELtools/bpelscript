@@ -1,0 +1,12 @@
+namespace pns = "http://example.com/loan-approval/";
+
+process pns::loanApprovalProcess {
+
+var risk, 
+    request, 
+    approval;
+
+risk = invoke(assessor, check, request);
+approval = "yes";
+request = receive(customer, request);
+}

@@ -1,0 +1,23 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+
+  <variables>
+    <variable name="risk" element="elt"/>
+    <variable name="request" messageType="msgType" type="myType" element="elt">
+      <fromParts>
+        <fromPart part="Bla" toVariable="me"/>
+      </fromParts>
+    </variable>
+    <variable name="approval">
+      <fromParts>
+        <fromPart part="Bla" toVariable="me"/>
+      </fromParts>
+    </variable>
+  </variables>
+
+  <sequence>
+
+    <empty/>
+  </sequence>
+</process>
