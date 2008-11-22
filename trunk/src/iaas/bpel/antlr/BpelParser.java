@@ -232,13 +232,13 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			_loop727:
+			_loop6333:
 			do {
 				if ((LA(1)==8)) {
 					__xml_import();
 				}
 				else {
-					break _loop727;
+					break _loop6333;
 				}
 				
 			} while (true);
@@ -510,17 +510,17 @@ public BpelParser(ParserSharedInputState state) {
 			match(6);
 			{
 			{
-			int _cnt737=0;
-			_loop737:
+			int _cnt6343=0;
+			_loop6343:
 			do {
 				if ((LA(1)==7)) {
 					__xml_extension();
 				}
 				else {
-					if ( _cnt737>=1 ) { break _loop737; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6343>=1 ) { break _loop6343; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt737++;
+				_cnt6343++;
 			} while (true);
 			}
 			}
@@ -604,17 +604,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String mex = "";
 			{
-			int _cnt745=0;
-			_loop745:
+			int _cnt6351=0;
+			_loop6351:
 			do {
 				if ((LA(1)==10)) {
 					mex=__xml_messageExchange(mex);
 				}
 				else {
-					if ( _cnt745>=1 ) { break _loop745; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6351>=1 ) { break _loop6351; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt745++;
+				_cnt6351++;
 			} while (true);
 			}
 			text+="messages "+mex+";\n";
@@ -639,17 +639,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String pl="";
 			{
-			int _cnt751=0;
-			_loop751:
+			int _cnt6357=0;
+			_loop6357:
 			do {
 				if ((LA(1)==12)) {
 					pl=__xml_partnerLink(pl);
 				}
 				else {
-					if ( _cnt751>=1 ) { break _loop751; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6357>=1 ) { break _loop6357; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt751++;
+				_cnt6357++;
 			} while (true);
 			}
 			text+="partnerLink "+pl+";\n";
@@ -674,17 +674,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String ret="";
 			{
-			int _cnt757=0;
-			_loop757:
+			int _cnt6363=0;
+			_loop6363:
 			do {
 				if ((LA(1)==14)) {
 					ret=__xml_variable(ret);
 				}
 				else {
-					if ( _cnt757>=1 ) { break _loop757; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6363>=1 ) { break _loop6363; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt757++;
+				_cnt6363++;
 			} while (true);
 			}
 			text+="var "+ret+";\n";
@@ -709,17 +709,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String cors="";
 			{
-			int _cnt764=0;
-			_loop764:
+			int _cnt6370=0;
+			_loop6370:
 			do {
 				if ((LA(1)==16)) {
 					cors=__xml_correlationSet(cors);
 				}
 				else {
-					if ( _cnt764>=1 ) { break _loop764; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6370>=1 ) { break _loop6370; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt764++;
+				_cnt6370++;
 			} while (true);
 			}
 			
@@ -750,13 +750,13 @@ public BpelParser(ParserSharedInputState state) {
 				String catcha="";
 			
 			{
-			_loop770:
+			_loop6376:
 			do {
 				if ((LA(1)==52)) {
 					catchs=__xml_catch(catchs);
 				}
 				else {
-					break _loop770;
+					break _loop6376;
 				}
 				
 			} while (true);
@@ -803,25 +803,25 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String oE=""; String oA="";
 			{
-			_loop775:
+			_loop6381:
 			do {
 				if ((LA(1)==19)) {
 					oE=__xml_onEvent(oE);
 				}
 				else {
-					break _loop775;
+					break _loop6381;
 				}
 				
 			} while (true);
 			}
 			{
-			_loop777:
+			_loop6383:
 			do {
 				if ((LA(1)==20)) {
 					oA=__xml_onAlarm(oA, false);
 				}
 				else {
-					break _loop777;
+					break _loop6383;
 				}
 				
 			} while (true);
@@ -1133,7 +1133,7 @@ public BpelParser(ParserSharedInputState state) {
 		try {      // for error handling
 			match(OTHER_TAG);
 			{
-			_loop960:
+			_loop6566:
 			do {
 				switch ( LA(1)) {
 				case OTHER_TAG:
@@ -1148,7 +1148,7 @@ public BpelParser(ParserSharedInputState state) {
 				}
 				default:
 				{
-					break _loop960;
+					break _loop6566;
 				}
 				}
 			} while (true);
@@ -1239,13 +1239,13 @@ public BpelParser(ParserSharedInputState state) {
 			case 60:
 			{
 				{
-				_loop915:
+				_loop6521:
 				do {
 					if ((LA(1)==60)) {
 						fr=__xml_from(fr);
 					}
 					else {
-						break _loop915;
+						break _loop6521;
 					}
 					
 				} while (true);
@@ -1554,17 +1554,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String cor="";
 			{
-			int _cnt894=0;
-			_loop894:
+			int _cnt6500=0;
+			_loop6500:
 			do {
 				if ((LA(1)==51)) {
 					cor=__xml_correlation(cor);
 				}
 				else {
-					if ( _cnt894>=1 ) { break _loop894; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6500>=1 ) { break _loop6500; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt894++;
+				_cnt6500++;
 			} while (true);
 			}
 				
@@ -2272,13 +2272,13 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			_loop799:
+			_loop6405:
 			do {
 				if ((LA(1)==52)) {
 					cc=__xml_catch(ca);
 				}
 				else {
-					break _loop799;
+					break _loop6405;
 				}
 				
 			} while (true);
@@ -2423,26 +2423,26 @@ public BpelParser(ParserSharedInputState state) {
 			
 			se=std_elts();
 			{
-			int _cnt807=0;
-			_loop807:
+			int _cnt6413=0;
+			_loop6413:
 			do {
 				switch ( LA(1)) {
 				case 64:
 				{
-					copy=__xml_copy();
+					copy=__xml_copy(copy);
 					break;
 				}
 				case 61:
 				{
-					eAOp=__xml_extensionAssignOperation();
+					eAOp=__xml_extensionAssignOperation(eAOp);
 					break;
 				}
 				default:
 				{
-					if ( _cnt807>=1 ) { break _loop807; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6413>=1 ) { break _loop6413; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				}
-				_cnt807++;
+				_cnt6413++;
 			} while (true);
 			}
 			
@@ -2650,17 +2650,17 @@ public BpelParser(ParserSharedInputState state) {
 			
 			se=std_elts();
 			{
-			int _cnt820=0;
-			_loop820:
+			int _cnt6426=0;
+			_loop6426:
 			do {
 				if ((_tokenSet_8.member(LA(1)))) {
 					ac=activity(ac);
 				}
 				else {
-					if ( _cnt820>=1 ) { break _loop820; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6426>=1 ) { break _loop6426; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt820++;
+				_cnt6426++;
 			} while (true);
 			}
 			
@@ -2701,13 +2701,13 @@ public BpelParser(ParserSharedInputState state) {
 			expr=__xml_condition();
 			ac=activity(ac);
 			{
-			_loop824:
+			_loop6430:
 			do {
 				if ((LA(1)==66)) {
 					elsi=__xml_elseif(elsi);
 				}
 				else {
-					break _loop824;
+					break _loop6430;
 				}
 				
 			} while (true);
@@ -2920,27 +2920,27 @@ public BpelParser(ParserSharedInputState state) {
 			
 			se=std_elts();
 			{
-			int _cnt836=0;
-			_loop836:
+			int _cnt6442=0;
+			_loop6442:
 			do {
 				if ((LA(1)==35)) {
 					onM=__xml_onMessage(onM);
 				}
 				else {
-					if ( _cnt836>=1 ) { break _loop836; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6442>=1 ) { break _loop6442; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt836++;
+				_cnt6442++;
 			} while (true);
 			}
 			{
-			_loop838:
+			_loop6444:
 			do {
 				if ((LA(1)==20)) {
 					oA=__xml_onAlarm(oA, true);
 				}
 				else {
-					break _loop838;
+					break _loop6444;
 				}
 				
 			} while (true);
@@ -3018,18 +3018,18 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			int _cnt847=0;
-			_loop847:
+			int _cnt6453=0;
+			_loop6453:
 			do {
 				if ((_tokenSet_8.member(LA(1)))) {
 					if (!act.isEmpty()) act+="} and {\n";
 					act=activity(act);
 				}
 				else {
-					if ( _cnt847>=1 ) { break _loop847; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6453>=1 ) { break _loop6453; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt847++;
+				_cnt6453++;
 			} while (true);
 			}
 			
@@ -3325,13 +3325,13 @@ public BpelParser(ParserSharedInputState state) {
 			case 57:
 			{
 				{
-				_loop906:
+				_loop6512:
 				do {
 					if ((LA(1)==57)) {
 						to=__xml_to(to);
 					}
 					else {
-						break _loop906;
+						break _loop6512;
 					}
 					
 				} while (true);
@@ -3387,7 +3387,9 @@ public BpelParser(ParserSharedInputState state) {
 		return text;
 	}
 	
-	public final String  __xml_copy() throws RecognitionException, TokenStreamException {
+	public final String  __xml_copy(
+		String ret
+	) throws RecognitionException, TokenStreamException {
 		String text="";
 		
 		Token  __xml_startTag = null;
@@ -3404,6 +3406,9 @@ public BpelParser(ParserSharedInputState state) {
 			
 			from=__xml_from("");
 			to=__xml_to("");
+			
+			//handle previous copies
+			text+=ret;
 			
 			//handle attributes as annotations
 			text+=Helper.cvBoolAttr("keepSrcElementName", keepSrcElt);
@@ -3422,7 +3427,9 @@ public BpelParser(ParserSharedInputState state) {
 		return text;
 	}
 	
-	public final String  __xml_extensionAssignOperation() throws RecognitionException, TokenStreamException {
+	public final String  __xml_extensionAssignOperation(
+		String ret
+	) throws RecognitionException, TokenStreamException {
 		String text="";
 		
 		Token  __xml_startTag = null;
@@ -3434,6 +3441,9 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			assignElementOfOtherNamespace = LT(1);
 			match(PCDATA);
+			
+			//handle previous eAOps
+			text+=ret;
 			
 			text+="{{{\n"+assignElementOfOtherNamespace.getText().trim()+"}}}";
 			
@@ -3776,17 +3786,17 @@ public BpelParser(ParserSharedInputState state) {
 			match(73);
 			{
 			{
-			int _cnt949=0;
-			_loop949:
+			int _cnt6555=0;
+			_loop6555:
 			do {
 				if ((LA(1)==74)) {
 					__xml_link();
 				}
 				else {
-					if ( _cnt949>=1 ) { break _loop949; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6555>=1 ) { break _loop6555; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt949++;
+				_cnt6555++;
 			} while (true);
 			}
 			}
@@ -3854,17 +3864,17 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			int _cnt877=0;
-			_loop877:
+			int _cnt6483=0;
+			_loop6483:
 			do {
 				if ((LA(1)==46)) {
 					tg=__xml_target(tg);
 				}
 				else {
-					if ( _cnt877>=1 ) { break _loop877; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6483>=1 ) { break _loop6483; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt877++;
+				_cnt6483++;
 			} while (true);
 			}
 			
@@ -3891,17 +3901,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String sc="";
 			{
-			int _cnt885=0;
-			_loop885:
+			int _cnt6491=0;
+			_loop6491:
 			do {
 				if ((LA(1)==48)) {
 					sc=__xml_source(sc);
 				}
 				else {
-					if ( _cnt885>=1 ) { break _loop885; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6491>=1 ) { break _loop6491; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt885++;
+				_cnt6491++;
 			} while (true);
 			}
 			text+=sc;
@@ -4240,7 +4250,7 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				expr = LT(1);
 				match(PCDATA);
-				text+=expr.getText().trim();
+				text+="["+expr.getText().trim()+"]";
 				break;
 			}
 			case 77:
@@ -4271,7 +4281,9 @@ public BpelParser(ParserSharedInputState state) {
 					
 						if (part!=null && !part.isEmpty()) optPart="."+part;
 						if (prop!=null && !prop.isEmpty()) optPart="."+prop+" @property";
-						text+=q;
+						
+						text+=q+var+optPart;
+						
 						
 				}
 				else if ((LA(1)==XML_END_TAG)) {
@@ -4338,7 +4350,9 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			literalValue = LT(1);
 			match(PCDATA);
-			text+=literalValue.getText().trim();
+			
+				text+=literalValue.getText().trim();
+			
 			}
 			match(XML_END_TAG);
 		}
