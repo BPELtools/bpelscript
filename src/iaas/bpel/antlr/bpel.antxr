@@ -588,7 +588,7 @@ activity [String rets] returns [String text=""]
     //
     String se="";String copy=""; String eAOp ="";
   }
-  : se=std_elts (copy=<copy> | eAOp=<extensionAssignOperation>)+
+  : se=std_elts (copy=<copy>[copy] | eAOp=<extensionAssignOperation>[eAOp])+
   {
     //handle attributes
     text+=Helper.cvBoolAttr("validate", val);
@@ -1287,7 +1287,9 @@ std_elts returns [String text=""]
   : (q=<query>)? {
   	if (part!=null && !part.isEmpty()) optPart="."+part;
   	if (prop!=null && !prop.isEmpty()) optPart="."+prop+" @property";
-  	text+=q;
+  	
+  	text+=q+var+optPart;
+  	
   	}
     | expr:PCDATA {text+=expr.getText().trim();}
   	| lit=<literal> {text+=lit;}
@@ -1305,9 +1307,12 @@ std_elts returns [String text=""]
   ;
   
   
-<extensionAssignOperation> returns [String text=""]
+<extensionAssignOperation> [String ret] returns [String text=""]
   : assignElementOfOtherNamespace:PCDATA
   {
+    //handle previous eAOps
+    text+=ret;
+    
     text+="{{{\n"+assignElementOfOtherNamespace.getText().trim()+"}}}";
   }
   ;
@@ -1335,7 +1340,7 @@ std_elts returns [String text=""]
   ;
   
   
-<copy> returns [String text=""] 
+<copy> [String ret] returns [String text=""] 
   {
     BpelBoolean keepSrcElt = BpelBoolean.toBpelBoolean(@keepSrcElementName);
     BpelBoolean ignMissingData = BpelBoolean.toBpelBoolean(@ignoreMissingFromData);
@@ -1343,7 +1348,10 @@ std_elts returns [String text=""]
     String from="";String to="";
   }
   : from=<from>[""] to=<to>[""]
-  {
+  { 
+    //handle previous copies
+    text+=ret;
+    
     //handle attributes as annotations
     text+=Helper.cvBoolAttr("keepSrcElementName", keepSrcElt);
     text+=Helper.cvBoolAttr("ignoreMissingFromData", ignMissingData);
