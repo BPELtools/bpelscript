@@ -1291,7 +1291,7 @@ std_elts returns [String text=""]
   	text+=q+var+optPart;
   	
   	}
-    | expr:PCDATA {text+=expr.getText().trim();}
+    | expr:PCDATA {text+="["+expr.getText().trim()+"]";}
   	| lit=<literal> {text+=lit;}
     | 
   {
@@ -1510,7 +1510,10 @@ std_elts returns [String text=""]
   
   
 <literal> returns [String text=""]
-  : literalValue:PCDATA {text+=literalValue.getText().trim();}
+  : literalValue:PCDATA 
+  {
+  	text+=literalValue.getText().trim();
+  }
   ;
   
     
