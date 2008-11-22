@@ -1,1 +1,1 @@
-java -cp antlr-3.1b1.jar:stringtemplate-3.2.jar:antlr-runtime-3.1b1.jar:antlr-2.7.7.jar:antxr.jar:/home/bischomc/studienarbeit/workspace/BPELscript/bin/: org.antlr.gunit.Interp -o BPELgUnit.testsuite
+java -cp ../../../../lib/gunit_bpel.jar:../../../../lib/stringtemplate-3.2.jar:../../../../lib/antlr-runtime-3.1b1.jar:../../../../lib/antlr-2.7.7.jar:../../../../lib/antxr.jar:../../../../bin/: org.antlr.gunit.Interp -o BPELgUnit.testsuite

@@ -1,0 +1,35 @@
+<process name="loanApprovalProcess"
+ targetNamespace="http://example.com/loan-approval/"
+ suppressJoinFailure="yes"
+ xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+ xmlns:wns="http://example.com/loan-approval/wsdl/">
+
+  <variables>
+    <variable name="request"/>
+    <variable name="probeInput"/>
+  </variables>
+
+  <sequence>
+
+    <assign name="assign1">
+      <copy>
+        <from variable="request" property="wns:testProbeID"/>
+        <to variable="probeInput" part="probeName"/>
+      </copy>
+    </assign>
+    <assign name="assign1">
+      <copy>
+        <from variable="request" part="requestText"/>
+        <to variable="probeInput" part="probeData"/>
+      </copy>
+    </assign>
+    <assign>
+      <copy>
+        <from>
+          block for next message
+        </from>
+        <to variable="probeInput" part="probeName"/>
+      </copy>
+    </assign>
+  </sequence>
+</process>

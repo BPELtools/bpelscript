@@ -120,6 +120,16 @@ public class TestBpel extends TestCase {
 	}
 
 	public void testDocument10() throws Exception {
+		// test input: "assign2"
+		Object retval = execParser("document", prefix+"activities/"+"assign2"+".bpel", true);
+		Object actual = examineParserExecResult(8, retval).toString().trim();
+		Object expecting = null;
+		expecting = readOutput(prefix+"activities/"+"assign2"+".bpelscript");
+
+		assertEquals("testing rule/file "+"document"+"/"+"assign2", expecting, actual);
+	}
+
+	public void testDocument11() throws Exception {
 		// test input: "corrSet_b"
 		Object retval = execParser("document", prefix+"activities/"+"corrSet_b"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -129,7 +139,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"corrSet_b", expecting, actual);
 	}
 
-	public void testDocument11() throws Exception {
+	public void testDocument12() throws Exception {
 		// test input: "invoke"
 		Object retval = execParser("document", prefix+"activities/"+"invoke"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -139,7 +149,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"invoke", expecting, actual);
 	}
 
-	public void testDocument12() throws Exception {
+	public void testDocument13() throws Exception {
 		// test input: "pick"
 		Object retval = execParser("document", prefix+"activities/"+"pick"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -149,7 +159,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"pick", expecting, actual);
 	}
 
-	public void testDocument13() throws Exception {
+	public void testDocument14() throws Exception {
 		// test input: "receive"
 		Object retval = execParser("document", prefix+"activities/"+"receive"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -159,7 +169,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"receive", expecting, actual);
 	}
 
-	public void testDocument14() throws Exception {
+	public void testDocument15() throws Exception {
 		// test input: "receive2"
 		Object retval = execParser("document", prefix+"activities/"+"receive2"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -169,7 +179,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"receive2", expecting, actual);
 	}
 
-	public void testDocument15() throws Exception {
+	public void testDocument16() throws Exception {
 		// test input: "reply"
 		Object retval = execParser("document", prefix+"activities/"+"reply"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -179,7 +189,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"reply", expecting, actual);
 	}
 
-	public void testDocument16() throws Exception {
+	public void testDocument17() throws Exception {
 		// test input: "rethrow"
 		Object retval = execParser("document", prefix+"activities/"+"rethrow"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -189,7 +199,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"rethrow", expecting, actual);
 	}
 
-	public void testDocument17() throws Exception {
+	public void testDocument18() throws Exception {
 		// test input: "ext_act_b"
 		Object retval = execParser("document", prefix+"blockstructs/"+"ext_act_b"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -199,7 +209,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"ext_act_b", expecting, actual);
 	}
 
-	public void testDocument18() throws Exception {
+	public void testDocument19() throws Exception {
 		// test input: "forall"
 		Object retval = execParser("document", prefix+"blockstructs/"+"forall"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -209,7 +219,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"forall", expecting, actual);
 	}
 
-	public void testDocument19() throws Exception {
+	public void testDocument20() throws Exception {
 		// test input: "foreach"
 		Object retval = execParser("document", prefix+"blockstructs/"+"foreach"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -219,7 +229,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"foreach", expecting, actual);
 	}
 
-	public void testDocument20() throws Exception {
+	public void testDocument21() throws Exception {
 		// test input: "scope"
 		Object retval = execParser("document", prefix+"blockstructs/"+"scope"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -229,7 +239,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"scope", expecting, actual);
 	}
 
-	public void testDocument21() throws Exception {
+	public void testDocument22() throws Exception {
 		// test input: "until"
 		Object retval = execParser("document", prefix+"blockstructs/"+"until"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -239,7 +249,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"until", expecting, actual);
 	}
 
-	public void testDocument22() throws Exception {
+	public void testDocument23() throws Exception {
 		// test input: "while"
 		Object retval = execParser("document", prefix+"blockstructs/"+"while"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -249,7 +259,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"while", expecting, actual);
 	}
 
-	public void testDocument23() throws Exception {
+	public void testDocument24() throws Exception {
 		// test input: "if_all"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_all"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -259,7 +269,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_all", expecting, actual);
 	}
 
-	public void testDocument24() throws Exception {
+	public void testDocument25() throws Exception {
 		// test input: "if_combInner"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_combInner"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -269,7 +279,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_combInner", expecting, actual);
 	}
 
-	public void testDocument25() throws Exception {
+	public void testDocument26() throws Exception {
 		// test input: "if_combJS"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_combJS"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -279,7 +289,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_combJS", expecting, actual);
 	}
 
-	public void testDocument26() throws Exception {
+	public void testDocument27() throws Exception {
 		// test input: "if_combMultInner"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_combMultInner"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -289,7 +299,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_combMultInner", expecting, actual);
 	}
 
-	public void testDocument27() throws Exception {
+	public void testDocument28() throws Exception {
 		// test input: "if_else_elsif"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_else_elsif"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -299,7 +309,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_else_elsif", expecting, actual);
 	}
 
-	public void testDocument28() throws Exception {
+	public void testDocument29() throws Exception {
 		// test input: "if_else"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_else"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -309,7 +319,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_else", expecting, actual);
 	}
 
-	public void testDocument29() throws Exception {
+	public void testDocument30() throws Exception {
 		// test input: "if_elsif"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_elsif"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -319,7 +329,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_elsif", expecting, actual);
 	}
 
-	public void testDocument30() throws Exception {
+	public void testDocument31() throws Exception {
 		// test input: "if_innerJoin"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_innerJoin"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -329,7 +339,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_innerJoin", expecting, actual);
 	}
 
-	public void testDocument31() throws Exception {
+	public void testDocument32() throws Exception {
 		// test input: "if_innerSignal"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_innerSignal"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -339,7 +349,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_innerSignal", expecting, actual);
 	}
 
-	public void testDocument32() throws Exception {
+	public void testDocument33() throws Exception {
 		// test input: "if_join"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_join"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -349,7 +359,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_join", expecting, actual);
 	}
 
-	public void testDocument33() throws Exception {
+	public void testDocument34() throws Exception {
 		// test input: "if_signal"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_signal"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();
@@ -359,7 +369,7 @@ public class TestBpel extends TestCase {
 		assertEquals("testing rule/file "+"document"+"/"+"if_signal", expecting, actual);
 	}
 
-	public void testDocument34() throws Exception {
+	public void testDocument35() throws Exception {
 		// test input: "if_simple"
 		Object retval = execParser("document", prefix+"blockstructs/if_ex/"+"if_simple"+".bpel", true);
 		Object actual = examineParserExecResult(8, retval).toString().trim();

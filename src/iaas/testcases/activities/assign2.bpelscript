@@ -1,0 +1,15 @@
+namespace pns = "http://example.com/loan-approval/";
+namespace wns = "http://example.com/loan-approval/wsdl/";
+
+@suppressJoinFailure
+process pns::loanApprovalProcess {
+
+var request, 
+    probeInput;
+
+@name "assign1" 
+probeInput.probeName = request.wns::testProbeID @property;
+@name "assign1" 
+probeInput.probeData = request.requestText;
+probeInput.probeName = [block for next message];
+}

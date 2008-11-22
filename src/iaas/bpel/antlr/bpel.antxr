@@ -209,7 +209,7 @@ proc_elt returns [String proc=""] //#####################
 			//2.2.2
 			// put modified import to the map
 			tmp_map.put(mod_import, str_o.substring(9,str_o.trim().length())+"::\""+loc+"\";"); 
-			
+				
 		} else { tmp_map.put(o, attr); }	
 	}
 	//reset namespace map
