@@ -115,6 +115,15 @@ public class TestBPELscriptWalker extends TestCase {
 	}
 
 	public void testProgram_walks_Program10() throws Exception {
+		// test input: "assign2"
+		Object retval = null;
+		retval = execTreeParser("program", "program", prefix+"activities/"+"assign2"+".bpelscript", true);
+		Object actual = examineParserExecResult(8, retval);
+		Object expecting = readOutput(prefix+"activities/"+"assign2"+".bpel");
+		assertEquals("testing rule/file "+"program"+"/"+"assign2", expecting, actual.toString().trim());
+	}
+
+	public void testProgram_walks_Program11() throws Exception {
 		// test input: "corrSet_bs"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"activities/"+"corrSet_bs"+".bpelscript", true);
@@ -123,7 +132,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"corrSet_bs", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program11() throws Exception {
+	public void testProgram_walks_Program12() throws Exception {
 		// test input: "invoke"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"activities/"+"invoke"+".bpelscript", true);
@@ -132,7 +141,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"invoke", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program12() throws Exception {
+	public void testProgram_walks_Program13() throws Exception {
 		// test input: "pick"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"activities/"+"pick"+".bpelscript", true);
@@ -141,7 +150,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"pick", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program13() throws Exception {
+	public void testProgram_walks_Program14() throws Exception {
 		// test input: "receive"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"activities/"+"receive"+".bpelscript", true);
@@ -150,7 +159,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"receive", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program14() throws Exception {
+	public void testProgram_walks_Program15() throws Exception {
 		// test input: "receive2"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"activities/"+"receive2"+".bpelscript", true);
@@ -159,7 +168,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"receive2", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program15() throws Exception {
+	public void testProgram_walks_Program16() throws Exception {
 		// test input: "reply"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"activities/"+"reply"+".bpelscript", true);
@@ -168,7 +177,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"reply", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program16() throws Exception {
+	public void testProgram_walks_Program17() throws Exception {
 		// test input: "rethrow"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"activities/"+"rethrow"+".bpelscript", true);
@@ -177,7 +186,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"rethrow", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program17() throws Exception {
+	public void testProgram_walks_Program18() throws Exception {
 		// test input: "ext_act_bs"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/"+"ext_act_bs"+".bpelscript", true);
@@ -186,7 +195,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"ext_act_bs", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program18() throws Exception {
+	public void testProgram_walks_Program19() throws Exception {
 		// test input: "forall"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/"+"forall"+".bpelscript", true);
@@ -195,7 +204,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"forall", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program19() throws Exception {
+	public void testProgram_walks_Program20() throws Exception {
 		// test input: "foreach"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/"+"foreach"+".bpelscript", true);
@@ -204,7 +213,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"foreach", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program20() throws Exception {
+	public void testProgram_walks_Program21() throws Exception {
 		// test input: "scope"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/"+"scope"+".bpelscript", true);
@@ -213,7 +222,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"scope", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program21() throws Exception {
+	public void testProgram_walks_Program22() throws Exception {
 		// test input: "until"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/"+"until"+".bpelscript", true);
@@ -222,7 +231,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"until", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program22() throws Exception {
+	public void testProgram_walks_Program23() throws Exception {
 		// test input: "while"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/"+"while"+".bpelscript", true);
@@ -231,7 +240,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"while", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program23() throws Exception {
+	public void testProgram_walks_Program24() throws Exception {
 		// test input: "if_all"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_all"+".bpelscript", true);
@@ -240,7 +249,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_all", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program24() throws Exception {
+	public void testProgram_walks_Program25() throws Exception {
 		// test input: "if_combInner"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_combInner"+".bpelscript", true);
@@ -249,7 +258,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_combInner", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program25() throws Exception {
+	public void testProgram_walks_Program26() throws Exception {
 		// test input: "if_combJS"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_combJS"+".bpelscript", true);
@@ -258,7 +267,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_combJS", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program26() throws Exception {
+	public void testProgram_walks_Program27() throws Exception {
 		// test input: "if_combMultInner"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_combMultInner"+".bpelscript", true);
@@ -267,7 +276,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_combMultInner", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program27() throws Exception {
+	public void testProgram_walks_Program28() throws Exception {
 		// test input: "if_else_elsif"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_else_elsif"+".bpelscript", true);
@@ -276,7 +285,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_else_elsif", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program28() throws Exception {
+	public void testProgram_walks_Program29() throws Exception {
 		// test input: "if_else"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_else"+".bpelscript", true);
@@ -285,7 +294,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_else", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program29() throws Exception {
+	public void testProgram_walks_Program30() throws Exception {
 		// test input: "if_elsif"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_elsif"+".bpelscript", true);
@@ -294,7 +303,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_elsif", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program30() throws Exception {
+	public void testProgram_walks_Program31() throws Exception {
 		// test input: "if_innerJoin"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_innerJoin"+".bpelscript", true);
@@ -303,7 +312,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_innerJoin", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program31() throws Exception {
+	public void testProgram_walks_Program32() throws Exception {
 		// test input: "if_innerSignal"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_innerSignal"+".bpelscript", true);
@@ -312,7 +321,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_innerSignal", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program32() throws Exception {
+	public void testProgram_walks_Program33() throws Exception {
 		// test input: "if_join"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_join"+".bpelscript", true);
@@ -321,7 +330,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_join", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program33() throws Exception {
+	public void testProgram_walks_Program34() throws Exception {
 		// test input: "if_signal"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_signal"+".bpelscript", true);
@@ -330,7 +339,7 @@ public class TestBPELscriptWalker extends TestCase {
 		assertEquals("testing rule/file "+"program"+"/"+"if_signal", expecting, actual.toString().trim());
 	}
 
-	public void testProgram_walks_Program34() throws Exception {
+	public void testProgram_walks_Program35() throws Exception {
 		// test input: "if_simple"
 		Object retval = null;
 		retval = execTreeParser("program", "program", prefix+"blockstructs/if_ex/"+"if_simple"+".bpelscript", true);

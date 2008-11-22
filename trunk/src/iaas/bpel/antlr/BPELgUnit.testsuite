@@ -33,6 +33,7 @@ document:
 	
 // Simple Activities
 	assign_b 	-> "activities/"
+	assign2 	-> "activities/"
 	corrSet_b	-> "activities/"
 	invoke 	-> "activities/"
 	pick	-> "activities/"

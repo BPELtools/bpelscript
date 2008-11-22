@@ -34,6 +34,7 @@ program walks program:
 	
 // Simple Activities
 	assign_bs	-> "activities/"
+	assign2 	-> "activities/"
 	corrSet_bs	-> "activities/"
 	invoke 		-> "activities/"
 	pick		-> "activities/"
