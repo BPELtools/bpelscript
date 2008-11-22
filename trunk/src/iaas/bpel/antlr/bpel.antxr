@@ -588,7 +588,14 @@ activity [String rets] returns [String text=""]
     //
     String se="";String copy=""; String eAOp ="";
   }
-  : se=std_elts (copy=<copy>[copy] | eAOp=<extensionAssignOperation>[eAOp])+
+  : se=std_elts 
+  (
+  	{//handle attributes of multiple copy/eAOp
+  	 if (copy!=null && !copy.isEmpty()) copy+=Helper.cvBoolAttr("validate", val)+Helper.cvStdAttr(name, supprJF);
+  	 if (eAOp!=null && !eAOp.isEmpty()) eAOp+=Helper.cvBoolAttr("validate", val)+Helper.cvStdAttr(name, supprJF);
+  	} 
+  	copy=<copy>[copy] | eAOp=<extensionAssignOperation>[eAOp]
+  )+
   {
     //handle attributes
     text+=Helper.cvBoolAttr("validate", val);
@@ -1286,7 +1293,7 @@ std_elts returns [String text=""]
   }
   : (q=<query>)? {
   	if (part!=null && !part.isEmpty()) optPart="."+part;
-  	if (prop!=null && !prop.isEmpty()) optPart="."+prop+" @property";
+  	if (prop!=null && !prop.isEmpty()) optPart="."+Helper.strip(prop)+" @property";
   	
   	text+=q+var+optPart;
   	
