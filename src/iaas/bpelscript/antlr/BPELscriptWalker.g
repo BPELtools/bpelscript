@@ -352,7 +352,7 @@ catch_ex[HashMap<String, String> _vars, HashMap<String, String> _pl,
 		// 4)
 		_faults.put(faultName, attributes);
 		_faults_pb.put(faultName, $pb.st);
-	-
+	
 	}
 	//->	catch_ex(ns={faultName}, content_st={$pb.st})
 	;
@@ -611,14 +611,16 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 			if(from_part.length>1 && from_part[1]!=null) {
 			    if ($PROP!=null) {
 			    	if ($PROP.text.equals("property")) {
-				    part="";
+				    property="";
 			        	    for (int j=1; j<from_part.length; j++) {//handle multiple part references
-	             		            part+=from_part[j];
-           	   		            if (j<from_part.length-1) part+=".";   
+					//set currentFromPart and remove double colon	             		            
+	             		            property+=from_part[j].replaceFirst(":", "");
+	             		            
+           	   		            if (j<from_part.length-1) property+=".";   
              		               }
 			    	} 
 			    } else {
-			        property=from_part[1];
+			        part=from_part[1].replaceFirst(":", "");
 			    }
 			}
 		    } else {// rhs is not known as var and is not partnerlink (only (extended) expression is now possible)
@@ -627,7 +629,7 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 			 */
 			from = from_part[0]; 
 			isPLorVar=false; 
-			if (from_part[0].contains("[")) {//an extended expression is contained in '[[...]]'
+			if (from_part[0].contains("[")) {//an extended expression is contained in '[...]'
 			    from = from.substring(1, from.length()-1); //remove brackets
 			    isExt=true;
 			}
@@ -656,11 +658,11 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 			if (lhs.length>1 && lhs[1]!=null) {
 			    //if the annotation '@part' is set on lhs assign it to 'tpart', else it is a property and assigned to 'tprop'
 			    if ($lhs_prop!=null && $lhs_prop.equals("property")) {//handle property reference
-			        tprop=lhs[1];
+			        tprop=lhs[1].replaceFirst(":", "");;
 			    } else {//handle part reference
 			        tpart="";
 			        for (int j=1; j<lhs.length; j++) {//handle multiple part references
-             		            tpart+=lhs[j];
+             		            tpart+=lhs[j].replaceFirst(":", "");;
               		            if (j<lhs.length-1) tpart+=".";   
              		        }
 			    }
