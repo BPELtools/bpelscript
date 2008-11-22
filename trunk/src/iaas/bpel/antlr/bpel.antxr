@@ -208,7 +208,7 @@ proc_elt returns [String proc=""] //#####################
 			
 			//2.2.2
 			// put modified import to the map
-			tmp_map.put(mod_import, str_o.substring(9,13)+"::\""+loc+"\";"); 
+			tmp_map.put(mod_import, str_o.substring(9,str_o.trim().length())+"::\""+loc+"\";"); 
 			
 		} else { tmp_map.put(o, attr); }	
 	}
@@ -892,11 +892,10 @@ activity [String rets] returns [String text=""]
     //handle attributes as annotations
     text+=Helper.cvStdAttr(name, supprJF);
     
-    //text+="parallel";
+    text+="parallel";
     
     //handle standard elements if present
-    text+=Helper.cvStdElt(se, text, false);
-    text="parallel"+text;
+    text=Helper.cvStdElt(se, text, false);
     
     //handle content
     text+=" {\n"+act+"\n}";
