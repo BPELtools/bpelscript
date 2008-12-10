@@ -28,8 +28,8 @@
   <faultHandlers>
     <catch faultName="lns:loanProcessFault"
            faultVariable="error"
-           faultMessageType="lns::errorMessage">
-      <reply partnerLink="customer" portType="lns::loanServicePT" operation="request" variable="error" faultName="unableToHandleRequest"/>
+           faultMessageType="lns:errorMessage">
+      <reply partnerLink="customer" portType="lns:loanServicePT" operation="request" variable="error" faultName="unableToHandleRequest"/>
 
     </catch>
   </faultHandlers>
@@ -39,7 +39,7 @@
 
     <flow>
       <sequence>
-        <receive partnerLink="customer" portType="lns::leanServicePT" operation="request" variable="request" createInstance="yes">
+        <receive partnerLink="customer" portType="lns:leanServicePT" operation="request" variable="request" createInstance="yes">
           <sources>
             <source linkName="receive-to-assess">
               <transitionCondition>
@@ -57,7 +57,7 @@
 
       </sequence>
       <sequence>
-        <invoke partnerLink="assessor" portType="lns::riskAssessmentPT" operation="check" outputVariable="risk" inputVariable="request">
+        <invoke partnerLink="assessor" portType="lns:riskAssessmentPT" operation="check" outputVariable="risk" inputVariable="request">
           <targets>
             <target linkName="receive-to-assess"/>
           </targets>
@@ -88,7 +88,7 @@
           <copy>
             <from>
               <literal>
-                "yes"
+                yes
               </literal>
             </from>
             <to variable="approval" part="accept"/>
@@ -96,7 +96,7 @@
         </assign>
       </sequence>
       <sequence>
-        <invoke partnerLink="approver" portType="lns::loanApprovalPT" operation="approve" outputVariable="approval" inputVariable="request">
+        <invoke partnerLink="approver" portType="lns:loanApprovalPT" operation="approve" outputVariable="approval" inputVariable="request">
           <targets>
             <target linkName="receive-to-approval"/>
             <target linkName="assess-to-approval"/>
@@ -109,7 +109,7 @@
 
       </sequence>
       <sequence>
-        <reply partnerLink="customer" portType="lns::loanServicePT" operation="request" variable="approval">
+        <reply partnerLink="customer" portType="lns:loanServicePT" operation="request" variable="approval">
           <targets>
             <target linkName="approval-to-reply"/>
             <target linkName="setMessage-to-reply"/>

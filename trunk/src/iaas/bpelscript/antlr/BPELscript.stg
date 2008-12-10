@@ -306,15 +306,13 @@ aux_var(local) ::=
  *  body_st: the try expression body
  *  catchs: possible empty list of fault handlers
  */
-try_ex(name, pb) ::= 
+try_ex(name, pb, comments) ::= 
 <<
 <taggin(tagname="faultHandlers", 
         content=catch_ex(ns=name, content=pb)
 		)><\n>
 <endif>
 >>
-//<body_st>
-//>>
 
 
 /*
@@ -365,12 +363,12 @@ block(ids, stmts_p, pb) ::=
  * dependencies
  *  respective <rvalue>
  */
-assign(rvalue_st, join, signal, empty, valid, std_attr, real) ::= 
+assign(rvalue_st, join, signal, empty, valid, std_attr, real, comments) ::= 
 <<
 <if (real)>
 <taggin(tagname="assign",
 		incontent=valid+{<if (std_attr)><attribute_base(std_attr=std_attr)><endif>},
-		content=std_aux(join=join,signal=signal)+rvalue_st)>
+		content=doc(comments=comments)+std_aux(join=join,signal=signal)+rvalue_st)>
 <else>
 <rvalue_st>
 <endif>
@@ -413,10 +411,10 @@ assign(rvalue_st, join, signal, empty, valid, std_attr, real) ::=
  *	join, signal: the standard elements
  *	partner, operation, correlation, portType, standard_attributes, createInstance, messageExchange: used by 'attribute_base' template  
  */
-receive(rec_name, pb, rec_tpl, path_st, join, signal, empty, partner, op, portType, std_attr, crt_inst, msgEx, correlation_opt, with_ex)::=  
+receive(rec_name, pb, rec_tpl, path_st, join, signal, empty, partner, op, portType, std_attr, crt_inst, msgEx, correlation_opt, with_ex, comments)::=  
 <<
 <taggin(tagname={<if (rec_name)><rec_name><else>receive<endif>},
-		content=content_base(join=join, signal=signal, empty=empty, tpl=rec_tpl, correlation_opt=correlation_opt, with_ex=with_ex)+{<if(pb)><pb><endif>},
+		content=content_base(join=join, signal=signal, empty=empty, tpl=rec_tpl, correlation_opt=correlation_opt, with_ex=with_ex, comments=comments)+{<if(pb)><pb><endif>},
 		incontent=attribute_base(tpl=rec_tpl, partner=partner, op=op, path_st=path_st, 
 								 portType=portType, std_attr=std_attr, crt_inst=crt_inst, msgEx=msgEx),
 		empty=empty
@@ -434,10 +432,10 @@ receive(rec_name, pb, rec_tpl, path_st, join, signal, empty, partner, op, portTy
  *  op_opt: optional operation
  *  faultvar_opt: optional faultvar
  */
-reply(partner, op, inv, join, signal, empty, portType, std_attr, faultName, msgEx, correlation_opt, with_ex) ::= 
+reply(partner, op, inv, join, signal, empty, portType, std_attr, faultName, msgEx, correlation_opt, with_ex, comments) ::= 
 <<
 <taggin(tagname="reply",
-		content=content_base(join=join, signal=signal, empty=empty, correlation_opt=correlation_opt, with_ex=with_ex),
+		content=content_base(join=join, signal=signal, empty=empty, correlation_opt=correlation_opt, with_ex=with_ex, comments=comments),
 		incontent=attribute_base(partner=partner, op=op, path_st=inv, 
 								 portType=portType, std_attr=std_attr, fault=faultName, msgEx=msgEx),
 		empty=empty
@@ -462,10 +460,10 @@ reply(partner, op, inv, join, signal, empty, portType, std_attr, faultName, msgE
  *  receive_base(partner, op)
  */
 invoke(inv_tpl, path_st, outvar, partner, op, inv, join, signal, empty, portType, std_attr, 
-		correlation_opt, with_ex, faults, compensation) ::=
+		correlation_opt, with_ex, faults, compensation, comments) ::=
 <<
 <taggin(tagname="invoke",
-		content=content_base(join=join, signal=signal, empty=empty, correlation_opt=correlation_opt, with_ex=with_ex)
+		content=content_base(join=join, signal=signal, empty=empty, correlation_opt=correlation_opt, with_ex=with_ex, comments=comments)
 		+{<if (faults)><\n><faults.keys,faults.values,faults_pb:{fault, attr, pb|<catch_ex(ns=fault, incontent=attr, content=pb)>}; separator="\n"><endif>}
 		+{<if(compensation)><\n><compensation><endif>},
 		incontent=attribute_base(tpl=inv_tpl, outvar=outvar, partner=partner, op=op, invar=inv, 
@@ -475,9 +473,9 @@ invoke(inv_tpl, path_st, outvar, partner, op, inv, join, signal, empty, portType
 >>
 
 
-content_base(join, signal, empty, tpl, correlation_opt, with_ex) ::=
+content_base(join, signal, empty, tpl, correlation_opt, with_ex, comments) ::=
 <<
-<if(!empty)><std_aux(join=join, signal=signal)><endif><if(tpl)>
+<if(!empty)><doc(comments=comments)><std_aux(join=join, signal=signal)><endif><if(tpl)>
 <correlation(cors_p=tpl.correlation_opt)><else><correlation(cors_p=correlation_opt)><endif><if(with_ex)>
 <with_ex><endif>
 >>
@@ -664,10 +662,10 @@ join (ids_p,expr_opt) ::=
  *  ns: namespace ifentifier
  *  ext_act: extension content
  */
-ext_act(ext_act, join, signal, std_attr)::=
+ext_act(ext_act, join, signal, std_attr, comments) ::=
 <<
 <taggin(tagname="extensionActivity",
-		content=std_aux(join=join, signal=signal)
+		content=doc(comments=comments)+std_aux(join=join, signal=signal)
 				+"<![CDATA[\n"+ext_act+"\n]]>",
 		incontent=std_attr
 		)><\n>
@@ -684,10 +682,10 @@ ext_act(ext_act, join, signal, std_attr)::=
  *	oms: list of onMessage activities (non-empty at executable processes)
  *	timeouts: list of timeouts
  */
-pick(oms, onalarm, join, signal, empty, crt_inst, std_attr) ::=
+pick(oms, onalarm, join, signal, empty, crt_inst, std_attr, comments) ::=
 <<
 <taggin(tagname="pick",
-		content=std_aux(join=join, signal=signal, empty=empty)
+		content=doc(comments=comments)+std_aux(join=join, signal=signal, empty=empty)
 				+{<oms:{mes| <mes>}; separator="\n"><if (oms)><\n><endif>}
 				+{<onalarm:{to| <to>}; separator="\n">},
 		incontent={<if(crt_inst)><crt_inst><\n><endif><if(std_attr)><std_attr><endif>}
@@ -760,10 +758,10 @@ elsif(ex, ei) ::=
  *  elsif: possible empty list of 'elsif' bodies
  *  else_st: optional 'else' body
  */
-if_ex(iex, seq, eiex, seqei, seqe, join, signal, std_attr) ::=
+if_ex(iex, seq, eiex, seqei, seqe, join, signal, std_attr, comments) ::=
 <<
 <taggin(tagname="if",
-		content=std_aux(join=join, signal=signal)
+		content=doc(comments=comments)+std_aux(join=join, signal=signal)
 				+{<taggin(tagname="condition",content=iex)><\n>}+seq
 				+{<if (seqei)><\n><elsif(ex=eiex, ei=seqei)><endif>}+"\n"
 				+{<if (seqe)><taggin(tagname="else", content=seqe)><endif>},
@@ -774,10 +772,10 @@ if_ex(iex, seq, eiex, seqei, seqe, join, signal, std_attr) ::=
 
 
 ///////////////// Parallel Behavior – Flow ///////////////////////////////////////////////////////
-sequence(content, join, signal, std_attr) ::= 
+sequence(content, join, signal, std_attr, comments) ::= 
 <<
 <taggin(tagname="sequence",
-		content=std_aux(join=join, signal=signal)+content,
+		content=doc(comments)+std_aux(join=join, signal=signal)+content,
 		incontent=std_attr
 		)>
 >>
@@ -788,9 +786,9 @@ scope_sequence(content, join, signal, plinks, messages, vars, cors, faultHdl, fa
 >>
 
 
-flow(sequence, join, signal, std_attr) ::= <<
+flow(sequence, join, signal, std_attr, comments) ::= <<
 <taggin(tagname="flow",
-		content=std_aux(join=join, signal=signal)+{<sequence:{s|<s>};separator="\n">},
+		content=doc(comments=comments)+std_aux(join=join, signal=signal)+{<sequence:{s|<s>};separator="\n">},
 		incontent=std_attr
 		)>
 >>
@@ -806,9 +804,9 @@ flow(sequence, join, signal, std_attr) ::= <<
  *  expr_st: the while expression
  *  body_st: the while body
  */
-while(expr_st, body_st, join, signal, std_attr) ::= <<
+while(expr_st, body_st, join, signal, std_attr, comments) ::= <<
 <taggin(tagname="while",
-		content=std_aux(join=join, signal=signal)
+		content=doc(comments=comments)+std_aux(join=join, signal=signal)
 				+{<taggin(tagname="condition", content=expr_st)><\n><body_st>},
 		incontent=std_attr
 		)>
@@ -823,9 +821,9 @@ while(expr_st, body_st, join, signal, std_attr) ::= <<
  *  expr_st: the while expression
  *  body_st: the while body
  */
-until(expr_st, body_st, join, signal, std_attr) ::= <<
+until(expr_st, body_st, join, signal, std_attr, comments) ::= <<
 <taggin(tagname="repeatUntil",
-		content=std_aux(join=join, signal=signal)
+		content=doc(comments=comments)+std_aux(join=join, signal=signal)
 				+{<body_st><\n><taggin(tagname="condition", content=expr_st)>},
 		incontent=std_attr
 		)>
@@ -843,9 +841,9 @@ until(expr_st, body_st, join, signal, std_attr) ::= <<
  *  assign_st: the loop assignment
  *  body_st: the loop body
  */
-foreach(id, init_st, cond_st, complete, body_st, join, signal, std_attr, parallel, sbo) ::= <<
+foreach(id, init_st, cond_st, complete, body_st, join, signal, std_attr, parallel, sbo, comments) ::= <<
 <taggin(tagname="forEach",
-		content=std_aux(join=join, signal=signal)
+		content=std_aux(join=join, signal=signal)+doc(comments=comments)
 				+{<taggin(tagname="startCounterValue",
 						  content=init_st)><\n><taggin(tagname="finalCounterValue", 
 						 							   content=cond_st)><\n><if(complete)><taggin(tagname="completionCondition", 
@@ -886,9 +884,9 @@ forall(id, from_st, to_st, body_st, join, signal) ::= <<
  *  body_st: the body
  *  stmts: possible empty list of scoped statements
  */
-scope_ex(id_opt, body_st, handler, join, signal, isolated, eosf, std_attr) ::= <<
+scope_ex(id_opt, body_st, handler, join, signal, isolated, eosf, std_attr, comments) ::= <<
 <taggin(tagname="scope",
-		content=std_aux(join=join, signal=signal)
+		content=doc(comments=comments)+std_aux(join=join, signal=signal)
 				+{<body_st><if (handler)><handler:{s|<s>}; separator="\n"><endif>},
 		incontent={<if(isolated)><isolated><\n>       <endif><if(eosf)><eosf><\n>       <endif><if (id_opt)> name="<id_opt>"<endif><std_attr>}
 		)><\n>
@@ -974,24 +972,24 @@ termination(body) ::= <<
 
 exit(join, signal, empty, std_attr) ::= <<
 <taggin(tagname="exit",
-		content=std_aux(join=join, signal=signal),
+		content=doc(comments=comments)+std_aux(join=join, signal=signal),
 		incontent=std_attr,
 		empty=empty
 		)>
 >>
 
 
-throw(ns_pre, ns_loc, join, signal, empty, faultVar, std_attr) ::= <<
+throw(ns_pre, ns_loc, join, signal, empty, faultVar, std_attr, comments) ::= <<
 <taggin(tagname="throw",
-		content=std_aux(join=join, signal=signal),
+		content=doc(comments=comments)+std_aux(join=join, signal=signal),
 		incontent={faultName="<if (ns_pre)><ns_pre>:<endif><ns_loc>"<if(faultVar)><\n> faultVariable="<faultVar>"<endif><if (std_attr)><\n> <std_attr><endif>},
 		empty=empty
 		)>
 >>
 
-rethrow(join, signal, empty,std_attr) ::= <<
+rethrow(join, signal, empty,std_attr, comments) ::= <<
 <taggin(tagname="rethrow",
-		content=std_aux(join=join, signal=signal),
+		content=doc(comments=comments)+std_aux(join=join, signal=signal),
 		incontent=std_attr,
 		empty=empty
 		)>
@@ -1002,40 +1000,40 @@ rethrow(join, signal, empty,std_attr) ::= <<
  * art=for | until
  *
  */
-wait(art, expr, join, signal, empty, std_attr, isWait) ::= 
+wait(art, expr, join, signal, empty, std_attr, isWait, comments) ::= 
 <<
 <if(isWait)>
 <taggin(tagname="wait",
-		content=std_aux(join=join, signal=signal)+{<taggin(tagname=art, content=expr)>},
+		content=doc(comments=comments)+std_aux(join=join, signal=signal)+{<taggin(tagname=art, content=expr)>},
 		incontent=std_attr
 		)>
 <else><taggin(tagname=art, content=expr)><endif>
 >>
 
 
-compensate(id_opt, join, signal, empty, sdt_attr) ::= 
+compensate(id_opt, join, signal, empty, sdt_attr, comments) ::= 
 <<
 <taggin(tagname="compensate"+{<if(id_opt)>Scope<endif>},
-		content=std_aux(join=join, signal=signal),
+		content=doc(comments=comments)+std_aux(join=join, signal=signal),
 		incontent={<if(id_opt)>target="<id_opt>"<endif><if(std_attr)><\n> <std_attr><endif>},
 		empty=empty
 		)>
 >>
 
-nop(join, signal, empty, std_attr) ::= 
+nop(join, signal, empty, std_attr, comments) ::= 
 <<
 <taggin(tagname="empty",
-		content=std_aux(join=join, signal=signal),
+		content=doc(comments=comments)+std_aux(join=join, signal=signal),
 		incontent=std_attr,
 		empty=empty
 		)>
 >>
 
 
-validate(join, signal, empty, std_attr, var) ::=
+validate(join, signal, empty, std_attr, var, comments) ::=
 <<
 <taggin(tagname="validate",
-		content=std_aux(join=join, signal=signal),
+		content=doc(comments=comments)+std_aux(join=join, signal=signal),
 		incontent={variables="<var:{v|<v>};separator=" ">"<\n> }+std_attr,
 		empty=empty
 		)>
@@ -1050,4 +1048,9 @@ variable(id, msgT, viT, viE, with, empty) ::= <<
 
 faultElt(name) ::= <<
 <\n>       faultElement=<name>
+>>
+
+doc(comments) ::= <<
+<if(comments)><taggin(tagname="documentation",
+		content=comments)><\n><endif>
 >>

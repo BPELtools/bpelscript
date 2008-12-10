@@ -11,7 +11,7 @@
     <catch faultName="pns:loanProcessFault"
            faultVariable="lPF_exc"
            faultMessageType="msgType">
-      <reply partnerLink="customer" portType="lns::loanServicePT" operation="request" variable="error" faultName="unableToHandleReqeust"/>
+      <reply partnerLink="customer" portType="lns:loanServicePT" operation="request" variable="error" faultName="unableToHandleReqeust"/>
 
     </catch>
   </faultHandlers>

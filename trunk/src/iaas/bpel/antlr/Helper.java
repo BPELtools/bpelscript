@@ -16,6 +16,8 @@
 
 package iaas.bpel.antlr;
 
+import java.util.List;
+
 
 public class Helper {
 
@@ -187,6 +189,35 @@ public class Helper {
 		}	
 		
 		return retval;
+	}
+	
+	/**
+	 * translates a BPEL documentation to its corresponding BPELscript comment
+	 * 
+	 * to translate a BPEL documentation one has 
+	 *  (a) trim the PCDATA string to remove leading whitespaces
+	 *  (b) for each line:
+	 *    (b.1) add "//"
+	 *    (b.2) trim the line to remove leading whitespaces (respective to its depth)
+	 *    (b.3) add closing newline
+	 * 
+	 * @param sth
+	 * @return parsedComment String
+	 */
+	public static String parseComment(String sth) {
+		
+		sth=sth.trim();
+		
+		// split using newline regex
+		String[] strComment = sth.split("\n");
+		// prepare return
+		String strRet="";
+		
+		// translate each line to remove its leading whitespaces (adding "//", trim() and newline)
+		for (String crt : strComment) {
+			strRet+="//"+crt.trim()+"\n";
+		}
+		return strRet;
 	}
 	
 }

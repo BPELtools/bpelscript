@@ -15,7 +15,7 @@
       <copy>
         <from>
           <literal>
-            "yes"
+            yes
           </literal>
         </from>
         <to variable="approval" part="accept"/>

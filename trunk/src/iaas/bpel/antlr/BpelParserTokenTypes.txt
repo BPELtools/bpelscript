@@ -74,4 +74,5 @@ PCDATA=43
 "<terminationHandler>"=75
 "<query>"=76
 "<literal>"=77
-OTHER_TAG=78
+"<documentation>"=78
+OTHER_TAG=79

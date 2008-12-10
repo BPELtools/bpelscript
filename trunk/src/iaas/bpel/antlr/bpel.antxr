@@ -458,10 +458,13 @@ activity [String rets] returns [String text=""]
     String mex = @messageExchange;
     String name = @name; BpelBoolean dpe = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
-    String se=null; String ret=""; String cors="";;String content="";String fr="";
+    String se=null; String ret=""; String cors="";;String content="";String fr="";String doc="";
   }
-  : se=std_elts (cors=<correlations>)? (fr=<fromParts>)?
+  : (doc=<documentation>)? se=std_elts (cors=<correlations>)? (fr=<fromParts>)?
   { 	
+  	//handle comment
+  	text+=doc;
+  	
   	//handle attributes as annotations
   	text+=Helper.cvAttr("portType", pt);
   	text+=Helper.cvBoolAttr("createInstance", ci);
@@ -497,10 +500,13 @@ activity [String rets] returns [String text=""]
     String mex = @messageExchange;
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
-    String content=""; String se=""; String cor=null; String to="";
+    String content=""; String se=""; String cor=null; String to="";String doc="";
   }
-  : se=std_elts (cor=<correlations>)? (to=<toParts>)?
+  : (doc=<documentation>)? se=std_elts (cor=<correlations>)? (to=<toParts>)?
   {
+    //handle doc
+    text+=doc;
+    
     //handle attributes as annotations
   	text+=Helper.cvAttr("portType", pt);
     text+=Helper.cvAttr("faultName", fault);
@@ -536,14 +542,17 @@ activity [String rets] returns [String text=""]
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
     String se=""; String content=""; String cor=""; String ca="";String cc="";
-    String fr=""; String ch=""; String to="";
+    String fr=""; String ch=""; String to=""; String doc="";
   }
-  : se=std_elts (cor=<correlations>)? (cc=<catch>[ca])* (ca=<catchAll>)? (ch=<compensationHandler>)? (to=<toParts>)? (fr=<fromParts>)?
+  : (doc=<documentation>)? se=std_elts (cor=<correlations>)? (cc=<catch>[ca])* (ca=<catchAll>)? (ch=<compensationHandler>)? (to=<toParts>)? (fr=<fromParts>)?
   {
     //if catchs are present enclose with a try statement
     if (cc!=null && !cc.isEmpty() || ca!=null && !ca.isEmpty()) {
       text+="try {\n";
     }
+    
+    //handle comment
+    text+=doc;
     
     //handle attributes as annotations
   	text+=Helper.cvAttr("portType", pt);
@@ -586,9 +595,9 @@ activity [String rets] returns [String text=""]
     BpelBoolean val = BpelBoolean.toBpelBoolean(@validate);
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
-    String se="";String copy=""; String eAOp ="";
+    String se="";String copy=""; String eAOp ="";String doc="";
   }
-  : se=std_elts 
+  : (doc=<documentation>)? se=std_elts 
   (
   	{//handle attributes of multiple copy/eAOp
   	 if (copy!=null && !copy.isEmpty()) copy+=Helper.cvBoolAttr("validate", val)+Helper.cvStdAttr(name, supprJF);
@@ -597,6 +606,9 @@ activity [String rets] returns [String text=""]
   	copy=<copy>[copy] | eAOp=<extensionAssignOperation>[eAOp]
   )+
   {
+    //handle comments
+    text+=doc;
+  
     //handle attributes
     text+=Helper.cvBoolAttr("validate", val);
     text+=Helper.cvStdAttr(name, supprJF);
@@ -620,9 +632,13 @@ activity [String rets] returns [String text=""]
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
     String se=""; //standard elements
+    String doc="";
   }
-  : se=std_elts
+  : (doc=<documentation>)? se=std_elts
   {
+    //handle comment
+    text+=doc;
+  
     //handle attributes
     text+=Helper.cvAttr("faultVariable", faultVar);
     text+=Helper.cvStdAttr(name, supprJF);
@@ -642,10 +658,13 @@ activity [String rets] returns [String text=""]
   {
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
-    String se="";
+    String se=""; String doc="";
   }
-  : se=std_elts
+  : (doc=<documentation>)? se=std_elts
   {
+    //handle comment
+    text+=doc;
+  
     //handle attributes
     text+=Helper.cvStdAttr(name, supprJF);
     
@@ -662,10 +681,13 @@ activity [String rets] returns [String text=""]
   {    
   	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
   	//
-    String se=""; String cond="";
+    String se=""; String cond="";String doc="";
   }
-  : se=std_elts (cond=<for> | cond=<until>)
+  : (doc=<documentation>)? se=std_elts (cond=<for> | cond=<until>)
   {
+    //handle comment
+    text+=doc;
+  
   	//handle attributes
     text+=Helper.cvStdAttr(name, supprJF);
     
@@ -684,10 +706,13 @@ activity [String rets] returns [String text=""]
   {    
   	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
   	//
-    String se="";
+    String se="";String doc="";
   }
-  : se=std_elts
+  : (doc=<documentation>)? se=std_elts
   { 
+    //handle comment
+    text+=doc;
+  
   	//handle attributes
     text+=Helper.cvStdAttr(name, supprJF);
     
@@ -704,10 +729,13 @@ activity [String rets] returns [String text=""]
   {    
   	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
   	//
-    String se=""; String ac="";
+    String se=""; String ac="";String doc="";
   }
-  : se=std_elts (ac=activity[ac])+
+  : (doc=<documentation>)? se=std_elts (ac=activity[ac])+
   {
+    //handle comment
+    text+=doc;
+  
   	//handle attributes
     text+=Helper.cvStdAttr(name, supprJF);
     
@@ -724,10 +752,13 @@ activity [String rets] returns [String text=""]
   {    
   	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
   	//
-    String se=""; String ac=""; String expr=""; String elsi=""; String els="";
+    String se=""; String ac=""; String expr=""; String elsi=""; String els=""; String doc="";
   }
-  : se=std_elts expr=<condition> ac=activity[ac] (elsi=<elseif>[elsi])* (els=<else>)?
+  : (doc=<documentation>)? se=std_elts expr=<condition> ac=activity[ac] (elsi=<elseif>[elsi])* (els=<else>)?
   {
+    //handle comment
+    text+=doc;
+  
   	//handle attributes
     text+=Helper.cvStdAttr(name, supprJF);
      	
@@ -756,10 +787,13 @@ activity [String rets] returns [String text=""]
   { 
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
    	//
-    String se=""; String ac=""; String cond="";
+    String se=""; String ac=""; String cond="";String doc="";
   }
-  : se=std_elts cond=<condition> ac=activity[ac]
+  : (doc=<documentation>)? se=std_elts cond=<condition> ac=activity[ac]
   {
+    //handle comment
+    text+=doc;
+  
   	//handle attributes
     text+=Helper.cvStdAttr(name, supprJF);
     
@@ -775,10 +809,13 @@ activity [String rets] returns [String text=""]
   {    
   	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
   	//
-    String se=""; String ac=""; String cond="";
+    String se=""; String ac=""; String cond="";String doc="";
   }
-  : se=std_elts ac=activity[ac] cond=<condition>
+  : (doc=<documentation>)? se=std_elts ac=activity[ac] cond=<condition>
   {
+    //handle comment
+    text+=doc;
+  
   	//handle attributes
     text+=Helper.cvStdAttr(name, supprJF);
     
@@ -796,10 +833,13 @@ activity [String rets] returns [String text=""]
     BpelBoolean parallel = BpelBoolean.toBpelBoolean(@parallel);
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
-    String se=""; String sc=""; String sCount=""; String fCount=""; String[] cC=null; String content="";
+    String se=""; String sc=""; String sCount=""; String fCount=""; String[] cC=null; String content="";String doc="";
   }
-  : se=std_elts sCount=<startCounterValue> fCount=<finalCounterValue> (cC=<completionCondition>)? sc=<scope>[true]
+  : (doc=<documentation>)? se=std_elts sCount=<startCounterValue> fCount=<finalCounterValue> (cC=<completionCondition>)? sc=<scope>[true]
   {
+    //handle comment
+    text+=doc;
+  
     //handle attributes
     text+=Helper.cvBoolAttr("parallel", parallel);
     
@@ -830,10 +870,13 @@ activity [String rets] returns [String text=""]
     String name = @name; BpelBoolean dpe = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
     String se=""; String onM=""; String oA="";
-    String ci="";
+    String ci="";String doc="";
   }
-  : se=std_elts (onM=<onMessage>[onM])+ (oA=<onAlarm>[oA, true])*
+  : (doc=<documentation>)? se=std_elts (onM=<onMessage>[onM])+ (oA=<onAlarm>[oA, true])*
   {
+    //handle comment
+    text+=doc;
+  
     //handle attributes
     text+=Helper.cvBoolAttr("createInstance", crtInst);
     text+=Helper.cvStdAttr(name, dpe);
@@ -884,11 +927,14 @@ activity [String rets] returns [String text=""]
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
     String content="";
-    String se="";
+    String se="";String doc="";
     String act="";
-  }				//links are not supported in BPELscript
-  : se=std_elts (<links>)? ({if (!act.isEmpty()) act+="} and {\n";} act=activity[act] )+
+  }				//links-tag are not supported in BPELscript
+  : (doc=<documentation>)? se=std_elts (<links>)? ({if (!act.isEmpty()) act+="} and {\n";} act=activity[act] )+
   {
+    //handle comment
+    text+=doc;
+  
     //handle attributes as annotations
     text+=Helper.cvStdAttr(name, supprJF);
     
@@ -910,12 +956,15 @@ activity [String rets] returns [String text=""]
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
     String se=""; String fh=""; String var=""; String pl=""; String mex=""; 
-    String ac=""; String cor="";String ch="";String eh="";String th="";
+    String ac=""; String cor="";String ch="";String eh="";String th=""; String doc="";
   }
-  : se=std_elts (pl=<partnerLinks>)? (mex=<messageExchanges>)? (var=<variables>)? (fh=<faultHandlers>)?
+  : (doc=<documentation>)? se=std_elts (pl=<partnerLinks>)? (mex=<messageExchanges>)? (var=<variables>)? (fh=<faultHandlers>)?
   (cor=<correlationSets>)? (ch=<compensationHandler>)? (th=<terminationHandler>)? (eh=<eventHandlers>)? 
   ac=activity[ac]
   {
+    //handle comment
+    text+=doc;
+  
     //handle attributes as annotations
   	text+=Helper.cvBoolAttr("isolated", isolated);
   	text+=Helper.cvBoolAttr("exitOnStandardFault", exitOnStdFault);
@@ -953,10 +1002,13 @@ activity [String rets] returns [String text=""]
   {
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
-    String se="";
+    String se="";String doc="";
   }
-  : se=std_elts
+  : (doc=<documentation>)? se=std_elts
   {
+    //handle comment
+    text+=doc;
+  
   	//handle attributes as annotations
   	text+=Helper.cvStdAttr(name, supprJF);
   
@@ -994,10 +1046,13 @@ activity [String rets] returns [String text=""]
   {
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
-    String se="";
+    String se="";String doc="";
   }
-  : se=std_elts
+  : (doc=<documentation>)? se=std_elts
   {
+    //handle doc
+    text+=doc;
+  
   	//handle attributes as annotations
   	text+=Helper.cvStdAttr(name, supprJF);
   	
@@ -1013,10 +1068,13 @@ activity [String rets] returns [String text=""]
     String vars = @variables;
     String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
-    String se="";
+    String se="";String doc="";
   }
-  : se=std_elts
+  : (doc=<documentation>)? se=std_elts
   {
+    //handle doc
+    text+=doc;
+  
     //handle attributes as annotations
     text+=Helper.cvStdAttr(name, supprJF);
     
@@ -1037,10 +1095,13 @@ activity [String rets] returns [String text=""]
   	String name = @name; BpelBoolean supprJF = BpelBoolean.toBpelBoolean(@suppressJoinFailure); //standard attributes
     //
     String se="";
-    String tg=""; String sc="";
+    String tg=""; String sc=""; String doc="";
   }
-  : se=std_elts (tg=<targets>)? (sc=<sources>)? ExtAct:PCDATA
+  : (doc=<documentation>)? se=std_elts (tg=<targets>)? (sc=<sources>)? ExtAct:PCDATA
   { 
+    //handle comment
+    text+=doc;
+  
   	//handle attributes as annotations
   	text+=Helper.cvStdAttr(name, supprJF);
   	
@@ -1518,10 +1579,17 @@ std_elts returns [String text=""]
 <literal> returns [String text=""]
   : literalValue:PCDATA 
   {
-  	text+=literalValue.getText().trim();
+  	text+="\""+literalValue.getText().trim()+"\"";
   }
   ;
   
+  
+<documentation> returns [String text=""]
+  : docValue:PCDATA 
+  {
+  	text+=Helper.parseComment(docValue.getText());
+  }
+  ;  
     
 // Support of wildcards  ###########################################
 otherTag
