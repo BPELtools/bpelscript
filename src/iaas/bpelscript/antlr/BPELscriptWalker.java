@@ -1,4 +1,4 @@
-// $ANTLR 3.1b2 /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g 2008-11-22 16:13:05
+// $ANTLR 3.1b2 /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g 2008-12-10 11:47:58
 
 /*
  * Copyright 2008 Marc Bischof 
@@ -17,6 +17,8 @@
  * limitations under the License.
  */
 package iaas.bpelscript.antlr;
+
+import antlr.CommonASTWithHiddenTokens;
 
 
 import org.antlr.runtime.*;
@@ -312,6 +314,58 @@ public class BPELscriptWalker extends TreeParser {
     }
 
 
+    /**
+         * looks for hidden token in front of STMT
+         *
+         * Comments are HiddenToken marked by the lexer.
+         * The parser can access them by looking in front of the tokenstream.
+         * If a HiddenToken in front of an activity starts with "//" or "#" we found a comment.
+         * In case of multiline comments we have to look all HiddenToken in front off the activity.
+         * 
+         * @param stmt
+         * @return HiddenTokenCommentsList
+         */
+        public List<String> getComments (TreeRuleReturnScope stmt) {
+                
+                // get token stream
+                CommonTokenStream ts = (CommonTokenStream) input.getTokenStream(); 
+                // get tree for STMT
+                CommonTree ct = new CommonTree((CommonTree) stmt.start);
+
+                // get start/stop indices from tree
+                int startidx = ct.getTokenStartIndex()-1;
+                int stopidx = ct.getTokenStopIndex()-1;
+                
+                // get token from token stream
+                List<?> l = ts.getTokens(startidx, stopidx);
+                CommonToken cto = (CommonToken) l.get(0);
+                
+                // prepare return
+                List<String> ls = new ArrayList<String>();
+                
+                // look for HIDDEN_CHANNEL token in front of STMT beginning with '//' or '#'
+                while ((cto.getText().contains("//") | cto.getText().contains("#"))&& cto.getChannel()==HIDDEN) {
+                	// fetch current comment
+                	String crtStr = cto.getText();
+                	// remove commentchar(s)
+                	if (crtStr.contains("//")) crtStr=crtStr.substring(2);
+                	else if (crtStr.contains("#")) crtStr=crtStr.substring(1);
+                	
+                	//remove /n of first comment (we are looking in reverse order and therefore, the first here is the last in BPEL)
+                	if (ls.isEmpty()) crtStr=crtStr.trim();
+                	
+                	// add comment token at begin of the list (we are looking in reverse order)
+                	ls.add(0, crtStr);
+                	// expand the window to lo for comments
+                	l = ts.getTokens(--startidx, stopidx);
+                	// get new token
+                	cto = (CommonToken) l.get(0);
+                }
+                return ls;
+            }
+
+
+
     public static class program_return extends TreeRuleReturnScope {
         public StringTemplate st;
         public Object getTemplate() { return st; }
@@ -319,7 +373,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "program"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:101:1: program : ^( ROOT (decls+= declaration )+ ) -> list(content_st=$decls);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:155:1: program : ^( ROOT (decls+= declaration )+ ) -> list(content_st=$decls);
     public final BPELscriptWalker.program_return program() throws RecognitionException {
         BPELscriptWalker.program_return retval = new BPELscriptWalker.program_return();
         retval.start = input.LT(1);
@@ -327,13 +381,13 @@ public class BPELscriptWalker extends TreeParser {
         List list_decls=null;
         RuleReturnScope decls = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:102:2: ( ^( ROOT (decls+= declaration )+ ) -> list(content_st=$decls))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:102:4: ^( ROOT (decls+= declaration )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:156:2: ( ^( ROOT (decls+= declaration )+ ) -> list(content_st=$decls))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:156:4: ^( ROOT (decls+= declaration )+ )
             {
             match(input,ROOT,FOLLOW_ROOT_in_program115); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:102:16: (decls+= declaration )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:156:16: (decls+= declaration )+
             int cnt1=0;
             loop1:
             do {
@@ -347,7 +401,7 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt1) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:102:16: decls+= declaration
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:156:16: decls+= declaration
             	    {
             	    pushFollow(FOLLOW_declaration_in_program119);
             	    decls=declaration();
@@ -375,7 +429,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 104:2: -> list(content_st=$decls)
+            // 158:2: -> list(content_st=$decls)
             {
                 retval.st = templateLib.getInstanceOf("list",
               new STAttrMap().put("content_st", list_decls));
@@ -402,7 +456,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "declaration"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:107:1: declaration : ( process -> decl(name_st=$process.st) | sub_declaration );
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:161:1: declaration : ( process -> decl(name_st=$process.st) | sub_declaration );
     public final BPELscriptWalker.declaration_return declaration() throws RecognitionException {
         BPELscriptWalker.declaration_return retval = new BPELscriptWalker.declaration_return();
         retval.start = input.LT(1);
@@ -411,7 +465,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:108:2: ( process -> decl(name_st=$process.st) | sub_declaration )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:162:2: ( process -> decl(name_st=$process.st) | sub_declaration )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -429,7 +483,7 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt2) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:108:4: process
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:162:4: process
                     {
                     pushFollow(FOLLOW_process_in_declaration148);
                     process1=process();
@@ -439,7 +493,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
                     // TEMPLATE REWRITE
-                    // 108:12: -> decl(name_st=$process.st)
+                    // 162:12: -> decl(name_st=$process.st)
                     {
                         retval.st = templateLib.getInstanceOf("decl",
                       new STAttrMap().put("name_st", (process1!=null?process1.st:null)));
@@ -449,7 +503,7 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:109:4: sub_declaration
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:163:4: sub_declaration
                     {
                     pushFollow(FOLLOW_sub_declaration_in_declaration163);
                     sub_declaration();
@@ -479,13 +533,13 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "sub_declaration"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:112:1: sub_declaration : ( namespace | extension | imports );
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:166:1: sub_declaration : ( namespace | extension | imports );
     public final BPELscriptWalker.sub_declaration_return sub_declaration() throws RecognitionException {
         BPELscriptWalker.sub_declaration_return retval = new BPELscriptWalker.sub_declaration_return();
         retval.start = input.LT(1);
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:113:2: ( namespace | extension | imports )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:167:2: ( namespace | extension | imports )
             int alt3=3;
             switch ( input.LA(1) ) {
             case NAMESPACE:
@@ -512,7 +566,7 @@ public class BPELscriptWalker extends TreeParser {
 
             switch (alt3) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:113:4: namespace
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:167:4: namespace
                     {
                     pushFollow(FOLLOW_namespace_in_sub_declaration175);
                     namespace();
@@ -523,7 +577,7 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:113:16: extension
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:167:16: extension
                     {
                     pushFollow(FOLLOW_extension_in_sub_declaration179);
                     extension();
@@ -534,7 +588,7 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:113:28: imports
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:167:28: imports
                     {
                     pushFollow(FOLLOW_imports_in_sub_declaration183);
                     imports();
@@ -564,7 +618,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "process"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:116:1: process : ^( PROCESS ns= ns_id block[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( eventHdl )? (queryLg= STRING )? (exprLg= STRING )? ( SJF )? ( EOSF )? std_attr (j+= join )? (s+= signal )* ) -> process(name=$ns.nsloctns=glob_ns.get($ns.nspre)local=loc_nscontent_st=$block.stqueryLg=$queryLgexprLg=$exprLgsjf=$SJFeOSF=$EOSFexts=extensionsimports=importsplinks_p=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbeventHdl=$eventHdl.ststd_attr=$std_attr.stjoin=$jsignal=$s);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:170:1: process : ^( PROCESS ns= ns_id block[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( eventHdl )? (queryLg= STRING )? (exprLg= STRING )? ( SJF )? ( EOSF )? std_attr (j+= join )? (s+= signal )* ) -> process(name=$ns.nsloctns=glob_ns.get($ns.nspre)local=loc_nscontent_st=$block.stqueryLg=$queryLgexprLg=$exprLgsjf=$SJFeOSF=$EOSFexts=extensionsimports=importsplinks_p=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbeventHdl=$eventHdl.ststd_attr=$std_attr.stjoin=$jsignal=$s);
     public final BPELscriptWalker.process_return process() throws RecognitionException {
         BPELscriptWalker.process_return retval = new BPELscriptWalker.process_return();
         retval.start = input.LT(1);
@@ -596,8 +650,8 @@ public class BPELscriptWalker extends TreeParser {
         HashMap<String, StringTemplate> _faults_pb = new HashMap<String, StringTemplate>();
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:127:2: ( ^( PROCESS ns= ns_id block[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( eventHdl )? (queryLg= STRING )? (exprLg= STRING )? ( SJF )? ( EOSF )? std_attr (j+= join )? (s+= signal )* ) -> process(name=$ns.nsloctns=glob_ns.get($ns.nspre)local=loc_nscontent_st=$block.stqueryLg=$queryLgexprLg=$exprLgsjf=$SJFeOSF=$EOSFexts=extensionsimports=importsplinks_p=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbeventHdl=$eventHdl.ststd_attr=$std_attr.stjoin=$jsignal=$s))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:127:4: ^( PROCESS ns= ns_id block[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( eventHdl )? (queryLg= STRING )? (exprLg= STRING )? ( SJF )? ( EOSF )? std_attr (j+= join )? (s+= signal )* )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:181:2: ( ^( PROCESS ns= ns_id block[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( eventHdl )? (queryLg= STRING )? (exprLg= STRING )? ( SJF )? ( EOSF )? std_attr (j+= join )? (s+= signal )* ) -> process(name=$ns.nsloctns=glob_ns.get($ns.nspre)local=loc_nscontent_st=$block.stqueryLg=$queryLgexprLg=$exprLgsjf=$SJFeOSF=$EOSFexts=extensionsimports=importsplinks_p=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbeventHdl=$eventHdl.ststd_attr=$std_attr.stjoin=$jsignal=$s))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:181:4: ^( PROCESS ns= ns_id block[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( eventHdl )? (queryLg= STRING )? (exprLg= STRING )? ( SJF )? ( EOSF )? std_attr (j+= join )? (s+= signal )* )
             {
             match(input,PROCESS,FOLLOW_PROCESS_in_process200); 
 
@@ -612,7 +666,7 @@ public class BPELscriptWalker extends TreeParser {
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:127:78: ( eventHdl )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:181:78: ( eventHdl )?
             int alt4=2;
             int LA4_0 = input.LA(1);
 
@@ -621,7 +675,7 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt4) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:127:78: eventHdl
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:181:78: eventHdl
                     {
                     pushFollow(FOLLOW_eventHdl_in_process209);
                     eventHdl5=eventHdl();
@@ -634,7 +688,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:11: (queryLg= STRING )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:11: (queryLg= STRING )?
             int alt5=2;
             int LA5_0 = input.LA(1);
 
@@ -643,7 +697,7 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt5) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:11: queryLg= STRING
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:11: queryLg= STRING
                     {
                     queryLg=(CommonTree)match(input,STRING,FOLLOW_STRING_in_process218); 
 
@@ -652,7 +706,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:26: (exprLg= STRING )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:26: (exprLg= STRING )?
             int alt6=2;
             int LA6_0 = input.LA(1);
 
@@ -661,7 +715,7 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt6) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:26: exprLg= STRING
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:26: exprLg= STRING
                     {
                     exprLg=(CommonTree)match(input,STRING,FOLLOW_STRING_in_process223); 
 
@@ -670,7 +724,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:35: ( SJF )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:35: ( SJF )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -679,7 +733,7 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt7) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:35: SJF
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:35: SJF
                     {
                     SJF3=(CommonTree)match(input,SJF,FOLLOW_SJF_in_process226); 
 
@@ -688,7 +742,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:40: ( EOSF )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:40: ( EOSF )?
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -697,7 +751,7 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt8) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:40: EOSF
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:40: EOSF
                     {
                     EOSF4=(CommonTree)match(input,EOSF,FOLLOW_EOSF_in_process229); 
 
@@ -711,7 +765,7 @@ public class BPELscriptWalker extends TreeParser {
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:56: (j+= join )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:56: (j+= join )?
             int alt9=2;
             int LA9_0 = input.LA(1);
 
@@ -720,7 +774,7 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt9) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:56: j+= join
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:56: j+= join
                     {
                     pushFollow(FOLLOW_join_in_process236);
                     j=join();
@@ -736,7 +790,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:65: (s+= signal )*
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:65: (s+= signal )*
             loop10:
             do {
                 int alt10=2;
@@ -749,7 +803,7 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt10) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:128:65: s+= signal
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:182:65: s+= signal
             	    {
             	    pushFollow(FOLLOW_signal_in_process241);
             	    s=signal();
@@ -776,7 +830,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 138:2: -> process(name=$ns.nsloctns=glob_ns.get($ns.nspre)local=loc_nscontent_st=$block.stqueryLg=$queryLgexprLg=$exprLgsjf=$SJFeOSF=$EOSFexts=extensionsimports=importsplinks_p=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbeventHdl=$eventHdl.ststd_attr=$std_attr.stjoin=$jsignal=$s)
+            // 192:2: -> process(name=$ns.nsloctns=glob_ns.get($ns.nspre)local=loc_nscontent_st=$block.stqueryLg=$queryLgexprLg=$exprLgsjf=$SJFeOSF=$EOSFexts=extensionsimports=importsplinks_p=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbeventHdl=$eventHdl.ststd_attr=$std_attr.stjoin=$jsignal=$s)
             {
                 retval.st = templateLib.getInstanceOf("process",
               new STAttrMap().put("name", (ns!=null?ns.nsloc:null)).put("tns", glob_ns.get((ns!=null?ns.nspre:null))).put("local", loc_ns).put("content_st", (block2!=null?block2.st:null)).put("queryLg", queryLg).put("exprLg", exprLg).put("sjf", SJF3).put("eOSF", EOSF4).put("exts", extensions).put("imports", imports).put("plinks_p", _pl).put("messages", _messages).put("vars", _vars).put("cors", _cs).put("faultHdl", _faults).put("faultHdl_pb", _faults_pb).put("eventHdl", (eventHdl5!=null?eventHdl5.st:null)).put("std_attr", (std_attr6!=null?std_attr6.st:null)).put("join", list_j).put("signal", list_s));
@@ -803,25 +857,25 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "proc_stmts"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:146:1: proc_stmts[Boolean isInScope, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb] : ^( PROC_STMTS (j+= join )? (s+= signal )* proc_stmt[$j, $s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb] ) -> list(content_st=$proc_stmt.st);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:200:1: proc_stmts[Boolean isInScope, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb] : ^( PROC_STMTS (j+= join )? (s+= signal )* p= proc_stmt[$j, $s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb] ) -> list(content_st=$proc_stmt.st);
     public final BPELscriptWalker.proc_stmts_return proc_stmts(Boolean isInScope, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
         BPELscriptWalker.proc_stmts_return retval = new BPELscriptWalker.proc_stmts_return();
         retval.start = input.LT(1);
 
         List list_j=null;
         List list_s=null;
-        BPELscriptWalker.proc_stmt_return proc_stmt7 = null;
+        BPELscriptWalker.proc_stmt_return p = null;
 
         RuleReturnScope j = null;
         RuleReturnScope s = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:148:2: ( ^( PROC_STMTS (j+= join )? (s+= signal )* proc_stmt[$j, $s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb] ) -> list(content_st=$proc_stmt.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:148:4: ^( PROC_STMTS (j+= join )? (s+= signal )* proc_stmt[$j, $s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb] )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:202:2: ( ^( PROC_STMTS (j+= join )? (s+= signal )* p= proc_stmt[$j, $s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb] ) -> list(content_st=$proc_stmt.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:202:4: ^( PROC_STMTS (j+= join )? (s+= signal )* p= proc_stmt[$j, $s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb] )
             {
             match(input,PROC_STMTS,FOLLOW_PROC_STMTS_in_proc_stmts412); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:148:18: (j+= join )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:202:18: (j+= join )?
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -830,7 +884,7 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt11) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:148:18: j+= join
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:202:18: j+= join
                     {
                     pushFollow(FOLLOW_join_in_proc_stmts416);
                     j=join();
@@ -846,7 +900,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:148:27: (s+= signal )*
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:202:27: (s+= signal )*
             loop12:
             do {
                 int alt12=2;
@@ -859,7 +913,7 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt12) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:148:27: s+= signal
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:202:27: s+= signal
             	    {
             	    pushFollow(FOLLOW_signal_in_proc_stmts421);
             	    s=signal();
@@ -878,8 +932,8 @@ public class BPELscriptWalker extends TreeParser {
                 }
             } while (true);
 
-            pushFollow(FOLLOW_proc_stmt_in_proc_stmts424);
-            proc_stmt7=proc_stmt(list_j, list_s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb);
+            pushFollow(FOLLOW_proc_stmt_in_proc_stmts426);
+            p=proc_stmt(list_j, list_s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             state._fsp--;
 
@@ -888,10 +942,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 149:2: -> list(content_st=$proc_stmt.st)
+            // 203:2: -> list(content_st=$proc_stmt.st)
             {
                 retval.st = templateLib.getInstanceOf("list",
-              new STAttrMap().put("content_st", (proc_stmt7!=null?proc_stmt7.st:null)));
+              new STAttrMap().put("content_st", (p!=null?p.st:null)));
             }
 
 
@@ -915,59 +969,62 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "proc_stmt"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:152:1: proc_stmt[List join, List signal, Boolean isInScope, HashMap<String, String> _vars, HashMap<String, String> _pl, \n\t\tHashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ( pick[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$pick.st) | flow[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$flow.st) | if_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$if_ex.st) | while_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$while_ex.st) | until_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$until_ex.st) | foreach[join, signal] -> list(content_st=$foreach.st) | try_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] -> list(content_st=$try_ex.st) | scope_ex[join, signal] -> list(content_st=$scope_ex.st) | receive[join, signal, empty] -> list(content_st=$receive.st) | invoke[join, signal, empty, _faults, _faults_pb] -> list(content_st=$invoke.st) | reply[join, signal, empty] -> list(content_st=$reply.st) | assign[join, signal, empty, _vars, _pl, null, null] -> list(content_st=$assign.st) | throw_ex[join, signal, empty] -> list(content_st=$throw_ex.st) | rethrow_ex[join, signal, empty] -> list(content_st=$rethrow_ex.st) | alarm[join, signal, empty, true] -> list(content_st=$alarm.st) | timeout[join, signal, empty, true] -> list(content_st=$timeout.st) | exit[join, signal, empty] -> list(content_st=$exit.st) | variables[_vars, isInScope] | validate[join, signal, empty, _vars] -> list(content_st=$validate.st) | pl= partnerlinks[_pl, isInScope] | compensate[join, signal, empty] -> list(content_st=$compensate.st) | ext_act[join, signal] -> list(content_st=$ext_act.st) | nop[join, signal, empty] -> list(content_st=$nop.st) | messages[_messages, isInScope] | corr_sets[_cs, isInScope] );
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:206:1: proc_stmt[List join, List signal, Boolean isInScope, HashMap<String, String> _vars, HashMap<String, String> _pl, \n\t\tHashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ( pick[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$pick.st) | flow[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$flow.st) | if_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$if_ex.st) | while_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$while_ex.st) | until_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$until_ex.st) | foreach[join, signal, comments] -> list(content_st=$foreach.st) | try_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope, comments] -> list(content_st=$try_ex.st) | scope_ex[join, signal, comments] -> list(content_st=$scope_ex.st) | receive[join, signal, empty, comments] -> list(content_st=$receive.st) | invoke[join, signal, empty, _faults, _faults_pb, comments] -> list(content_st=$invoke.st) | reply[join, signal, empty, comments] -> list(content_st=$reply.st) | assign[join, signal, empty, _vars, _pl, null, null, comments] -> list(content_st=$assign.st) | throw_ex[join, signal, empty, comments] -> list(content_st=$throw_ex.st) | rethrow_ex[join, signal, empty, comments] -> list(content_st=$rethrow_ex.st) | alarm[join, signal, empty, true, comments] -> list(content_st=$alarm.st) | timeout[join, signal, empty, true, comments] -> list(content_st=$timeout.st) | exit[join, signal, empty, comments] -> list(content_st=$exit.st) | variables[_vars, isInScope, comments] | validate[join, signal, empty, _vars, comments] -> list(content_st=$validate.st) | pl= partnerlinks[_pl, isInScope, comments] | compensate[join, signal, empty, comments] -> list(content_st=$compensate.st) | ext_act[join, signal, comments] -> list(content_st=$ext_act.st) | nop[join, signal, empty, comments] -> list(content_st=$nop.st) | messages[_messages, isInScope, comments] | corr_sets[_cs, isInScope, comments] );
     public final BPELscriptWalker.proc_stmt_return proc_stmt(List join, List signal, Boolean isInScope, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
         BPELscriptWalker.proc_stmt_return retval = new BPELscriptWalker.proc_stmt_return();
         retval.start = input.LT(1);
 
         BPELscriptWalker.partnerlinks_return pl = null;
 
-        BPELscriptWalker.pick_return pick8 = null;
+        BPELscriptWalker.pick_return pick7 = null;
 
-        BPELscriptWalker.flow_return flow9 = null;
+        BPELscriptWalker.flow_return flow8 = null;
 
-        BPELscriptWalker.if_ex_return if_ex10 = null;
+        BPELscriptWalker.if_ex_return if_ex9 = null;
 
-        BPELscriptWalker.while_ex_return while_ex11 = null;
+        BPELscriptWalker.while_ex_return while_ex10 = null;
 
-        BPELscriptWalker.until_ex_return until_ex12 = null;
+        BPELscriptWalker.until_ex_return until_ex11 = null;
 
-        BPELscriptWalker.foreach_return foreach13 = null;
+        BPELscriptWalker.foreach_return foreach12 = null;
 
-        BPELscriptWalker.try_ex_return try_ex14 = null;
+        BPELscriptWalker.try_ex_return try_ex13 = null;
 
-        BPELscriptWalker.scope_ex_return scope_ex15 = null;
+        BPELscriptWalker.scope_ex_return scope_ex14 = null;
 
-        BPELscriptWalker.receive_return receive16 = null;
+        BPELscriptWalker.receive_return receive15 = null;
 
-        BPELscriptWalker.invoke_return invoke17 = null;
+        BPELscriptWalker.invoke_return invoke16 = null;
 
-        BPELscriptWalker.reply_return reply18 = null;
+        BPELscriptWalker.reply_return reply17 = null;
 
-        BPELscriptWalker.assign_return assign19 = null;
+        BPELscriptWalker.assign_return assign18 = null;
 
-        BPELscriptWalker.throw_ex_return throw_ex20 = null;
+        BPELscriptWalker.throw_ex_return throw_ex19 = null;
 
-        BPELscriptWalker.rethrow_ex_return rethrow_ex21 = null;
+        BPELscriptWalker.rethrow_ex_return rethrow_ex20 = null;
 
-        BPELscriptWalker.alarm_return alarm22 = null;
+        BPELscriptWalker.alarm_return alarm21 = null;
 
-        BPELscriptWalker.timeout_return timeout23 = null;
+        BPELscriptWalker.timeout_return timeout22 = null;
 
-        BPELscriptWalker.exit_return exit24 = null;
+        BPELscriptWalker.exit_return exit23 = null;
 
-        BPELscriptWalker.validate_return validate25 = null;
+        BPELscriptWalker.validate_return validate24 = null;
 
-        BPELscriptWalker.compensate_return compensate26 = null;
+        BPELscriptWalker.compensate_return compensate25 = null;
 
-        BPELscriptWalker.ext_act_return ext_act27 = null;
+        BPELscriptWalker.ext_act_return ext_act26 = null;
 
-        BPELscriptWalker.nop_return nop28 = null;
+        BPELscriptWalker.nop_return nop27 = null;
 
 
         boolean empty= join==null && signal==null;
+        	List comments = getComments(retval);
+        	if (comments!=null && !comments.isEmpty()) empty=false;
+        	
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:155:2: ( pick[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$pick.st) | flow[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$flow.st) | if_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$if_ex.st) | while_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$while_ex.st) | until_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$until_ex.st) | foreach[join, signal] -> list(content_st=$foreach.st) | try_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] -> list(content_st=$try_ex.st) | scope_ex[join, signal] -> list(content_st=$scope_ex.st) | receive[join, signal, empty] -> list(content_st=$receive.st) | invoke[join, signal, empty, _faults, _faults_pb] -> list(content_st=$invoke.st) | reply[join, signal, empty] -> list(content_st=$reply.st) | assign[join, signal, empty, _vars, _pl, null, null] -> list(content_st=$assign.st) | throw_ex[join, signal, empty] -> list(content_st=$throw_ex.st) | rethrow_ex[join, signal, empty] -> list(content_st=$rethrow_ex.st) | alarm[join, signal, empty, true] -> list(content_st=$alarm.st) | timeout[join, signal, empty, true] -> list(content_st=$timeout.st) | exit[join, signal, empty] -> list(content_st=$exit.st) | variables[_vars, isInScope] | validate[join, signal, empty, _vars] -> list(content_st=$validate.st) | pl= partnerlinks[_pl, isInScope] | compensate[join, signal, empty] -> list(content_st=$compensate.st) | ext_act[join, signal] -> list(content_st=$ext_act.st) | nop[join, signal, empty] -> list(content_st=$nop.st) | messages[_messages, isInScope] | corr_sets[_cs, isInScope] )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:212:2: ( pick[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$pick.st) | flow[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$flow.st) | if_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$if_ex.st) | while_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$while_ex.st) | until_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st=$until_ex.st) | foreach[join, signal, comments] -> list(content_st=$foreach.st) | try_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope, comments] -> list(content_st=$try_ex.st) | scope_ex[join, signal, comments] -> list(content_st=$scope_ex.st) | receive[join, signal, empty, comments] -> list(content_st=$receive.st) | invoke[join, signal, empty, _faults, _faults_pb, comments] -> list(content_st=$invoke.st) | reply[join, signal, empty, comments] -> list(content_st=$reply.st) | assign[join, signal, empty, _vars, _pl, null, null, comments] -> list(content_st=$assign.st) | throw_ex[join, signal, empty, comments] -> list(content_st=$throw_ex.st) | rethrow_ex[join, signal, empty, comments] -> list(content_st=$rethrow_ex.st) | alarm[join, signal, empty, true, comments] -> list(content_st=$alarm.st) | timeout[join, signal, empty, true, comments] -> list(content_st=$timeout.st) | exit[join, signal, empty, comments] -> list(content_st=$exit.st) | variables[_vars, isInScope, comments] | validate[join, signal, empty, _vars, comments] -> list(content_st=$validate.st) | pl= partnerlinks[_pl, isInScope, comments] | compensate[join, signal, empty, comments] -> list(content_st=$compensate.st) | ext_act[join, signal, comments] -> list(content_st=$ext_act.st) | nop[join, signal, empty, comments] -> list(content_st=$nop.st) | messages[_messages, isInScope, comments] | corr_sets[_cs, isInScope, comments] )
             int alt13=25;
             switch ( input.LA(1) ) {
             case PICK:
@@ -1104,350 +1161,350 @@ public class BPELscriptWalker extends TreeParser {
 
             switch (alt13) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:155:4: pick[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:212:4: pick[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments]
                     {
-                    pushFollow(FOLLOW_pick_in_proc_stmt455);
-                    pick8=pick(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb);
+                    pushFollow(FOLLOW_pick_in_proc_stmt457);
+                    pick7=pick(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 155:72: -> list(content_st=$pick.st)
+                    // 212:82: -> list(content_st=$pick.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (pick8!=null?pick8.st:null)));
+                      new STAttrMap().put("content_st", (pick7!=null?pick7.st:null)));
                     }
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:156:4: flow[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:213:4: flow[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments]
                     {
-                    pushFollow(FOLLOW_flow_in_proc_stmt471);
-                    flow9=flow(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb);
+                    pushFollow(FOLLOW_flow_in_proc_stmt473);
+                    flow8=flow(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 156:72: -> list(content_st=$flow.st)
+                    // 213:82: -> list(content_st=$flow.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (flow9!=null?flow9.st:null)));
+                      new STAttrMap().put("content_st", (flow8!=null?flow8.st:null)));
                     }
 
 
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:157:4: if_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:214:4: if_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments]
                     {
-                    pushFollow(FOLLOW_if_ex_in_proc_stmt487);
-                    if_ex10=if_ex(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb);
+                    pushFollow(FOLLOW_if_ex_in_proc_stmt489);
+                    if_ex9=if_ex(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 157:73: -> list(content_st=$if_ex.st)
+                    // 214:83: -> list(content_st=$if_ex.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (if_ex10!=null?if_ex10.st:null)));
+                      new STAttrMap().put("content_st", (if_ex9!=null?if_ex9.st:null)));
                     }
 
 
                     }
                     break;
                 case 4 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:158:4: while_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:215:4: while_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments]
                     {
-                    pushFollow(FOLLOW_while_ex_in_proc_stmt502);
-                    while_ex11=while_ex(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb);
+                    pushFollow(FOLLOW_while_ex_in_proc_stmt504);
+                    while_ex10=while_ex(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 158:76: -> list(content_st=$while_ex.st)
+                    // 215:86: -> list(content_st=$while_ex.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (while_ex11!=null?while_ex11.st:null)));
+                      new STAttrMap().put("content_st", (while_ex10!=null?while_ex10.st:null)));
                     }
 
 
                     }
                     break;
                 case 5 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:159:4: until_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:4: until_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments]
                     {
-                    pushFollow(FOLLOW_until_ex_in_proc_stmt518);
-                    until_ex12=until_ex(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb);
+                    pushFollow(FOLLOW_until_ex_in_proc_stmt520);
+                    until_ex11=until_ex(join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 159:76: -> list(content_st=$until_ex.st)
+                    // 216:86: -> list(content_st=$until_ex.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (until_ex12!=null?until_ex12.st:null)));
+                      new STAttrMap().put("content_st", (until_ex11!=null?until_ex11.st:null)));
                     }
 
 
                     }
                     break;
                 case 6 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:160:4: foreach[join, signal]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:217:4: foreach[join, signal, comments]
                     {
-                    pushFollow(FOLLOW_foreach_in_proc_stmt534);
-                    foreach13=foreach(join, signal);
+                    pushFollow(FOLLOW_foreach_in_proc_stmt536);
+                    foreach12=foreach(join, signal, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 160:26: -> list(content_st=$foreach.st)
+                    // 217:36: -> list(content_st=$foreach.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (foreach13!=null?foreach13.st:null)));
+                      new STAttrMap().put("content_st", (foreach12!=null?foreach12.st:null)));
                     }
 
 
                     }
                     break;
                 case 7 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:161:4: try_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:218:4: try_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope, comments]
                     {
-                    pushFollow(FOLLOW_try_ex_in_proc_stmt549);
-                    try_ex14=try_ex(_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope);
+                    pushFollow(FOLLOW_try_ex_in_proc_stmt551);
+                    try_ex13=try_ex(_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 161:71: -> list(content_st=$try_ex.st)
+                    // 218:81: -> list(content_st=$try_ex.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (try_ex14!=null?try_ex14.st:null)));
+                      new STAttrMap().put("content_st", (try_ex13!=null?try_ex13.st:null)));
                     }
 
 
                     }
                     break;
                 case 8 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:162:4: scope_ex[join, signal]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:219:4: scope_ex[join, signal, comments]
                     {
-                    pushFollow(FOLLOW_scope_ex_in_proc_stmt564);
-                    scope_ex15=scope_ex(join, signal);
+                    pushFollow(FOLLOW_scope_ex_in_proc_stmt566);
+                    scope_ex14=scope_ex(join, signal, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 162:27: -> list(content_st=$scope_ex.st)
+                    // 219:37: -> list(content_st=$scope_ex.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (scope_ex15!=null?scope_ex15.st:null)));
+                      new STAttrMap().put("content_st", (scope_ex14!=null?scope_ex14.st:null)));
                     }
 
 
                     }
                     break;
                 case 9 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:163:4: receive[join, signal, empty]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:220:4: receive[join, signal, empty, comments]
                     {
-                    pushFollow(FOLLOW_receive_in_proc_stmt579);
-                    receive16=receive(join, signal, empty);
+                    pushFollow(FOLLOW_receive_in_proc_stmt581);
+                    receive15=receive(join, signal, empty, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 163:33: -> list(content_st=$receive.st)
+                    // 220:43: -> list(content_st=$receive.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (receive16!=null?receive16.st:null)));
+                      new STAttrMap().put("content_st", (receive15!=null?receive15.st:null)));
                     }
 
 
                     }
                     break;
                 case 10 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:164:4: invoke[join, signal, empty, _faults, _faults_pb]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:4: invoke[join, signal, empty, _faults, _faults_pb, comments]
                     {
-                    pushFollow(FOLLOW_invoke_in_proc_stmt594);
-                    invoke17=invoke(join, signal, empty, _faults, _faults_pb);
+                    pushFollow(FOLLOW_invoke_in_proc_stmt596);
+                    invoke16=invoke(join, signal, empty, _faults, _faults_pb, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 164:53: -> list(content_st=$invoke.st)
+                    // 221:63: -> list(content_st=$invoke.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (invoke17!=null?invoke17.st:null)));
+                      new STAttrMap().put("content_st", (invoke16!=null?invoke16.st:null)));
                     }
 
 
                     }
                     break;
                 case 11 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:165:4: reply[join, signal, empty]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:222:4: reply[join, signal, empty, comments]
                     {
-                    pushFollow(FOLLOW_reply_in_proc_stmt609);
-                    reply18=reply(join, signal, empty);
+                    pushFollow(FOLLOW_reply_in_proc_stmt611);
+                    reply17=reply(join, signal, empty, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 165:31: -> list(content_st=$reply.st)
+                    // 222:41: -> list(content_st=$reply.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (reply18!=null?reply18.st:null)));
+                      new STAttrMap().put("content_st", (reply17!=null?reply17.st:null)));
                     }
 
 
                     }
                     break;
                 case 12 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:166:4: assign[join, signal, empty, _vars, _pl, null, null]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:223:4: assign[join, signal, empty, _vars, _pl, null, null, comments]
                     {
-                    pushFollow(FOLLOW_assign_in_proc_stmt624);
-                    assign19=assign(join, signal, empty, _vars, _pl, null, null);
+                    pushFollow(FOLLOW_assign_in_proc_stmt626);
+                    assign18=assign(join, signal, empty, _vars, _pl, null, null, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 166:56: -> list(content_st=$assign.st)
+                    // 223:66: -> list(content_st=$assign.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (assign19!=null?assign19.st:null)));
+                      new STAttrMap().put("content_st", (assign18!=null?assign18.st:null)));
                     }
 
 
                     }
                     break;
                 case 13 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:167:4: throw_ex[join, signal, empty]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:224:4: throw_ex[join, signal, empty, comments]
                     {
-                    pushFollow(FOLLOW_throw_ex_in_proc_stmt640);
-                    throw_ex20=throw_ex(join, signal, empty);
+                    pushFollow(FOLLOW_throw_ex_in_proc_stmt642);
+                    throw_ex19=throw_ex(join, signal, empty, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 167:34: -> list(content_st=$throw_ex.st)
+                    // 224:44: -> list(content_st=$throw_ex.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (throw_ex20!=null?throw_ex20.st:null)));
+                      new STAttrMap().put("content_st", (throw_ex19!=null?throw_ex19.st:null)));
                     }
 
 
                     }
                     break;
                 case 14 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:168:4: rethrow_ex[join, signal, empty]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:225:4: rethrow_ex[join, signal, empty, comments]
                     {
-                    pushFollow(FOLLOW_rethrow_ex_in_proc_stmt655);
-                    rethrow_ex21=rethrow_ex(join, signal, empty);
+                    pushFollow(FOLLOW_rethrow_ex_in_proc_stmt657);
+                    rethrow_ex20=rethrow_ex(join, signal, empty, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 168:36: -> list(content_st=$rethrow_ex.st)
+                    // 225:46: -> list(content_st=$rethrow_ex.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (rethrow_ex21!=null?rethrow_ex21.st:null)));
+                      new STAttrMap().put("content_st", (rethrow_ex20!=null?rethrow_ex20.st:null)));
                     }
 
 
                     }
                     break;
                 case 15 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:169:4: alarm[join, signal, empty, true]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:226:4: alarm[join, signal, empty, true, comments]
                     {
-                    pushFollow(FOLLOW_alarm_in_proc_stmt670);
-                    alarm22=alarm(join, signal, empty, true);
+                    pushFollow(FOLLOW_alarm_in_proc_stmt672);
+                    alarm21=alarm(join, signal, empty, true, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 169:37: -> list(content_st=$alarm.st)
+                    // 226:47: -> list(content_st=$alarm.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (alarm22!=null?alarm22.st:null)));
+                      new STAttrMap().put("content_st", (alarm21!=null?alarm21.st:null)));
                     }
 
 
                     }
                     break;
                 case 16 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:170:4: timeout[join, signal, empty, true]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:227:4: timeout[join, signal, empty, true, comments]
                     {
-                    pushFollow(FOLLOW_timeout_in_proc_stmt686);
-                    timeout23=timeout(join, signal, empty, true);
+                    pushFollow(FOLLOW_timeout_in_proc_stmt688);
+                    timeout22=timeout(join, signal, empty, true, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 170:39: -> list(content_st=$timeout.st)
+                    // 227:49: -> list(content_st=$timeout.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (timeout23!=null?timeout23.st:null)));
+                      new STAttrMap().put("content_st", (timeout22!=null?timeout22.st:null)));
                     }
 
 
                     }
                     break;
                 case 17 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:171:4: exit[join, signal, empty]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:228:4: exit[join, signal, empty, comments]
                     {
-                    pushFollow(FOLLOW_exit_in_proc_stmt702);
-                    exit24=exit(join, signal, empty);
+                    pushFollow(FOLLOW_exit_in_proc_stmt704);
+                    exit23=exit(join, signal, empty, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 171:31: -> list(content_st=$exit.st)
+                    // 228:41: -> list(content_st=$exit.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (exit24!=null?exit24.st:null)));
+                      new STAttrMap().put("content_st", (exit23!=null?exit23.st:null)));
                     }
 
 
                     }
                     break;
                 case 18 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:172:4: variables[_vars, isInScope]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:229:4: variables[_vars, isInScope, comments]
                     {
-                    pushFollow(FOLLOW_variables_in_proc_stmt719);
-                    variables(_vars, isInScope);
+                    pushFollow(FOLLOW_variables_in_proc_stmt721);
+                    variables(_vars, isInScope, comments);
 
                     state._fsp--;
 
@@ -1455,30 +1512,30 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 19 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:173:4: validate[join, signal, empty, _vars]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:230:4: validate[join, signal, empty, _vars, comments]
                     {
-                    pushFollow(FOLLOW_validate_in_proc_stmt726);
-                    validate25=validate(join, signal, empty, _vars);
+                    pushFollow(FOLLOW_validate_in_proc_stmt728);
+                    validate24=validate(join, signal, empty, _vars, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 173:41: -> list(content_st=$validate.st)
+                    // 230:51: -> list(content_st=$validate.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (validate25!=null?validate25.st:null)));
+                      new STAttrMap().put("content_st", (validate24!=null?validate24.st:null)));
                     }
 
 
                     }
                     break;
                 case 20 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:174:4: pl= partnerlinks[_pl, isInScope]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:231:4: pl= partnerlinks[_pl, isInScope, comments]
                     {
-                    pushFollow(FOLLOW_partnerlinks_in_proc_stmt743);
-                    pl=partnerlinks(_pl, isInScope);
+                    pushFollow(FOLLOW_partnerlinks_in_proc_stmt745);
+                    pl=partnerlinks(_pl, isInScope, comments);
 
                     state._fsp--;
 
@@ -1486,70 +1543,70 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 21 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:175:4: compensate[join, signal, empty]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:232:4: compensate[join, signal, empty, comments]
                     {
-                    pushFollow(FOLLOW_compensate_in_proc_stmt750);
-                    compensate26=compensate(join, signal, empty);
+                    pushFollow(FOLLOW_compensate_in_proc_stmt752);
+                    compensate25=compensate(join, signal, empty, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 175:36: -> list(content_st=$compensate.st)
+                    // 232:46: -> list(content_st=$compensate.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (compensate26!=null?compensate26.st:null)));
+                      new STAttrMap().put("content_st", (compensate25!=null?compensate25.st:null)));
                     }
 
 
                     }
                     break;
                 case 22 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:176:4: ext_act[join, signal]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:233:4: ext_act[join, signal, comments]
                     {
-                    pushFollow(FOLLOW_ext_act_in_proc_stmt765);
-                    ext_act27=ext_act(join, signal);
+                    pushFollow(FOLLOW_ext_act_in_proc_stmt767);
+                    ext_act26=ext_act(join, signal, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 176:26: -> list(content_st=$ext_act.st)
+                    // 233:36: -> list(content_st=$ext_act.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (ext_act27!=null?ext_act27.st:null)));
+                      new STAttrMap().put("content_st", (ext_act26!=null?ext_act26.st:null)));
                     }
 
 
                     }
                     break;
                 case 23 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:177:4: nop[join, signal, empty]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:234:4: nop[join, signal, empty, comments]
                     {
-                    pushFollow(FOLLOW_nop_in_proc_stmt780);
-                    nop28=nop(join, signal, empty);
+                    pushFollow(FOLLOW_nop_in_proc_stmt782);
+                    nop27=nop(join, signal, empty, comments);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 177:29: -> list(content_st=$nop.st)
+                    // 234:39: -> list(content_st=$nop.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (nop28!=null?nop28.st:null)));
+                      new STAttrMap().put("content_st", (nop27!=null?nop27.st:null)));
                     }
 
 
                     }
                     break;
                 case 24 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:178:4: messages[_messages, isInScope]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:235:4: messages[_messages, isInScope, comments]
                     {
-                    pushFollow(FOLLOW_messages_in_proc_stmt795);
-                    messages(_messages, isInScope);
+                    pushFollow(FOLLOW_messages_in_proc_stmt797);
+                    messages(_messages, isInScope, comments);
 
                     state._fsp--;
 
@@ -1557,10 +1614,10 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 25 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:179:4: corr_sets[_cs, isInScope]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:236:4: corr_sets[_cs, isInScope, comments]
                     {
-                    pushFollow(FOLLOW_corr_sets_in_proc_stmt802);
-                    corr_sets(_cs, isInScope);
+                    pushFollow(FOLLOW_corr_sets_in_proc_stmt804);
+                    corr_sets(_cs, isInScope, comments);
 
                     state._fsp--;
 
@@ -1587,7 +1644,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "block"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:183:1: block[ HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ^( SEQUENCE (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(stmts_p=$ps);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:240:1: block[ HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ^( SEQUENCE (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(stmts_p=$ps);
     public final BPELscriptWalker.block_return block(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
         BPELscriptWalker.block_return retval = new BPELscriptWalker.block_return();
         retval.start = input.LT(1);
@@ -1595,13 +1652,13 @@ public class BPELscriptWalker extends TreeParser {
         List list_ps=null;
         RuleReturnScope ps = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:185:2: ( ^( SEQUENCE (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(stmts_p=$ps))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:185:4: ^( SEQUENCE (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:242:2: ( ^( SEQUENCE (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(stmts_p=$ps))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:242:4: ^( SEQUENCE (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ )
             {
-            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_block819); 
+            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_block821); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:185:17: (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:242:17: (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+
             int cnt14=0;
             loop14:
             do {
@@ -1615,9 +1672,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt14) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:185:17: ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:242:17: ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb]
             	    {
-            	    pushFollow(FOLLOW_proc_stmts_in_block823);
+            	    pushFollow(FOLLOW_proc_stmts_in_block825);
             	    ps=proc_stmts(false, _vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             	    state._fsp--;
@@ -1643,7 +1700,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 186:2: -> block(stmts_p=$ps)
+            // 243:2: -> block(stmts_p=$ps)
             {
                 retval.st = templateLib.getInstanceOf("block",
               new STAttrMap().put("stmts_p", list_ps));
@@ -1670,7 +1727,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "scope_block"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:190:1: scope_block[\tHashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ^( SEQUENCE ( sub_declaration )* (ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(stmts_p=$ps);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:247:1: scope_block[\tHashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ^( SEQUENCE ( sub_declaration )* (ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(stmts_p=$ps);
     public final BPELscriptWalker.scope_block_return scope_block(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
         BPELscriptWalker.scope_block_return retval = new BPELscriptWalker.scope_block_return();
         retval.start = input.LT(1);
@@ -1678,13 +1735,13 @@ public class BPELscriptWalker extends TreeParser {
         List list_ps=null;
         RuleReturnScope ps = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:192:2: ( ^( SEQUENCE ( sub_declaration )* (ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(stmts_p=$ps))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:192:4: ^( SEQUENCE ( sub_declaration )* (ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:249:2: ( ^( SEQUENCE ( sub_declaration )* (ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(stmts_p=$ps))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:249:4: ^( SEQUENCE ( sub_declaration )* (ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ )
             {
-            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_scope_block852); 
+            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_scope_block854); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:192:15: ( sub_declaration )*
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:249:15: ( sub_declaration )*
             loop15:
             do {
                 int alt15=2;
@@ -1697,9 +1754,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt15) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:192:15: sub_declaration
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:249:15: sub_declaration
             	    {
-            	    pushFollow(FOLLOW_sub_declaration_in_scope_block854);
+            	    pushFollow(FOLLOW_sub_declaration_in_scope_block856);
             	    sub_declaration();
 
             	    state._fsp--;
@@ -1713,7 +1770,7 @@ public class BPELscriptWalker extends TreeParser {
                 }
             } while (true);
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:193:6: (ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:250:6: (ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+
             int cnt16=0;
             loop16:
             do {
@@ -1727,9 +1784,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt16) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:193:6: ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:250:6: ps+= proc_stmts[true, _vars, _pl, _messages, _cs, _faults, _faults_pb]
             	    {
-            	    pushFollow(FOLLOW_proc_stmts_in_scope_block863);
+            	    pushFollow(FOLLOW_proc_stmts_in_scope_block865);
             	    ps=proc_stmts(true, _vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             	    state._fsp--;
@@ -1755,7 +1812,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 194:2: -> block(stmts_p=$ps)
+            // 251:2: -> block(stmts_p=$ps)
             {
                 retval.st = templateLib.getInstanceOf("block",
               new STAttrMap().put("stmts_p", list_ps));
@@ -1783,7 +1840,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "param_block"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:197:1: param_block[ HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] returns [List param_ids] : ^( SEQUENCE (ids+= ID )* (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(ids=$idsstmts_p=$ps);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:254:1: param_block[ HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] returns [List param_ids] : ^( SEQUENCE (ids+= ID )* (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(ids=$idsstmts_p=$ps);
     public final BPELscriptWalker.param_block_return param_block(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
         BPELscriptWalker.param_block_return retval = new BPELscriptWalker.param_block_return();
         retval.start = input.LT(1);
@@ -1793,13 +1850,13 @@ public class BPELscriptWalker extends TreeParser {
         List list_ps=null;
         RuleReturnScope ps = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:200:2: ( ^( SEQUENCE (ids+= ID )* (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(ids=$idsstmts_p=$ps))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:200:4: ^( SEQUENCE (ids+= ID )* (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:257:2: ( ^( SEQUENCE (ids+= ID )* (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ ) -> block(ids=$idsstmts_p=$ps))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:257:4: ^( SEQUENCE (ids+= ID )* (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+ )
             {
-            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_param_block896); 
+            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_param_block898); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:200:18: (ids+= ID )*
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:257:18: (ids+= ID )*
             loop17:
             do {
                 int alt17=2;
@@ -1812,9 +1869,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt17) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:200:18: ids+= ID
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:257:18: ids+= ID
             	    {
-            	    ids=(CommonTree)match(input,ID,FOLLOW_ID_in_param_block900); 
+            	    ids=(CommonTree)match(input,ID,FOLLOW_ID_in_param_block902); 
             	    if (list_ids==null) list_ids=new ArrayList();
             	    list_ids.add(ids);
 
@@ -1827,7 +1884,7 @@ public class BPELscriptWalker extends TreeParser {
                 }
             } while (true);
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:200:26: (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:257:26: (ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb] )+
             int cnt18=0;
             loop18:
             do {
@@ -1841,9 +1898,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt18) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:200:26: ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:257:26: ps+= proc_stmts[false, _vars, _pl, _messages, _cs, _faults, _faults_pb]
             	    {
-            	    pushFollow(FOLLOW_proc_stmts_in_param_block905);
+            	    pushFollow(FOLLOW_proc_stmts_in_param_block907);
             	    ps=proc_stmts(false, _vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             	    state._fsp--;
@@ -1872,7 +1929,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 204:2: -> block(ids=$idsstmts_p=$ps)
+            // 261:2: -> block(ids=$idsstmts_p=$ps)
             {
                 retval.st = templateLib.getInstanceOf("block",
               new STAttrMap().put("ids", list_ids).put("stmts_p", list_ps));
@@ -1899,18 +1956,18 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "body"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:207:1: body[\tHashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ( block[_vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$block.st) | proc_stmts[false,_vars,_pl,_messages,_cs,_faults,_faults_pb] -> list(content_st=$proc_stmts.st));
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:264:1: body[\tHashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ( block[_vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$block.st) | proc_stmts[false,_vars,_pl,_messages,_cs,_faults,_faults_pb] -> list(content_st=$proc_stmts.st));
     public final BPELscriptWalker.body_return body(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
         BPELscriptWalker.body_return retval = new BPELscriptWalker.body_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.block_return block29 = null;
+        BPELscriptWalker.block_return block28 = null;
 
-        BPELscriptWalker.proc_stmts_return proc_stmts30 = null;
+        BPELscriptWalker.proc_stmts_return proc_stmts29 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:209:2: ( block[_vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$block.st) | proc_stmts[false,_vars,_pl,_messages,_cs,_faults,_faults_pb] -> list(content_st=$proc_stmts.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:266:2: ( block[_vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st=$block.st) | proc_stmts[false,_vars,_pl,_messages,_cs,_faults,_faults_pb] -> list(content_st=$proc_stmts.st))
             int alt19=2;
             int LA19_0 = input.LA(1);
 
@@ -1928,40 +1985,40 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt19) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:209:4: block[_vars, _pl, _messages, _cs, _faults, _faults_pb]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:266:4: block[_vars, _pl, _messages, _cs, _faults, _faults_pb]
                     {
-                    pushFollow(FOLLOW_block_in_body941);
-                    block29=block(_vars, _pl, _messages, _cs, _faults, _faults_pb);
+                    pushFollow(FOLLOW_block_in_body943);
+                    block28=block(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 209:59: -> list(content_st=$block.st)
+                    // 266:59: -> list(content_st=$block.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (block29!=null?block29.st:null)));
+                      new STAttrMap().put("content_st", (block28!=null?block28.st:null)));
                     }
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:210:5: proc_stmts[false,_vars,_pl,_messages,_cs,_faults,_faults_pb]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:267:5: proc_stmts[false,_vars,_pl,_messages,_cs,_faults,_faults_pb]
                     {
-                    pushFollow(FOLLOW_proc_stmts_in_body958);
-                    proc_stmts30=proc_stmts(false, _vars, _pl, _messages, _cs, _faults, _faults_pb);
+                    pushFollow(FOLLOW_proc_stmts_in_body960);
+                    proc_stmts29=proc_stmts(false, _vars, _pl, _messages, _cs, _faults, _faults_pb);
 
                     state._fsp--;
 
 
 
                     // TEMPLATE REWRITE
-                    // 210:66: -> list(content_st=$proc_stmts.st)
+                    // 267:66: -> list(content_st=$proc_stmts.st)
                     {
                         retval.st = templateLib.getInstanceOf("list",
-                      new STAttrMap().put("content_st", (proc_stmts30!=null?proc_stmts30.st:null)));
+                      new STAttrMap().put("content_st", (proc_stmts29!=null?proc_stmts29.st:null)));
                     }
 
 
@@ -1987,26 +2044,26 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "pick"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:214:1: pick[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ^( PICK (om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ (to+= onAlarm )* ( CREATE_INST )? std_attr ) -> pick(oms=$omonalarm=$tojoin=$joinsignal=$signalcrt_inst=$CREATE_INSTstd_attr=$std_attr.st);
-    public final BPELscriptWalker.pick_return pick(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:271:1: pick[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments] : ^( PICK (om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ (to+= onAlarm )* ( CREATE_INST )? std_attr ) -> pick(oms=$omonalarm=$tojoin=$joinsignal=$signalcrt_inst=$CREATE_INSTstd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.pick_return pick(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments) throws RecognitionException {
         BPELscriptWalker.pick_return retval = new BPELscriptWalker.pick_return();
         retval.start = input.LT(1);
 
-        CommonTree CREATE_INST31=null;
+        CommonTree CREATE_INST30=null;
         List list_om=null;
         List list_to=null;
-        BPELscriptWalker.std_attr_return std_attr32 = null;
+        BPELscriptWalker.std_attr_return std_attr31 = null;
 
         RuleReturnScope om = null;
         RuleReturnScope to = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:2: ( ^( PICK (om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ (to+= onAlarm )* ( CREATE_INST )? std_attr ) -> pick(oms=$omonalarm=$tojoin=$joinsignal=$signalcrt_inst=$CREATE_INSTstd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:4: ^( PICK (om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ (to+= onAlarm )* ( CREATE_INST )? std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:273:2: ( ^( PICK (om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ (to+= onAlarm )* ( CREATE_INST )? std_attr ) -> pick(oms=$omonalarm=$tojoin=$joinsignal=$signalcrt_inst=$CREATE_INSTstd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:273:4: ^( PICK (om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ (to+= onAlarm )* ( CREATE_INST )? std_attr )
             {
-            match(input,PICK,FOLLOW_PICK_in_pick983); 
+            match(input,PICK,FOLLOW_PICK_in_pick985); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:13: (om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:273:13: (om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+
             int cnt20=0;
             loop20:
             do {
@@ -2020,9 +2077,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt20) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:13: om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:273:13: om+= onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb]
             	    {
-            	    pushFollow(FOLLOW_onMessage_in_pick987);
+            	    pushFollow(FOLLOW_onMessage_in_pick989);
             	    om=onMessage(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             	    state._fsp--;
@@ -2043,7 +2100,7 @@ public class BPELscriptWalker extends TreeParser {
                 cnt20++;
             } while (true);
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:77: (to+= onAlarm )*
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:273:77: (to+= onAlarm )*
             loop21:
             do {
                 int alt21=2;
@@ -2056,9 +2113,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt21) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:77: to+= onAlarm
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:273:77: to+= onAlarm
             	    {
-            	    pushFollow(FOLLOW_onAlarm_in_pick993);
+            	    pushFollow(FOLLOW_onAlarm_in_pick995);
             	    to=onAlarm();
 
             	    state._fsp--;
@@ -2075,7 +2132,7 @@ public class BPELscriptWalker extends TreeParser {
                 }
             } while (true);
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:88: ( CREATE_INST )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:273:88: ( CREATE_INST )?
             int alt22=2;
             int LA22_0 = input.LA(1);
 
@@ -2084,17 +2141,17 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt22) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:216:88: CREATE_INST
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:273:88: CREATE_INST
                     {
-                    CREATE_INST31=(CommonTree)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_pick996); 
+                    CREATE_INST30=(CommonTree)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_pick998); 
 
                     }
                     break;
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_pick999);
-            std_attr32=std_attr();
+            pushFollow(FOLLOW_std_attr_in_pick1001);
+            std_attr31=std_attr();
 
             state._fsp--;
 
@@ -2103,10 +2160,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 217:2: -> pick(oms=$omonalarm=$tojoin=$joinsignal=$signalcrt_inst=$CREATE_INSTstd_attr=$std_attr.st)
+            // 274:2: -> pick(oms=$omonalarm=$tojoin=$joinsignal=$signalcrt_inst=$CREATE_INSTstd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("pick",
-              new STAttrMap().put("oms", list_om).put("onalarm", list_to).put("join", join).put("signal", signal).put("crt_inst", CREATE_INST31).put("std_attr", (std_attr32!=null?std_attr32.st:null)));
+              new STAttrMap().put("oms", list_om).put("onalarm", list_to).put("join", join).put("signal", signal).put("crt_inst", CREATE_INST30).put("std_attr", (std_attr31!=null?std_attr31.st:null)).put("comments", comments));
             }
 
 
@@ -2130,28 +2187,28 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "onAlarm"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:220:1: onAlarm : ^( ONALARM ( alarm[null, null, true, false] )? ( timeout[null, null, true, false] )? ( repeatEvery )? scope_short ) -> onAlarm(alarm=$alarm.sttimeout=$timeout.strepeat=$repeatEvery.stscope_ex=$scope_short.st);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:277:1: onAlarm : ^( ONALARM ( alarm[null, null, true, false, null] )? ( timeout[null, null, true, false, null] )? ( repeatEvery )? scope_short ) -> onAlarm(alarm=$alarm.sttimeout=$timeout.strepeat=$repeatEvery.stscope_ex=$scope_short.st);
     public final BPELscriptWalker.onAlarm_return onAlarm() throws RecognitionException {
         BPELscriptWalker.onAlarm_return retval = new BPELscriptWalker.onAlarm_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.alarm_return alarm33 = null;
+        BPELscriptWalker.alarm_return alarm32 = null;
 
-        BPELscriptWalker.timeout_return timeout34 = null;
+        BPELscriptWalker.timeout_return timeout33 = null;
 
-        BPELscriptWalker.repeatEvery_return repeatEvery35 = null;
+        BPELscriptWalker.repeatEvery_return repeatEvery34 = null;
 
-        BPELscriptWalker.scope_short_return scope_short36 = null;
+        BPELscriptWalker.scope_short_return scope_short35 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:2: ( ^( ONALARM ( alarm[null, null, true, false] )? ( timeout[null, null, true, false] )? ( repeatEvery )? scope_short ) -> onAlarm(alarm=$alarm.sttimeout=$timeout.strepeat=$repeatEvery.stscope_ex=$scope_short.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:4: ^( ONALARM ( alarm[null, null, true, false] )? ( timeout[null, null, true, false] )? ( repeatEvery )? scope_short )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:278:2: ( ^( ONALARM ( alarm[null, null, true, false, null] )? ( timeout[null, null, true, false, null] )? ( repeatEvery )? scope_short ) -> onAlarm(alarm=$alarm.sttimeout=$timeout.strepeat=$repeatEvery.stscope_ex=$scope_short.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:278:4: ^( ONALARM ( alarm[null, null, true, false, null] )? ( timeout[null, null, true, false, null] )? ( repeatEvery )? scope_short )
             {
-            match(input,ONALARM,FOLLOW_ONALARM_in_onAlarm1048); 
+            match(input,ONALARM,FOLLOW_ONALARM_in_onAlarm1055); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:14: ( alarm[null, null, true, false] )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:278:14: ( alarm[null, null, true, false, null] )?
             int alt23=2;
             int LA23_0 = input.LA(1);
 
@@ -2160,10 +2217,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt23) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:14: alarm[null, null, true, false]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:278:14: alarm[null, null, true, false, null]
                     {
-                    pushFollow(FOLLOW_alarm_in_onAlarm1050);
-                    alarm33=alarm(null, null, true, false);
+                    pushFollow(FOLLOW_alarm_in_onAlarm1057);
+                    alarm32=alarm(null, null, true, false, null);
 
                     state._fsp--;
 
@@ -2173,7 +2230,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:46: ( timeout[null, null, true, false] )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:278:52: ( timeout[null, null, true, false, null] )?
             int alt24=2;
             int LA24_0 = input.LA(1);
 
@@ -2182,10 +2239,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt24) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:46: timeout[null, null, true, false]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:278:52: timeout[null, null, true, false, null]
                     {
-                    pushFollow(FOLLOW_timeout_in_onAlarm1054);
-                    timeout34=timeout(null, null, true, false);
+                    pushFollow(FOLLOW_timeout_in_onAlarm1061);
+                    timeout33=timeout(null, null, true, false, null);
 
                     state._fsp--;
 
@@ -2195,7 +2252,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:80: ( repeatEvery )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:278:92: ( repeatEvery )?
             int alt25=2;
             int LA25_0 = input.LA(1);
 
@@ -2204,10 +2261,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt25) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:221:80: repeatEvery
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:278:92: repeatEvery
                     {
-                    pushFollow(FOLLOW_repeatEvery_in_onAlarm1058);
-                    repeatEvery35=repeatEvery();
+                    pushFollow(FOLLOW_repeatEvery_in_onAlarm1065);
+                    repeatEvery34=repeatEvery();
 
                     state._fsp--;
 
@@ -2217,8 +2274,8 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_scope_short_in_onAlarm1061);
-            scope_short36=scope_short();
+            pushFollow(FOLLOW_scope_short_in_onAlarm1068);
+            scope_short35=scope_short();
 
             state._fsp--;
 
@@ -2227,10 +2284,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 222:2: -> onAlarm(alarm=$alarm.sttimeout=$timeout.strepeat=$repeatEvery.stscope_ex=$scope_short.st)
+            // 279:2: -> onAlarm(alarm=$alarm.sttimeout=$timeout.strepeat=$repeatEvery.stscope_ex=$scope_short.st)
             {
                 retval.st = templateLib.getInstanceOf("onAlarm",
-              new STAttrMap().put("alarm", (alarm33!=null?alarm33.st:null)).put("timeout", (timeout34!=null?timeout34.st:null)).put("repeat", (repeatEvery35!=null?repeatEvery35.st:null)).put("scope_ex", (scope_short36!=null?scope_short36.st:null)));
+              new STAttrMap().put("alarm", (alarm32!=null?alarm32.st:null)).put("timeout", (timeout33!=null?timeout33.st:null)).put("repeat", (repeatEvery34!=null?repeatEvery34.st:null)).put("scope_ex", (scope_short35!=null?scope_short35.st:null)));
             }
 
 
@@ -2254,29 +2311,29 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "alarm"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:225:1: alarm[List join, List signal, Boolean empty, Boolean isWait] : ^( ALARM expr[null] ( std_attr )? ) -> wait(art=\"for\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWait);
-    public final BPELscriptWalker.alarm_return alarm(List join, List signal, Boolean empty, Boolean isWait) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:282:1: alarm[List join, List signal, Boolean empty, Boolean isWait, List comments] : ^( ALARM expr[null] ( std_attr )? ) -> wait(art=\"for\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWaitcomments=$comments);
+    public final BPELscriptWalker.alarm_return alarm(List join, List signal, Boolean empty, Boolean isWait, List comments) throws RecognitionException {
         BPELscriptWalker.alarm_return retval = new BPELscriptWalker.alarm_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.expr_return expr37 = null;
+        BPELscriptWalker.expr_return expr36 = null;
 
-        BPELscriptWalker.std_attr_return std_attr38 = null;
+        BPELscriptWalker.std_attr_return std_attr37 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:226:2: ( ^( ALARM expr[null] ( std_attr )? ) -> wait(art=\"for\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWait))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:226:4: ^( ALARM expr[null] ( std_attr )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:283:2: ( ^( ALARM expr[null] ( std_attr )? ) -> wait(art=\"for\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWaitcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:283:4: ^( ALARM expr[null] ( std_attr )? )
             {
-            match(input,ALARM,FOLLOW_ALARM_in_alarm1109); 
+            match(input,ALARM,FOLLOW_ALARM_in_alarm1116); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_expr_in_alarm1111);
-            expr37=expr(null);
+            pushFollow(FOLLOW_expr_in_alarm1118);
+            expr36=expr(null);
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:226:23: ( std_attr )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:283:23: ( std_attr )?
             int alt26=2;
             int LA26_0 = input.LA(1);
 
@@ -2285,10 +2342,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt26) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:226:23: std_attr
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:283:23: std_attr
                     {
-                    pushFollow(FOLLOW_std_attr_in_alarm1114);
-                    std_attr38=std_attr();
+                    pushFollow(FOLLOW_std_attr_in_alarm1121);
+                    std_attr37=std_attr();
 
                     state._fsp--;
 
@@ -2303,10 +2360,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 227:2: -> wait(art=\"for\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWait)
+            // 284:2: -> wait(art=\"for\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWaitcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("wait",
-              new STAttrMap().put("art", "for").put("expr", (expr37!=null?expr37.st:null)).put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr38!=null?std_attr38.st:null)).put("isWait", isWait));
+              new STAttrMap().put("art", "for").put("expr", (expr36!=null?expr36.st:null)).put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr37!=null?std_attr37.st:null)).put("isWait", isWait).put("comments", comments));
             }
 
 
@@ -2330,29 +2387,29 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "timeout"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:230:1: timeout[List join, List signal, Boolean empty, Boolean isWait] : ^( TIMEOUT expr[null] ( std_attr )? ) -> wait(art=\"until\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWait);
-    public final BPELscriptWalker.timeout_return timeout(List join, List signal, Boolean empty, Boolean isWait) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:287:1: timeout[List join, List signal, Boolean empty, Boolean isWait, List comments] : ^( TIMEOUT expr[null] ( std_attr )? ) -> wait(art=\"until\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWaitcomments=$comments);
+    public final BPELscriptWalker.timeout_return timeout(List join, List signal, Boolean empty, Boolean isWait, List comments) throws RecognitionException {
         BPELscriptWalker.timeout_return retval = new BPELscriptWalker.timeout_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.expr_return expr39 = null;
+        BPELscriptWalker.expr_return expr38 = null;
 
-        BPELscriptWalker.std_attr_return std_attr40 = null;
+        BPELscriptWalker.std_attr_return std_attr39 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:231:2: ( ^( TIMEOUT expr[null] ( std_attr )? ) -> wait(art=\"until\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWait))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:231:4: ^( TIMEOUT expr[null] ( std_attr )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:288:2: ( ^( TIMEOUT expr[null] ( std_attr )? ) -> wait(art=\"until\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWaitcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:288:4: ^( TIMEOUT expr[null] ( std_attr )? )
             {
-            match(input,TIMEOUT,FOLLOW_TIMEOUT_in_timeout1172); 
+            match(input,TIMEOUT,FOLLOW_TIMEOUT_in_timeout1184); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_expr_in_timeout1174);
-            expr39=expr(null);
+            pushFollow(FOLLOW_expr_in_timeout1186);
+            expr38=expr(null);
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:231:25: ( std_attr )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:288:25: ( std_attr )?
             int alt27=2;
             int LA27_0 = input.LA(1);
 
@@ -2361,10 +2418,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt27) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:231:25: std_attr
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:288:25: std_attr
                     {
-                    pushFollow(FOLLOW_std_attr_in_timeout1177);
-                    std_attr40=std_attr();
+                    pushFollow(FOLLOW_std_attr_in_timeout1189);
+                    std_attr39=std_attr();
 
                     state._fsp--;
 
@@ -2379,10 +2436,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 232:2: -> wait(art=\"until\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWait)
+            // 289:2: -> wait(art=\"until\"expr=$expr.stjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stisWait=isWaitcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("wait",
-              new STAttrMap().put("art", "until").put("expr", (expr39!=null?expr39.st:null)).put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr40!=null?std_attr40.st:null)).put("isWait", isWait));
+              new STAttrMap().put("art", "until").put("expr", (expr38!=null?expr38.st:null)).put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr39!=null?std_attr39.st:null)).put("isWait", isWait).put("comments", comments));
             }
 
 
@@ -2406,23 +2463,23 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "repeatEvery"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:235:1: repeatEvery : ^( REPEATEVERY expr[null] ) -> wait(art=\"repeatEvery\"expr=$expr.stskip=\"true\");
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:292:1: repeatEvery : ^( REPEATEVERY expr[null] ) -> wait(art=\"repeatEvery\"expr=$expr.stskip=\"true\");
     public final BPELscriptWalker.repeatEvery_return repeatEvery() throws RecognitionException {
         BPELscriptWalker.repeatEvery_return retval = new BPELscriptWalker.repeatEvery_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.expr_return expr41 = null;
+        BPELscriptWalker.expr_return expr40 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:236:2: ( ^( REPEATEVERY expr[null] ) -> wait(art=\"repeatEvery\"expr=$expr.stskip=\"true\"))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:236:4: ^( REPEATEVERY expr[null] )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:293:2: ( ^( REPEATEVERY expr[null] ) -> wait(art=\"repeatEvery\"expr=$expr.stskip=\"true\"))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:293:4: ^( REPEATEVERY expr[null] )
             {
-            match(input,REPEATEVERY,FOLLOW_REPEATEVERY_in_repeatEvery1232); 
+            match(input,REPEATEVERY,FOLLOW_REPEATEVERY_in_repeatEvery1249); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_expr_in_repeatEvery1234);
-            expr41=expr(null);
+            pushFollow(FOLLOW_expr_in_repeatEvery1251);
+            expr40=expr(null);
 
             state._fsp--;
 
@@ -2431,10 +2488,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 237:2: -> wait(art=\"repeatEvery\"expr=$expr.stskip=\"true\")
+            // 294:2: -> wait(art=\"repeatEvery\"expr=$expr.stskip=\"true\")
             {
                 retval.st = templateLib.getInstanceOf("wait",
-              new STAttrMap().put("art", "repeatEvery").put("expr", (expr41!=null?expr41.st:null)).put("skip", "true"));
+              new STAttrMap().put("art", "repeatEvery").put("expr", (expr40!=null?expr40.st:null)).put("skip", "true"));
             }
 
 
@@ -2458,7 +2515,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "onMessage"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:240:1: onMessage[HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ^( ONMESSAGE pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (pt= portType )? (mex= msgEx )? p= ID o= ID (corr= correlation )? (w= with_ex )? ) -> receive(rec_name=\"onMessage\"path_st=$pb.param_idspb=$pb.stpartner=$p.textop=$o.textportType=$pt.stmsgEx=$mex.stcorrelation_opt=$corr.stwith_ex=$w.st);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:297:1: onMessage[HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\tHashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ^( ONMESSAGE pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (pt= portType )? (mex= msgEx )? p= ID o= ID (corr= correlation )? (w= with_ex )? ) -> receive(rec_name=\"onMessage\"path_st=$pb.param_idspb=$pb.stpartner=$p.textop=$o.textportType=$pt.stmsgEx=$mex.stcorrelation_opt=$corr.stwith_ex=$w.st);
     public final BPELscriptWalker.onMessage_return onMessage(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
         BPELscriptWalker.onMessage_return retval = new BPELscriptWalker.onMessage_return();
         retval.start = input.LT(1);
@@ -2477,18 +2534,18 @@ public class BPELscriptWalker extends TreeParser {
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:242:9: ( ^( ONMESSAGE pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (pt= portType )? (mex= msgEx )? p= ID o= ID (corr= correlation )? (w= with_ex )? ) -> receive(rec_name=\"onMessage\"path_st=$pb.param_idspb=$pb.stpartner=$p.textop=$o.textportType=$pt.stmsgEx=$mex.stcorrelation_opt=$corr.stwith_ex=$w.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:242:12: ^( ONMESSAGE pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (pt= portType )? (mex= msgEx )? p= ID o= ID (corr= correlation )? (w= with_ex )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:299:9: ( ^( ONMESSAGE pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (pt= portType )? (mex= msgEx )? p= ID o= ID (corr= correlation )? (w= with_ex )? ) -> receive(rec_name=\"onMessage\"path_st=$pb.param_idspb=$pb.stpartner=$p.textop=$o.textportType=$pt.stmsgEx=$mex.stcorrelation_opt=$corr.stwith_ex=$w.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:299:12: ^( ONMESSAGE pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (pt= portType )? (mex= msgEx )? p= ID o= ID (corr= correlation )? (w= with_ex )? )
             {
-            match(input,ONMESSAGE,FOLLOW_ONMESSAGE_in_onMessage1278); 
+            match(input,ONMESSAGE,FOLLOW_ONMESSAGE_in_onMessage1295); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_param_block_in_onMessage1282);
+            pushFollow(FOLLOW_param_block_in_onMessage1299);
             pb=param_block(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:243:13: (pt= portType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:300:13: (pt= portType )?
             int alt28=2;
             int LA28_0 = input.LA(1);
 
@@ -2497,9 +2554,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt28) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:243:13: pt= portType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:300:13: pt= portType
                     {
-                    pushFollow(FOLLOW_portType_in_onMessage1298);
+                    pushFollow(FOLLOW_portType_in_onMessage1315);
                     pt=portType();
 
                     state._fsp--;
@@ -2510,7 +2567,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:243:27: (mex= msgEx )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:300:27: (mex= msgEx )?
             int alt29=2;
             int LA29_0 = input.LA(1);
 
@@ -2519,9 +2576,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt29) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:243:27: mex= msgEx
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:300:27: mex= msgEx
                     {
-                    pushFollow(FOLLOW_msgEx_in_onMessage1303);
+                    pushFollow(FOLLOW_msgEx_in_onMessage1320);
                     mex=msgEx();
 
                     state._fsp--;
@@ -2532,9 +2589,9 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            p=(CommonTree)match(input,ID,FOLLOW_ID_in_onMessage1308); 
-            o=(CommonTree)match(input,ID,FOLLOW_ID_in_onMessage1312); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:243:49: (corr= correlation )?
+            p=(CommonTree)match(input,ID,FOLLOW_ID_in_onMessage1325); 
+            o=(CommonTree)match(input,ID,FOLLOW_ID_in_onMessage1329); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:300:49: (corr= correlation )?
             int alt30=2;
             int LA30_0 = input.LA(1);
 
@@ -2543,9 +2600,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt30) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:243:49: corr= correlation
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:300:49: corr= correlation
                     {
-                    pushFollow(FOLLOW_correlation_in_onMessage1316);
+                    pushFollow(FOLLOW_correlation_in_onMessage1333);
                     corr=correlation();
 
                     state._fsp--;
@@ -2556,7 +2613,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:243:64: (w= with_ex )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:300:64: (w= with_ex )?
             int alt31=2;
             int LA31_0 = input.LA(1);
 
@@ -2565,9 +2622,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt31) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:243:64: w= with_ex
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:300:64: w= with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_onMessage1321);
+                    pushFollow(FOLLOW_with_ex_in_onMessage1338);
                     w=with_ex();
 
                     state._fsp--;
@@ -2583,7 +2640,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 244:9: -> receive(rec_name=\"onMessage\"path_st=$pb.param_idspb=$pb.stpartner=$p.textop=$o.textportType=$pt.stmsgEx=$mex.stcorrelation_opt=$corr.stwith_ex=$w.st)
+            // 301:9: -> receive(rec_name=\"onMessage\"path_st=$pb.param_idspb=$pb.stpartner=$p.textop=$o.textportType=$pt.stmsgEx=$mex.stcorrelation_opt=$corr.stwith_ex=$w.st)
             {
                 retval.st = templateLib.getInstanceOf("receive",
               new STAttrMap().put("rec_name", "onMessage").put("path_st", (pb!=null?pb.param_ids:null)).put("pb", (pb!=null?pb.st:null)).put("partner", (p!=null?p.getText():null)).put("op", (o!=null?o.getText():null)).put("portType", (pt!=null?pt.st:null)).put("msgEx", (mex!=null?mex.st:null)).put("correlation_opt", (corr!=null?corr.st:null)).put("with_ex", (w!=null?w.st:null)));
@@ -2610,23 +2667,23 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "flow"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:248:1: flow[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb] : ^( FLOW (s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ std_attr ) -> flow(sequence=$sjoin=$joinsignal=$signalstd_attr=$std_attr.st);
-    public final BPELscriptWalker.flow_return flow(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:305:1: flow[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments] : ^( FLOW (s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ std_attr ) -> flow(sequence=$sjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.flow_return flow(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments) throws RecognitionException {
         BPELscriptWalker.flow_return retval = new BPELscriptWalker.flow_return();
         retval.start = input.LT(1);
 
         List list_s=null;
-        BPELscriptWalker.std_attr_return std_attr42 = null;
+        BPELscriptWalker.std_attr_return std_attr41 = null;
 
         RuleReturnScope s = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:250:2: ( ^( FLOW (s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ std_attr ) -> flow(sequence=$sjoin=$joinsignal=$signalstd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:250:5: ^( FLOW (s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:307:2: ( ^( FLOW (s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ std_attr ) -> flow(sequence=$sjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:307:5: ^( FLOW (s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+ std_attr )
             {
-            match(input,FLOW,FOLLOW_FLOW_in_flow1416); 
+            match(input,FLOW,FOLLOW_FLOW_in_flow1433); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:250:13: (s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:307:13: (s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )+
             int cnt32=0;
             loop32:
             do {
@@ -2640,9 +2697,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt32) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:250:13: s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:307:13: s+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]
             	    {
-            	    pushFollow(FOLLOW_sequence_in_flow1420);
+            	    pushFollow(FOLLOW_sequence_in_flow1437);
             	    s=sequence(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             	    state._fsp--;
@@ -2663,8 +2720,8 @@ public class BPELscriptWalker extends TreeParser {
                 cnt32++;
             } while (true);
 
-            pushFollow(FOLLOW_std_attr_in_flow1424);
-            std_attr42=std_attr();
+            pushFollow(FOLLOW_std_attr_in_flow1441);
+            std_attr41=std_attr();
 
             state._fsp--;
 
@@ -2673,10 +2730,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 251:2: -> flow(sequence=$sjoin=$joinsignal=$signalstd_attr=$std_attr.st)
+            // 308:2: -> flow(sequence=$sjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("flow",
-              new STAttrMap().put("sequence", list_s).put("join", join).put("signal", signal).put("std_attr", (std_attr42!=null?std_attr42.st:null)));
+              new STAttrMap().put("sequence", list_s).put("join", join).put("signal", signal).put("std_attr", (std_attr41!=null?std_attr41.st:null)).put("comments", comments));
             }
 
 
@@ -2700,8 +2757,8 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "if_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:254:1: if_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb] : ^( IF iex= expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )* ( ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )? std_attr ) -> if_ex(iex=$iex.stseq=$s.steiex=$eiexseqei=$sieseqe=$se.stjoin=$joinsignal=$signalstd_attr=$std_attr.st);
-    public final BPELscriptWalker.if_ex_return if_ex(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:311:1: if_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments] : ^( IF iex= expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )* ( ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )? std_attr ) -> if_ex(iex=$iex.stseq=$s.steiex=$eiexseqei=$sieseqe=$se.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.if_ex_return if_ex(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments) throws RecognitionException {
         BPELscriptWalker.if_ex_return retval = new BPELscriptWalker.if_ex_return();
         retval.start = input.LT(1);
 
@@ -2713,28 +2770,28 @@ public class BPELscriptWalker extends TreeParser {
 
         BPELscriptWalker.sequence_return se = null;
 
-        BPELscriptWalker.std_attr_return std_attr43 = null;
+        BPELscriptWalker.std_attr_return std_attr42 = null;
 
         RuleReturnScope eiex = null;
         RuleReturnScope sie = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:256:2: ( ^( IF iex= expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )* ( ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )? std_attr ) -> if_ex(iex=$iex.stseq=$s.steiex=$eiexseqei=$sieseqe=$se.stjoin=$joinsignal=$signalstd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:256:5: ^( IF iex= expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )* ( ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )? std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:313:2: ( ^( IF iex= expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )* ( ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )? std_attr ) -> if_ex(iex=$iex.stseq=$s.steiex=$eiexseqei=$sieseqe=$se.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:313:5: ^( IF iex= expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ( ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )* ( ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )? std_attr )
             {
-            match(input,IF,FOLLOW_IF_in_if_ex1464); 
+            match(input,IF,FOLLOW_IF_in_if_ex1486); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_expr_in_if_ex1468);
+            pushFollow(FOLLOW_expr_in_if_ex1490);
             iex=expr(null);
 
             state._fsp--;
 
-            pushFollow(FOLLOW_sequence_in_if_ex1473);
+            pushFollow(FOLLOW_sequence_in_if_ex1495);
             s=sequence(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:257:3: ( ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )*
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:314:3: ( ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )*
             loop33:
             do {
                 int alt33=2;
@@ -2747,12 +2804,12 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt33) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:257:4: ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:314:4: ^( ELSIF eiex+= expr[null] sie+= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )
             	    {
-            	    match(input,ELSIF,FOLLOW_ELSIF_in_if_ex1481); 
+            	    match(input,ELSIF,FOLLOW_ELSIF_in_if_ex1503); 
 
             	    match(input, Token.DOWN, null); 
-            	    pushFollow(FOLLOW_expr_in_if_ex1485);
+            	    pushFollow(FOLLOW_expr_in_if_ex1507);
             	    eiex=expr(null);
 
             	    state._fsp--;
@@ -2760,7 +2817,7 @@ public class BPELscriptWalker extends TreeParser {
             	    if (list_eiex==null) list_eiex=new ArrayList();
             	    list_eiex.add(eiex.getTemplate());
 
-            	    pushFollow(FOLLOW_sequence_in_if_ex1490);
+            	    pushFollow(FOLLOW_sequence_in_if_ex1512);
             	    sie=sequence(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             	    state._fsp--;
@@ -2779,7 +2836,7 @@ public class BPELscriptWalker extends TreeParser {
                 }
             } while (true);
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:258:3: ( ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:315:3: ( ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] ) )?
             int alt34=2;
             int LA34_0 = input.LA(1);
 
@@ -2788,12 +2845,12 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt34) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:258:4: ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:315:4: ^( ELSE se= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] )
                     {
-                    match(input,ELSE,FOLLOW_ELSE_in_if_ex1501); 
+                    match(input,ELSE,FOLLOW_ELSE_in_if_ex1523); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_sequence_in_if_ex1505);
+                    pushFollow(FOLLOW_sequence_in_if_ex1527);
                     se=sequence(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
                     state._fsp--;
@@ -2806,8 +2863,8 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_if_ex1511);
-            std_attr43=std_attr();
+            pushFollow(FOLLOW_std_attr_in_if_ex1533);
+            std_attr42=std_attr();
 
             state._fsp--;
 
@@ -2816,10 +2873,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 259:2: -> if_ex(iex=$iex.stseq=$s.steiex=$eiexseqei=$sieseqe=$se.stjoin=$joinsignal=$signalstd_attr=$std_attr.st)
+            // 316:2: -> if_ex(iex=$iex.stseq=$s.steiex=$eiexseqei=$sieseqe=$se.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("if_ex",
-              new STAttrMap().put("iex", (iex!=null?iex.st:null)).put("seq", (s!=null?s.st:null)).put("eiex", list_eiex).put("seqei", list_sie).put("seqe", (se!=null?se.st:null)).put("join", join).put("signal", signal).put("std_attr", (std_attr43!=null?std_attr43.st:null)));
+              new STAttrMap().put("iex", (iex!=null?iex.st:null)).put("seq", (s!=null?s.st:null)).put("eiex", list_eiex).put("seqei", list_sie).put("seqe", (se!=null?se.st:null)).put("join", join).put("signal", signal).put("std_attr", (std_attr42!=null?std_attr42.st:null)).put("comments", comments));
             }
 
 
@@ -2843,23 +2900,23 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "signal"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:262:1: signal : ^( SIGNAL ID (exp+= expr[null] )? ) -> source(source=$ID.texttrans=$expempty=empty);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:319:1: signal : ^( SIGNAL ID (exp+= expr[null] )? ) -> source(source=$ID.texttrans=$expempty=empty);
     public final BPELscriptWalker.signal_return signal() throws RecognitionException {
         BPELscriptWalker.signal_return retval = new BPELscriptWalker.signal_return();
         retval.start = input.LT(1);
 
-        CommonTree ID44=null;
+        CommonTree ID43=null;
         List list_exp=null;
         RuleReturnScope exp = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:263:2: ( ^( SIGNAL ID (exp+= expr[null] )? ) -> source(source=$ID.texttrans=$expempty=empty))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:263:4: ^( SIGNAL ID (exp+= expr[null] )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:320:2: ( ^( SIGNAL ID (exp+= expr[null] )? ) -> source(source=$ID.texttrans=$expempty=empty))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:320:4: ^( SIGNAL ID (exp+= expr[null] )? )
             {
-            match(input,SIGNAL,FOLLOW_SIGNAL_in_signal1569); 
+            match(input,SIGNAL,FOLLOW_SIGNAL_in_signal1596); 
 
             match(input, Token.DOWN, null); 
-            ID44=(CommonTree)match(input,ID,FOLLOW_ID_in_signal1571); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:263:19: (exp+= expr[null] )?
+            ID43=(CommonTree)match(input,ID,FOLLOW_ID_in_signal1598); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:320:19: (exp+= expr[null] )?
             int alt35=2;
             int LA35_0 = input.LA(1);
 
@@ -2868,9 +2925,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt35) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:263:19: exp+= expr[null]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:320:19: exp+= expr[null]
                     {
-                    pushFollow(FOLLOW_expr_in_signal1575);
+                    pushFollow(FOLLOW_expr_in_signal1602);
                     exp=expr(null);
 
                     state._fsp--;
@@ -2892,10 +2949,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 267:2: -> source(source=$ID.texttrans=$expempty=empty)
+            // 324:2: -> source(source=$ID.texttrans=$expempty=empty)
             {
                 retval.st = templateLib.getInstanceOf("source",
-              new STAttrMap().put("source", (ID44!=null?ID44.getText():null)).put("trans", list_exp).put("empty", empty));
+              new STAttrMap().put("source", (ID43!=null?ID43.getText():null)).put("trans", list_exp).put("empty", empty));
             }
 
 
@@ -2919,7 +2976,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "join"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:270:1: join : ^( JOIN (ids+= ID )+ (exp+= expr[null] )? ) -> std_elt(target=$idsjoin=$exp);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:327:1: join : ^( JOIN (ids+= ID )+ (exp+= expr[null] )? ) -> std_elt(target=$idsjoin=$exp);
     public final BPELscriptWalker.join_return join() throws RecognitionException {
         BPELscriptWalker.join_return retval = new BPELscriptWalker.join_return();
         retval.start = input.LT(1);
@@ -2929,13 +2986,13 @@ public class BPELscriptWalker extends TreeParser {
         List list_exp=null;
         RuleReturnScope exp = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:271:2: ( ^( JOIN (ids+= ID )+ (exp+= expr[null] )? ) -> std_elt(target=$idsjoin=$exp))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:271:4: ^( JOIN (ids+= ID )+ (exp+= expr[null] )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:328:2: ( ^( JOIN (ids+= ID )+ (exp+= expr[null] )? ) -> std_elt(target=$idsjoin=$exp))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:328:4: ^( JOIN (ids+= ID )+ (exp+= expr[null] )? )
             {
-            match(input,JOIN,FOLLOW_JOIN_in_join1614); 
+            match(input,JOIN,FOLLOW_JOIN_in_join1641); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:271:14: (ids+= ID )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:328:14: (ids+= ID )+
             int cnt36=0;
             loop36:
             do {
@@ -2949,9 +3006,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt36) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:271:14: ids+= ID
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:328:14: ids+= ID
             	    {
-            	    ids=(CommonTree)match(input,ID,FOLLOW_ID_in_join1618); 
+            	    ids=(CommonTree)match(input,ID,FOLLOW_ID_in_join1645); 
             	    if (list_ids==null) list_ids=new ArrayList();
             	    list_ids.add(ids);
 
@@ -2968,7 +3025,7 @@ public class BPELscriptWalker extends TreeParser {
                 cnt36++;
             } while (true);
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:271:23: (exp+= expr[null] )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:328:23: (exp+= expr[null] )?
             int alt37=2;
             int LA37_0 = input.LA(1);
 
@@ -2977,9 +3034,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt37) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:271:23: exp+= expr[null]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:328:23: exp+= expr[null]
                     {
-                    pushFollow(FOLLOW_expr_in_join1623);
+                    pushFollow(FOLLOW_expr_in_join1650);
                     exp=expr(null);
 
                     state._fsp--;
@@ -2998,7 +3055,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 272:2: -> std_elt(target=$idsjoin=$exp)
+            // 329:2: -> std_elt(target=$idsjoin=$exp)
             {
                 retval.st = templateLib.getInstanceOf("std_elt",
               new STAttrMap().put("target", list_ids).put("join", list_exp));
@@ -3025,7 +3082,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "sequence"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:275:1: sequence[HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb] : ^( SEQUENCE (j+= join )? b= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* std_attr ) -> sequence(content=$b.stjoin=$jsignal=$sstd_attr=$std_attr.st);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:332:1: sequence[HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb] : ^( SEQUENCE (j+= join )? b= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* std_attr ) -> sequence(content=$b.stjoin=$jsignal=$sstd_attr=$std_attr.stcomments=comments);
     public final BPELscriptWalker.sequence_return sequence(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
         BPELscriptWalker.sequence_return retval = new BPELscriptWalker.sequence_return();
         retval.start = input.LT(1);
@@ -3034,18 +3091,19 @@ public class BPELscriptWalker extends TreeParser {
         List list_s=null;
         BPELscriptWalker.body_return b = null;
 
-        BPELscriptWalker.std_attr_return std_attr45 = null;
+        BPELscriptWalker.std_attr_return std_attr44 = null;
 
         RuleReturnScope j = null;
         RuleReturnScope s = null;
+        List comments = getComments(retval);
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:277:2: ( ^( SEQUENCE (j+= join )? b= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* std_attr ) -> sequence(content=$b.stjoin=$jsignal=$sstd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:277:4: ^( SEQUENCE (j+= join )? b= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:335:2: ( ^( SEQUENCE (j+= join )? b= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* std_attr ) -> sequence(content=$b.stjoin=$jsignal=$sstd_attr=$std_attr.stcomments=comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:335:4: ^( SEQUENCE (j+= join )? b= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* std_attr )
             {
-            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_sequence1656); 
+            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_sequence1687); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:277:16: (j+= join )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:335:16: (j+= join )?
             int alt38=2;
             int LA38_0 = input.LA(1);
 
@@ -3054,9 +3112,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt38) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:277:16: j+= join
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:335:16: j+= join
                     {
-                    pushFollow(FOLLOW_join_in_sequence1660);
+                    pushFollow(FOLLOW_join_in_sequence1691);
                     j=join();
 
                     state._fsp--;
@@ -3070,12 +3128,12 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_body_in_sequence1665);
+            pushFollow(FOLLOW_body_in_sequence1696);
             b=body(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:277:81: (s+= signal )*
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:335:81: (s+= signal )*
             loop39:
             do {
                 int alt39=2;
@@ -3088,9 +3146,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt39) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:277:81: s+= signal
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:335:81: s+= signal
             	    {
-            	    pushFollow(FOLLOW_signal_in_sequence1670);
+            	    pushFollow(FOLLOW_signal_in_sequence1701);
             	    s=signal();
 
             	    state._fsp--;
@@ -3107,8 +3165,8 @@ public class BPELscriptWalker extends TreeParser {
                 }
             } while (true);
 
-            pushFollow(FOLLOW_std_attr_in_sequence1673);
-            std_attr45=std_attr();
+            pushFollow(FOLLOW_std_attr_in_sequence1704);
+            std_attr44=std_attr();
 
             state._fsp--;
 
@@ -3117,10 +3175,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 278:2: -> sequence(content=$b.stjoin=$jsignal=$sstd_attr=$std_attr.st)
+            // 336:2: -> sequence(content=$b.stjoin=$jsignal=$sstd_attr=$std_attr.stcomments=comments)
             {
                 retval.st = templateLib.getInstanceOf("sequence",
-              new STAttrMap().put("content", (b!=null?b.st:null)).put("join", list_j).put("signal", list_s).put("std_attr", (std_attr45!=null?std_attr45.st:null)));
+              new STAttrMap().put("content", (b!=null?b.st:null)).put("join", list_j).put("signal", list_s).put("std_attr", (std_attr44!=null?std_attr44.st:null)).put("comments", comments));
             }
 
 
@@ -3144,7 +3202,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "scope_sequence"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:282:1: scope_sequence[HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\t HashMap<String, String> _cs,HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, StringTemplate handler] : ^( SEQUENCE (j+= join )? b= scope_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* ) -> scope_sequence(content=$b.stjoin=$jsignal=$splinks=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbcompHdl=handler);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:340:1: scope_sequence[HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\t HashMap<String, String> _cs,HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, StringTemplate handler] : ^( SEQUENCE (j+= join )? b= scope_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* ) -> scope_sequence(content=$b.stjoin=$jsignal=$splinks=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbcompHdl=handler);
     public final BPELscriptWalker.scope_sequence_return scope_sequence(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, StringTemplate handler) throws RecognitionException {
         BPELscriptWalker.scope_sequence_return retval = new BPELscriptWalker.scope_sequence_return();
         retval.start = input.LT(1);
@@ -3156,13 +3214,13 @@ public class BPELscriptWalker extends TreeParser {
         RuleReturnScope j = null;
         RuleReturnScope s = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:284:2: ( ^( SEQUENCE (j+= join )? b= scope_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* ) -> scope_sequence(content=$b.stjoin=$jsignal=$splinks=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbcompHdl=handler))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:284:4: ^( SEQUENCE (j+= join )? b= scope_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:342:2: ( ^( SEQUENCE (j+= join )? b= scope_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* ) -> scope_sequence(content=$b.stjoin=$jsignal=$splinks=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbcompHdl=handler))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:342:4: ^( SEQUENCE (j+= join )? b= scope_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (s+= signal )* )
             {
-            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_scope_sequence1713); 
+            match(input,SEQUENCE,FOLLOW_SEQUENCE_in_scope_sequence1749); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:284:16: (j+= join )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:342:16: (j+= join )?
             int alt40=2;
             int LA40_0 = input.LA(1);
 
@@ -3171,9 +3229,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt40) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:284:16: j+= join
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:342:16: j+= join
                     {
-                    pushFollow(FOLLOW_join_in_scope_sequence1717);
+                    pushFollow(FOLLOW_join_in_scope_sequence1753);
                     j=join();
 
                     state._fsp--;
@@ -3187,12 +3245,12 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_scope_block_in_scope_sequence1722);
+            pushFollow(FOLLOW_scope_block_in_scope_sequence1758);
             b=scope_block(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:284:88: (s+= signal )*
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:342:88: (s+= signal )*
             loop41:
             do {
                 int alt41=2;
@@ -3205,9 +3263,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt41) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:284:88: s+= signal
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:342:88: s+= signal
             	    {
-            	    pushFollow(FOLLOW_signal_in_scope_sequence1727);
+            	    pushFollow(FOLLOW_signal_in_scope_sequence1763);
             	    s=signal();
 
             	    state._fsp--;
@@ -3229,7 +3287,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 285:2: -> scope_sequence(content=$b.stjoin=$jsignal=$splinks=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbcompHdl=handler)
+            // 343:2: -> scope_sequence(content=$b.stjoin=$jsignal=$splinks=_plmessages=_messagesvars=_varscors=_csfaultHdl=_faultsfaultHdl_pb=_faults_pbcompHdl=handler)
             {
                 retval.st = templateLib.getInstanceOf("scope_sequence",
               new STAttrMap().put("content", (b!=null?b.st:null)).put("join", list_j).put("signal", list_s).put("plinks", _pl).put("messages", _messages).put("vars", _vars).put("cors", _cs).put("faultHdl", _faults).put("faultHdl_pb", _faults_pb).put("compHdl", handler));
@@ -3256,37 +3314,37 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "while_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:289:1: while_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb] : ^( WHILE expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr ) -> while(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.st);
-    public final BPELscriptWalker.while_ex_return while_ex(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:347:1: while_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments] : ^( WHILE expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr ) -> while(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.while_ex_return while_ex(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments) throws RecognitionException {
         BPELscriptWalker.while_ex_return retval = new BPELscriptWalker.while_ex_return();
         retval.start = input.LT(1);
 
         BPELscriptWalker.sequence_return s = null;
 
-        BPELscriptWalker.expr_return expr46 = null;
+        BPELscriptWalker.expr_return expr45 = null;
 
-        BPELscriptWalker.std_attr_return std_attr47 = null;
+        BPELscriptWalker.std_attr_return std_attr46 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:291:2: ( ^( WHILE expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr ) -> while(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:291:4: ^( WHILE expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:349:2: ( ^( WHILE expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr ) -> while(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:349:4: ^( WHILE expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr )
             {
-            match(input,WHILE,FOLLOW_WHILE_in_while_ex1801); 
+            match(input,WHILE,FOLLOW_WHILE_in_while_ex1837); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_expr_in_while_ex1803);
-            expr46=expr(null);
+            pushFollow(FOLLOW_expr_in_while_ex1839);
+            expr45=expr(null);
 
             state._fsp--;
 
-            pushFollow(FOLLOW_sequence_in_while_ex1808);
+            pushFollow(FOLLOW_sequence_in_while_ex1844);
             s=sequence(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             state._fsp--;
 
-            pushFollow(FOLLOW_std_attr_in_while_ex1811);
-            std_attr47=std_attr();
+            pushFollow(FOLLOW_std_attr_in_while_ex1847);
+            std_attr46=std_attr();
 
             state._fsp--;
 
@@ -3295,10 +3353,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 292:2: -> while(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.st)
+            // 350:2: -> while(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("while",
-              new STAttrMap().put("expr_st", (expr46!=null?expr46.st:null)).put("body_st", (s!=null?s.st:null)).put("join", join).put("signal", signal).put("std_attr", (std_attr47!=null?std_attr47.st:null)));
+              new STAttrMap().put("expr_st", (expr45!=null?expr45.st:null)).put("body_st", (s!=null?s.st:null)).put("join", join).put("signal", signal).put("std_attr", (std_attr46!=null?std_attr46.st:null)).put("comments", comments));
             }
 
 
@@ -3322,37 +3380,37 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "until_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:295:1: until_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb] : ^( UNTIL expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr ) -> until(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.st);
-    public final BPELscriptWalker.until_ex_return until_ex(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:353:1: until_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, \n\t\tHashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments] : ^( UNTIL expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr ) -> until(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.until_ex_return until_ex(List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments) throws RecognitionException {
         BPELscriptWalker.until_ex_return retval = new BPELscriptWalker.until_ex_return();
         retval.start = input.LT(1);
 
         BPELscriptWalker.sequence_return s = null;
 
-        BPELscriptWalker.expr_return expr48 = null;
+        BPELscriptWalker.expr_return expr47 = null;
 
-        BPELscriptWalker.std_attr_return std_attr49 = null;
+        BPELscriptWalker.std_attr_return std_attr48 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:297:2: ( ^( UNTIL expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr ) -> until(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:297:4: ^( UNTIL expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:355:2: ( ^( UNTIL expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr ) -> until(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:355:4: ^( UNTIL expr[null] s= sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr )
             {
-            match(input,UNTIL,FOLLOW_UNTIL_in_until_ex1855); 
+            match(input,UNTIL,FOLLOW_UNTIL_in_until_ex1896); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_expr_in_until_ex1857);
-            expr48=expr(null);
+            pushFollow(FOLLOW_expr_in_until_ex1898);
+            expr47=expr(null);
 
             state._fsp--;
 
-            pushFollow(FOLLOW_sequence_in_until_ex1862);
+            pushFollow(FOLLOW_sequence_in_until_ex1903);
             s=sequence(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             state._fsp--;
 
-            pushFollow(FOLLOW_std_attr_in_until_ex1865);
-            std_attr49=std_attr();
+            pushFollow(FOLLOW_std_attr_in_until_ex1906);
+            std_attr48=std_attr();
 
             state._fsp--;
 
@@ -3361,10 +3419,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 298:2: -> until(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.st)
+            // 356:2: -> until(expr_st=$expr.stbody_st=$s.stjoin=$joinsignal=$signalstd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("until",
-              new STAttrMap().put("expr_st", (expr48!=null?expr48.st:null)).put("body_st", (s!=null?s.st:null)).put("join", join).put("signal", signal).put("std_attr", (std_attr49!=null?std_attr49.st:null)));
+              new STAttrMap().put("expr_st", (expr47!=null?expr47.st:null)).put("body_st", (s!=null?s.st:null)).put("join", join).put("signal", signal).put("std_attr", (std_attr48!=null?std_attr48.st:null)).put("comments", comments));
             }
 
 
@@ -3388,43 +3446,43 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "foreach"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:301:1: foreach[List join, List signal] : ^( FOR cName= ID init= expr[null] cond= expr[null] (complete+= expr[null] )? scope_short ( PARALLEL )? ( SBO )? std_attr ) -> foreach(id=$cNameinit_st=$init.stcond_st=$cond.stcomplete=$completebody_st=$scope_short.stjoin=$joinsignal=$signalstd_attr=$std_attr.stparallel=$PARALLELsbo=$SBO);
-    public final BPELscriptWalker.foreach_return foreach(List join, List signal) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:359:1: foreach[List join, List signal, List comments] : ^( FOR cName= ID init= expr[null] cond= expr[null] (complete+= expr[null] )? scope_short ( PARALLEL )? ( SBO )? std_attr ) -> foreach(id=$cNameinit_st=$init.stcond_st=$cond.stcomplete=$completebody_st=$scope_short.stjoin=$joinsignal=$signalstd_attr=$std_attr.stparallel=$PARALLELsbo=$SBOcomments=$comments);
+    public final BPELscriptWalker.foreach_return foreach(List join, List signal, List comments) throws RecognitionException {
         BPELscriptWalker.foreach_return retval = new BPELscriptWalker.foreach_return();
         retval.start = input.LT(1);
 
         CommonTree cName=null;
-        CommonTree PARALLEL52=null;
-        CommonTree SBO53=null;
+        CommonTree PARALLEL51=null;
+        CommonTree SBO52=null;
         List list_complete=null;
         BPELscriptWalker.expr_return init = null;
 
         BPELscriptWalker.expr_return cond = null;
 
-        BPELscriptWalker.scope_short_return scope_short50 = null;
+        BPELscriptWalker.scope_short_return scope_short49 = null;
 
-        BPELscriptWalker.std_attr_return std_attr51 = null;
+        BPELscriptWalker.std_attr_return std_attr50 = null;
 
         RuleReturnScope complete = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:302:2: ( ^( FOR cName= ID init= expr[null] cond= expr[null] (complete+= expr[null] )? scope_short ( PARALLEL )? ( SBO )? std_attr ) -> foreach(id=$cNameinit_st=$init.stcond_st=$cond.stcomplete=$completebody_st=$scope_short.stjoin=$joinsignal=$signalstd_attr=$std_attr.stparallel=$PARALLELsbo=$SBO))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:302:4: ^( FOR cName= ID init= expr[null] cond= expr[null] (complete+= expr[null] )? scope_short ( PARALLEL )? ( SBO )? std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:360:2: ( ^( FOR cName= ID init= expr[null] cond= expr[null] (complete+= expr[null] )? scope_short ( PARALLEL )? ( SBO )? std_attr ) -> foreach(id=$cNameinit_st=$init.stcond_st=$cond.stcomplete=$completebody_st=$scope_short.stjoin=$joinsignal=$signalstd_attr=$std_attr.stparallel=$PARALLELsbo=$SBOcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:360:4: ^( FOR cName= ID init= expr[null] cond= expr[null] (complete+= expr[null] )? scope_short ( PARALLEL )? ( SBO )? std_attr )
             {
-            match(input,FOR,FOLLOW_FOR_in_foreach1910); 
+            match(input,FOR,FOLLOW_FOR_in_foreach1956); 
 
             match(input, Token.DOWN, null); 
-            cName=(CommonTree)match(input,ID,FOLLOW_ID_in_foreach1914); 
-            pushFollow(FOLLOW_expr_in_foreach1918);
+            cName=(CommonTree)match(input,ID,FOLLOW_ID_in_foreach1960); 
+            pushFollow(FOLLOW_expr_in_foreach1964);
             init=expr(null);
 
             state._fsp--;
 
-            pushFollow(FOLLOW_expr_in_foreach1923);
+            pushFollow(FOLLOW_expr_in_foreach1969);
             cond=expr(null);
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:302:59: (complete+= expr[null] )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:360:59: (complete+= expr[null] )?
             int alt42=2;
             int LA42_0 = input.LA(1);
 
@@ -3433,9 +3491,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt42) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:302:59: complete+= expr[null]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:360:59: complete+= expr[null]
                     {
-                    pushFollow(FOLLOW_expr_in_foreach1928);
+                    pushFollow(FOLLOW_expr_in_foreach1974);
                     complete=expr(null);
 
                     state._fsp--;
@@ -3449,12 +3507,12 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_scope_short_in_foreach1936);
-            scope_short50=scope_short();
+            pushFollow(FOLLOW_scope_short_in_foreach1982);
+            scope_short49=scope_short();
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:303:16: ( PARALLEL )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:361:16: ( PARALLEL )?
             int alt43=2;
             int LA43_0 = input.LA(1);
 
@@ -3463,16 +3521,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt43) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:303:16: PARALLEL
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:361:16: PARALLEL
                     {
-                    PARALLEL52=(CommonTree)match(input,PARALLEL,FOLLOW_PARALLEL_in_foreach1938); 
+                    PARALLEL51=(CommonTree)match(input,PARALLEL,FOLLOW_PARALLEL_in_foreach1984); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:303:26: ( SBO )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:361:26: ( SBO )?
             int alt44=2;
             int LA44_0 = input.LA(1);
 
@@ -3481,17 +3539,17 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt44) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:303:26: SBO
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:361:26: SBO
                     {
-                    SBO53=(CommonTree)match(input,SBO,FOLLOW_SBO_in_foreach1941); 
+                    SBO52=(CommonTree)match(input,SBO,FOLLOW_SBO_in_foreach1987); 
 
                     }
                     break;
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_foreach1944);
-            std_attr51=std_attr();
+            pushFollow(FOLLOW_std_attr_in_foreach1990);
+            std_attr50=std_attr();
 
             state._fsp--;
 
@@ -3500,10 +3558,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 304:2: -> foreach(id=$cNameinit_st=$init.stcond_st=$cond.stcomplete=$completebody_st=$scope_short.stjoin=$joinsignal=$signalstd_attr=$std_attr.stparallel=$PARALLELsbo=$SBO)
+            // 362:2: -> foreach(id=$cNameinit_st=$init.stcond_st=$cond.stcomplete=$completebody_st=$scope_short.stjoin=$joinsignal=$signalstd_attr=$std_attr.stparallel=$PARALLELsbo=$SBOcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("foreach",
-              new STAttrMap().put("id", cName).put("init_st", (init!=null?init.st:null)).put("cond_st", (cond!=null?cond.st:null)).put("complete", list_complete).put("body_st", (scope_short50!=null?scope_short50.st:null)).put("join", join).put("signal", signal).put("std_attr", (std_attr51!=null?std_attr51.st:null)).put("parallel", PARALLEL52).put("sbo", SBO53));
+              new STAttrMap().put("id", cName).put("init_st", (init!=null?init.st:null)).put("cond_st", (cond!=null?cond.st:null)).put("complete", list_complete).put("body_st", (scope_short49!=null?scope_short49.st:null)).put("join", join).put("signal", signal).put("std_attr", (std_attr50!=null?std_attr50.st:null)).put("parallel", PARALLEL51).put("sbo", SBO52).put("comments", comments));
             }
 
 
@@ -3527,8 +3585,8 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "try_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:308:1: try_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, \n\tHashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope] : ^( TRY (cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] )* (c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] )? ) -> list(content_st=$c);
-    public final BPELscriptWalker.try_ex_return try_ex(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:366:1: try_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, \n\tHashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope, List comments] : ^( TRY (cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] )* (c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] )? ) -> list(content_st=$c);
+    public final BPELscriptWalker.try_ex_return try_ex(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.try_ex_return retval = new BPELscriptWalker.try_ex_return();
         retval.start = input.LT(1);
 
@@ -3537,14 +3595,14 @@ public class BPELscriptWalker extends TreeParser {
         RuleReturnScope cls = null;
         RuleReturnScope c = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:310:2: ( ^( TRY (cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] )* (c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] )? ) -> list(content_st=$c))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:310:4: ^( TRY (cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] )* (c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:368:2: ( ^( TRY (cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] )* (c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] )? ) -> list(content_st=$c))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:368:4: ^( TRY (cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] )* (c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] )? )
             {
-            match(input,TRY,FOLLOW_TRY_in_try_ex2017); 
+            match(input,TRY,FOLLOW_TRY_in_try_ex2068); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:310:13: (cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] )*
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:368:13: (cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] )*
                 loop45:
                 do {
                     int alt45=2;
@@ -3557,9 +3615,9 @@ public class BPELscriptWalker extends TreeParser {
 
                     switch (alt45) {
                 	case 1 :
-                	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:310:13: cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope]
+                	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:368:13: cls+= catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope]
                 	    {
-                	    pushFollow(FOLLOW_catch_ex_in_try_ex2021);
+                	    pushFollow(FOLLOW_catch_ex_in_try_ex2072);
                 	    cls=catch_ex(_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope);
 
                 	    state._fsp--;
@@ -3576,7 +3634,7 @@ public class BPELscriptWalker extends TreeParser {
                     }
                 } while (true);
 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:310:86: (c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] )?
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:368:86: (c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb] )?
                 int alt46=2;
                 int LA46_0 = input.LA(1);
 
@@ -3585,9 +3643,9 @@ public class BPELscriptWalker extends TreeParser {
                 }
                 switch (alt46) {
                     case 1 :
-                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:310:86: c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb]
+                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:368:86: c+= body[_vars, _pl, _messages, _cs, _faults, _faults_pb]
                         {
-                        pushFollow(FOLLOW_body_in_try_ex2027);
+                        pushFollow(FOLLOW_body_in_try_ex2078);
                         c=body(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
                         state._fsp--;
@@ -3607,7 +3665,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 311:2: -> list(content_st=$c)
+            // 369:2: -> list(content_st=$c)
             {
                 retval.st = templateLib.getInstanceOf("list",
               new STAttrMap().put("content_st", list_c));
@@ -3634,7 +3692,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "catch_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:314:1: catch_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, \n\tHashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope] : ^( CATCH ( ns_id )? pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (fMT= STRING )? ( faultElt )? ) ;
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:372:1: catch_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, \n\tHashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope] : ^( CATCH ( ns_id )? pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (fMT= STRING )? ( faultElt )? ) ;
     public final BPELscriptWalker.catch_ex_return catch_ex(HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope) throws RecognitionException {
         BPELscriptWalker.catch_ex_return retval = new BPELscriptWalker.catch_ex_return();
         retval.start = input.LT(1);
@@ -3642,19 +3700,19 @@ public class BPELscriptWalker extends TreeParser {
         CommonTree fMT=null;
         BPELscriptWalker.param_block_return pb = null;
 
-        BPELscriptWalker.ns_id_return ns_id54 = null;
+        BPELscriptWalker.ns_id_return ns_id53 = null;
 
-        BPELscriptWalker.faultElt_return faultElt55 = null;
+        BPELscriptWalker.faultElt_return faultElt54 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:316:2: ( ^( CATCH ( ns_id )? pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (fMT= STRING )? ( faultElt )? ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:316:4: ^( CATCH ( ns_id )? pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (fMT= STRING )? ( faultElt )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:374:2: ( ^( CATCH ( ns_id )? pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (fMT= STRING )? ( faultElt )? ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:374:4: ^( CATCH ( ns_id )? pb= param_block[_vars, _pl, _messages, _cs, _faults, _faults_pb] (fMT= STRING )? ( faultElt )? )
             {
-            match(input,CATCH,FOLLOW_CATCH_in_catch_ex2058); 
+            match(input,CATCH,FOLLOW_CATCH_in_catch_ex2110); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:316:12: ( ns_id )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:374:12: ( ns_id )?
             int alt47=2;
             int LA47_0 = input.LA(1);
 
@@ -3663,10 +3721,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt47) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:316:12: ns_id
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:374:12: ns_id
                     {
-                    pushFollow(FOLLOW_ns_id_in_catch_ex2060);
-                    ns_id54=ns_id();
+                    pushFollow(FOLLOW_ns_id_in_catch_ex2112);
+                    ns_id53=ns_id();
 
                     state._fsp--;
 
@@ -3676,12 +3734,12 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_param_block_in_catch_ex2065);
+            pushFollow(FOLLOW_param_block_in_catch_ex2117);
             pb=param_block(_vars, _pl, _messages, _cs, _faults, _faults_pb);
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:316:86: (fMT= STRING )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:374:86: (fMT= STRING )?
             int alt48=2;
             int LA48_0 = input.LA(1);
 
@@ -3690,16 +3748,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt48) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:316:86: fMT= STRING
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:374:86: fMT= STRING
                     {
-                    fMT=(CommonTree)match(input,STRING,FOLLOW_STRING_in_catch_ex2070); 
+                    fMT=(CommonTree)match(input,STRING,FOLLOW_STRING_in_catch_ex2122); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:316:95: ( faultElt )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:374:95: ( faultElt )?
             int alt49=2;
             int LA49_0 = input.LA(1);
 
@@ -3708,10 +3766,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt49) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:316:95: faultElt
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:374:95: faultElt
                     {
-                    pushFollow(FOLLOW_faultElt_in_catch_ex2073);
-                    faultElt55=faultElt();
+                    pushFollow(FOLLOW_faultElt_in_catch_ex2125);
+                    faultElt54=faultElt();
 
                     state._fsp--;
 
@@ -3736,10 +3794,10 @@ public class BPELscriptWalker extends TreeParser {
             		
             		// 1)
             		String faultName = "";
-            		if((ns_id54!=null?ns_id54.nspre:null)!=null) 
-            			faultName+=(ns_id54!=null?ns_id54.nspre:null)+":";
-            		if ((ns_id54!=null?ns_id54.nsloc:null)!=null)			
-            			faultName+=(ns_id54!=null?ns_id54.nsloc:null);
+            		if((ns_id53!=null?ns_id53.nspre:null)!=null) 
+            			faultName+=(ns_id53!=null?ns_id53.nspre:null)+":";
+            		if ((ns_id53!=null?ns_id53.nsloc:null)!=null)			
+            			faultName+=(ns_id53!=null?ns_id53.nsloc:null);
             		else
             			faultName=null;
             		// 2)
@@ -3750,13 +3808,13 @@ public class BPELscriptWalker extends TreeParser {
             		 * when done this like fMT, the behavior was to write "faultMessageType='faultElementName'"
             		 */
             		if ((pb!=null?pb.param_ids:null)!=null) attributes+="\n       faultVariable=\""+(pb!=null?pb.param_ids:null).get(0)+"\"";
-            		if ((fMT!=null?fMT.getText():null)!=null) attributes+="\n       faultMessageType="+(fMT!=null?fMT.getText():null);
-            		if ((faultElt55!=null?faultElt55.st:null)!=null) attributes+=(faultElt55!=null?faultElt55.st:null);
+            		if ((fMT!=null?fMT.getText():null)!=null) attributes+="\n       faultMessageType="+(fMT!=null?fMT.getText():null).replaceFirst(":", "");
+            		if ((faultElt54!=null?faultElt54.st:null)!=null) attributes+=(faultElt54!=null?faultElt54.st:null);
             		// 3)
             		Boolean definedIn = _faults.containsKey(faultName);
             				
             		if (faultName != null && definedIn) {
-            			throwDefinedWarning("exception", (ns_id54!=null?ns_id54.locID:null));
+            			throwDefinedWarning("exception", (ns_id53!=null?ns_id53.locID:null));
             		} 
             		// 4)
             		_faults.put(faultName, attributes);
@@ -3784,14 +3842,14 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "scope_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:360:1: scope_ex[List join, List signal] : ^( SCOPE (id+= ID )? handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ( ISOLATED )? ( EOSF )? ( SJF )? ) -> scope_ex(id_opt=$idbody_st=$s.stjoin=$joinsignal=$signalisolated=$ISOLATEDeosf=$EOSFstd_attr=$SJF.text);
-    public final BPELscriptWalker.scope_ex_return scope_ex(List join, List signal) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:418:1: scope_ex[List join, List signal, List comments] : ^( SCOPE (id+= ID )? handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ( ISOLATED )? ( EOSF )? ( SJF )? ) -> scope_ex(id_opt=$idbody_st=$s.stjoin=$joinsignal=$signalisolated=$ISOLATEDeosf=$EOSFstd_attr=$SJF.textcomments=$comments);
+    public final BPELscriptWalker.scope_ex_return scope_ex(List join, List signal, List comments) throws RecognitionException {
         BPELscriptWalker.scope_ex_return retval = new BPELscriptWalker.scope_ex_return();
         retval.start = input.LT(1);
 
-        CommonTree ISOLATED56=null;
-        CommonTree EOSF57=null;
-        CommonTree SJF58=null;
+        CommonTree ISOLATED55=null;
+        CommonTree EOSF56=null;
+        CommonTree SJF57=null;
         CommonTree id=null;
         List list_id=null;
         BPELscriptWalker.scope_stmt_return handler = null;
@@ -3808,13 +3866,13 @@ public class BPELscriptWalker extends TreeParser {
         		HashMap<String, StringTemplate> _faults_pb = new HashMap<String, StringTemplate>();
         		
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:2: ( ^( SCOPE (id+= ID )? handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ( ISOLATED )? ( EOSF )? ( SJF )? ) -> scope_ex(id_opt=$idbody_st=$s.stjoin=$joinsignal=$signalisolated=$ISOLATEDeosf=$EOSFstd_attr=$SJF.text))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:4: ^( SCOPE (id+= ID )? handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ( ISOLATED )? ( EOSF )? ( SJF )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:2: ( ^( SCOPE (id+= ID )? handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ( ISOLATED )? ( EOSF )? ( SJF )? ) -> scope_ex(id_opt=$idbody_st=$s.stjoin=$joinsignal=$signalisolated=$ISOLATEDeosf=$EOSFstd_attr=$SJF.textcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:4: ^( SCOPE (id+= ID )? handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ( ISOLATED )? ( EOSF )? ( SJF )? )
             {
-            match(input,SCOPE,FOLLOW_SCOPE_in_scope_ex2100); 
+            match(input,SCOPE,FOLLOW_SCOPE_in_scope_ex2152); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:14: (id+= ID )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:14: (id+= ID )?
             int alt50=2;
             int LA50_0 = input.LA(1);
 
@@ -3823,9 +3881,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt50) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:14: id+= ID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:14: id+= ID
                     {
-                    id=(CommonTree)match(input,ID,FOLLOW_ID_in_scope_ex2104); 
+                    id=(CommonTree)match(input,ID,FOLLOW_ID_in_scope_ex2156); 
                     if (list_id==null) list_id=new ArrayList();
                     list_id.add(id);
 
@@ -3835,17 +3893,17 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_scope_stmt_in_scope_ex2109);
+            pushFollow(FOLLOW_scope_stmt_in_scope_ex2161);
             handler=scope_stmt();
 
             state._fsp--;
 
-            pushFollow(FOLLOW_scope_sequence_in_scope_ex2114);
+            pushFollow(FOLLOW_scope_sequence_in_scope_ex2166);
             s=scope_sequence(_vars, _pl, _messages, _cs, _faults, _faults_pb, (handler!=null?handler.st:null));
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:119: ( ISOLATED )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:119: ( ISOLATED )?
             int alt51=2;
             int LA51_0 = input.LA(1);
 
@@ -3854,16 +3912,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt51) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:119: ISOLATED
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:119: ISOLATED
                     {
-                    ISOLATED56=(CommonTree)match(input,ISOLATED,FOLLOW_ISOLATED_in_scope_ex2117); 
+                    ISOLATED55=(CommonTree)match(input,ISOLATED,FOLLOW_ISOLATED_in_scope_ex2169); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:129: ( EOSF )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:129: ( EOSF )?
             int alt52=2;
             int LA52_0 = input.LA(1);
 
@@ -3872,16 +3930,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt52) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:129: EOSF
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:129: EOSF
                     {
-                    EOSF57=(CommonTree)match(input,EOSF,FOLLOW_EOSF_in_scope_ex2120); 
+                    EOSF56=(CommonTree)match(input,EOSF,FOLLOW_EOSF_in_scope_ex2172); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:135: ( SJF )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:135: ( SJF )?
             int alt53=2;
             int LA53_0 = input.LA(1);
 
@@ -3890,9 +3948,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt53) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:369:135: SJF
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:427:135: SJF
                     {
-                    SJF58=(CommonTree)match(input,SJF,FOLLOW_SJF_in_scope_ex2123); 
+                    SJF57=(CommonTree)match(input,SJF,FOLLOW_SJF_in_scope_ex2175); 
 
                     }
                     break;
@@ -3904,10 +3962,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 370:2: -> scope_ex(id_opt=$idbody_st=$s.stjoin=$joinsignal=$signalisolated=$ISOLATEDeosf=$EOSFstd_attr=$SJF.text)
+            // 428:2: -> scope_ex(id_opt=$idbody_st=$s.stjoin=$joinsignal=$signalisolated=$ISOLATEDeosf=$EOSFstd_attr=$SJF.textcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("scope_ex",
-              new STAttrMap().put("id_opt", list_id).put("body_st", (s!=null?s.st:null)).put("join", join).put("signal", signal).put("isolated", ISOLATED56).put("eosf", EOSF57).put("std_attr", (SJF58!=null?SJF58.getText():null)));
+              new STAttrMap().put("id_opt", list_id).put("body_st", (s!=null?s.st:null)).put("join", join).put("signal", signal).put("isolated", ISOLATED55).put("eosf", EOSF56).put("std_attr", (SJF57!=null?SJF57.getText():null)).put("comments", comments));
             }
 
 
@@ -3931,7 +3989,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "scope_short"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:373:1: scope_short : ^( SCOPE handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ) -> scope_ex(body_st=$s.st);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:431:1: scope_short : ^( SCOPE handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ) -> scope_ex(body_st=$s.st);
     public final BPELscriptWalker.scope_short_return scope_short() throws RecognitionException {
         BPELscriptWalker.scope_short_return retval = new BPELscriptWalker.scope_short_return();
         retval.start = input.LT(1);
@@ -3950,18 +4008,18 @@ public class BPELscriptWalker extends TreeParser {
         		HashMap<String, StringTemplate> _faults_pb = new HashMap<String, StringTemplate>();
         		
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:382:2: ( ^( SCOPE handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ) -> scope_ex(body_st=$s.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:382:4: ^( SCOPE handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:440:2: ( ^( SCOPE handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ) -> scope_ex(body_st=$s.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:440:4: ^( SCOPE handler= scope_stmt s= scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] )
             {
-            match(input,SCOPE,FOLLOW_SCOPE_in_scope_short2185); 
+            match(input,SCOPE,FOLLOW_SCOPE_in_scope_short2242); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_scope_stmt_in_scope_short2189);
+            pushFollow(FOLLOW_scope_stmt_in_scope_short2246);
             handler=scope_stmt();
 
             state._fsp--;
 
-            pushFollow(FOLLOW_scope_sequence_in_scope_short2193);
+            pushFollow(FOLLOW_scope_sequence_in_scope_short2250);
             s=scope_sequence(_vars, _pl, _messages, _cs, _faults, _faults_pb, (handler!=null?handler.st:null));
 
             state._fsp--;
@@ -3971,7 +4029,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 383:2: -> scope_ex(body_st=$s.st)
+            // 441:2: -> scope_ex(body_st=$s.st)
             {
                 retval.st = templateLib.getInstanceOf("scope_ex",
               new STAttrMap().put("body_st", (s!=null?s.st:null)));
@@ -3998,7 +4056,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "scope_stmt"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:387:1: scope_stmt : ^( SCOPE (c+= compensation )? (c+= termination )? (c+= eventHdl )? ) -> list(content_st=$c);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:445:1: scope_stmt : ^( SCOPE (c+= compensation )? (c+= termination )? (c+= eventHdl )? ) -> list(content_st=$c);
     public final BPELscriptWalker.scope_stmt_return scope_stmt() throws RecognitionException {
         BPELscriptWalker.scope_stmt_return retval = new BPELscriptWalker.scope_stmt_return();
         retval.start = input.LT(1);
@@ -4006,14 +4064,14 @@ public class BPELscriptWalker extends TreeParser {
         List list_c=null;
         RuleReturnScope c = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:388:2: ( ^( SCOPE (c+= compensation )? (c+= termination )? (c+= eventHdl )? ) -> list(content_st=$c))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:388:4: ^( SCOPE (c+= compensation )? (c+= termination )? (c+= eventHdl )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:2: ( ^( SCOPE (c+= compensation )? (c+= termination )? (c+= eventHdl )? ) -> list(content_st=$c))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:4: ^( SCOPE (c+= compensation )? (c+= termination )? (c+= eventHdl )? )
             {
-            match(input,SCOPE,FOLLOW_SCOPE_in_scope_stmt2219); 
+            match(input,SCOPE,FOLLOW_SCOPE_in_scope_stmt2276); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:388:13: (c+= compensation )?
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:13: (c+= compensation )?
                 int alt54=2;
                 int LA54_0 = input.LA(1);
 
@@ -4022,9 +4080,9 @@ public class BPELscriptWalker extends TreeParser {
                 }
                 switch (alt54) {
                     case 1 :
-                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:388:13: c+= compensation
+                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:13: c+= compensation
                         {
-                        pushFollow(FOLLOW_compensation_in_scope_stmt2223);
+                        pushFollow(FOLLOW_compensation_in_scope_stmt2280);
                         c=compensation();
 
                         state._fsp--;
@@ -4038,7 +4096,7 @@ public class BPELscriptWalker extends TreeParser {
 
                 }
 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:388:30: (c+= termination )?
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:30: (c+= termination )?
                 int alt55=2;
                 int LA55_0 = input.LA(1);
 
@@ -4047,9 +4105,9 @@ public class BPELscriptWalker extends TreeParser {
                 }
                 switch (alt55) {
                     case 1 :
-                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:388:30: c+= termination
+                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:30: c+= termination
                         {
-                        pushFollow(FOLLOW_termination_in_scope_stmt2228);
+                        pushFollow(FOLLOW_termination_in_scope_stmt2285);
                         c=termination();
 
                         state._fsp--;
@@ -4063,7 +4121,7 @@ public class BPELscriptWalker extends TreeParser {
 
                 }
 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:388:46: (c+= eventHdl )?
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:46: (c+= eventHdl )?
                 int alt56=2;
                 int LA56_0 = input.LA(1);
 
@@ -4072,9 +4130,9 @@ public class BPELscriptWalker extends TreeParser {
                 }
                 switch (alt56) {
                     case 1 :
-                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:388:46: c+= eventHdl
+                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:46: c+= eventHdl
                         {
-                        pushFollow(FOLLOW_eventHdl_in_scope_stmt2233);
+                        pushFollow(FOLLOW_eventHdl_in_scope_stmt2290);
                         c=eventHdl();
 
                         state._fsp--;
@@ -4094,7 +4152,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 389:2: -> list(content_st=$c)
+            // 447:2: -> list(content_st=$c)
             {
                 retval.st = templateLib.getInstanceOf("list",
               new STAttrMap().put("content_st", list_c));
@@ -4121,23 +4179,23 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "termination"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:392:1: termination : ^( TERMINATION body[null, null, null, null,null,null] ) -> termination(body=$body.st);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:450:1: termination : ^( TERMINATION body[null, null, null, null,null,null] ) -> termination(body=$body.st);
     public final BPELscriptWalker.termination_return termination() throws RecognitionException {
         BPELscriptWalker.termination_return retval = new BPELscriptWalker.termination_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.body_return body59 = null;
+        BPELscriptWalker.body_return body58 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:393:2: ( ^( TERMINATION body[null, null, null, null,null,null] ) -> termination(body=$body.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:393:4: ^( TERMINATION body[null, null, null, null,null,null] )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:451:2: ( ^( TERMINATION body[null, null, null, null,null,null] ) -> termination(body=$body.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:451:4: ^( TERMINATION body[null, null, null, null,null,null] )
             {
-            match(input,TERMINATION,FOLLOW_TERMINATION_in_termination2259); 
+            match(input,TERMINATION,FOLLOW_TERMINATION_in_termination2316); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_body_in_termination2261);
-            body59=body(null, null, null, null, null, null);
+            pushFollow(FOLLOW_body_in_termination2318);
+            body58=body(null, null, null, null, null, null);
 
             state._fsp--;
 
@@ -4146,10 +4204,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 393:58: -> termination(body=$body.st)
+            // 451:58: -> termination(body=$body.st)
             {
                 retval.st = templateLib.getInstanceOf("termination",
-              new STAttrMap().put("body", (body59!=null?body59.st:null)));
+              new STAttrMap().put("body", (body58!=null?body58.st:null)));
             }
 
 
@@ -4173,7 +4231,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "eventHdl"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:396:1: eventHdl : ^( EVENTHDL (c+= onEvent )* (c+= onAlarm )* ) -> eventHdl(content=$c);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:454:1: eventHdl : ^( EVENTHDL (c+= onEvent )* (c+= onAlarm )* ) -> eventHdl(content=$c);
     public final BPELscriptWalker.eventHdl_return eventHdl() throws RecognitionException {
         BPELscriptWalker.eventHdl_return retval = new BPELscriptWalker.eventHdl_return();
         retval.start = input.LT(1);
@@ -4181,14 +4239,14 @@ public class BPELscriptWalker extends TreeParser {
         List list_c=null;
         RuleReturnScope c = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:397:2: ( ^( EVENTHDL (c+= onEvent )* (c+= onAlarm )* ) -> eventHdl(content=$c))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:397:4: ^( EVENTHDL (c+= onEvent )* (c+= onAlarm )* )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:455:2: ( ^( EVENTHDL (c+= onEvent )* (c+= onAlarm )* ) -> eventHdl(content=$c))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:455:4: ^( EVENTHDL (c+= onEvent )* (c+= onAlarm )* )
             {
-            match(input,EVENTHDL,FOLLOW_EVENTHDL_in_eventHdl2284); 
+            match(input,EVENTHDL,FOLLOW_EVENTHDL_in_eventHdl2341); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:397:16: (c+= onEvent )*
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:455:16: (c+= onEvent )*
                 loop57:
                 do {
                     int alt57=2;
@@ -4201,9 +4259,9 @@ public class BPELscriptWalker extends TreeParser {
 
                     switch (alt57) {
                 	case 1 :
-                	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:397:16: c+= onEvent
+                	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:455:16: c+= onEvent
                 	    {
-                	    pushFollow(FOLLOW_onEvent_in_eventHdl2288);
+                	    pushFollow(FOLLOW_onEvent_in_eventHdl2345);
                 	    c=onEvent();
 
                 	    state._fsp--;
@@ -4220,7 +4278,7 @@ public class BPELscriptWalker extends TreeParser {
                     }
                 } while (true);
 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:397:28: (c+= onAlarm )*
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:455:28: (c+= onAlarm )*
                 loop58:
                 do {
                     int alt58=2;
@@ -4233,9 +4291,9 @@ public class BPELscriptWalker extends TreeParser {
 
                     switch (alt58) {
                 	case 1 :
-                	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:397:28: c+= onAlarm
+                	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:455:28: c+= onAlarm
                 	    {
-                	    pushFollow(FOLLOW_onAlarm_in_eventHdl2293);
+                	    pushFollow(FOLLOW_onAlarm_in_eventHdl2350);
                 	    c=onAlarm();
 
                 	    state._fsp--;
@@ -4258,7 +4316,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 398:2: -> eventHdl(content=$c)
+            // 456:2: -> eventHdl(content=$c)
             {
                 retval.st = templateLib.getInstanceOf("eventHdl",
               new STAttrMap().put("content", list_c));
@@ -4285,7 +4343,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "onEvent"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:400:1: onEvent : ^( EVENT p= ID o= ID (c+= correlation )? (we+= with_ex )? pb= scope_short (var= ID )? ( portType )? ( msgEx )? ( msgType )? ( viElt )? ) -> event(p=$po=$oparam_block_st=$pb.st);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:458:1: onEvent : ^( EVENT p= ID o= ID (c+= correlation )? (we+= with_ex )? pb= scope_short (var= ID )? ( portType )? ( msgEx )? ( msgType )? ( viElt )? ) -> event(p=$po=$oparam_block_st=$pb.st);
     public final BPELscriptWalker.onEvent_return onEvent() throws RecognitionException {
         BPELscriptWalker.onEvent_return retval = new BPELscriptWalker.onEvent_return();
         retval.start = input.LT(1);
@@ -4300,15 +4358,15 @@ public class BPELscriptWalker extends TreeParser {
         RuleReturnScope c = null;
         RuleReturnScope we = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:401:2: ( ^( EVENT p= ID o= ID (c+= correlation )? (we+= with_ex )? pb= scope_short (var= ID )? ( portType )? ( msgEx )? ( msgType )? ( viElt )? ) -> event(p=$po=$oparam_block_st=$pb.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:401:4: ^( EVENT p= ID o= ID (c+= correlation )? (we+= with_ex )? pb= scope_short (var= ID )? ( portType )? ( msgEx )? ( msgType )? ( viElt )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:459:2: ( ^( EVENT p= ID o= ID (c+= correlation )? (we+= with_ex )? pb= scope_short (var= ID )? ( portType )? ( msgEx )? ( msgType )? ( viElt )? ) -> event(p=$po=$oparam_block_st=$pb.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:459:4: ^( EVENT p= ID o= ID (c+= correlation )? (we+= with_ex )? pb= scope_short (var= ID )? ( portType )? ( msgEx )? ( msgType )? ( viElt )? )
             {
-            match(input,EVENT,FOLLOW_EVENT_in_onEvent2315); 
+            match(input,EVENT,FOLLOW_EVENT_in_onEvent2372); 
 
             match(input, Token.DOWN, null); 
-            p=(CommonTree)match(input,ID,FOLLOW_ID_in_onEvent2319); 
-            o=(CommonTree)match(input,ID,FOLLOW_ID_in_onEvent2323); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:401:23: (c+= correlation )?
+            p=(CommonTree)match(input,ID,FOLLOW_ID_in_onEvent2376); 
+            o=(CommonTree)match(input,ID,FOLLOW_ID_in_onEvent2380); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:459:23: (c+= correlation )?
             int alt59=2;
             int LA59_0 = input.LA(1);
 
@@ -4317,9 +4375,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt59) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:401:23: c+= correlation
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:459:23: c+= correlation
                     {
-                    pushFollow(FOLLOW_correlation_in_onEvent2327);
+                    pushFollow(FOLLOW_correlation_in_onEvent2384);
                     c=correlation();
 
                     state._fsp--;
@@ -4333,7 +4391,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:401:40: (we+= with_ex )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:459:40: (we+= with_ex )?
             int alt60=2;
             int LA60_0 = input.LA(1);
 
@@ -4342,9 +4400,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt60) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:401:40: we+= with_ex
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:459:40: we+= with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_onEvent2332);
+                    pushFollow(FOLLOW_with_ex_in_onEvent2389);
                     we=with_ex();
 
                     state._fsp--;
@@ -4358,12 +4416,12 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_scope_short_in_onEvent2337);
+            pushFollow(FOLLOW_scope_short_in_onEvent2394);
             pb=scope_short();
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:6: (var= ID )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:6: (var= ID )?
             int alt61=2;
             int LA61_0 = input.LA(1);
 
@@ -4372,16 +4430,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt61) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:6: var= ID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:6: var= ID
                     {
-                    var=(CommonTree)match(input,ID,FOLLOW_ID_in_onEvent2344); 
+                    var=(CommonTree)match(input,ID,FOLLOW_ID_in_onEvent2401); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:11: ( portType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:11: ( portType )?
             int alt62=2;
             int LA62_0 = input.LA(1);
 
@@ -4390,9 +4448,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt62) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:11: portType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:11: portType
                     {
-                    pushFollow(FOLLOW_portType_in_onEvent2347);
+                    pushFollow(FOLLOW_portType_in_onEvent2404);
                     portType();
 
                     state._fsp--;
@@ -4403,7 +4461,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:21: ( msgEx )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:21: ( msgEx )?
             int alt63=2;
             int LA63_0 = input.LA(1);
 
@@ -4412,9 +4470,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt63) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:21: msgEx
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:21: msgEx
                     {
-                    pushFollow(FOLLOW_msgEx_in_onEvent2350);
+                    pushFollow(FOLLOW_msgEx_in_onEvent2407);
                     msgEx();
 
                     state._fsp--;
@@ -4425,7 +4483,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:28: ( msgType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:28: ( msgType )?
             int alt64=2;
             int LA64_0 = input.LA(1);
 
@@ -4434,9 +4492,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt64) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:28: msgType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:28: msgType
                     {
-                    pushFollow(FOLLOW_msgType_in_onEvent2353);
+                    pushFollow(FOLLOW_msgType_in_onEvent2410);
                     msgType();
 
                     state._fsp--;
@@ -4447,7 +4505,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:37: ( viElt )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:37: ( viElt )?
             int alt65=2;
             int LA65_0 = input.LA(1);
 
@@ -4456,9 +4514,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt65) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:402:37: viElt
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:460:37: viElt
                     {
-                    pushFollow(FOLLOW_viElt_in_onEvent2356);
+                    pushFollow(FOLLOW_viElt_in_onEvent2413);
                     viElt();
 
                     state._fsp--;
@@ -4474,7 +4532,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 403:2: -> event(p=$po=$oparam_block_st=$pb.st)
+            // 461:2: -> event(p=$po=$oparam_block_st=$pb.st)
             {
                 retval.st = templateLib.getInstanceOf("event",
               new STAttrMap().put("p", p).put("o", o).put("param_block_st", (pb!=null?pb.st:null)));
@@ -4501,23 +4559,23 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "compensation"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:406:1: compensation : ^( COMPENSATION body[null, null, null, null,null,null] ) -> compensation(body_st=$body.st);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:464:1: compensation : ^( COMPENSATION body[null, null, null, null,null,null] ) -> compensation(body_st=$body.st);
     public final BPELscriptWalker.compensation_return compensation() throws RecognitionException {
         BPELscriptWalker.compensation_return retval = new BPELscriptWalker.compensation_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.body_return body60 = null;
+        BPELscriptWalker.body_return body59 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:407:2: ( ^( COMPENSATION body[null, null, null, null,null,null] ) -> compensation(body_st=$body.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:407:4: ^( COMPENSATION body[null, null, null, null,null,null] )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:465:2: ( ^( COMPENSATION body[null, null, null, null,null,null] ) -> compensation(body_st=$body.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:465:4: ^( COMPENSATION body[null, null, null, null,null,null] )
             {
-            match(input,COMPENSATION,FOLLOW_COMPENSATION_in_compensation2393); 
+            match(input,COMPENSATION,FOLLOW_COMPENSATION_in_compensation2450); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_body_in_compensation2395);
-            body60=body(null, null, null, null, null, null);
+            pushFollow(FOLLOW_body_in_compensation2452);
+            body59=body(null, null, null, null, null, null);
 
             state._fsp--;
 
@@ -4526,10 +4584,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 408:2: -> compensation(body_st=$body.st)
+            // 466:2: -> compensation(body_st=$body.st)
             {
                 retval.st = templateLib.getInstanceOf("compensation",
-              new STAttrMap().put("body_st", (body60!=null?body60.st:null)));
+              new STAttrMap().put("body_st", (body59!=null?body59.st:null)));
             }
 
 
@@ -4553,7 +4611,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "with_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:411:1: with_ex : ^( WITH (maps+= with_map[fromParts, toParts] )+ ) -> with_ex(fromParts=fromPartstoParts=toParts);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:469:1: with_ex : ^( WITH (maps+= with_map[fromParts, toParts] )+ ) -> with_ex(fromParts=fromPartstoParts=toParts);
     public final BPELscriptWalker.with_ex_return with_ex() throws RecognitionException {
         BPELscriptWalker.with_ex_return retval = new BPELscriptWalker.with_ex_return();
         retval.start = input.LT(1);
@@ -4565,13 +4623,13 @@ public class BPELscriptWalker extends TreeParser {
         	HashMap<String, StringTemplate> toParts = new HashMap<String, StringTemplate>();
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:416:3: ( ^( WITH (maps+= with_map[fromParts, toParts] )+ ) -> with_ex(fromParts=fromPartstoParts=toParts))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:416:5: ^( WITH (maps+= with_map[fromParts, toParts] )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:474:3: ( ^( WITH (maps+= with_map[fromParts, toParts] )+ ) -> with_ex(fromParts=fromPartstoParts=toParts))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:474:5: ^( WITH (maps+= with_map[fromParts, toParts] )+ )
             {
-            match(input,WITH,FOLLOW_WITH_in_with_ex2426); 
+            match(input,WITH,FOLLOW_WITH_in_with_ex2483); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:416:16: (maps+= with_map[fromParts, toParts] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:474:16: (maps+= with_map[fromParts, toParts] )+
             int cnt66=0;
             loop66:
             do {
@@ -4585,9 +4643,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt66) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:416:16: maps+= with_map[fromParts, toParts]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:474:16: maps+= with_map[fromParts, toParts]
             	    {
-            	    pushFollow(FOLLOW_with_map_in_with_ex2430);
+            	    pushFollow(FOLLOW_with_map_in_with_ex2487);
             	    maps=with_map(fromParts, toParts);
 
             	    state._fsp--;
@@ -4613,7 +4671,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 417:2: -> with_ex(fromParts=fromPartstoParts=toParts)
+            // 475:2: -> with_ex(fromParts=fromPartstoParts=toParts)
             {
                 retval.st = templateLib.getInstanceOf("with_ex",
               new STAttrMap().put("fromParts", fromParts).put("toParts", toParts));
@@ -4640,25 +4698,25 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "with_map"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:420:1: with_map[HashMap<String, StringTemplate> fromParts, HashMap<String, StringTemplate> toParts] : ^( MAP ID ( KEY )? pe= path_expr ) ;
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:478:1: with_map[HashMap<String, StringTemplate> fromParts, HashMap<String, StringTemplate> toParts] : ^( MAP ID ( KEY )? pe= path_expr ) ;
     public final BPELscriptWalker.with_map_return with_map(HashMap<String, StringTemplate> fromParts, HashMap<String, StringTemplate> toParts) throws RecognitionException {
         BPELscriptWalker.with_map_return retval = new BPELscriptWalker.with_map_return();
         retval.start = input.LT(1);
 
-        CommonTree KEY61=null;
-        CommonTree ID62=null;
+        CommonTree KEY60=null;
+        CommonTree ID61=null;
         BPELscriptWalker.path_expr_return pe = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:421:2: ( ^( MAP ID ( KEY )? pe= path_expr ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:421:11: ^( MAP ID ( KEY )? pe= path_expr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:479:2: ( ^( MAP ID ( KEY )? pe= path_expr ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:479:11: ^( MAP ID ( KEY )? pe= path_expr )
             {
-            match(input,MAP,FOLLOW_MAP_in_with_map2469); 
+            match(input,MAP,FOLLOW_MAP_in_with_map2526); 
 
             match(input, Token.DOWN, null); 
-            ID62=(CommonTree)match(input,ID,FOLLOW_ID_in_with_map2471); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:421:20: ( KEY )?
+            ID61=(CommonTree)match(input,ID,FOLLOW_ID_in_with_map2528); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:479:20: ( KEY )?
             int alt67=2;
             int LA67_0 = input.LA(1);
 
@@ -4667,16 +4725,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt67) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:421:20: KEY
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:479:20: KEY
                     {
-                    KEY61=(CommonTree)match(input,KEY,FOLLOW_KEY_in_with_map2473); 
+                    KEY60=(CommonTree)match(input,KEY,FOLLOW_KEY_in_with_map2530); 
 
                     }
                     break;
 
             }
 
-            pushFollow(FOLLOW_path_expr_in_with_map2478);
+            pushFollow(FOLLOW_path_expr_in_with_map2535);
             pe=path_expr();
 
             state._fsp--;
@@ -4684,12 +4742,12 @@ public class BPELscriptWalker extends TreeParser {
 
             match(input, Token.UP, null); 
 
-            		if (KEY61!=null && (KEY61!=null?KEY61.getText():null).contains("in")) {
-            		    fromParts.put((ID62!=null?ID62.getText():null), (pe!=null?pe.st:null));
+            		if (KEY60!=null && (KEY60!=null?KEY60.getText():null).contains("in")) {
+            		    fromParts.put((ID61!=null?ID61.getText():null), (pe!=null?pe.st:null));
             		}
             		
-            		if ((KEY61!=null?KEY61.getText():null).contains("out")) {
-            		    toParts.put((ID62!=null?ID62.getText():null), (pe!=null?pe.st:null));
+            		if ((KEY60!=null?KEY60.getText():null).contains("out")) {
+            		    toParts.put((ID61!=null?ID61.getText():null), (pe!=null?pe.st:null));
             		}
             	
 
@@ -4713,8 +4771,8 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "receive"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:434:1: receive[List join, List signal, boolean empty] : ^( RECEIVE partner= ID op= ID (c+= correlation )? (pt= portType )? (ci= CREATE_INST )? ( msgEx )? std_attr (w+= with_ex )? ) -> receive(partner=$partner.textop=$op.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcrt_inst=$ci.textmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$w);
-    public final BPELscriptWalker.receive_return receive(List join, List signal, boolean empty) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:492:1: receive[List join, List signal, boolean empty, List comments] : ^( RECEIVE partner= ID op= ID (c+= correlation )? (pt= portType )? (ci= CREATE_INST )? ( msgEx )? std_attr (w+= with_ex )? ) -> receive(partner=$partner.textop=$op.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcrt_inst=$ci.textmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$wcomments=$comments);
+    public final BPELscriptWalker.receive_return receive(List join, List signal, boolean empty, List comments) throws RecognitionException {
         BPELscriptWalker.receive_return retval = new BPELscriptWalker.receive_return();
         retval.start = input.LT(1);
 
@@ -4725,22 +4783,22 @@ public class BPELscriptWalker extends TreeParser {
         List list_w=null;
         BPELscriptWalker.portType_return pt = null;
 
-        BPELscriptWalker.std_attr_return std_attr63 = null;
+        BPELscriptWalker.std_attr_return std_attr62 = null;
 
-        BPELscriptWalker.msgEx_return msgEx64 = null;
+        BPELscriptWalker.msgEx_return msgEx63 = null;
 
         RuleReturnScope c = null;
         RuleReturnScope w = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:10: ( ^( RECEIVE partner= ID op= ID (c+= correlation )? (pt= portType )? (ci= CREATE_INST )? ( msgEx )? std_attr (w+= with_ex )? ) -> receive(partner=$partner.textop=$op.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcrt_inst=$ci.textmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$w))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:13: ^( RECEIVE partner= ID op= ID (c+= correlation )? (pt= portType )? (ci= CREATE_INST )? ( msgEx )? std_attr (w+= with_ex )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:10: ( ^( RECEIVE partner= ID op= ID (c+= correlation )? (pt= portType )? (ci= CREATE_INST )? ( msgEx )? std_attr (w+= with_ex )? ) -> receive(partner=$partner.textop=$op.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcrt_inst=$ci.textmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$wcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:13: ^( RECEIVE partner= ID op= ID (c+= correlation )? (pt= portType )? (ci= CREATE_INST )? ( msgEx )? std_attr (w+= with_ex )? )
             {
-            match(input,RECEIVE,FOLLOW_RECEIVE_in_receive2507); 
+            match(input,RECEIVE,FOLLOW_RECEIVE_in_receive2564); 
 
             match(input, Token.DOWN, null); 
-            partner=(CommonTree)match(input,ID,FOLLOW_ID_in_receive2511); 
-            op=(CommonTree)match(input,ID,FOLLOW_ID_in_receive2515); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:41: (c+= correlation )?
+            partner=(CommonTree)match(input,ID,FOLLOW_ID_in_receive2568); 
+            op=(CommonTree)match(input,ID,FOLLOW_ID_in_receive2572); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:41: (c+= correlation )?
             int alt68=2;
             int LA68_0 = input.LA(1);
 
@@ -4749,9 +4807,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt68) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:41: c+= correlation
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:41: c+= correlation
                     {
-                    pushFollow(FOLLOW_correlation_in_receive2519);
+                    pushFollow(FOLLOW_correlation_in_receive2576);
                     c=correlation();
 
                     state._fsp--;
@@ -4765,7 +4823,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:58: (pt= portType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:58: (pt= portType )?
             int alt69=2;
             int LA69_0 = input.LA(1);
 
@@ -4774,9 +4832,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt69) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:58: pt= portType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:58: pt= portType
                     {
-                    pushFollow(FOLLOW_portType_in_receive2524);
+                    pushFollow(FOLLOW_portType_in_receive2581);
                     pt=portType();
 
                     state._fsp--;
@@ -4787,7 +4845,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:71: (ci= CREATE_INST )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:71: (ci= CREATE_INST )?
             int alt70=2;
             int LA70_0 = input.LA(1);
 
@@ -4796,16 +4854,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt70) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:71: ci= CREATE_INST
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:71: ci= CREATE_INST
                     {
-                    ci=(CommonTree)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_receive2529); 
+                    ci=(CommonTree)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_receive2586); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:85: ( msgEx )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:85: ( msgEx )?
             int alt71=2;
             int LA71_0 = input.LA(1);
 
@@ -4814,10 +4872,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt71) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:85: msgEx
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:85: msgEx
                     {
-                    pushFollow(FOLLOW_msgEx_in_receive2532);
-                    msgEx64=msgEx();
+                    pushFollow(FOLLOW_msgEx_in_receive2589);
+                    msgEx63=msgEx();
 
                     state._fsp--;
 
@@ -4827,12 +4885,12 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_receive2535);
-            std_attr63=std_attr();
+            pushFollow(FOLLOW_std_attr_in_receive2592);
+            std_attr62=std_attr();
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:102: (w+= with_ex )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:102: (w+= with_ex )?
             int alt72=2;
             int LA72_0 = input.LA(1);
 
@@ -4841,9 +4899,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt72) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:435:102: w+= with_ex
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:493:102: w+= with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_receive2539);
+                    pushFollow(FOLLOW_with_ex_in_receive2596);
                     w=with_ex();
 
                     state._fsp--;
@@ -4865,10 +4923,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 439:2: -> receive(partner=$partner.textop=$op.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcrt_inst=$ci.textmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$w)
+            // 497:2: -> receive(partner=$partner.textop=$op.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcrt_inst=$ci.textmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$wcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("receive",
-              new STAttrMap().put("partner", (partner!=null?partner.getText():null)).put("op", (op!=null?op.getText():null)).put("join", join).put("signal", signal).put("empty", empty).put("portType", (pt!=null?pt.st:null)).put("std_attr", (std_attr63!=null?std_attr63.st:null)).put("crt_inst", (ci!=null?ci.getText():null)).put("msgEx", (msgEx64!=null?msgEx64.st:null)).put("correlation_opt", list_c).put("with_ex", list_w));
+              new STAttrMap().put("partner", (partner!=null?partner.getText():null)).put("op", (op!=null?op.getText():null)).put("join", join).put("signal", signal).put("empty", empty).put("portType", (pt!=null?pt.st:null)).put("std_attr", (std_attr62!=null?std_attr62.st:null)).put("crt_inst", (ci!=null?ci.getText():null)).put("msgEx", (msgEx63!=null?msgEx63.st:null)).put("correlation_opt", list_c).put("with_ex", list_w).put("comments", comments));
             }
 
 
@@ -4892,8 +4950,8 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "reply"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:445:1: reply[List join, List signal,boolean empty] : ^( REPLY partner= ID op+= ID (inv= ID )? (c+= correlation )? ( portType )? std_attr (fn= faultName )? ( msgEx )? (w+= with_ex )? ) -> reply(partner=$partner.textop=$opinv=$inv.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stfaultName=$fn.stmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$w);
-    public final BPELscriptWalker.reply_return reply(List join, List signal, boolean empty) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:503:1: reply[List join, List signal,boolean empty, List comments] : ^( REPLY partner= ID op+= ID (inv= ID )? (c+= correlation )? ( portType )? std_attr (fn= faultName )? ( msgEx )? (w+= with_ex )? ) -> reply(partner=$partner.textop=$opinv=$inv.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stfaultName=$fn.stmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$wcomments=$comments);
+    public final BPELscriptWalker.reply_return reply(List join, List signal, boolean empty, List comments) throws RecognitionException {
         BPELscriptWalker.reply_return retval = new BPELscriptWalker.reply_return();
         retval.start = input.LT(1);
 
@@ -4905,27 +4963,27 @@ public class BPELscriptWalker extends TreeParser {
         List list_w=null;
         BPELscriptWalker.faultName_return fn = null;
 
-        BPELscriptWalker.portType_return portType65 = null;
+        BPELscriptWalker.portType_return portType64 = null;
 
-        BPELscriptWalker.std_attr_return std_attr66 = null;
+        BPELscriptWalker.std_attr_return std_attr65 = null;
 
-        BPELscriptWalker.msgEx_return msgEx67 = null;
+        BPELscriptWalker.msgEx_return msgEx66 = null;
 
         RuleReturnScope c = null;
         RuleReturnScope w = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:2: ( ^( REPLY partner= ID op+= ID (inv= ID )? (c+= correlation )? ( portType )? std_attr (fn= faultName )? ( msgEx )? (w+= with_ex )? ) -> reply(partner=$partner.textop=$opinv=$inv.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stfaultName=$fn.stmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$w))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:4: ^( REPLY partner= ID op+= ID (inv= ID )? (c+= correlation )? ( portType )? std_attr (fn= faultName )? ( msgEx )? (w+= with_ex )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:2: ( ^( REPLY partner= ID op+= ID (inv= ID )? (c+= correlation )? ( portType )? std_attr (fn= faultName )? ( msgEx )? (w+= with_ex )? ) -> reply(partner=$partner.textop=$opinv=$inv.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stfaultName=$fn.stmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$wcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:4: ^( REPLY partner= ID op+= ID (inv= ID )? (c+= correlation )? ( portType )? std_attr (fn= faultName )? ( msgEx )? (w+= with_ex )? )
             {
-            match(input,REPLY,FOLLOW_REPLY_in_reply2635); 
+            match(input,REPLY,FOLLOW_REPLY_in_reply2697); 
 
             match(input, Token.DOWN, null); 
-            partner=(CommonTree)match(input,ID,FOLLOW_ID_in_reply2639); 
-            op=(CommonTree)match(input,ID,FOLLOW_ID_in_reply2643); 
+            partner=(CommonTree)match(input,ID,FOLLOW_ID_in_reply2701); 
+            op=(CommonTree)match(input,ID,FOLLOW_ID_in_reply2705); 
             if (list_op==null) list_op=new ArrayList();
             list_op.add(op);
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:33: (inv= ID )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:33: (inv= ID )?
             int alt73=2;
             int LA73_0 = input.LA(1);
 
@@ -4934,16 +4992,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt73) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:33: inv= ID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:33: inv= ID
                     {
-                    inv=(CommonTree)match(input,ID,FOLLOW_ID_in_reply2647); 
+                    inv=(CommonTree)match(input,ID,FOLLOW_ID_in_reply2709); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:39: (c+= correlation )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:39: (c+= correlation )?
             int alt74=2;
             int LA74_0 = input.LA(1);
 
@@ -4952,9 +5010,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt74) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:39: c+= correlation
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:39: c+= correlation
                     {
-                    pushFollow(FOLLOW_correlation_in_reply2652);
+                    pushFollow(FOLLOW_correlation_in_reply2714);
                     c=correlation();
 
                     state._fsp--;
@@ -4968,7 +5026,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:54: ( portType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:54: ( portType )?
             int alt75=2;
             int LA75_0 = input.LA(1);
 
@@ -4977,10 +5035,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt75) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:54: portType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:54: portType
                     {
-                    pushFollow(FOLLOW_portType_in_reply2655);
-                    portType65=portType();
+                    pushFollow(FOLLOW_portType_in_reply2717);
+                    portType64=portType();
 
                     state._fsp--;
 
@@ -4990,12 +5048,12 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_reply2658);
-            std_attr66=std_attr();
+            pushFollow(FOLLOW_std_attr_in_reply2720);
+            std_attr65=std_attr();
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:75: (fn= faultName )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:75: (fn= faultName )?
             int alt76=2;
             int LA76_0 = input.LA(1);
 
@@ -5004,9 +5062,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt76) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:75: fn= faultName
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:75: fn= faultName
                     {
-                    pushFollow(FOLLOW_faultName_in_reply2662);
+                    pushFollow(FOLLOW_faultName_in_reply2724);
                     fn=faultName();
 
                     state._fsp--;
@@ -5017,7 +5075,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:87: ( msgEx )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:87: ( msgEx )?
             int alt77=2;
             int LA77_0 = input.LA(1);
 
@@ -5026,10 +5084,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt77) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:87: msgEx
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:87: msgEx
                     {
-                    pushFollow(FOLLOW_msgEx_in_reply2665);
-                    msgEx67=msgEx();
+                    pushFollow(FOLLOW_msgEx_in_reply2727);
+                    msgEx66=msgEx();
 
                     state._fsp--;
 
@@ -5039,7 +5097,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:95: (w+= with_ex )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:95: (w+= with_ex )?
             int alt78=2;
             int LA78_0 = input.LA(1);
 
@@ -5048,9 +5106,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt78) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:446:95: w+= with_ex
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:504:95: w+= with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_reply2670);
+                    pushFollow(FOLLOW_with_ex_in_reply2732);
                     w=with_ex();
 
                     state._fsp--;
@@ -5072,10 +5130,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 450:2: -> reply(partner=$partner.textop=$opinv=$inv.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stfaultName=$fn.stmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$w)
+            // 508:2: -> reply(partner=$partner.textop=$opinv=$inv.textjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stfaultName=$fn.stmsgEx=$msgEx.stcorrelation_opt=$cwith_ex=$wcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("reply",
-              new STAttrMap().put("partner", (partner!=null?partner.getText():null)).put("op", list_op).put("inv", (inv!=null?inv.getText():null)).put("join", join).put("signal", signal).put("empty", empty).put("portType", (portType65!=null?portType65.st:null)).put("std_attr", (std_attr66!=null?std_attr66.st:null)).put("faultName", (fn!=null?fn.st:null)).put("msgEx", (msgEx67!=null?msgEx67.st:null)).put("correlation_opt", list_c).put("with_ex", list_w));
+              new STAttrMap().put("partner", (partner!=null?partner.getText():null)).put("op", list_op).put("inv", (inv!=null?inv.getText():null)).put("join", join).put("signal", signal).put("empty", empty).put("portType", (portType64!=null?portType64.st:null)).put("std_attr", (std_attr65!=null?std_attr65.st:null)).put("faultName", (fn!=null?fn.st:null)).put("msgEx", (msgEx66!=null?msgEx66.st:null)).put("correlation_opt", list_c).put("with_ex", list_w).put("comments", comments));
             }
 
 
@@ -5099,8 +5157,8 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "invoke"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:455:1: invoke[List join, List signal, boolean empty, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb] : ^( INVOKE partner= ID op= ID (inv+= ID )? (c+= correlation )? ( portType )? std_attr (w+= with_ex )? ( compensation )? ) -> invoke(partner=$partner.textop=$op.textinv=$invjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcorrelation_opt=$cwith_ex=$wfaults=__faultsfaults_pb=__faults_pbcompensation=$compensation.st);
-    public final BPELscriptWalker.invoke_return invoke(List join, List signal, boolean empty, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:513:1: invoke[List join, List signal, boolean empty, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments] : ^( INVOKE partner= ID op= ID (inv+= ID )? (c+= correlation )? ( portType )? std_attr (w+= with_ex )? ( compensation )? ) -> invoke(partner=$partner.textop=$op.textinv=$invjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcorrelation_opt=$cwith_ex=$wfaults=__faultsfaults_pb=__faults_pbcompensation=$compensation.stcomments=$comments);
+    public final BPELscriptWalker.invoke_return invoke(List join, List signal, boolean empty, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments) throws RecognitionException {
         BPELscriptWalker.invoke_return retval = new BPELscriptWalker.invoke_return();
         retval.start = input.LT(1);
 
@@ -5110,11 +5168,11 @@ public class BPELscriptWalker extends TreeParser {
         List list_inv=null;
         List list_c=null;
         List list_w=null;
-        BPELscriptWalker.portType_return portType68 = null;
+        BPELscriptWalker.portType_return portType67 = null;
 
-        BPELscriptWalker.std_attr_return std_attr69 = null;
+        BPELscriptWalker.std_attr_return std_attr68 = null;
 
-        BPELscriptWalker.compensation_return compensation70 = null;
+        BPELscriptWalker.compensation_return compensation69 = null;
 
         RuleReturnScope c = null;
         RuleReturnScope w = null;
@@ -5128,15 +5186,15 @@ public class BPELscriptWalker extends TreeParser {
         }
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:2: ( ^( INVOKE partner= ID op= ID (inv+= ID )? (c+= correlation )? ( portType )? std_attr (w+= with_ex )? ( compensation )? ) -> invoke(partner=$partner.textop=$op.textinv=$invjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcorrelation_opt=$cwith_ex=$wfaults=__faultsfaults_pb=__faults_pbcompensation=$compensation.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:4: ^( INVOKE partner= ID op= ID (inv+= ID )? (c+= correlation )? ( portType )? std_attr (w+= with_ex )? ( compensation )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:2: ( ^( INVOKE partner= ID op= ID (inv+= ID )? (c+= correlation )? ( portType )? std_attr (w+= with_ex )? ( compensation )? ) -> invoke(partner=$partner.textop=$op.textinv=$invjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcorrelation_opt=$cwith_ex=$wfaults=__faultsfaults_pb=__faults_pbcompensation=$compensation.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:4: ^( INVOKE partner= ID op= ID (inv+= ID )? (c+= correlation )? ( portType )? std_attr (w+= with_ex )? ( compensation )? )
             {
-            match(input,INVOKE,FOLLOW_INVOKE_in_invoke2772); 
+            match(input,INVOKE,FOLLOW_INVOKE_in_invoke2839); 
 
             match(input, Token.DOWN, null); 
-            partner=(CommonTree)match(input,ID,FOLLOW_ID_in_invoke2776); 
-            op=(CommonTree)match(input,ID,FOLLOW_ID_in_invoke2780); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:33: (inv+= ID )?
+            partner=(CommonTree)match(input,ID,FOLLOW_ID_in_invoke2843); 
+            op=(CommonTree)match(input,ID,FOLLOW_ID_in_invoke2847); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:33: (inv+= ID )?
             int alt79=2;
             int LA79_0 = input.LA(1);
 
@@ -5145,9 +5203,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt79) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:33: inv+= ID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:33: inv+= ID
                     {
-                    inv=(CommonTree)match(input,ID,FOLLOW_ID_in_invoke2784); 
+                    inv=(CommonTree)match(input,ID,FOLLOW_ID_in_invoke2851); 
                     if (list_inv==null) list_inv=new ArrayList();
                     list_inv.add(inv);
 
@@ -5157,7 +5215,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:40: (c+= correlation )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:40: (c+= correlation )?
             int alt80=2;
             int LA80_0 = input.LA(1);
 
@@ -5166,9 +5224,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt80) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:40: c+= correlation
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:40: c+= correlation
                     {
-                    pushFollow(FOLLOW_correlation_in_invoke2789);
+                    pushFollow(FOLLOW_correlation_in_invoke2856);
                     c=correlation();
 
                     state._fsp--;
@@ -5182,7 +5240,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:55: ( portType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:55: ( portType )?
             int alt81=2;
             int LA81_0 = input.LA(1);
 
@@ -5191,10 +5249,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt81) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:55: portType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:55: portType
                     {
-                    pushFollow(FOLLOW_portType_in_invoke2792);
-                    portType68=portType();
+                    pushFollow(FOLLOW_portType_in_invoke2859);
+                    portType67=portType();
 
                     state._fsp--;
 
@@ -5204,12 +5262,12 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_invoke2795);
-            std_attr69=std_attr();
+            pushFollow(FOLLOW_std_attr_in_invoke2862);
+            std_attr68=std_attr();
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:75: (w+= with_ex )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:75: (w+= with_ex )?
             int alt82=2;
             int LA82_0 = input.LA(1);
 
@@ -5218,9 +5276,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt82) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:75: w+= with_ex
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:75: w+= with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_invoke2799);
+                    pushFollow(FOLLOW_with_ex_in_invoke2866);
                     w=with_ex();
 
                     state._fsp--;
@@ -5234,7 +5292,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:86: ( compensation )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:86: ( compensation )?
             int alt83=2;
             int LA83_0 = input.LA(1);
 
@@ -5243,10 +5301,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt83) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:471:86: compensation
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:529:86: compensation
                     {
-                    pushFollow(FOLLOW_compensation_in_invoke2802);
-                    compensation70=compensation();
+                    pushFollow(FOLLOW_compensation_in_invoke2869);
+                    compensation69=compensation();
 
                     state._fsp--;
 
@@ -5264,10 +5322,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 475:2: -> invoke(partner=$partner.textop=$op.textinv=$invjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcorrelation_opt=$cwith_ex=$wfaults=__faultsfaults_pb=__faults_pbcompensation=$compensation.st)
+            // 533:2: -> invoke(partner=$partner.textop=$op.textinv=$invjoin=$joinsignal=$signalempty=$emptyportType=$portType.ststd_attr=$std_attr.stcorrelation_opt=$cwith_ex=$wfaults=__faultsfaults_pb=__faults_pbcompensation=$compensation.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("invoke",
-              new STAttrMap().put("partner", (partner!=null?partner.getText():null)).put("op", (op!=null?op.getText():null)).put("inv", list_inv).put("join", join).put("signal", signal).put("empty", empty).put("portType", (portType68!=null?portType68.st:null)).put("std_attr", (std_attr69!=null?std_attr69.st:null)).put("correlation_opt", list_c).put("with_ex", list_w).put("faults", __faults).put("faults_pb", __faults_pb).put("compensation", (compensation70!=null?compensation70.st:null)));
+              new STAttrMap().put("partner", (partner!=null?partner.getText():null)).put("op", (op!=null?op.getText():null)).put("inv", list_inv).put("join", join).put("signal", signal).put("empty", empty).put("portType", (portType67!=null?portType67.st:null)).put("std_attr", (std_attr68!=null?std_attr68.st:null)).put("correlation_opt", list_c).put("with_ex", list_w).put("faults", __faults).put("faults_pb", __faults_pb).put("compensation", (compensation69!=null?compensation69.st:null)).put("comments", comments));
             }
 
 
@@ -5297,42 +5355,42 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "assign"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:480:1: assign[List join, List signal, boolean empty, HashMap<String, String>_vars, HashMap<String, String>_pl, String name, StringTemplate pb] : ^( ASSIGN pe= path_expr ( PROP )? ( portType )? ( CREATE_INST )? std_attr ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, join, signal, empty, \n\t\t\t$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] ) -> assign(rvalue_st=$rvalue.stjoin=$joinsignal=$signalempty=$emptyvalid=$VALID.textstd_attr=$std_attr.streal=isRealAssign);
-    public final BPELscriptWalker.assign_return assign(List join, List signal, boolean empty, HashMap<String, String>_vars, HashMap<String, String>_pl, String name, StringTemplate pb) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:538:1: assign[List join, List signal, boolean empty, HashMap<String, String>_vars, HashMap<String, String>_pl, String name, StringTemplate pb, List comments] : ^( ASSIGN pe= path_expr ( PROP )? ( portType )? ( CREATE_INST )? std_attr ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, join, signal, empty, \n\t\t\t$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] ) -> assign(rvalue_st=$rvalue.stjoin=$joinsignal=$signalempty=$emptyvalid=$VALID.textstd_attr=$std_attr.streal=isRealAssigncomments=$comments);
+    public final BPELscriptWalker.assign_return assign(List join, List signal, boolean empty, HashMap<String, String>_vars, HashMap<String, String>_pl, String name, StringTemplate pb, List comments) throws RecognitionException {
         BPELscriptWalker.assign_return retval = new BPELscriptWalker.assign_return();
         retval.start = input.LT(1);
 
-        CommonTree PROP71=null;
-        CommonTree CREATE_INST73=null;
-        CommonTree VALID77=null;
-        CommonTree KEEPSRC78=null;
-        CommonTree IGNORE79=null;
+        CommonTree PROP70=null;
+        CommonTree CREATE_INST72=null;
+        CommonTree VALID76=null;
+        CommonTree KEEPSRC77=null;
+        CommonTree IGNORE78=null;
         BPELscriptWalker.path_expr_return pe = null;
 
-        BPELscriptWalker.portType_return portType72 = null;
+        BPELscriptWalker.portType_return portType71 = null;
 
-        BPELscriptWalker.std_attr_return std_attr74 = null;
+        BPELscriptWalker.std_attr_return std_attr73 = null;
 
-        BPELscriptWalker.faultName_return faultName75 = null;
+        BPELscriptWalker.faultName_return faultName74 = null;
 
-        BPELscriptWalker.msgEx_return msgEx76 = null;
+        BPELscriptWalker.msgEx_return msgEx75 = null;
 
-        BPELscriptWalker.rvalue_return rvalue80 = null;
+        BPELscriptWalker.rvalue_return rvalue79 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:2: ( ^( ASSIGN pe= path_expr ( PROP )? ( portType )? ( CREATE_INST )? std_attr ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, join, signal, empty, \n\t\t\t$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] ) -> assign(rvalue_st=$rvalue.stjoin=$joinsignal=$signalempty=$emptyvalid=$VALID.textstd_attr=$std_attr.streal=isRealAssign))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:4: ^( ASSIGN pe= path_expr ( PROP )? ( portType )? ( CREATE_INST )? std_attr ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, join, signal, empty, \n\t\t\t$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:2: ( ^( ASSIGN pe= path_expr ( PROP )? ( portType )? ( CREATE_INST )? std_attr ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, join, signal, empty, \n\t\t\t$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] ) -> assign(rvalue_st=$rvalue.stjoin=$joinsignal=$signalempty=$emptyvalid=$VALID.textstd_attr=$std_attr.streal=isRealAssigncomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:4: ^( ASSIGN pe= path_expr ( PROP )? ( portType )? ( CREATE_INST )? std_attr ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, join, signal, empty, \n\t\t\t$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] )
             {
-            match(input,ASSIGN,FOLLOW_ASSIGN_in_assign2899); 
+            match(input,ASSIGN,FOLLOW_ASSIGN_in_assign2971); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_path_expr_in_assign2903);
+            pushFollow(FOLLOW_path_expr_in_assign2975);
             pe=path_expr();
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:26: ( PROP )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:26: ( PROP )?
             int alt84=2;
             int LA84_0 = input.LA(1);
 
@@ -5341,16 +5399,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt84) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:26: PROP
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:26: PROP
                     {
-                    PROP71=(CommonTree)match(input,PROP,FOLLOW_PROP_in_assign2905); 
+                    PROP70=(CommonTree)match(input,PROP,FOLLOW_PROP_in_assign2977); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:32: ( portType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:32: ( portType )?
             int alt85=2;
             int LA85_0 = input.LA(1);
 
@@ -5359,10 +5417,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt85) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:32: portType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:32: portType
                     {
-                    pushFollow(FOLLOW_portType_in_assign2908);
-                    portType72=portType();
+                    pushFollow(FOLLOW_portType_in_assign2980);
+                    portType71=portType();
 
                     state._fsp--;
 
@@ -5372,7 +5430,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:42: ( CREATE_INST )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:42: ( CREATE_INST )?
             int alt86=2;
             int LA86_0 = input.LA(1);
 
@@ -5381,21 +5439,21 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt86) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:42: CREATE_INST
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:42: CREATE_INST
                     {
-                    CREATE_INST73=(CommonTree)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_assign2911); 
+                    CREATE_INST72=(CommonTree)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_assign2983); 
 
                     }
                     break;
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_assign2915);
-            std_attr74=std_attr();
+            pushFollow(FOLLOW_std_attr_in_assign2987);
+            std_attr73=std_attr();
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:65: ( faultName )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:65: ( faultName )?
             int alt87=2;
             int LA87_0 = input.LA(1);
 
@@ -5404,10 +5462,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt87) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:65: faultName
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:65: faultName
                     {
-                    pushFollow(FOLLOW_faultName_in_assign2917);
-                    faultName75=faultName();
+                    pushFollow(FOLLOW_faultName_in_assign2989);
+                    faultName74=faultName();
 
                     state._fsp--;
 
@@ -5417,7 +5475,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:76: ( msgEx )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:76: ( msgEx )?
             int alt88=2;
             int LA88_0 = input.LA(1);
 
@@ -5426,10 +5484,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt88) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:76: msgEx
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:76: msgEx
                     {
-                    pushFollow(FOLLOW_msgEx_in_assign2920);
-                    msgEx76=msgEx();
+                    pushFollow(FOLLOW_msgEx_in_assign2992);
+                    msgEx75=msgEx();
 
                     state._fsp--;
 
@@ -5439,7 +5497,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:83: ( VALID )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:83: ( VALID )?
             int alt89=2;
             int LA89_0 = input.LA(1);
 
@@ -5448,16 +5506,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt89) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:83: VALID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:83: VALID
                     {
-                    VALID77=(CommonTree)match(input,VALID,FOLLOW_VALID_in_assign2923); 
+                    VALID76=(CommonTree)match(input,VALID,FOLLOW_VALID_in_assign2995); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:90: ( KEEPSRC )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:90: ( KEEPSRC )?
             int alt90=2;
             int LA90_0 = input.LA(1);
 
@@ -5466,16 +5524,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt90) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:90: KEEPSRC
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:90: KEEPSRC
                     {
-                    KEEPSRC78=(CommonTree)match(input,KEEPSRC,FOLLOW_KEEPSRC_in_assign2926); 
+                    KEEPSRC77=(CommonTree)match(input,KEEPSRC,FOLLOW_KEEPSRC_in_assign2998); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:99: ( IGNORE )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:99: ( IGNORE )?
             int alt91=2;
             int LA91_0 = input.LA(1);
 
@@ -5484,19 +5542,19 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt91) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:481:99: IGNORE
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:539:99: IGNORE
                     {
-                    IGNORE79=(CommonTree)match(input,IGNORE,FOLLOW_IGNORE_in_assign2929); 
+                    IGNORE78=(CommonTree)match(input,IGNORE,FOLLOW_IGNORE_in_assign3001); 
 
                     }
                     break;
 
             }
 
-            pushFollow(FOLLOW_rvalue_in_assign2935);
-            rvalue80=rvalue(_vars, _pl, (pe!=null?pe.st:null), (pe!=null?(input.getTokenStream().toString(
+            pushFollow(FOLLOW_rvalue_in_assign3007);
+            rvalue79=rvalue(_vars, _pl, (pe!=null?pe.st:null), (pe!=null?(input.getTokenStream().toString(
               input.getTreeAdaptor().getTokenStartIndex(pe.start),
-              input.getTreeAdaptor().getTokenStopIndex(pe.start))):null), (PROP71!=null?PROP71.getText():null), join, signal, empty, (portType72!=null?portType72.st:null), (CREATE_INST73!=null?CREATE_INST73.getText():null), (std_attr74!=null?std_attr74.st:null), (faultName75!=null?faultName75.st:null), (msgEx76!=null?msgEx76.st:null), (VALID77!=null?VALID77.getText():null), (KEEPSRC78!=null?KEEPSRC78.getText():null), (IGNORE79!=null?IGNORE79.getText():null), name, pb);
+              input.getTreeAdaptor().getTokenStopIndex(pe.start))):null), (PROP70!=null?PROP70.getText():null), join, signal, empty, (portType71!=null?portType71.st:null), (CREATE_INST72!=null?CREATE_INST72.getText():null), (std_attr73!=null?std_attr73.st:null), (faultName74!=null?faultName74.st:null), (msgEx75!=null?msgEx75.st:null), (VALID76!=null?VALID76.getText():null), (KEEPSRC77!=null?KEEPSRC77.getText():null), (IGNORE78!=null?IGNORE78.getText():null), name, pb);
 
             state._fsp--;
 
@@ -5504,19 +5562,19 @@ public class BPELscriptWalker extends TreeParser {
             match(input, Token.UP, null); 
 
             			boolean isRealAssign = true;
-            			if ((rvalue80!=null?(input.getTokenStream().toString(
-              input.getTreeAdaptor().getTokenStartIndex(rvalue80.start),
-              input.getTreeAdaptor().getTokenStopIndex(rvalue80.start))):null).contains("invoke") || (rvalue80!=null?(input.getTokenStream().toString(
-              input.getTreeAdaptor().getTokenStartIndex(rvalue80.start),
-              input.getTreeAdaptor().getTokenStopIndex(rvalue80.start))):null).contains("receive")) isRealAssign=false;
+            			if ((rvalue79!=null?(input.getTokenStream().toString(
+              input.getTreeAdaptor().getTokenStartIndex(rvalue79.start),
+              input.getTreeAdaptor().getTokenStopIndex(rvalue79.start))):null).contains("invoke") || (rvalue79!=null?(input.getTokenStream().toString(
+              input.getTreeAdaptor().getTokenStartIndex(rvalue79.start),
+              input.getTreeAdaptor().getTokenStopIndex(rvalue79.start))):null).contains("receive")) isRealAssign=false;
             		
 
 
             // TEMPLATE REWRITE
-            // 488:2: -> assign(rvalue_st=$rvalue.stjoin=$joinsignal=$signalempty=$emptyvalid=$VALID.textstd_attr=$std_attr.streal=isRealAssign)
+            // 546:2: -> assign(rvalue_st=$rvalue.stjoin=$joinsignal=$signalempty=$emptyvalid=$VALID.textstd_attr=$std_attr.streal=isRealAssigncomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("assign",
-              new STAttrMap().put("rvalue_st", (rvalue80!=null?rvalue80.st:null)).put("join", join).put("signal", signal).put("empty", empty).put("valid", (VALID77!=null?VALID77.getText():null)).put("std_attr", (std_attr74!=null?std_attr74.st:null)).put("real", isRealAssign));
+              new STAttrMap().put("rvalue_st", (rvalue79!=null?rvalue79.st:null)).put("join", join).put("signal", signal).put("empty", empty).put("valid", (VALID76!=null?VALID76.getText():null)).put("std_attr", (std_attr73!=null?std_attr73.st:null)).put("real", isRealAssign).put("comments", comments));
             }
 
 
@@ -5540,21 +5598,21 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "rvalue"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:491:1: rvalue[HashMap<String, String>_vars, HashMap<String, String>_pl, \n\tStringTemplate path_expr, String str_path_expr, String lhs_prop, List join, List signal, boolean empty, \n\tStringTemplate portType, String crtInst, StringTemplate std_attr, StringTemplate faultName, StringTemplate msgEx,\n\tString valid, String keepsrc, String ignore, String name, StringTemplate pb] : (r= receive[null, null, true] -> receive(rec_name=namepb=pbrec_tpl=$r.stpath_st=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypecrt_inst=crtInststd_attr=$std_attrfaultName=$faultNamemsgEx=$msgEx) | i= invoke[null, null, true, null, null] -> invoke(inv_tpl=$i.stoutvar=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypestd_attr=$std_attr) | expr[$path_expr] ( PROP )? -> copy(from=fromempty=isPLorVarext=isExtpl=pLpl_p=ePRvar=varpart=partprop=propertytopart=tparttoprop=tproptopl=topltovar=tovartoempty=isToExprkeep=$keepsrcignore=$ignore));
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:549:1: rvalue[HashMap<String, String>_vars, HashMap<String, String>_pl, \n\tStringTemplate path_expr, String str_path_expr, String lhs_prop, List join, List signal, boolean empty, \n\tStringTemplate portType, String crtInst, StringTemplate std_attr, StringTemplate faultName, StringTemplate msgEx,\n\tString valid, String keepsrc, String ignore, String name, StringTemplate pb] : (r= receive[null, null, true, null] -> receive(rec_name=namepb=pbrec_tpl=$r.stpath_st=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypecrt_inst=crtInststd_attr=$std_attrfaultName=$faultNamemsgEx=$msgEx) | i= invoke[null, null, true, null, null, null] -> invoke(inv_tpl=$i.stoutvar=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypestd_attr=$std_attr) | expr[$path_expr] ( PROP )? -> copy(from=fromempty=isPLorVarext=isExtpl=pLpl_p=ePRvar=varpart=partprop=propertytopart=tparttoprop=tproptopl=topltovar=tovartoempty=isToExprkeep=$keepsrcignore=$ignore));
     public final BPELscriptWalker.rvalue_return rvalue(HashMap<String, String>_vars, HashMap<String, String>_pl, StringTemplate path_expr, String str_path_expr, String lhs_prop, List join, List signal, boolean empty, StringTemplate portType, String crtInst, StringTemplate std_attr, StringTemplate faultName, StringTemplate msgEx, String valid, String keepsrc, String ignore, String name, StringTemplate pb) throws RecognitionException {
         BPELscriptWalker.rvalue_return retval = new BPELscriptWalker.rvalue_return();
         retval.start = input.LT(1);
 
-        CommonTree PROP82=null;
+        CommonTree PROP81=null;
         BPELscriptWalker.receive_return r = null;
 
         BPELscriptWalker.invoke_return i = null;
 
-        BPELscriptWalker.expr_return expr81 = null;
+        BPELscriptWalker.expr_return expr80 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:495:2: (r= receive[null, null, true] -> receive(rec_name=namepb=pbrec_tpl=$r.stpath_st=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypecrt_inst=crtInststd_attr=$std_attrfaultName=$faultNamemsgEx=$msgEx) | i= invoke[null, null, true, null, null] -> invoke(inv_tpl=$i.stoutvar=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypestd_attr=$std_attr) | expr[$path_expr] ( PROP )? -> copy(from=fromempty=isPLorVarext=isExtpl=pLpl_p=ePRvar=varpart=partprop=propertytopart=tparttoprop=tproptopl=topltovar=tovartoempty=isToExprkeep=$keepsrcignore=$ignore))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:553:2: (r= receive[null, null, true, null] -> receive(rec_name=namepb=pbrec_tpl=$r.stpath_st=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypecrt_inst=crtInststd_attr=$std_attrfaultName=$faultNamemsgEx=$msgEx) | i= invoke[null, null, true, null, null, null] -> invoke(inv_tpl=$i.stoutvar=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypestd_attr=$std_attr) | expr[$path_expr] ( PROP )? -> copy(from=fromempty=isPLorVarext=isExtpl=pLpl_p=ePRvar=varpart=partprop=propertytopart=tparttoprop=tproptopl=topltovar=tovartoempty=isToExprkeep=$keepsrcignore=$ignore))
             int alt93=3;
             switch ( input.LA(1) ) {
             case RECEIVE:
@@ -5595,10 +5653,10 @@ public class BPELscriptWalker extends TreeParser {
 
             switch (alt93) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:495:5: r= receive[null, null, true]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:553:5: r= receive[null, null, true, null]
                     {
-                    pushFollow(FOLLOW_receive_in_rvalue3000);
-                    r=receive(null, null, true);
+                    pushFollow(FOLLOW_receive_in_rvalue3077);
+                    r=receive(null, null, true, null);
 
                     state._fsp--;
 
@@ -5615,7 +5673,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
                     // TEMPLATE REWRITE
-                    // 506:2: -> receive(rec_name=namepb=pbrec_tpl=$r.stpath_st=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypecrt_inst=crtInststd_attr=$std_attrfaultName=$faultNamemsgEx=$msgEx)
+                    // 564:2: -> receive(rec_name=namepb=pbrec_tpl=$r.stpath_st=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypecrt_inst=crtInststd_attr=$std_attrfaultName=$faultNamemsgEx=$msgEx)
                     {
                         retval.st = templateLib.getInstanceOf("receive",
                       new STAttrMap().put("rec_name", name).put("pb", pb).put("rec_tpl", (r!=null?r.st:null)).put("path_st", path_expr).put("join", join).put("signal", signal).put("empty", empty).put("portType", portType).put("crt_inst", crtInst).put("std_attr", std_attr).put("faultName", faultName).put("msgEx", msgEx));
@@ -5625,10 +5683,10 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:508:5: i= invoke[null, null, true, null, null]
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:566:5: i= invoke[null, null, true, null, null, null]
                     {
-                    pushFollow(FOLLOW_invoke_in_rvalue3082);
-                    i=invoke(null, null, true, null, null);
+                    pushFollow(FOLLOW_invoke_in_rvalue3159);
+                    i=invoke(null, null, true, null, null, null);
 
                     state._fsp--;
 
@@ -5645,7 +5703,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
                     // TEMPLATE REWRITE
-                    // 519:2: -> invoke(inv_tpl=$i.stoutvar=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypestd_attr=$std_attr)
+                    // 577:2: -> invoke(inv_tpl=$i.stoutvar=$path_exprjoin=joinsignal=signalempty=emptyportType=$portTypestd_attr=$std_attr)
                     {
                         retval.st = templateLib.getInstanceOf("invoke",
                       new STAttrMap().put("inv_tpl", (i!=null?i.st:null)).put("outvar", path_expr).put("join", join).put("signal", signal).put("empty", empty).put("portType", portType).put("std_attr", std_attr));
@@ -5655,14 +5713,14 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:521:5: expr[$path_expr] ( PROP )?
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:579:5: expr[$path_expr] ( PROP )?
                     {
-                    pushFollow(FOLLOW_expr_in_rvalue3139);
-                    expr81=expr(path_expr);
+                    pushFollow(FOLLOW_expr_in_rvalue3216);
+                    expr80=expr(path_expr);
 
                     state._fsp--;
 
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:521:22: ( PROP )?
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:579:22: ( PROP )?
                     int alt92=2;
                     int LA92_0 = input.LA(1);
 
@@ -5671,9 +5729,9 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     switch (alt92) {
                         case 1 :
-                            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:521:22: PROP
+                            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:579:22: PROP
                             {
-                            PROP82=(CommonTree)match(input,PROP,FOLLOW_PROP_in_rvalue3142); 
+                            PROP81=(CommonTree)match(input,PROP,FOLLOW_PROP_in_rvalue3219); 
 
                             }
                             break;
@@ -5685,17 +5743,17 @@ public class BPELscriptWalker extends TreeParser {
                     		if (portType!=null || faultName!=null || msgEx!=null) {
                     			System.err.println("Error-Info: these attributes are not allowed in this context.");
                     		}
-
-                    		String from_spec = (expr81!=null?(input.getTokenStream().toString(
-                      input.getTreeAdaptor().getTokenStartIndex(expr81.start),
-                      input.getTreeAdaptor().getTokenStopIndex(expr81.start))):null); //fetch right hand side
+                    		
+                    		String from_spec = (expr80!=null?(input.getTokenStream().toString(
+                      input.getTreeAdaptor().getTokenStartIndex(expr80.start),
+                      input.getTreeAdaptor().getTokenStopIndex(expr80.start))):null); //fetch right hand side
                     		String[] from_part;
                     		
                     		String[] lhs = str_path_expr.split("\\."); // fetch left hand side
                     		
                     		// if 'from_spec' contains a path (to a part, property or endPoint) strip the parts out
                     		if (from_spec.contains(".")) {
-                    			//split from_spec with regex '.' (excaped with '\\')
+                    			//split from_spec with regex '.' (escaped with '\\')
                     			from_part = from_spec.split("\\.");
                     		} else {//else use 'from_spec' itself
                     			from_part=new String[]{from_spec};
@@ -5754,7 +5812,15 @@ public class BPELscriptWalker extends TreeParser {
                     		 * Handling of (RHS)-Variables 
                     		 * if the rhs is contained in variables HashMap (and is not a partnerlink)
                     		 */
-                    		 
+                    		
+                    		// check if vars in rhs are all known
+                    		Boolean rhsKnown=false;
+                    		if (_vars!=null) {
+                    		for (Object obj : (expr80!=null?expr80.vars:null)) {
+                                          	rhsKnown = _vars.containsKey(obj);
+                                                     if (!rhsKnown) System.err.println("undefined Variable "+obj);
+                                          }}		
+                    		
                     		String var = null; //the variable
                     		String part = null; //the part description
                     		String property = null; //the property description
@@ -5766,14 +5832,13 @@ public class BPELscriptWalker extends TreeParser {
                     		 * a RHS-variable should be known at an assignment and might have optional part or property description
                     		 */
                     		if (!isPL) { 
-                    		    if (_vars!=null && _vars.containsKey(from_part[0])) {//rhs known as var?
-                    			var = from_part[0];
-                    			isVar=true;
+                    		    if (_vars!=null && rhsKnown) {//_vars.containsKey(from_part[0])) {//rhs known as var?
                     			
                     			//if there is a path expression, set it
-                    			if(from_part.length>1 && from_part[1]!=null) {
-                    			    if (PROP82!=null) {
-                    			    	if ((PROP82!=null?PROP82.getText():null).equals("property")) {
+                    			if((expr80!=null?expr80.vars:null).size()==1 && from_part.length>1 && from_part[1]!=null) {
+                    			    var = from_part[0];
+                    			    if (PROP81!=null) {
+                    			    	if ((PROP81!=null?PROP81.getText():null).equals("property")) {
                     				    property="";
                     			        	    for (int j=1; j<from_part.length; j++) {//handle multiple part references
                     					//set currentFromPart and remove double colon	             		            
@@ -5785,17 +5850,23 @@ public class BPELscriptWalker extends TreeParser {
                     			    } else {
                     			        part=from_part[1].replaceFirst(":", "");
                     			    }
+                    			} else if (rhsKnown) {
+                    			    from = from_part[0]; 
+                    			    isExt=true;
+                    			    isPLorVar=false;
                     			}
+                    			
                     		    } else {// rhs is not known as var and is not partnerlink (only (extended) expression is now possible)
                     		        	/**
-                    			 * handling extended expression
+                    			 * handling extended expression or literals
                     			 */
-                    			from = from_part[0]; 
+                    			from = from_part[0]; //may set a literal here
                     			isPLorVar=false; 
                     			if (from_part[0].contains("[")) {//an extended expression is contained in '[...]'
                     			    from = from.substring(1, from.length()-1); //remove brackets
                     			    isExt=true;
-                    			}
+                    			} else from = from.substring(1, from.length()-1); //remove colons from literal
+
                     		    }
                     		} 
                     		
@@ -5840,7 +5911,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
                     // TEMPLATE REWRITE
-                    // 677:2: -> copy(from=fromempty=isPLorVarext=isExtpl=pLpl_p=ePRvar=varpart=partprop=propertytopart=tparttoprop=tproptopl=topltovar=tovartoempty=isToExprkeep=$keepsrcignore=$ignore)
+                    // 748:2: -> copy(from=fromempty=isPLorVarext=isExtpl=pLpl_p=ePRvar=varpart=partprop=propertytopart=tparttoprop=tproptopl=topltovar=tovartoempty=isToExprkeep=$keepsrcignore=$ignore)
                     {
                         retval.st = templateLib.getInstanceOf("copy",
                       new STAttrMap().put("from", from).put("empty", isPLorVar).put("ext", isExt).put("pl", pL).put("pl_p", ePR).put("var", var).put("part", part).put("prop", property).put("topart", tpart).put("toprop", tprop).put("topl", topl).put("tovar", tovar).put("toempty", isToExpr).put("keep", keepsrc).put("ignore", ignore));
@@ -5869,30 +5940,30 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "throw_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:687:1: throw_ex[List join, List signal,boolean empty] : ^( THROW ns_id (faultVar= ID )? std_attr ) -> throw(ns_pre=$ns_id.nsprens_loc=$ns_id.nslocjoin=$joinsignal=$signalempty=$emptyfaultVar=$faultVar.textstd_attr=$std_attr.st);
-    public final BPELscriptWalker.throw_ex_return throw_ex(List join, List signal, boolean  empty) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:758:1: throw_ex[List join, List signal,boolean empty, List comments] : ^( THROW ns_id (faultVar= ID )? std_attr ) -> throw(ns_pre=$ns_id.nsprens_loc=$ns_id.nslocjoin=$joinsignal=$signalempty=$emptyfaultVar=$faultVar.textstd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.throw_ex_return throw_ex(List join, List signal, boolean  empty, List comments) throws RecognitionException {
         BPELscriptWalker.throw_ex_return retval = new BPELscriptWalker.throw_ex_return();
         retval.start = input.LT(1);
 
         CommonTree faultVar=null;
-        BPELscriptWalker.ns_id_return ns_id83 = null;
+        BPELscriptWalker.ns_id_return ns_id82 = null;
 
-        BPELscriptWalker.std_attr_return std_attr84 = null;
+        BPELscriptWalker.std_attr_return std_attr83 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:688:2: ( ^( THROW ns_id (faultVar= ID )? std_attr ) -> throw(ns_pre=$ns_id.nsprens_loc=$ns_id.nslocjoin=$joinsignal=$signalempty=$emptyfaultVar=$faultVar.textstd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:688:4: ^( THROW ns_id (faultVar= ID )? std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:759:2: ( ^( THROW ns_id (faultVar= ID )? std_attr ) -> throw(ns_pre=$ns_id.nsprens_loc=$ns_id.nslocjoin=$joinsignal=$signalempty=$emptyfaultVar=$faultVar.textstd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:759:4: ^( THROW ns_id (faultVar= ID )? std_attr )
             {
-            match(input,THROW,FOLLOW_THROW_in_throw_ex3271); 
+            match(input,THROW,FOLLOW_THROW_in_throw_ex3348); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_ns_id_in_throw_ex3273);
-            ns_id83=ns_id();
+            pushFollow(FOLLOW_ns_id_in_throw_ex3350);
+            ns_id82=ns_id();
 
             state._fsp--;
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:688:26: (faultVar= ID )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:759:26: (faultVar= ID )?
             int alt94=2;
             int LA94_0 = input.LA(1);
 
@@ -5901,17 +5972,17 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt94) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:688:26: faultVar= ID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:759:26: faultVar= ID
                     {
-                    faultVar=(CommonTree)match(input,ID,FOLLOW_ID_in_throw_ex3277); 
+                    faultVar=(CommonTree)match(input,ID,FOLLOW_ID_in_throw_ex3354); 
 
                     }
                     break;
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_throw_ex3280);
-            std_attr84=std_attr();
+            pushFollow(FOLLOW_std_attr_in_throw_ex3357);
+            std_attr83=std_attr();
 
             state._fsp--;
 
@@ -5920,10 +5991,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 689:2: -> throw(ns_pre=$ns_id.nsprens_loc=$ns_id.nslocjoin=$joinsignal=$signalempty=$emptyfaultVar=$faultVar.textstd_attr=$std_attr.st)
+            // 760:2: -> throw(ns_pre=$ns_id.nsprens_loc=$ns_id.nslocjoin=$joinsignal=$signalempty=$emptyfaultVar=$faultVar.textstd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("throw",
-              new STAttrMap().put("ns_pre", (ns_id83!=null?ns_id83.nspre:null)).put("ns_loc", (ns_id83!=null?ns_id83.nsloc:null)).put("join", join).put("signal", signal).put("empty", empty).put("faultVar", (faultVar!=null?faultVar.getText():null)).put("std_attr", (std_attr84!=null?std_attr84.st:null)));
+              new STAttrMap().put("ns_pre", (ns_id82!=null?ns_id82.nspre:null)).put("ns_loc", (ns_id82!=null?ns_id82.nsloc:null)).put("join", join).put("signal", signal).put("empty", empty).put("faultVar", (faultVar!=null?faultVar.getText():null)).put("std_attr", (std_attr83!=null?std_attr83.st:null)).put("comments", comments));
             }
 
 
@@ -5947,23 +6018,23 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "rethrow_ex"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:695:1: rethrow_ex[List join, List signal,boolean empty] : ^( RETHROW std_attr ) -> rethrow(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st);
-    public final BPELscriptWalker.rethrow_ex_return rethrow_ex(List join, List signal, boolean  empty) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:766:1: rethrow_ex[List join, List signal,boolean empty, List comments] : ^( RETHROW std_attr ) -> rethrow(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.rethrow_ex_return rethrow_ex(List join, List signal, boolean  empty, List comments) throws RecognitionException {
         BPELscriptWalker.rethrow_ex_return retval = new BPELscriptWalker.rethrow_ex_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.std_attr_return std_attr85 = null;
+        BPELscriptWalker.std_attr_return std_attr84 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:696:2: ( ^( RETHROW std_attr ) -> rethrow(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:696:4: ^( RETHROW std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:767:2: ( ^( RETHROW std_attr ) -> rethrow(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:767:4: ^( RETHROW std_attr )
             {
-            match(input,RETHROW,FOLLOW_RETHROW_in_rethrow_ex3345); 
+            match(input,RETHROW,FOLLOW_RETHROW_in_rethrow_ex3427); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_std_attr_in_rethrow_ex3347);
-            std_attr85=std_attr();
+            pushFollow(FOLLOW_std_attr_in_rethrow_ex3429);
+            std_attr84=std_attr();
 
             state._fsp--;
 
@@ -5972,10 +6043,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 697:2: -> rethrow(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st)
+            // 768:2: -> rethrow(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("rethrow",
-              new STAttrMap().put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr85!=null?std_attr85.st:null)));
+              new STAttrMap().put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr84!=null?std_attr84.st:null)).put("comments", comments));
             }
 
 
@@ -5999,24 +6070,24 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "compensate"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:706:1: compensate[List join, List signal, boolean empty] : ^( COMPENSATE (target+= ID )? std_attr ) -> compensate(id_opt=$targetjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st);
-    public final BPELscriptWalker.compensate_return compensate(List join, List signal, boolean empty) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:777:1: compensate[List join, List signal, boolean empty, List comments] : ^( COMPENSATE (target+= ID )? std_attr ) -> compensate(id_opt=$targetjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.compensate_return compensate(List join, List signal, boolean empty, List comments) throws RecognitionException {
         BPELscriptWalker.compensate_return retval = new BPELscriptWalker.compensate_return();
         retval.start = input.LT(1);
 
         CommonTree target=null;
         List list_target=null;
-        BPELscriptWalker.std_attr_return std_attr86 = null;
+        BPELscriptWalker.std_attr_return std_attr85 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:707:2: ( ^( COMPENSATE (target+= ID )? std_attr ) -> compensate(id_opt=$targetjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:707:4: ^( COMPENSATE (target+= ID )? std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:778:2: ( ^( COMPENSATE (target+= ID )? std_attr ) -> compensate(id_opt=$targetjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:778:4: ^( COMPENSATE (target+= ID )? std_attr )
             {
-            match(input,COMPENSATE,FOLLOW_COMPENSATE_in_compensate3392); 
+            match(input,COMPENSATE,FOLLOW_COMPENSATE_in_compensate3479); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:707:23: (target+= ID )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:778:23: (target+= ID )?
             int alt95=2;
             int LA95_0 = input.LA(1);
 
@@ -6025,9 +6096,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt95) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:707:23: target+= ID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:778:23: target+= ID
                     {
-                    target=(CommonTree)match(input,ID,FOLLOW_ID_in_compensate3396); 
+                    target=(CommonTree)match(input,ID,FOLLOW_ID_in_compensate3483); 
                     if (list_target==null) list_target=new ArrayList();
                     list_target.add(target);
 
@@ -6037,8 +6108,8 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            pushFollow(FOLLOW_std_attr_in_compensate3399);
-            std_attr86=std_attr();
+            pushFollow(FOLLOW_std_attr_in_compensate3486);
+            std_attr85=std_attr();
 
             state._fsp--;
 
@@ -6047,10 +6118,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 708:2: -> compensate(id_opt=$targetjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st)
+            // 779:2: -> compensate(id_opt=$targetjoin=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("compensate",
-              new STAttrMap().put("id_opt", list_target).put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr86!=null?std_attr86.st:null)));
+              new STAttrMap().put("id_opt", list_target).put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr85!=null?std_attr85.st:null)).put("comments", comments));
             }
 
 
@@ -6074,23 +6145,23 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "exit"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:711:1: exit[List join, List signal, boolean empty] : ^( EXIT std_attr ) -> exit(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st);
-    public final BPELscriptWalker.exit_return exit(List join, List signal, boolean empty) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:782:1: exit[List join, List signal, boolean empty, List comments] : ^( EXIT std_attr ) -> exit(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.exit_return exit(List join, List signal, boolean empty, List comments) throws RecognitionException {
         BPELscriptWalker.exit_return retval = new BPELscriptWalker.exit_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.std_attr_return std_attr87 = null;
+        BPELscriptWalker.std_attr_return std_attr86 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:712:2: ( ^( EXIT std_attr ) -> exit(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:712:4: ^( EXIT std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:783:2: ( ^( EXIT std_attr ) -> exit(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:783:4: ^( EXIT std_attr )
             {
-            match(input,EXIT,FOLLOW_EXIT_in_exit3444); 
+            match(input,EXIT,FOLLOW_EXIT_in_exit3536); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_std_attr_in_exit3446);
-            std_attr87=std_attr();
+            pushFollow(FOLLOW_std_attr_in_exit3538);
+            std_attr86=std_attr();
 
             state._fsp--;
 
@@ -6099,10 +6170,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 713:2: -> exit(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st)
+            // 784:2: -> exit(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("exit",
-              new STAttrMap().put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr87!=null?std_attr87.st:null)));
+              new STAttrMap().put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr86!=null?std_attr86.st:null)).put("comments", comments));
             }
 
 
@@ -6126,24 +6197,24 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "validate"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:716:1: validate[List join, List signal, boolean empty, HashMap<String, String> _vars] : ^( VALIDATE (vars+= ID )+ std_attr ) -> validate(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stvar=$vars);
-    public final BPELscriptWalker.validate_return validate(List join, List signal, boolean empty, HashMap<String, String> _vars) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:787:1: validate[List join, List signal, boolean empty, HashMap<String, String> _vars, List comments] : ^( VALIDATE (vars+= ID )+ std_attr ) -> validate(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stvar=$varscomments=$comments);
+    public final BPELscriptWalker.validate_return validate(List join, List signal, boolean empty, HashMap<String, String> _vars, List comments) throws RecognitionException {
         BPELscriptWalker.validate_return retval = new BPELscriptWalker.validate_return();
         retval.start = input.LT(1);
 
         CommonTree vars=null;
         List list_vars=null;
-        BPELscriptWalker.std_attr_return std_attr88 = null;
+        BPELscriptWalker.std_attr_return std_attr87 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:717:2: ( ^( VALIDATE (vars+= ID )+ std_attr ) -> validate(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stvar=$vars))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:717:4: ^( VALIDATE (vars+= ID )+ std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:788:2: ( ^( VALIDATE (vars+= ID )+ std_attr ) -> validate(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stvar=$varscomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:788:4: ^( VALIDATE (vars+= ID )+ std_attr )
             {
-            match(input,VALIDATE,FOLLOW_VALIDATE_in_validate3487); 
+            match(input,VALIDATE,FOLLOW_VALIDATE_in_validate3584); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:717:19: (vars+= ID )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:788:19: (vars+= ID )+
             int cnt96=0;
             loop96:
             do {
@@ -6157,9 +6228,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt96) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:717:19: vars+= ID
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:788:19: vars+= ID
             	    {
-            	    vars=(CommonTree)match(input,ID,FOLLOW_ID_in_validate3491); 
+            	    vars=(CommonTree)match(input,ID,FOLLOW_ID_in_validate3588); 
             	    if (list_vars==null) list_vars=new ArrayList();
             	    list_vars.add(vars);
 
@@ -6176,8 +6247,8 @@ public class BPELscriptWalker extends TreeParser {
                 cnt96++;
             } while (true);
 
-            pushFollow(FOLLOW_std_attr_in_validate3494);
-            std_attr88=std_attr();
+            pushFollow(FOLLOW_std_attr_in_validate3591);
+            std_attr87=std_attr();
 
             state._fsp--;
 
@@ -6188,10 +6259,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 720:2: -> validate(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stvar=$vars)
+            // 791:2: -> validate(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stvar=$varscomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("validate",
-              new STAttrMap().put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr88!=null?std_attr88.st:null)).put("var", list_vars));
+              new STAttrMap().put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr87!=null?std_attr87.st:null)).put("var", list_vars).put("comments", comments));
             }
 
 
@@ -6215,25 +6286,25 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "ext_act"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:723:1: ext_act[List join, List signal] : ^( EXTENSIONACT ea= EXT_ACT std_attr ) -> ext_act(join=$joinsignal=$signalext_act=m.trim()std_attr=$std_attr.st);
-    public final BPELscriptWalker.ext_act_return ext_act(List join, List signal) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:794:1: ext_act[List join, List signal, List comments] : ^( EXTENSIONACT ea= EXT_ACT std_attr ) -> ext_act(join=$joinsignal=$signalext_act=m.trim()std_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.ext_act_return ext_act(List join, List signal, List comments) throws RecognitionException {
         BPELscriptWalker.ext_act_return retval = new BPELscriptWalker.ext_act_return();
         retval.start = input.LT(1);
 
         CommonTree ea=null;
-        BPELscriptWalker.std_attr_return std_attr89 = null;
+        BPELscriptWalker.std_attr_return std_attr88 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:724:2: ( ^( EXTENSIONACT ea= EXT_ACT std_attr ) -> ext_act(join=$joinsignal=$signalext_act=m.trim()std_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:724:4: ^( EXTENSIONACT ea= EXT_ACT std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:795:2: ( ^( EXTENSIONACT ea= EXT_ACT std_attr ) -> ext_act(join=$joinsignal=$signalext_act=m.trim()std_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:795:4: ^( EXTENSIONACT ea= EXT_ACT std_attr )
             {
-            match(input,EXTENSIONACT,FOLLOW_EXTENSIONACT_in_ext_act3544); 
+            match(input,EXTENSIONACT,FOLLOW_EXTENSIONACT_in_ext_act3646); 
 
             match(input, Token.DOWN, null); 
-            ea=(CommonTree)match(input,EXT_ACT,FOLLOW_EXT_ACT_in_ext_act3548); 
-            pushFollow(FOLLOW_std_attr_in_ext_act3550);
-            std_attr89=std_attr();
+            ea=(CommonTree)match(input,EXT_ACT,FOLLOW_EXT_ACT_in_ext_act3650); 
+            pushFollow(FOLLOW_std_attr_in_ext_act3652);
+            std_attr88=std_attr();
 
             state._fsp--;
 
@@ -6251,10 +6322,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 734:2: -> ext_act(join=$joinsignal=$signalext_act=m.trim()std_attr=$std_attr.st)
+            // 805:2: -> ext_act(join=$joinsignal=$signalext_act=m.trim()std_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("ext_act",
-              new STAttrMap().put("join", join).put("signal", signal).put("ext_act", m.trim()).put("std_attr", (std_attr89!=null?std_attr89.st:null)));
+              new STAttrMap().put("join", join).put("signal", signal).put("ext_act", m.trim()).put("std_attr", (std_attr88!=null?std_attr88.st:null)).put("comments", comments));
             }
 
 
@@ -6278,23 +6349,23 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "nop"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:737:1: nop[List join, List signal, boolean empty] : ^( NOP std_attr ) -> nop(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st);
-    public final BPELscriptWalker.nop_return nop(List join, List signal, boolean empty) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:808:1: nop[List join, List signal, boolean empty, List comments] : ^( NOP std_attr ) -> nop(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments);
+    public final BPELscriptWalker.nop_return nop(List join, List signal, boolean empty, List comments) throws RecognitionException {
         BPELscriptWalker.nop_return retval = new BPELscriptWalker.nop_return();
         retval.start = input.LT(1);
 
-        BPELscriptWalker.std_attr_return std_attr90 = null;
+        BPELscriptWalker.std_attr_return std_attr89 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:738:2: ( ^( NOP std_attr ) -> nop(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:738:4: ^( NOP std_attr )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:809:2: ( ^( NOP std_attr ) -> nop(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:809:4: ^( NOP std_attr )
             {
-            match(input,NOP,FOLLOW_NOP_in_nop3594); 
+            match(input,NOP,FOLLOW_NOP_in_nop3701); 
 
             match(input, Token.DOWN, null); 
-            pushFollow(FOLLOW_std_attr_in_nop3596);
-            std_attr90=std_attr();
+            pushFollow(FOLLOW_std_attr_in_nop3703);
+            std_attr89=std_attr();
 
             state._fsp--;
 
@@ -6303,10 +6374,10 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 739:2: -> nop(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.st)
+            // 810:2: -> nop(join=$joinsignal=$signalempty=$emptystd_attr=$std_attr.stcomments=$comments)
             {
                 retval.st = templateLib.getInstanceOf("nop",
-              new STAttrMap().put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr90!=null?std_attr90.st:null)));
+              new STAttrMap().put("join", join).put("signal", signal).put("empty", empty).put("std_attr", (std_attr89!=null?std_attr89.st:null)).put("comments", comments));
             }
 
 
@@ -6331,35 +6402,35 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "namespace"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:743:1: namespace returns [String id] : ^( NAMESPACE ID url= STRING ) ;
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:814:1: namespace returns [String id] : ^( NAMESPACE ID url= STRING ) ;
     public final BPELscriptWalker.namespace_return namespace() throws RecognitionException {
         BPELscriptWalker.namespace_return retval = new BPELscriptWalker.namespace_return();
         retval.start = input.LT(1);
 
         CommonTree url=null;
-        CommonTree ID91=null;
+        CommonTree ID90=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:744:2: ( ^( NAMESPACE ID url= STRING ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:744:4: ^( NAMESPACE ID url= STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:815:2: ( ^( NAMESPACE ID url= STRING ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:815:4: ^( NAMESPACE ID url= STRING )
             {
-            match(input,NAMESPACE,FOLLOW_NAMESPACE_in_namespace3639); 
+            match(input,NAMESPACE,FOLLOW_NAMESPACE_in_namespace3751); 
 
             match(input, Token.DOWN, null); 
-            ID91=(CommonTree)match(input,ID,FOLLOW_ID_in_namespace3641); 
-            url=(CommonTree)match(input,STRING,FOLLOW_STRING_in_namespace3645); 
+            ID90=(CommonTree)match(input,ID,FOLLOW_ID_in_namespace3753); 
+            url=(CommonTree)match(input,STRING,FOLLOW_STRING_in_namespace3757); 
 
             match(input, Token.UP, null); 
             // insert namespace in global HashMap glob_ns
-            		Boolean definedIn = glob_ns.containsKey((ID91!=null?ID91.getText():null));
+            		Boolean definedIn = glob_ns.containsKey((ID90!=null?ID90.getText():null));
             		
             		if (definedIn) {
-            			throwDefinedWarning("namespace", ID91);
+            			throwDefinedWarning("namespace", ID90);
             		} else {
-            			glob_ns.put((ID91!=null?ID91.getText():null), (url!=null?url.getText():null));
+            			glob_ns.put((ID90!=null?ID90.getText():null), (url!=null?url.getText():null));
             		}
             	// set return value
-            		retval.id =(ID91!=null?ID91.getText():null);
+            		retval.id =(ID90!=null?ID90.getText():null);
             	
 
             }
@@ -6382,25 +6453,25 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "extension"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:758:1: extension : ^( EXTENSION ID url= STRING ( MUSTUND )? ) ;
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:829:1: extension : ^( EXTENSION ID url= STRING ( MUSTUND )? ) ;
     public final BPELscriptWalker.extension_return extension() throws RecognitionException {
         BPELscriptWalker.extension_return retval = new BPELscriptWalker.extension_return();
         retval.start = input.LT(1);
 
         CommonTree url=null;
-        CommonTree MUSTUND92=null;
-        CommonTree ID93=null;
+        CommonTree MUSTUND91=null;
+        CommonTree ID92=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:759:2: ( ^( EXTENSION ID url= STRING ( MUSTUND )? ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:759:5: ^( EXTENSION ID url= STRING ( MUSTUND )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:830:2: ( ^( EXTENSION ID url= STRING ( MUSTUND )? ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:830:5: ^( EXTENSION ID url= STRING ( MUSTUND )? )
             {
-            match(input,EXTENSION,FOLLOW_EXTENSION_in_extension3675); 
+            match(input,EXTENSION,FOLLOW_EXTENSION_in_extension3787); 
 
             match(input, Token.DOWN, null); 
-            ID93=(CommonTree)match(input,ID,FOLLOW_ID_in_extension3677); 
-            url=(CommonTree)match(input,STRING,FOLLOW_STRING_in_extension3681); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:759:31: ( MUSTUND )?
+            ID92=(CommonTree)match(input,ID,FOLLOW_ID_in_extension3789); 
+            url=(CommonTree)match(input,STRING,FOLLOW_STRING_in_extension3793); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:830:31: ( MUSTUND )?
             int alt97=2;
             int LA97_0 = input.LA(1);
 
@@ -6409,9 +6480,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt97) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:759:31: MUSTUND
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:830:31: MUSTUND
                     {
-                    MUSTUND92=(CommonTree)match(input,MUSTUND,FOLLOW_MUSTUND_in_extension3683); 
+                    MUSTUND91=(CommonTree)match(input,MUSTUND,FOLLOW_MUSTUND_in_extension3795); 
 
                     }
                     break;
@@ -6423,16 +6494,16 @@ public class BPELscriptWalker extends TreeParser {
             		
             		//if mustUnderstand is not empty, append it to modified URL
             		String modUrl = (url!=null?url.getText():null);
-            		if (MUSTUND92!=null) modUrl+=(MUSTUND92!=null?MUSTUND92.getText():null);/*" mustUnderstand=\""+$mustUnderstand.get(0)+"\"";*/
+            		if (MUSTUND91!=null) modUrl+=(MUSTUND91!=null?MUSTUND91.getText():null);/*" mustUnderstand=\""+$mustUnderstand.get(0)+"\"";*/
             				
-            		Boolean definedIn = glob_ns.containsKey((ID93!=null?ID93.getText():null));
+            		Boolean definedIn = glob_ns.containsKey((ID92!=null?ID92.getText():null));
             		
             		if (definedIn) {
-            			throwDefinedWarning("extension", ID93);
+            			throwDefinedWarning("extension", ID92);
             		} else {
             			// insert extension in namespace HashMap glob_ns and extensions
-            			glob_ns.put((ID93!=null?ID93.getText():null), (url!=null?url.getText():null));				
-            			extensions.put((ID93!=null?ID93.getText():null), modUrl );
+            			glob_ns.put((ID92!=null?ID92.getText():null), (url!=null?url.getText():null));				
+            			extensions.put((ID92!=null?ID92.getText():null), modUrl );
             		}
             	
 
@@ -6456,7 +6527,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "imports"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:779:1: imports : ^( IMPORT (id= ID loc= STRING ) (ns= ID )? ( viType )? ) ;
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:850:1: imports : ^( IMPORT (id= ID loc= STRING ) (ns= ID )? ( viType )? ) ;
     public final BPELscriptWalker.imports_return imports() throws RecognitionException {
         BPELscriptWalker.imports_return retval = new BPELscriptWalker.imports_return();
         retval.start = input.LT(1);
@@ -6464,25 +6535,25 @@ public class BPELscriptWalker extends TreeParser {
         CommonTree id=null;
         CommonTree loc=null;
         CommonTree ns=null;
-        BPELscriptWalker.viType_return viType94 = null;
+        BPELscriptWalker.viType_return viType93 = null;
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:780:2: ( ^( IMPORT (id= ID loc= STRING ) (ns= ID )? ( viType )? ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:780:5: ^( IMPORT (id= ID loc= STRING ) (ns= ID )? ( viType )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:851:2: ( ^( IMPORT (id= ID loc= STRING ) (ns= ID )? ( viType )? ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:851:5: ^( IMPORT (id= ID loc= STRING ) (ns= ID )? ( viType )? )
             {
-            match(input,IMPORT,FOLLOW_IMPORT_in_imports3705); 
+            match(input,IMPORT,FOLLOW_IMPORT_in_imports3817); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:780:14: (id= ID loc= STRING )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:780:15: id= ID loc= STRING
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:851:14: (id= ID loc= STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:851:15: id= ID loc= STRING
             {
-            id=(CommonTree)match(input,ID,FOLLOW_ID_in_imports3710); 
-            loc=(CommonTree)match(input,STRING,FOLLOW_STRING_in_imports3714); 
+            id=(CommonTree)match(input,ID,FOLLOW_ID_in_imports3822); 
+            loc=(CommonTree)match(input,STRING,FOLLOW_STRING_in_imports3826); 
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:780:35: (ns= ID )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:851:35: (ns= ID )?
             int alt98=2;
             int LA98_0 = input.LA(1);
 
@@ -6491,16 +6562,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt98) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:780:35: ns= ID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:851:35: ns= ID
                     {
-                    ns=(CommonTree)match(input,ID,FOLLOW_ID_in_imports3719); 
+                    ns=(CommonTree)match(input,ID,FOLLOW_ID_in_imports3831); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:780:40: ( viType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:851:40: ( viType )?
             int alt99=2;
             int LA99_0 = input.LA(1);
 
@@ -6509,10 +6580,10 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt99) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:780:40: viType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:851:40: viType
                     {
-                    pushFollow(FOLLOW_viType_in_imports3722);
-                    viType94=viType();
+                    pushFollow(FOLLOW_viType_in_imports3834);
+                    viType93=viType();
 
                     state._fsp--;
 
@@ -6532,13 +6603,13 @@ public class BPELscriptWalker extends TreeParser {
             		if (ns_resolved!=null) 
             		{//proceed only if namespace is already known
             			// handle importType
-            			if ((viType94!=null?(input.getTokenStream().toString(
-              input.getTreeAdaptor().getTokenStartIndex(viType94.start),
-              input.getTreeAdaptor().getTokenStopIndex(viType94.start))):null)!=null) modUrl+=" importType="+(viType94!=null?(input.getTokenStream().toString(
-              input.getTreeAdaptor().getTokenStartIndex(viType94.start),
-              input.getTreeAdaptor().getTokenStopIndex(viType94.start))):null).substring(5, (viType94!=null?(input.getTokenStream().toString(
-              input.getTreeAdaptor().getTokenStartIndex(viType94.start),
-              input.getTreeAdaptor().getTokenStopIndex(viType94.start))):null).length())+"\n ";
+            			if ((viType93!=null?(input.getTokenStream().toString(
+              input.getTreeAdaptor().getTokenStartIndex(viType93.start),
+              input.getTreeAdaptor().getTokenStopIndex(viType93.start))):null)!=null) modUrl+=" importType="+(viType93!=null?(input.getTokenStream().toString(
+              input.getTreeAdaptor().getTokenStartIndex(viType93.start),
+              input.getTreeAdaptor().getTokenStopIndex(viType93.start))):null).substring(5, (viType93!=null?(input.getTokenStream().toString(
+              input.getTreeAdaptor().getTokenStartIndex(viType93.start),
+              input.getTreeAdaptor().getTokenStopIndex(viType93.start))):null).length())+"\n ";
             			// handle location
             			if (loc!=null) modUrl+="location="+loc+"\n ";
             			// handle namespace
@@ -6578,19 +6649,19 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "messages"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:810:1: messages[HashMap<String, String> _messages, Boolean isInScope] : ^( MESSAGES ( message[_messages, isInScope] )+ ) ;
-    public final BPELscriptWalker.messages_return messages(HashMap<String, String> _messages, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:881:1: messages[HashMap<String, String> _messages, Boolean isInScope, List comments] : ^( MESSAGES ( message[_messages, isInScope, comments] )+ ) ;
+    public final BPELscriptWalker.messages_return messages(HashMap<String, String> _messages, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.messages_return retval = new BPELscriptWalker.messages_return();
         retval.start = input.LT(1);
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:811:2: ( ^( MESSAGES ( message[_messages, isInScope] )+ ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:811:4: ^( MESSAGES ( message[_messages, isInScope] )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:882:2: ( ^( MESSAGES ( message[_messages, isInScope, comments] )+ ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:882:4: ^( MESSAGES ( message[_messages, isInScope, comments] )+ )
             {
-            match(input,MESSAGES,FOLLOW_MESSAGES_in_messages3741); 
+            match(input,MESSAGES,FOLLOW_MESSAGES_in_messages3853); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:811:15: ( message[_messages, isInScope] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:882:15: ( message[_messages, isInScope, comments] )+
             int cnt100=0;
             loop100:
             do {
@@ -6604,10 +6675,10 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt100) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:811:15: message[_messages, isInScope]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:882:15: message[_messages, isInScope, comments]
             	    {
-            	    pushFollow(FOLLOW_message_in_messages3743);
-            	    message(_messages, isInScope);
+            	    pushFollow(FOLLOW_message_in_messages3855);
+            	    message(_messages, isInScope, comments);
 
             	    state._fsp--;
 
@@ -6647,31 +6718,31 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "message"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:814:1: message[HashMap<String, String> _messages, Boolean isInScope] : ^( MESSAGE ID ) ;
-    public final BPELscriptWalker.message_return message(HashMap<String, String> _messages, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:885:1: message[HashMap<String, String> _messages, Boolean isInScope, List comments] : ^( MESSAGE ID ) ;
+    public final BPELscriptWalker.message_return message(HashMap<String, String> _messages, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.message_return retval = new BPELscriptWalker.message_return();
         retval.start = input.LT(1);
 
-        CommonTree ID95=null;
+        CommonTree ID94=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:815:2: ( ^( MESSAGE ID ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:815:4: ^( MESSAGE ID )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:886:2: ( ^( MESSAGE ID ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:886:4: ^( MESSAGE ID )
             {
-            match(input,MESSAGE,FOLLOW_MESSAGE_in_message3761); 
+            match(input,MESSAGE,FOLLOW_MESSAGE_in_message3873); 
 
             match(input, Token.DOWN, null); 
-            ID95=(CommonTree)match(input,ID,FOLLOW_ID_in_message3763); 
+            ID94=(CommonTree)match(input,ID,FOLLOW_ID_in_message3875); 
 
             match(input, Token.UP, null); 
             	
-            		Boolean definedIn = _messages.containsKey((ID95!=null?ID95.getText():null));
+            		Boolean definedIn = _messages.containsKey((ID94!=null?ID94.getText():null));
             		
             		if (definedIn) {
-            			throwDefinedWarning("messageExchange", ID95);
+            			throwDefinedWarning("messageExchange", ID94);
             		} 
             		// insert messages in message HashMap
-            		_messages.put((ID95!=null?ID95.getText():null), "" );                    
+            		_messages.put((ID94!=null?ID94.getText():null), "" );                    
             	
 
             }
@@ -6694,19 +6765,19 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "variables"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:828:1: variables[HashMap<String, String> _vars, Boolean isInScope] : ^( VARIABLES ( variable[_vars, isInScope] )+ ) ;
-    public final BPELscriptWalker.variables_return variables(HashMap<String, String> _vars, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:899:1: variables[HashMap<String, String> _vars, Boolean isInScope, List comments] : ^( VARIABLES ( variable[_vars, isInScope, comments] )+ ) ;
+    public final BPELscriptWalker.variables_return variables(HashMap<String, String> _vars, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.variables_return retval = new BPELscriptWalker.variables_return();
         retval.start = input.LT(1);
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:829:2: ( ^( VARIABLES ( variable[_vars, isInScope] )+ ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:829:5: ^( VARIABLES ( variable[_vars, isInScope] )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:900:2: ( ^( VARIABLES ( variable[_vars, isInScope, comments] )+ ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:900:5: ^( VARIABLES ( variable[_vars, isInScope, comments] )+ )
             {
-            match(input,VARIABLES,FOLLOW_VARIABLES_in_variables3782); 
+            match(input,VARIABLES,FOLLOW_VARIABLES_in_variables3894); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:829:17: ( variable[_vars, isInScope] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:900:17: ( variable[_vars, isInScope, comments] )+
             int cnt101=0;
             loop101:
             do {
@@ -6720,10 +6791,10 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt101) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:829:17: variable[_vars, isInScope]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:900:17: variable[_vars, isInScope, comments]
             	    {
-            	    pushFollow(FOLLOW_variable_in_variables3784);
-            	    variable(_vars, isInScope);
+            	    pushFollow(FOLLOW_variable_in_variables3896);
+            	    variable(_vars, isInScope, comments);
 
             	    state._fsp--;
 
@@ -6763,8 +6834,8 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "variable"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:831:1: variable[HashMap<String, String> _vars, Boolean isInScope] : ^( VARIABLE id= ID (msgT= msgType )? (viT= viType )? (viE= viElt )? (with= with_ex )? ) ;
-    public final BPELscriptWalker.variable_return variable(HashMap<String, String> _vars, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:902:1: variable[HashMap<String, String> _vars, Boolean isInScope, List comments] : ^( VARIABLE id= ID (msgT= msgType )? (viT= viType )? (viE= viElt )? (with= with_ex )? ) ;
+    public final BPELscriptWalker.variable_return variable(HashMap<String, String> _vars, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.variable_return retval = new BPELscriptWalker.variable_return();
         retval.start = input.LT(1);
 
@@ -6779,14 +6850,14 @@ public class BPELscriptWalker extends TreeParser {
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:2: ( ^( VARIABLE id= ID (msgT= msgType )? (viT= viType )? (viE= viElt )? (with= with_ex )? ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:4: ^( VARIABLE id= ID (msgT= msgType )? (viT= viType )? (viE= viElt )? (with= with_ex )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:2: ( ^( VARIABLE id= ID (msgT= msgType )? (viT= viType )? (viE= viElt )? (with= with_ex )? ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:4: ^( VARIABLE id= ID (msgT= msgType )? (viT= viType )? (viE= viElt )? (with= with_ex )? )
             {
-            match(input,VARIABLE,FOLLOW_VARIABLE_in_variable3800); 
+            match(input,VARIABLE,FOLLOW_VARIABLE_in_variable3913); 
 
             match(input, Token.DOWN, null); 
-            id=(CommonTree)match(input,ID,FOLLOW_ID_in_variable3804); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:25: (msgT= msgType )?
+            id=(CommonTree)match(input,ID,FOLLOW_ID_in_variable3917); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:25: (msgT= msgType )?
             int alt102=2;
             int LA102_0 = input.LA(1);
 
@@ -6795,9 +6866,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt102) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:25: msgT= msgType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:25: msgT= msgType
                     {
-                    pushFollow(FOLLOW_msgType_in_variable3808);
+                    pushFollow(FOLLOW_msgType_in_variable3921);
                     msgT=msgType();
 
                     state._fsp--;
@@ -6808,7 +6879,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:38: (viT= viType )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:38: (viT= viType )?
             int alt103=2;
             int LA103_0 = input.LA(1);
 
@@ -6817,9 +6888,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt103) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:38: viT= viType
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:38: viT= viType
                     {
-                    pushFollow(FOLLOW_viType_in_variable3813);
+                    pushFollow(FOLLOW_viType_in_variable3926);
                     viT=viType();
 
                     state._fsp--;
@@ -6830,7 +6901,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:50: (viE= viElt )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:50: (viE= viElt )?
             int alt104=2;
             int LA104_0 = input.LA(1);
 
@@ -6839,9 +6910,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt104) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:50: viE= viElt
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:50: viE= viElt
                     {
-                    pushFollow(FOLLOW_viElt_in_variable3818);
+                    pushFollow(FOLLOW_viElt_in_variable3931);
                     viE=viElt();
 
                     state._fsp--;
@@ -6852,7 +6923,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:62: (with= with_ex )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:62: (with= with_ex )?
             int alt105=2;
             int LA105_0 = input.LA(1);
 
@@ -6861,9 +6932,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt105) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:832:62: with= with_ex
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:903:62: with= with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_variable3823);
+                    pushFollow(FOLLOW_with_ex_in_variable3936);
                     with=with_ex();
 
                     state._fsp--;
@@ -6941,19 +7012,19 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "partnerlinks"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:868:1: partnerlinks[HashMap<String, String> _pl, Boolean isInScope] : ^( PARTNERLINKS ( partnerlink[_pl, isInScope] )+ ) ;
-    public final BPELscriptWalker.partnerlinks_return partnerlinks(HashMap<String, String> _pl, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:939:1: partnerlinks[HashMap<String, String> _pl, Boolean isInScope, List comments] : ^( PARTNERLINKS ( partnerlink[_pl, isInScope, comments] )+ ) ;
+    public final BPELscriptWalker.partnerlinks_return partnerlinks(HashMap<String, String> _pl, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.partnerlinks_return retval = new BPELscriptWalker.partnerlinks_return();
         retval.start = input.LT(1);
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:869:2: ( ^( PARTNERLINKS ( partnerlink[_pl, isInScope] )+ ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:869:4: ^( PARTNERLINKS ( partnerlink[_pl, isInScope] )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:940:2: ( ^( PARTNERLINKS ( partnerlink[_pl, isInScope, comments] )+ ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:940:4: ^( PARTNERLINKS ( partnerlink[_pl, isInScope, comments] )+ )
             {
-            match(input,PARTNERLINKS,FOLLOW_PARTNERLINKS_in_partnerlinks3843); 
+            match(input,PARTNERLINKS,FOLLOW_PARTNERLINKS_in_partnerlinks3956); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:869:19: ( partnerlink[_pl, isInScope] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:940:19: ( partnerlink[_pl, isInScope, comments] )+
             int cnt106=0;
             loop106:
             do {
@@ -6967,10 +7038,10 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt106) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:869:19: partnerlink[_pl, isInScope]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:940:19: partnerlink[_pl, isInScope, comments]
             	    {
-            	    pushFollow(FOLLOW_partnerlink_in_partnerlinks3845);
-            	    partnerlink(_pl, isInScope);
+            	    pushFollow(FOLLOW_partnerlink_in_partnerlinks3958);
+            	    partnerlink(_pl, isInScope, comments);
 
             	    state._fsp--;
 
@@ -7010,13 +7081,13 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "partnerlink"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:871:1: partnerlink[HashMap<String, String> _pl, Boolean isInScope] : ^( PID ID (plType= ns_id )? (roleA= ns_id )? (roleB= ns_id )? (init= INITPARTNER )? ) ;
-    public final BPELscriptWalker.partnerlink_return partnerlink(HashMap<String, String> _pl, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:942:1: partnerlink[HashMap<String, String> _pl, Boolean isInScope, List comments] : ^( PID ID (plType= ns_id )? (roleA= ns_id )? (roleB= ns_id )? (init= INITPARTNER )? ) ;
+    public final BPELscriptWalker.partnerlink_return partnerlink(HashMap<String, String> _pl, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.partnerlink_return retval = new BPELscriptWalker.partnerlink_return();
         retval.start = input.LT(1);
 
         CommonTree init=null;
-        CommonTree ID96=null;
+        CommonTree ID95=null;
         BPELscriptWalker.ns_id_return plType = null;
 
         BPELscriptWalker.ns_id_return roleA = null;
@@ -7025,14 +7096,14 @@ public class BPELscriptWalker extends TreeParser {
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:2: ( ^( PID ID (plType= ns_id )? (roleA= ns_id )? (roleB= ns_id )? (init= INITPARTNER )? ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:4: ^( PID ID (plType= ns_id )? (roleA= ns_id )? (roleB= ns_id )? (init= INITPARTNER )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:2: ( ^( PID ID (plType= ns_id )? (roleA= ns_id )? (roleB= ns_id )? (init= INITPARTNER )? ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:4: ^( PID ID (plType= ns_id )? (roleA= ns_id )? (roleB= ns_id )? (init= INITPARTNER )? )
             {
-            match(input,PID,FOLLOW_PID_in_partnerlink3859); 
+            match(input,PID,FOLLOW_PID_in_partnerlink3972); 
 
             match(input, Token.DOWN, null); 
-            ID96=(CommonTree)match(input,ID,FOLLOW_ID_in_partnerlink3861); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:19: (plType= ns_id )?
+            ID95=(CommonTree)match(input,ID,FOLLOW_ID_in_partnerlink3974); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:19: (plType= ns_id )?
             int alt107=2;
             int LA107_0 = input.LA(1);
 
@@ -7060,9 +7131,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt107) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:19: plType= ns_id
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:19: plType= ns_id
                     {
-                    pushFollow(FOLLOW_ns_id_in_partnerlink3865);
+                    pushFollow(FOLLOW_ns_id_in_partnerlink3978);
                     plType=ns_id();
 
                     state._fsp--;
@@ -7073,7 +7144,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:32: (roleA= ns_id )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:32: (roleA= ns_id )?
             int alt108=2;
             int LA108_0 = input.LA(1);
 
@@ -7101,9 +7172,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt108) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:32: roleA= ns_id
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:32: roleA= ns_id
                     {
-                    pushFollow(FOLLOW_ns_id_in_partnerlink3870);
+                    pushFollow(FOLLOW_ns_id_in_partnerlink3983);
                     roleA=ns_id();
 
                     state._fsp--;
@@ -7114,7 +7185,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:45: (roleB= ns_id )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:45: (roleB= ns_id )?
             int alt109=2;
             int LA109_0 = input.LA(1);
 
@@ -7123,9 +7194,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt109) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:45: roleB= ns_id
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:45: roleB= ns_id
                     {
-                    pushFollow(FOLLOW_ns_id_in_partnerlink3875);
+                    pushFollow(FOLLOW_ns_id_in_partnerlink3988);
                     roleB=ns_id();
 
                     state._fsp--;
@@ -7136,7 +7207,7 @@ public class BPELscriptWalker extends TreeParser {
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:57: (init= INITPARTNER )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:57: (init= INITPARTNER )?
             int alt110=2;
             int LA110_0 = input.LA(1);
 
@@ -7145,9 +7216,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt110) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:872:57: init= INITPARTNER
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:943:57: init= INITPARTNER
                     {
-                    init=(CommonTree)match(input,INITPARTNER,FOLLOW_INITPARTNER_in_partnerlink3880); 
+                    init=(CommonTree)match(input,INITPARTNER,FOLLOW_INITPARTNER_in_partnerlink3993); 
 
                     }
                     break;
@@ -7233,13 +7304,13 @@ public class BPELscriptWalker extends TreeParser {
             	}
             	
             	// 4)
-            	Boolean definedIn = _pl.containsKey((ID96!=null?ID96.getText():null));
+            	Boolean definedIn = _pl.containsKey((ID95!=null?ID95.getText():null));
             		
             	if (definedIn) {
-            		throwDefinedWarning("partnerlink", ID96);
+            		throwDefinedWarning("partnerlink", ID95);
             	}
             	// 5)
-            	_pl.put((ID96!=null?ID96.getText():null), plT);
+            	_pl.put((ID95!=null?ID95.getText():null), plT);
             	
 
             }
@@ -7262,21 +7333,21 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "corr_sets"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:936:1: corr_sets[HashMap<String, String>_cs, Boolean isInScope] : ^( CORRSETS (cs+= corr_set[_cs, isInScope] )+ ) ;
-    public final BPELscriptWalker.corr_sets_return corr_sets(HashMap<String, String>_cs, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1007:1: corr_sets[HashMap<String, String>_cs, Boolean isInScope, List comments] : ^( CORRSETS (cs+= corr_set[_cs, isInScope, comments] )+ ) ;
+    public final BPELscriptWalker.corr_sets_return corr_sets(HashMap<String, String>_cs, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.corr_sets_return retval = new BPELscriptWalker.corr_sets_return();
         retval.start = input.LT(1);
 
         List list_cs=null;
         RuleReturnScope cs = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:937:2: ( ^( CORRSETS (cs+= corr_set[_cs, isInScope] )+ ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:937:4: ^( CORRSETS (cs+= corr_set[_cs, isInScope] )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1008:2: ( ^( CORRSETS (cs+= corr_set[_cs, isInScope, comments] )+ ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1008:4: ^( CORRSETS (cs+= corr_set[_cs, isInScope, comments] )+ )
             {
-            match(input,CORRSETS,FOLLOW_CORRSETS_in_corr_sets3899); 
+            match(input,CORRSETS,FOLLOW_CORRSETS_in_corr_sets4012); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:937:17: (cs+= corr_set[_cs, isInScope] )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1008:17: (cs+= corr_set[_cs, isInScope, comments] )+
             int cnt111=0;
             loop111:
             do {
@@ -7290,10 +7361,10 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt111) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:937:17: cs+= corr_set[_cs, isInScope]
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1008:17: cs+= corr_set[_cs, isInScope, comments]
             	    {
-            	    pushFollow(FOLLOW_corr_set_in_corr_sets3903);
-            	    cs=corr_set(_cs, isInScope);
+            	    pushFollow(FOLLOW_corr_set_in_corr_sets4016);
+            	    cs=corr_set(_cs, isInScope, comments);
 
             	    state._fsp--;
 
@@ -7336,8 +7407,8 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "corr_set"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:939:1: corr_set[HashMap<String, String>_cs, Boolean isInScope] : ^( CORRSET f= ID (params+= ID )+ ) ;
-    public final BPELscriptWalker.corr_set_return corr_set(HashMap<String, String>_cs, Boolean isInScope) throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1010:1: corr_set[HashMap<String, String>_cs, Boolean isInScope, List comments] : ^( CORRSET f= ID (params+= ID )+ ) ;
+    public final BPELscriptWalker.corr_set_return corr_set(HashMap<String, String>_cs, Boolean isInScope, List comments) throws RecognitionException {
         BPELscriptWalker.corr_set_return retval = new BPELscriptWalker.corr_set_return();
         retval.start = input.LT(1);
 
@@ -7346,14 +7417,14 @@ public class BPELscriptWalker extends TreeParser {
         List list_params=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:940:2: ( ^( CORRSET f= ID (params+= ID )+ ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:940:4: ^( CORRSET f= ID (params+= ID )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1011:2: ( ^( CORRSET f= ID (params+= ID )+ ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1011:4: ^( CORRSET f= ID (params+= ID )+ )
             {
-            match(input,CORRSET,FOLLOW_CORRSET_in_corr_set3917); 
+            match(input,CORRSET,FOLLOW_CORRSET_in_corr_set4030); 
 
             match(input, Token.DOWN, null); 
-            f=(CommonTree)match(input,ID,FOLLOW_ID_in_corr_set3921); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:940:25: (params+= ID )+
+            f=(CommonTree)match(input,ID,FOLLOW_ID_in_corr_set4034); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1011:25: (params+= ID )+
             int cnt112=0;
             loop112:
             do {
@@ -7367,9 +7438,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt112) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:940:25: params+= ID
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1011:25: params+= ID
             	    {
-            	    params=(CommonTree)match(input,ID,FOLLOW_ID_in_corr_set3925); 
+            	    params=(CommonTree)match(input,ID,FOLLOW_ID_in_corr_set4038); 
             	    if (list_params==null) list_params=new ArrayList();
             	    list_params.add(params);
 
@@ -7435,7 +7506,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "correlation"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:970:1: correlation : ^( CORRELATION (cors+= corr_mapping )+ ) -> list(content_st=$cors);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1041:1: correlation : ^( CORRELATION (cors+= corr_mapping )+ ) -> list(content_st=$cors);
     public final BPELscriptWalker.correlation_return correlation() throws RecognitionException {
         BPELscriptWalker.correlation_return retval = new BPELscriptWalker.correlation_return();
         retval.start = input.LT(1);
@@ -7443,13 +7514,13 @@ public class BPELscriptWalker extends TreeParser {
         List list_cors=null;
         RuleReturnScope cors = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:971:2: ( ^( CORRELATION (cors+= corr_mapping )+ ) -> list(content_st=$cors))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:971:4: ^( CORRELATION (cors+= corr_mapping )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1042:2: ( ^( CORRELATION (cors+= corr_mapping )+ ) -> list(content_st=$cors))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1042:4: ^( CORRELATION (cors+= corr_mapping )+ )
             {
-            match(input,CORRELATION,FOLLOW_CORRELATION_in_correlation3943); 
+            match(input,CORRELATION,FOLLOW_CORRELATION_in_correlation4056); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:971:22: (cors+= corr_mapping )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1042:22: (cors+= corr_mapping )+
             int cnt113=0;
             loop113:
             do {
@@ -7463,9 +7534,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt113) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:971:22: cors+= corr_mapping
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1042:22: cors+= corr_mapping
             	    {
-            	    pushFollow(FOLLOW_corr_mapping_in_correlation3947);
+            	    pushFollow(FOLLOW_corr_mapping_in_correlation4060);
             	    cors=corr_mapping();
 
             	    state._fsp--;
@@ -7491,7 +7562,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 972:2: -> list(content_st=$cors)
+            // 1043:2: -> list(content_st=$cors)
             {
                 retval.st = templateLib.getInstanceOf("list",
               new STAttrMap().put("content_st", list_cors));
@@ -7518,24 +7589,24 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "corr_mapping"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:978:1: corr_mapping : ^( CORR_MAP ID (init= INIT_COR )? (pattern= PATTERN_COR )? ) -> correlation_map(id=$IDinit=$initpattern=$pattern);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1049:1: corr_mapping : ^( CORR_MAP ID (init= INIT_COR )? (pattern= PATTERN_COR )? ) -> correlation_map(id=$IDinit=$initpattern=$pattern);
     public final BPELscriptWalker.corr_mapping_return corr_mapping() throws RecognitionException {
         BPELscriptWalker.corr_mapping_return retval = new BPELscriptWalker.corr_mapping_return();
         retval.start = input.LT(1);
 
         CommonTree init=null;
         CommonTree pattern=null;
-        CommonTree ID97=null;
+        CommonTree ID96=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:979:2: ( ^( CORR_MAP ID (init= INIT_COR )? (pattern= PATTERN_COR )? ) -> correlation_map(id=$IDinit=$initpattern=$pattern))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:979:4: ^( CORR_MAP ID (init= INIT_COR )? (pattern= PATTERN_COR )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1050:2: ( ^( CORR_MAP ID (init= INIT_COR )? (pattern= PATTERN_COR )? ) -> correlation_map(id=$IDinit=$initpattern=$pattern))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1050:4: ^( CORR_MAP ID (init= INIT_COR )? (pattern= PATTERN_COR )? )
             {
-            match(input,CORR_MAP,FOLLOW_CORR_MAP_in_corr_mapping3975); 
+            match(input,CORR_MAP,FOLLOW_CORR_MAP_in_corr_mapping4088); 
 
             match(input, Token.DOWN, null); 
-            ID97=(CommonTree)match(input,ID,FOLLOW_ID_in_corr_mapping3977); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:979:22: (init= INIT_COR )?
+            ID96=(CommonTree)match(input,ID,FOLLOW_ID_in_corr_mapping4090); 
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1050:22: (init= INIT_COR )?
             int alt114=2;
             int LA114_0 = input.LA(1);
 
@@ -7544,16 +7615,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt114) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:979:22: init= INIT_COR
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1050:22: init= INIT_COR
                     {
-                    init=(CommonTree)match(input,INIT_COR,FOLLOW_INIT_COR_in_corr_mapping3981); 
+                    init=(CommonTree)match(input,INIT_COR,FOLLOW_INIT_COR_in_corr_mapping4094); 
 
                     }
                     break;
 
             }
 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:979:40: (pattern= PATTERN_COR )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1050:40: (pattern= PATTERN_COR )?
             int alt115=2;
             int LA115_0 = input.LA(1);
 
@@ -7562,9 +7633,9 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt115) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:979:40: pattern= PATTERN_COR
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1050:40: pattern= PATTERN_COR
                     {
-                    pattern=(CommonTree)match(input,PATTERN_COR,FOLLOW_PATTERN_COR_in_corr_mapping3986); 
+                    pattern=(CommonTree)match(input,PATTERN_COR,FOLLOW_PATTERN_COR_in_corr_mapping4099); 
 
                     }
                     break;
@@ -7574,22 +7645,22 @@ public class BPELscriptWalker extends TreeParser {
 
             match(input, Token.UP, null); 
             	
-            		Boolean definedIn = expressions.containsKey((ID97!=null?ID97.getText():null));
+            		Boolean definedIn = expressions.containsKey((ID96!=null?ID96.getText():null));
             		
             		if (definedIn) {
-            			throwDefinedWarning("correlation", ID97);
+            			throwDefinedWarning("correlation", ID96);
             			//throw new RecognitionException();
             		} else {
-            			expressions.put((ID97!=null?ID97.getText():null), null);/*, $expr.retval);//	System.out.println(expressions);*/
+            			expressions.put((ID96!=null?ID96.getText():null), null);/*, $expr.retval);//	System.out.println(expressions);*/
             		}
             	
 
 
             // TEMPLATE REWRITE
-            // 991:2: -> correlation_map(id=$IDinit=$initpattern=$pattern)
+            // 1062:2: -> correlation_map(id=$IDinit=$initpattern=$pattern)
             {
                 retval.st = templateLib.getInstanceOf("correlation_map",
-              new STAttrMap().put("id", ID97).put("init", init).put("pattern", pattern));
+              new STAttrMap().put("id", ID96).put("init", init).put("pattern", pattern));
             }
 
 
@@ -7608,13 +7679,14 @@ public class BPELscriptWalker extends TreeParser {
 
     public static class expr_return extends TreeRuleReturnScope {
         public String retval;
+        public List vars=new ArrayList();
         public StringTemplate st;
         public Object getTemplate() { return st; }
         public String toString() { return st==null?null:st.toString(); }
     };
 
     // $ANTLR start "expr"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:998:1: expr[StringTemplate path_expr] returns [String retval] : (se= s_expr -> s_expr(value=$se.retvalpath=$path_expr) | ee= EXT_EXPR -> expr(expr=$retval) | fc= funct_call );
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1069:1: expr[StringTemplate path_expr] returns [String retval, List vars=new ArrayList()] : (se= s_expr[$vars] -> s_expr(value=$se.retvalpath=$path_expr) | ee= EXT_EXPR -> expr(expr=$retval) | fc= funct_call );
     public final BPELscriptWalker.expr_return expr(StringTemplate path_expr) throws RecognitionException {
         BPELscriptWalker.expr_return retval = new BPELscriptWalker.expr_return();
         retval.start = input.LT(1);
@@ -7626,7 +7698,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:999:2: (se= s_expr -> s_expr(value=$se.retvalpath=$path_expr) | ee= EXT_EXPR -> expr(expr=$retval) | fc= funct_call )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1070:2: (se= s_expr[$vars] -> s_expr(value=$se.retvalpath=$path_expr) | ee= EXT_EXPR -> expr(expr=$retval) | fc= funct_call )
             int alt116=3;
             switch ( input.LA(1) ) {
             case PATH:
@@ -7665,18 +7737,18 @@ public class BPELscriptWalker extends TreeParser {
 
             switch (alt116) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:999:5: se= s_expr
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1070:5: se= s_expr[$vars]
                     {
-                    pushFollow(FOLLOW_s_expr_in_expr4041);
-                    se=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_expr4154);
+                    se=s_expr(retval.vars);
 
                     state._fsp--;
 
-                    retval.retval =(se!=null?se.retval:null);
+                    retval.retval =(se!=null?se.retval:null);retval.vars =(se!=null?se.retvar:null);
 
 
                     // TEMPLATE REWRITE
-                    // 1000:2: -> s_expr(value=$se.retvalpath=$path_expr)
+                    // 1071:2: -> s_expr(value=$se.retvalpath=$path_expr)
                     {
                         retval.st = templateLib.getInstanceOf("s_expr",
                       new STAttrMap().put("value", (se!=null?se.retval:null)).put("path", path_expr));
@@ -7686,9 +7758,9 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1001:5: ee= EXT_EXPR
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1072:5: ee= EXT_EXPR
                     {
-                    ee=(CommonTree)match(input,EXT_EXPR,FOLLOW_EXT_EXPR_in_expr4067); 
+                    ee=(CommonTree)match(input,EXT_EXPR,FOLLOW_EXT_EXPR_in_expr4181); 
                     	
                     		retval.retval =(ee!=null?ee.getText():null);
                     		
@@ -7701,7 +7773,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
                     // TEMPLATE REWRITE
-                    // 1011:2: -> expr(expr=$retval)
+                    // 1082:2: -> expr(expr=$retval)
                     {
                         retval.st = templateLib.getInstanceOf("expr",
                       new STAttrMap().put("expr", retval.retval));
@@ -7711,9 +7783,9 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1012:5: fc= funct_call
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1083:5: fc= funct_call
                     {
-                    pushFollow(FOLLOW_funct_call_in_expr4090);
+                    pushFollow(FOLLOW_funct_call_in_expr4204);
                     fc=funct_call();
 
                     state._fsp--;
@@ -7743,7 +7815,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "funct_call"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1018:1: funct_call returns [String retval] : ^( CALL (ids+= ID )+ ) ;
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1089:1: funct_call returns [String retval] : ^( CALL (ids+= ID )+ ) ;
     public final BPELscriptWalker.funct_call_return funct_call() throws RecognitionException {
         BPELscriptWalker.funct_call_return retval = new BPELscriptWalker.funct_call_return();
         retval.start = input.LT(1);
@@ -7752,13 +7824,13 @@ public class BPELscriptWalker extends TreeParser {
         List list_ids=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1020:2: ( ^( CALL (ids+= ID )+ ) )
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1020:4: ^( CALL (ids+= ID )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1091:2: ( ^( CALL (ids+= ID )+ ) )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1091:4: ^( CALL (ids+= ID )+ )
             {
-            match(input,CALL,FOLLOW_CALL_in_funct_call4112); 
+            match(input,CALL,FOLLOW_CALL_in_funct_call4226); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1020:14: (ids+= ID )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1091:14: (ids+= ID )+
             int cnt117=0;
             loop117:
             do {
@@ -7772,9 +7844,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt117) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1020:14: ids+= ID
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1091:14: ids+= ID
             	    {
-            	    ids=(CommonTree)match(input,ID,FOLLOW_ID_in_funct_call4116); 
+            	    ids=(CommonTree)match(input,ID,FOLLOW_ID_in_funct_call4230); 
             	    if (list_ids==null) list_ids=new ArrayList();
             	    list_ids.add(ids);
 
@@ -7819,19 +7891,20 @@ public class BPELscriptWalker extends TreeParser {
 
     public static class s_expr_return extends TreeRuleReturnScope {
         public String retval;
+        public List retvar;
         public StringTemplate st;
         public Object getTemplate() { return st; }
         public String toString() { return st==null?null:st.toString(); }
     };
 
     // $ANTLR start "s_expr"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1042:1: s_expr returns [String retval] : ( ^( '==' s1= s_expr s2= s_expr ) | ^( '!=' s1= s_expr s2= s_expr ) | ^( '<' s1= s_expr s2= s_expr ) | ^( '>' s1= s_expr s2= s_expr ) | ^( '<=' s1= s_expr s2= s_expr ) | ^( '=>' s1= s_expr s2= s_expr ) | ^( '+' s1= s_expr s2= s_expr ) | ^( '-' s1= s_expr s2= s_expr ) | ^( '*' s1= s_expr s2= s_expr ) | ^( '/' s1= s_expr s2= s_expr ) | STRING | INT | pe= path_expr -> path_expr(path=pe.st));
-    public final BPELscriptWalker.s_expr_return s_expr() throws RecognitionException {
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1113:1: s_expr[List vars] returns [String retval, List retvar] : ( ^( '==' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '!=' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '<' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '>' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '<=' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '=>' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '+' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '-' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '*' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '/' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | STRING | INT | pe= path_expr -> path_expr(path=pe.st));
+    public final BPELscriptWalker.s_expr_return s_expr(List vars) throws RecognitionException {
         BPELscriptWalker.s_expr_return retval = new BPELscriptWalker.s_expr_return();
         retval.start = input.LT(1);
 
-        CommonTree STRING98=null;
-        CommonTree INT99=null;
+        CommonTree STRING97=null;
+        CommonTree INT98=null;
         BPELscriptWalker.s_expr_return s1 = null;
 
         BPELscriptWalker.s_expr_return s2 = null;
@@ -7839,8 +7912,9 @@ public class BPELscriptWalker extends TreeParser {
         BPELscriptWalker.path_expr_return pe = null;
 
 
+        retval.retvar =vars;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1043:2: ( ^( '==' s1= s_expr s2= s_expr ) | ^( '!=' s1= s_expr s2= s_expr ) | ^( '<' s1= s_expr s2= s_expr ) | ^( '>' s1= s_expr s2= s_expr ) | ^( '<=' s1= s_expr s2= s_expr ) | ^( '=>' s1= s_expr s2= s_expr ) | ^( '+' s1= s_expr s2= s_expr ) | ^( '-' s1= s_expr s2= s_expr ) | ^( '*' s1= s_expr s2= s_expr ) | ^( '/' s1= s_expr s2= s_expr ) | STRING | INT | pe= path_expr -> path_expr(path=pe.st))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1115:2: ( ^( '==' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '!=' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '<' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '>' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '<=' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '=>' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '+' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '-' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '*' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | ^( '/' s1= s_expr[$retvar] s2= s_expr[$retvar] ) | STRING | INT | pe= path_expr -> path_expr(path=pe.st))
             int alt118=13;
             switch ( input.LA(1) ) {
             case 164:
@@ -7917,18 +7991,18 @@ public class BPELscriptWalker extends TreeParser {
 
             switch (alt118) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1043:4: ^( '==' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1115:4: ^( '==' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,164,FOLLOW_164_in_s_expr4146); 
+                    match(input,164,FOLLOW_164_in_s_expr4266); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4150);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4270);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4154);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4275);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -7943,18 +8017,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1044:4: ^( '!=' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1116:4: ^( '!=' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,165,FOLLOW_165_in_s_expr4163); 
+                    match(input,165,FOLLOW_165_in_s_expr4285); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4167);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4289);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4171);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4294);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -7969,18 +8043,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1045:4: ^( '<' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1117:4: ^( '<' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,166,FOLLOW_166_in_s_expr4180); 
+                    match(input,166,FOLLOW_166_in_s_expr4304); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4184);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4308);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4188);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4313);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -7995,18 +8069,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1046:4: ^( '>' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1118:4: ^( '>' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,167,FOLLOW_167_in_s_expr4197); 
+                    match(input,167,FOLLOW_167_in_s_expr4323); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4201);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4327);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4205);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4332);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -8021,18 +8095,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 5 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1047:4: ^( '<=' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1119:4: ^( '<=' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,168,FOLLOW_168_in_s_expr4214); 
+                    match(input,168,FOLLOW_168_in_s_expr4342); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4218);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4346);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4222);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4351);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -8047,18 +8121,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 6 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1048:4: ^( '=>' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1120:4: ^( '=>' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,197,FOLLOW_197_in_s_expr4231); 
+                    match(input,197,FOLLOW_197_in_s_expr4361); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4235);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4365);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4239);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4370);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -8073,18 +8147,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 7 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1049:4: ^( '+' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1121:4: ^( '+' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,170,FOLLOW_170_in_s_expr4248); 
+                    match(input,170,FOLLOW_170_in_s_expr4380); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4252);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4384);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4256);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4389);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -8099,18 +8173,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 8 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1050:4: ^( '-' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1122:4: ^( '-' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,171,FOLLOW_171_in_s_expr4265); 
+                    match(input,171,FOLLOW_171_in_s_expr4399); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4269);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4403);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4273);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4408);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -8125,18 +8199,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 9 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1051:4: ^( '*' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1123:4: ^( '*' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,172,FOLLOW_172_in_s_expr4282); 
+                    match(input,172,FOLLOW_172_in_s_expr4418); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4286);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4422);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4290);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4427);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -8151,18 +8225,18 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 10 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1052:4: ^( '/' s1= s_expr s2= s_expr )
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1124:4: ^( '/' s1= s_expr[$retvar] s2= s_expr[$retvar] )
                     {
-                    match(input,173,FOLLOW_173_in_s_expr4299); 
+                    match(input,173,FOLLOW_173_in_s_expr4437); 
 
                     match(input, Token.DOWN, null); 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4303);
-                    s1=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4441);
+                    s1=s_expr(retval.retvar);
 
                     state._fsp--;
 
-                    pushFollow(FOLLOW_s_expr_in_s_expr4307);
-                    s2=s_expr();
+                    pushFollow(FOLLOW_s_expr_in_s_expr4446);
+                    s2=s_expr(retval.retvar);
 
                     state._fsp--;
 
@@ -8177,38 +8251,34 @@ public class BPELscriptWalker extends TreeParser {
                     }
                     break;
                 case 11 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1053:4: STRING
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1125:4: STRING
                     {
-                    STRING98=(CommonTree)match(input,STRING,FOLLOW_STRING_in_s_expr4315); 
-
-                    		retval.retval = (STRING98!=null?STRING98.getText():null);
-                    		// remove quotation marks
-                    		retval.retval = retval.retval.substring(1, retval.retval.length()-1);
-                    	
+                    STRING97=(CommonTree)match(input,STRING,FOLLOW_STRING_in_s_expr4455); 
+                    retval.retval = (STRING97!=null?STRING97.getText():null);
 
                     }
                     break;
                 case 12 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1059:4: INT
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1126:4: INT
                     {
-                    INT99=(CommonTree)match(input,INT,FOLLOW_INT_in_s_expr4323); 
-                    retval.retval =(INT99!=null?INT99.getText():null);
+                    INT98=(CommonTree)match(input,INT,FOLLOW_INT_in_s_expr4463); 
+                    retval.retval =(INT98!=null?INT98.getText():null);
 
                     }
                     break;
                 case 13 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1060:4: pe= path_expr
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1127:4: pe= path_expr
                     {
-                    pushFollow(FOLLOW_path_expr_in_s_expr4332);
+                    pushFollow(FOLLOW_path_expr_in_s_expr4472);
                     pe=path_expr();
 
                     state._fsp--;
 
-                    retval.retval =(pe!=null?pe.retval:null);
+                    retval.retval =(pe!=null?pe.retval:null);retval.retvar.add((pe!=null?pe.retval:null));
 
 
                     // TEMPLATE REWRITE
-                    // 1060:39: -> path_expr(path=pe.st)
+                    // 1127:63: -> path_expr(path=pe.st)
                     {
                         retval.st = templateLib.getInstanceOf("path_expr",
                       new STAttrMap().put("path", pe.st));
@@ -8238,7 +8308,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "path_expr"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1066:1: path_expr returns [String retval] : ^( PATH (ns+= ns_id )+ ) -> path_expr(pns_p=$ns);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1133:1: path_expr returns [String retval] : ^( PATH (ns+= ns_id )+ ) -> path_expr(pns_p=$ns);
     public final BPELscriptWalker.path_expr_return path_expr() throws RecognitionException {
         BPELscriptWalker.path_expr_return retval = new BPELscriptWalker.path_expr_return();
         retval.start = input.LT(1);
@@ -8246,13 +8316,13 @@ public class BPELscriptWalker extends TreeParser {
         List list_ns=null;
         RuleReturnScope ns = null;
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1067:2: ( ^( PATH (ns+= ns_id )+ ) -> path_expr(pns_p=$ns))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1067:4: ^( PATH (ns+= ns_id )+ )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1134:2: ( ^( PATH (ns+= ns_id )+ ) -> path_expr(pns_p=$ns))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1134:4: ^( PATH (ns+= ns_id )+ )
             {
-            match(input,PATH,FOLLOW_PATH_in_path_expr4361); 
+            match(input,PATH,FOLLOW_PATH_in_path_expr4501); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1067:13: (ns+= ns_id )+
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1134:13: (ns+= ns_id )+
             int cnt119=0;
             loop119:
             do {
@@ -8266,9 +8336,9 @@ public class BPELscriptWalker extends TreeParser {
 
                 switch (alt119) {
             	case 1 :
-            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1067:13: ns+= ns_id
+            	    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1134:13: ns+= ns_id
             	    {
-            	    pushFollow(FOLLOW_ns_id_in_path_expr4365);
+            	    pushFollow(FOLLOW_ns_id_in_path_expr4505);
             	    ns=ns_id();
 
             	    state._fsp--;
@@ -8297,7 +8367,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 1071:2: -> path_expr(pns_p=$ns)
+            // 1138:2: -> path_expr(pns_p=$ns)
             {
                 retval.st = templateLib.getInstanceOf("path_expr",
               new STAttrMap().put("pns_p", list_ns));
@@ -8327,7 +8397,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "ns_id"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1077:1: ns_id returns [String nspre, String nsloc, CommonTree locID] : ^( NS (pre= ID )? loc= ID ) -> ns_id(pre_opt=$preloc=$loc.text);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1144:1: ns_id returns [String nspre, String nsloc, CommonTree locID] : ^( NS (pre= ID )? loc= ID ) -> ns_id(pre_opt=$preloc=$loc.text);
     public final BPELscriptWalker.ns_id_return ns_id() throws RecognitionException {
         BPELscriptWalker.ns_id_return retval = new BPELscriptWalker.ns_id_return();
         retval.start = input.LT(1);
@@ -8336,13 +8406,13 @@ public class BPELscriptWalker extends TreeParser {
         CommonTree loc=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1078:2: ( ^( NS (pre= ID )? loc= ID ) -> ns_id(pre_opt=$preloc=$loc.text))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1078:4: ^( NS (pre= ID )? loc= ID )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1145:2: ( ^( NS (pre= ID )? loc= ID ) -> ns_id(pre_opt=$preloc=$loc.text))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1145:4: ^( NS (pre= ID )? loc= ID )
             {
-            match(input,NS,FOLLOW_NS_in_ns_id4401); 
+            match(input,NS,FOLLOW_NS_in_ns_id4541); 
 
             match(input, Token.DOWN, null); 
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1078:12: (pre= ID )?
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1145:12: (pre= ID )?
             int alt120=2;
             int LA120_0 = input.LA(1);
 
@@ -8355,16 +8425,16 @@ public class BPELscriptWalker extends TreeParser {
             }
             switch (alt120) {
                 case 1 :
-                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1078:12: pre= ID
+                    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1145:12: pre= ID
                     {
-                    pre=(CommonTree)match(input,ID,FOLLOW_ID_in_ns_id4405); 
+                    pre=(CommonTree)match(input,ID,FOLLOW_ID_in_ns_id4545); 
 
                     }
                     break;
 
             }
 
-            loc=(CommonTree)match(input,ID,FOLLOW_ID_in_ns_id4410); 
+            loc=(CommonTree)match(input,ID,FOLLOW_ID_in_ns_id4550); 
 
             match(input, Token.UP, null); 
             // set return values (pre only when not null ;) )
@@ -8376,7 +8446,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 1085:2: -> ns_id(pre_opt=$preloc=$loc.text)
+            // 1152:2: -> ns_id(pre_opt=$preloc=$loc.text)
             {
                 retval.st = templateLib.getInstanceOf("ns_id",
               new STAttrMap().put("pre_opt", pre).put("loc", (loc!=null?loc.getText():null)));
@@ -8403,30 +8473,30 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "portType"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1088:1: portType : ^( PORTTYPE STRING ) -> portType(port=$STRING);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1155:1: portType : ^( PORTTYPE s= STRING ) -> portType(port=$s.text.replaceFirst(\":\", \"\"));
     public final BPELscriptWalker.portType_return portType() throws RecognitionException {
         BPELscriptWalker.portType_return retval = new BPELscriptWalker.portType_return();
         retval.start = input.LT(1);
 
-        CommonTree STRING100=null;
+        CommonTree s=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1089:2: ( ^( PORTTYPE STRING ) -> portType(port=$STRING))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1089:4: ^( PORTTYPE STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1156:2: ( ^( PORTTYPE s= STRING ) -> portType(port=$s.text.replaceFirst(\":\", \"\")))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1156:4: ^( PORTTYPE s= STRING )
             {
-            match(input,PORTTYPE,FOLLOW_PORTTYPE_in_portType4445); 
+            match(input,PORTTYPE,FOLLOW_PORTTYPE_in_portType4585); 
 
             match(input, Token.DOWN, null); 
-            STRING100=(CommonTree)match(input,STRING,FOLLOW_STRING_in_portType4447); 
+            s=(CommonTree)match(input,STRING,FOLLOW_STRING_in_portType4589); 
 
             match(input, Token.UP, null); 
 
 
             // TEMPLATE REWRITE
-            // 1090:2: -> portType(port=$STRING)
+            // 1157:2: -> portType(port=$s.text.replaceFirst(\":\", \"\"))
             {
                 retval.st = templateLib.getInstanceOf("portType",
-              new STAttrMap().put("port", STRING100));
+              new STAttrMap().put("port", (s!=null?s.getText():null).replaceFirst(":", "")));
             }
 
 
@@ -8450,7 +8520,7 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "std_attr"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1093:1: std_attr : ^( STD_ATTR (name= STRING )? (suppressJoinFailure= SJF )? ) -> std_attr(name=$namesjf=$suppressJoinFailure);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1160:1: std_attr : ^( STD_ATTR (name= STRING )? (suppressJoinFailure= SJF )? ) -> std_attr(name=$namesjf=$suppressJoinFailure);
     public final BPELscriptWalker.std_attr_return std_attr() throws RecognitionException {
         BPELscriptWalker.std_attr_return retval = new BPELscriptWalker.std_attr_return();
         retval.start = input.LT(1);
@@ -8459,14 +8529,14 @@ public class BPELscriptWalker extends TreeParser {
         CommonTree suppressJoinFailure=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1094:2: ( ^( STD_ATTR (name= STRING )? (suppressJoinFailure= SJF )? ) -> std_attr(name=$namesjf=$suppressJoinFailure))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1094:4: ^( STD_ATTR (name= STRING )? (suppressJoinFailure= SJF )? )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1161:2: ( ^( STD_ATTR (name= STRING )? (suppressJoinFailure= SJF )? ) -> std_attr(name=$namesjf=$suppressJoinFailure))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1161:4: ^( STD_ATTR (name= STRING )? (suppressJoinFailure= SJF )? )
             {
-            match(input,STD_ATTR,FOLLOW_STD_ATTR_in_std_attr4471); 
+            match(input,STD_ATTR,FOLLOW_STD_ATTR_in_std_attr4613); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1094:19: (name= STRING )?
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1161:19: (name= STRING )?
                 int alt121=2;
                 int LA121_0 = input.LA(1);
 
@@ -8475,16 +8545,16 @@ public class BPELscriptWalker extends TreeParser {
                 }
                 switch (alt121) {
                     case 1 :
-                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1094:19: name= STRING
+                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1161:19: name= STRING
                         {
-                        name=(CommonTree)match(input,STRING,FOLLOW_STRING_in_std_attr4475); 
+                        name=(CommonTree)match(input,STRING,FOLLOW_STRING_in_std_attr4617); 
 
                         }
                         break;
 
                 }
 
-                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1094:47: (suppressJoinFailure= SJF )?
+                // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1161:47: (suppressJoinFailure= SJF )?
                 int alt122=2;
                 int LA122_0 = input.LA(1);
 
@@ -8493,9 +8563,9 @@ public class BPELscriptWalker extends TreeParser {
                 }
                 switch (alt122) {
                     case 1 :
-                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1094:47: suppressJoinFailure= SJF
+                        // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1161:47: suppressJoinFailure= SJF
                         {
-                        suppressJoinFailure=(CommonTree)match(input,SJF,FOLLOW_SJF_in_std_attr4480); 
+                        suppressJoinFailure=(CommonTree)match(input,SJF,FOLLOW_SJF_in_std_attr4622); 
 
                         }
                         break;
@@ -8508,7 +8578,7 @@ public class BPELscriptWalker extends TreeParser {
 
 
             // TEMPLATE REWRITE
-            // 1095:2: -> std_attr(name=$namesjf=$suppressJoinFailure)
+            // 1162:2: -> std_attr(name=$namesjf=$suppressJoinFailure)
             {
                 retval.st = templateLib.getInstanceOf("std_attr",
               new STAttrMap().put("name", name).put("sjf", suppressJoinFailure));
@@ -8535,30 +8605,30 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "msgEx"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1098:1: msgEx : ^( MSGEX STRING ) -> msgEx(msgEx=$STRING);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1165:1: msgEx : ^( MSGEX s= STRING ) -> msgEx(msgEx=$s.text.replaceFirst(\":\", \"\"));
     public final BPELscriptWalker.msgEx_return msgEx() throws RecognitionException {
         BPELscriptWalker.msgEx_return retval = new BPELscriptWalker.msgEx_return();
         retval.start = input.LT(1);
 
-        CommonTree STRING101=null;
+        CommonTree s=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1099:2: ( ^( MSGEX STRING ) -> msgEx(msgEx=$STRING))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1099:4: ^( MSGEX STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1166:2: ( ^( MSGEX s= STRING ) -> msgEx(msgEx=$s.text.replaceFirst(\":\", \"\")))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1166:4: ^( MSGEX s= STRING )
             {
-            match(input,MSGEX,FOLLOW_MSGEX_in_msgEx4510); 
+            match(input,MSGEX,FOLLOW_MSGEX_in_msgEx4652); 
 
             match(input, Token.DOWN, null); 
-            STRING101=(CommonTree)match(input,STRING,FOLLOW_STRING_in_msgEx4512); 
+            s=(CommonTree)match(input,STRING,FOLLOW_STRING_in_msgEx4656); 
 
             match(input, Token.UP, null); 
 
 
             // TEMPLATE REWRITE
-            // 1100:2: -> msgEx(msgEx=$STRING)
+            // 1167:2: -> msgEx(msgEx=$s.text.replaceFirst(\":\", \"\"))
             {
                 retval.st = templateLib.getInstanceOf("msgEx",
-              new STAttrMap().put("msgEx", STRING101));
+              new STAttrMap().put("msgEx", (s!=null?s.getText():null).replaceFirst(":", "")));
             }
 
 
@@ -8582,30 +8652,30 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "msgType"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1103:1: msgType : ^( MSGTYPE STRING ) -> msgType(msgT=$STRING);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1170:1: msgType : ^( MSGTYPE s= STRING ) -> msgType(msgT=$s.text.replaceFirst(\":\", \"\"));
     public final BPELscriptWalker.msgType_return msgType() throws RecognitionException {
         BPELscriptWalker.msgType_return retval = new BPELscriptWalker.msgType_return();
         retval.start = input.LT(1);
 
-        CommonTree STRING102=null;
+        CommonTree s=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1104:2: ( ^( MSGTYPE STRING ) -> msgType(msgT=$STRING))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1104:4: ^( MSGTYPE STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1171:2: ( ^( MSGTYPE s= STRING ) -> msgType(msgT=$s.text.replaceFirst(\":\", \"\")))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1171:4: ^( MSGTYPE s= STRING )
             {
-            match(input,MSGTYPE,FOLLOW_MSGTYPE_in_msgType4535); 
+            match(input,MSGTYPE,FOLLOW_MSGTYPE_in_msgType4679); 
 
             match(input, Token.DOWN, null); 
-            STRING102=(CommonTree)match(input,STRING,FOLLOW_STRING_in_msgType4537); 
+            s=(CommonTree)match(input,STRING,FOLLOW_STRING_in_msgType4683); 
 
             match(input, Token.UP, null); 
 
 
             // TEMPLATE REWRITE
-            // 1105:2: -> msgType(msgT=$STRING)
+            // 1172:2: -> msgType(msgT=$s.text.replaceFirst(\":\", \"\"))
             {
                 retval.st = templateLib.getInstanceOf("msgType",
-              new STAttrMap().put("msgT", STRING102));
+              new STAttrMap().put("msgT", (s!=null?s.getText():null).replaceFirst(":", "")));
             }
 
 
@@ -8629,30 +8699,30 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "viType"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1108:1: viType : ^( VITYPE STRING ) -> viType(type=$STRING);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1175:1: viType : ^( VITYPE s= STRING ) -> viType(type=$s.text.replaceFirst(\":\", \"\"));
     public final BPELscriptWalker.viType_return viType() throws RecognitionException {
         BPELscriptWalker.viType_return retval = new BPELscriptWalker.viType_return();
         retval.start = input.LT(1);
 
-        CommonTree STRING103=null;
+        CommonTree s=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1109:2: ( ^( VITYPE STRING ) -> viType(type=$STRING))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1109:4: ^( VITYPE STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1176:2: ( ^( VITYPE s= STRING ) -> viType(type=$s.text.replaceFirst(\":\", \"\")))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1176:4: ^( VITYPE s= STRING )
             {
-            match(input,VITYPE,FOLLOW_VITYPE_in_viType4562); 
+            match(input,VITYPE,FOLLOW_VITYPE_in_viType4708); 
 
             match(input, Token.DOWN, null); 
-            STRING103=(CommonTree)match(input,STRING,FOLLOW_STRING_in_viType4564); 
+            s=(CommonTree)match(input,STRING,FOLLOW_STRING_in_viType4712); 
 
             match(input, Token.UP, null); 
 
 
             // TEMPLATE REWRITE
-            // 1110:2: -> viType(type=$STRING)
+            // 1177:2: -> viType(type=$s.text.replaceFirst(\":\", \"\"))
             {
                 retval.st = templateLib.getInstanceOf("viType",
-              new STAttrMap().put("type", STRING103));
+              new STAttrMap().put("type", (s!=null?s.getText():null).replaceFirst(":", "")));
             }
 
 
@@ -8676,30 +8746,30 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "viElt"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1113:1: viElt : ^( VIELT STRING ) -> viElt(elt=$STRING);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1180:1: viElt : ^( VIELT s= STRING ) -> viElt(elt=$s.text.replaceFirst(\":\", \"\"));
     public final BPELscriptWalker.viElt_return viElt() throws RecognitionException {
         BPELscriptWalker.viElt_return retval = new BPELscriptWalker.viElt_return();
         retval.start = input.LT(1);
 
-        CommonTree STRING104=null;
+        CommonTree s=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1114:2: ( ^( VIELT STRING ) -> viElt(elt=$STRING))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1114:4: ^( VIELT STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1181:2: ( ^( VIELT s= STRING ) -> viElt(elt=$s.text.replaceFirst(\":\", \"\")))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1181:4: ^( VIELT s= STRING )
             {
-            match(input,VIELT,FOLLOW_VIELT_in_viElt4589); 
+            match(input,VIELT,FOLLOW_VIELT_in_viElt4737); 
 
             match(input, Token.DOWN, null); 
-            STRING104=(CommonTree)match(input,STRING,FOLLOW_STRING_in_viElt4591); 
+            s=(CommonTree)match(input,STRING,FOLLOW_STRING_in_viElt4741); 
 
             match(input, Token.UP, null); 
 
 
             // TEMPLATE REWRITE
-            // 1115:2: -> viElt(elt=$STRING)
+            // 1182:2: -> viElt(elt=$s.text.replaceFirst(\":\", \"\"))
             {
                 retval.st = templateLib.getInstanceOf("viElt",
-              new STAttrMap().put("elt", STRING104));
+              new STAttrMap().put("elt", (s!=null?s.getText():null).replaceFirst(":", "")));
             }
 
 
@@ -8723,30 +8793,30 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "faultName"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1118:1: faultName : ^( FAULTNAME STRING ) -> faultName(faultName=$STRING);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1185:1: faultName : ^( FAULTNAME s= STRING ) -> faultName(faultName=$s.text.replaceFirst(\":\", \"\"));
     public final BPELscriptWalker.faultName_return faultName() throws RecognitionException {
         BPELscriptWalker.faultName_return retval = new BPELscriptWalker.faultName_return();
         retval.start = input.LT(1);
 
-        CommonTree STRING105=null;
+        CommonTree s=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1119:2: ( ^( FAULTNAME STRING ) -> faultName(faultName=$STRING))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1119:4: ^( FAULTNAME STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1186:2: ( ^( FAULTNAME s= STRING ) -> faultName(faultName=$s.text.replaceFirst(\":\", \"\")))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1186:4: ^( FAULTNAME s= STRING )
             {
-            match(input,FAULTNAME,FOLLOW_FAULTNAME_in_faultName4614); 
+            match(input,FAULTNAME,FOLLOW_FAULTNAME_in_faultName4764); 
 
             match(input, Token.DOWN, null); 
-            STRING105=(CommonTree)match(input,STRING,FOLLOW_STRING_in_faultName4616); 
+            s=(CommonTree)match(input,STRING,FOLLOW_STRING_in_faultName4768); 
 
             match(input, Token.UP, null); 
 
 
             // TEMPLATE REWRITE
-            // 1120:2: -> faultName(faultName=$STRING)
+            // 1187:2: -> faultName(faultName=$s.text.replaceFirst(\":\", \"\"))
             {
                 retval.st = templateLib.getInstanceOf("faultName",
-              new STAttrMap().put("faultName", STRING105));
+              new STAttrMap().put("faultName", (s!=null?s.getText():null).replaceFirst(":", "")));
             }
 
 
@@ -8770,30 +8840,30 @@ public class BPELscriptWalker extends TreeParser {
     };
 
     // $ANTLR start "faultElt"
-    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1123:1: faultElt : ^( FAULTELT STRING ) -> faultElt(name=$STRING);
+    // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1190:1: faultElt : ^( FAULTELT s= STRING ) -> faultElt(name=$s.text.replaceFirst(\":\", \"\"));
     public final BPELscriptWalker.faultElt_return faultElt() throws RecognitionException {
         BPELscriptWalker.faultElt_return retval = new BPELscriptWalker.faultElt_return();
         retval.start = input.LT(1);
 
-        CommonTree STRING106=null;
+        CommonTree s=null;
 
         try {
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1124:2: ( ^( FAULTELT STRING ) -> faultElt(name=$STRING))
-            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1124:4: ^( FAULTELT STRING )
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1191:2: ( ^( FAULTELT s= STRING ) -> faultElt(name=$s.text.replaceFirst(\":\", \"\")))
+            // /home/bischomc/studienarbeit/workspace/BPELscript/src/iaas/bpelscript/antlr/BPELscriptWalker.g:1191:4: ^( FAULTELT s= STRING )
             {
-            match(input,FAULTELT,FOLLOW_FAULTELT_in_faultElt4639); 
+            match(input,FAULTELT,FOLLOW_FAULTELT_in_faultElt4791); 
 
             match(input, Token.DOWN, null); 
-            STRING106=(CommonTree)match(input,STRING,FOLLOW_STRING_in_faultElt4641); 
+            s=(CommonTree)match(input,STRING,FOLLOW_STRING_in_faultElt4795); 
 
             match(input, Token.UP, null); 
 
 
             // TEMPLATE REWRITE
-            // 1125:2: -> faultElt(name=$STRING)
+            // 1192:2: -> faultElt(name=$s.text.replaceFirst(\":\", \"\"))
             {
                 retval.st = templateLib.getInstanceOf("faultElt",
-              new STAttrMap().put("name", STRING106));
+              new STAttrMap().put("name", (s!=null?s.getText():null).replaceFirst(":", "")));
             }
 
 
@@ -8836,323 +8906,323 @@ public class BPELscriptWalker extends TreeParser {
     public static final BitSet FOLLOW_PROC_STMTS_in_proc_stmts412 = new BitSet(new long[]{0x0000000000000004L});
     public static final BitSet FOLLOW_join_in_proc_stmts416 = new BitSet(new long[]{0xC340314253BDE548L});
     public static final BitSet FOLLOW_signal_in_proc_stmts421 = new BitSet(new long[]{0xC340314253BDE548L});
-    public static final BitSet FOLLOW_proc_stmt_in_proc_stmts424 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_pick_in_proc_stmt455 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_flow_in_proc_stmt471 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_if_ex_in_proc_stmt487 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_while_ex_in_proc_stmt502 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_until_ex_in_proc_stmt518 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_foreach_in_proc_stmt534 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_try_ex_in_proc_stmt549 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_scope_ex_in_proc_stmt564 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_receive_in_proc_stmt579 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_invoke_in_proc_stmt594 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_reply_in_proc_stmt609 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_assign_in_proc_stmt624 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_throw_ex_in_proc_stmt640 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_rethrow_ex_in_proc_stmt655 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_alarm_in_proc_stmt670 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_timeout_in_proc_stmt686 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_exit_in_proc_stmt702 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_variables_in_proc_stmt719 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_validate_in_proc_stmt726 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_partnerlinks_in_proc_stmt743 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_compensate_in_proc_stmt750 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ext_act_in_proc_stmt765 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_nop_in_proc_stmt780 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_messages_in_proc_stmt795 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_corr_sets_in_proc_stmt802 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_SEQUENCE_in_block819 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_proc_stmts_in_block823 = new BitSet(new long[]{0x0000000000020008L});
-    public static final BitSet FOLLOW_SEQUENCE_in_scope_block852 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_sub_declaration_in_scope_block854 = new BitSet(new long[]{0x00A4000000020028L});
-    public static final BitSet FOLLOW_proc_stmts_in_scope_block863 = new BitSet(new long[]{0x0000000000020008L});
-    public static final BitSet FOLLOW_SEQUENCE_in_param_block896 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_param_block900 = new BitSet(new long[]{0x0000000000020008L,0x0000000000020000L});
-    public static final BitSet FOLLOW_proc_stmts_in_param_block905 = new BitSet(new long[]{0x0000000000020008L});
-    public static final BitSet FOLLOW_block_in_body941 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_proc_stmts_in_body958 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PICK_in_pick983 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_onMessage_in_pick987 = new BitSet(new long[]{0x0000000080000000L,0x000000000004E016L});
-    public static final BitSet FOLLOW_onAlarm_in_pick993 = new BitSet(new long[]{0x0000000000000000L,0x000000000004E016L});
-    public static final BitSet FOLLOW_CREATE_INST_in_pick996 = new BitSet(new long[]{0x0000000000000000L,0x000000000004E016L});
-    public static final BitSet FOLLOW_std_attr_in_pick999 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ONALARM_in_onAlarm1048 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_alarm_in_onAlarm1050 = new BitSet(new long[]{0x0000000011000000L,0x0000000000000008L});
-    public static final BitSet FOLLOW_timeout_in_onAlarm1054 = new BitSet(new long[]{0x0000000011000000L,0x0000000000000008L});
-    public static final BitSet FOLLOW_repeatEvery_in_onAlarm1058 = new BitSet(new long[]{0x0000000011000000L,0x0000000000000008L});
-    public static final BitSet FOLLOW_scope_short_in_onAlarm1061 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ALARM_in_alarm1109 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expr_in_alarm1111 = new BitSet(new long[]{0x0000000000000008L,0x000000000004E016L});
-    public static final BitSet FOLLOW_std_attr_in_alarm1114 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_TIMEOUT_in_timeout1172 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expr_in_timeout1174 = new BitSet(new long[]{0x0000000000000008L,0x000000000004E016L});
-    public static final BitSet FOLLOW_std_attr_in_timeout1177 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_REPEATEVERY_in_repeatEvery1232 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expr_in_repeatEvery1234 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ONMESSAGE_in_onMessage1278 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_param_block_in_onMessage1282 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020081L});
-    public static final BitSet FOLLOW_portType_in_onMessage1298 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020080L});
-    public static final BitSet FOLLOW_msgEx_in_onMessage1303 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_ID_in_onMessage1308 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_ID_in_onMessage1312 = new BitSet(new long[]{0x0000040400000008L});
-    public static final BitSet FOLLOW_correlation_in_onMessage1316 = new BitSet(new long[]{0x0000040000000008L});
-    public static final BitSet FOLLOW_with_ex_in_onMessage1321 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_FLOW_in_flow1416 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_sequence_in_flow1420 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
-    public static final BitSet FOLLOW_std_attr_in_flow1424 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_IF_in_if_ex1464 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expr_in_if_ex1468 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
-    public static final BitSet FOLLOW_sequence_in_if_ex1473 = new BitSet(new long[]{0x0000000000001800L,0x000000000004E016L});
-    public static final BitSet FOLLOW_ELSIF_in_if_ex1481 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expr_in_if_ex1485 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
-    public static final BitSet FOLLOW_sequence_in_if_ex1490 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ELSE_in_if_ex1501 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_sequence_in_if_ex1505 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_std_attr_in_if_ex1511 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_SIGNAL_in_signal1569 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_signal1571 = new BitSet(new long[]{0x0012800000000008L,0x0000000100002000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_expr_in_signal1575 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_JOIN_in_join1614 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_join1618 = new BitSet(new long[]{0x0012800000000008L,0x0000000100022000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_expr_in_join1623 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_SEQUENCE_in_sequence1656 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_join_in_sequence1660 = new BitSet(new long[]{0x0000000000020088L});
-    public static final BitSet FOLLOW_body_in_sequence1665 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
-    public static final BitSet FOLLOW_signal_in_sequence1670 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
-    public static final BitSet FOLLOW_std_attr_in_sequence1673 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_SEQUENCE_in_scope_sequence1713 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_join_in_scope_sequence1717 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_scope_block_in_scope_sequence1722 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
-    public static final BitSet FOLLOW_signal_in_scope_sequence1727 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
-    public static final BitSet FOLLOW_WHILE_in_while_ex1801 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expr_in_while_ex1803 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
-    public static final BitSet FOLLOW_sequence_in_while_ex1808 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
-    public static final BitSet FOLLOW_std_attr_in_while_ex1811 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_UNTIL_in_until_ex1855 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_expr_in_until_ex1857 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
-    public static final BitSet FOLLOW_sequence_in_until_ex1862 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
-    public static final BitSet FOLLOW_std_attr_in_until_ex1865 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_FOR_in_foreach1910 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_foreach1914 = new BitSet(new long[]{0x0012800000000000L,0x0000000100002000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_expr_in_foreach1918 = new BitSet(new long[]{0x0012800000000000L,0x0000000100002000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_expr_in_foreach1923 = new BitSet(new long[]{0x0012800011000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_expr_in_foreach1928 = new BitSet(new long[]{0x0012800011000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_scope_short_in_foreach1936 = new BitSet(new long[]{0xC340314253BDFD48L,0x00000000001CE016L});
-    public static final BitSet FOLLOW_PARALLEL_in_foreach1938 = new BitSet(new long[]{0xC340314253BDFD48L,0x00000000001CE016L});
-    public static final BitSet FOLLOW_SBO_in_foreach1941 = new BitSet(new long[]{0xC340314253BDFD48L,0x00000000001CE016L});
-    public static final BitSet FOLLOW_std_attr_in_foreach1944 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_TRY_in_try_ex2017 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_catch_ex_in_try_ex2021 = new BitSet(new long[]{0x0000000004020088L});
-    public static final BitSet FOLLOW_body_in_try_ex2027 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_CATCH_in_catch_ex2058 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ns_id_in_catch_ex2060 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_param_block_in_catch_ex2065 = new BitSet(new long[]{0x0000000000000008L,0x0000000000003000L});
-    public static final BitSet FOLLOW_STRING_in_catch_ex2070 = new BitSet(new long[]{0x0000000000000008L,0x0000000000001000L});
-    public static final BitSet FOLLOW_faultElt_in_catch_ex2073 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_SCOPE_in_scope_ex2100 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_scope_ex2104 = new BitSet(new long[]{0x0000000010000000L});
-    public static final BitSet FOLLOW_scope_stmt_in_scope_ex2109 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_scope_sequence_in_scope_ex2114 = new BitSet(new long[]{0x0000000000000008L,0x000000000020C000L});
-    public static final BitSet FOLLOW_ISOLATED_in_scope_ex2117 = new BitSet(new long[]{0x0000000000000008L,0x000000000000C000L});
-    public static final BitSet FOLLOW_EOSF_in_scope_ex2120 = new BitSet(new long[]{0x0000000000000008L,0x0000000000004000L});
-    public static final BitSet FOLLOW_SJF_in_scope_ex2123 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_SCOPE_in_scope_short2185 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_scope_stmt_in_scope_short2189 = new BitSet(new long[]{0x0000000000000080L});
-    public static final BitSet FOLLOW_scope_sequence_in_scope_short2193 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_SCOPE_in_scope_stmt2219 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_compensation_in_scope_stmt2223 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000050L});
-    public static final BitSet FOLLOW_termination_in_scope_stmt2228 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000010L});
-    public static final BitSet FOLLOW_eventHdl_in_scope_stmt2233 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_TERMINATION_in_termination2259 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_body_in_termination2261 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_EVENTHDL_in_eventHdl2284 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_onEvent_in_eventHdl2288 = new BitSet(new long[]{0x0000000020000008L,0x000000000004E016L});
-    public static final BitSet FOLLOW_onAlarm_in_eventHdl2293 = new BitSet(new long[]{0x0000000000000008L,0x000000000004E016L});
-    public static final BitSet FOLLOW_EVENT_in_onEvent2315 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_onEvent2319 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_ID_in_onEvent2323 = new BitSet(new long[]{0x0012840411000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_correlation_in_onEvent2327 = new BitSet(new long[]{0x0012840411000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_with_ex_in_onEvent2332 = new BitSet(new long[]{0x0012840411000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_scope_short_in_onEvent2337 = new BitSet(new long[]{0x0000000000000008L,0x0000000000020A81L});
-    public static final BitSet FOLLOW_ID_in_onEvent2344 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000A81L});
-    public static final BitSet FOLLOW_portType_in_onEvent2347 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000A80L});
-    public static final BitSet FOLLOW_msgEx_in_onEvent2350 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000A00L});
-    public static final BitSet FOLLOW_msgType_in_onEvent2353 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000800L});
-    public static final BitSet FOLLOW_viElt_in_onEvent2356 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_COMPENSATION_in_compensation2393 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_body_in_compensation2395 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_WITH_in_with_ex2426 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_with_map_in_with_ex2430 = new BitSet(new long[]{0x0000080000000008L});
-    public static final BitSet FOLLOW_MAP_in_with_map2469 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_with_map2471 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_KEY_in_with_map2473 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_path_expr_in_with_map2478 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_RECEIVE_in_receive2507 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_receive2511 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_ID_in_receive2515 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
-    public static final BitSet FOLLOW_correlation_in_receive2519 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
-    public static final BitSet FOLLOW_portType_in_receive2524 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
-    public static final BitSet FOLLOW_CREATE_INST_in_receive2529 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
-    public static final BitSet FOLLOW_msgEx_in_receive2532 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
-    public static final BitSet FOLLOW_std_attr_in_receive2535 = new BitSet(new long[]{0x0000040000000008L});
-    public static final BitSet FOLLOW_with_ex_in_receive2539 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_REPLY_in_reply2635 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_reply2639 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_ID_in_reply2643 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
-    public static final BitSet FOLLOW_ID_in_reply2647 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
-    public static final BitSet FOLLOW_correlation_in_reply2652 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
-    public static final BitSet FOLLOW_portType_in_reply2655 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
-    public static final BitSet FOLLOW_std_attr_in_reply2658 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000180L});
-    public static final BitSet FOLLOW_faultName_in_reply2662 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000080L});
-    public static final BitSet FOLLOW_msgEx_in_reply2665 = new BitSet(new long[]{0x0000040000000008L});
-    public static final BitSet FOLLOW_with_ex_in_reply2670 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_INVOKE_in_invoke2772 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_invoke2776 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_ID_in_invoke2780 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
-    public static final BitSet FOLLOW_ID_in_invoke2784 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
-    public static final BitSet FOLLOW_correlation_in_invoke2789 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
-    public static final BitSet FOLLOW_portType_in_invoke2792 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
-    public static final BitSet FOLLOW_std_attr_in_invoke2795 = new BitSet(new long[]{0x0000040100000008L});
-    public static final BitSet FOLLOW_with_ex_in_invoke2799 = new BitSet(new long[]{0x0000000100000008L});
-    public static final BitSet FOLLOW_compensation_in_invoke2802 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_ASSIGN_in_assign2899 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_path_expr_in_assign2903 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_PROP_in_assign2905 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_portType_in_assign2908 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_CREATE_INST_in_assign2911 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_std_attr_in_assign2915 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_faultName_in_assign2917 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_msgEx_in_assign2920 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_VALID_in_assign2923 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_KEEPSRC_in_assign2926 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_IGNORE_in_assign2929 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_rvalue_in_assign2935 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_receive_in_rvalue3000 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_invoke_in_rvalue3082 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_expr_in_rvalue3139 = new BitSet(new long[]{0x0000000000000002L,0x0000000004000000L});
-    public static final BitSet FOLLOW_PROP_in_rvalue3142 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_THROW_in_throw_ex3271 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ns_id_in_throw_ex3273 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_ID_in_throw_ex3277 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_std_attr_in_throw_ex3280 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_RETHROW_in_rethrow_ex3345 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_std_attr_in_rethrow_ex3347 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_COMPENSATE_in_compensate3392 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_compensate3396 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_std_attr_in_compensate3399 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_EXIT_in_exit3444 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_std_attr_in_exit3446 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_VALIDATE_in_validate3487 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_validate3491 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_std_attr_in_validate3494 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_EXTENSIONACT_in_ext_act3544 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_EXT_ACT_in_ext_act3548 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
-    public static final BitSet FOLLOW_std_attr_in_ext_act3550 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_NOP_in_nop3594 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_std_attr_in_nop3596 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_NAMESPACE_in_namespace3639 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_namespace3641 = new BitSet(new long[]{0x0000000000000000L,0x0000000000002000L});
-    public static final BitSet FOLLOW_STRING_in_namespace3645 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_EXTENSION_in_extension3675 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_extension3677 = new BitSet(new long[]{0x0000000000000000L,0x0000000000002000L});
-    public static final BitSet FOLLOW_STRING_in_extension3681 = new BitSet(new long[]{0x0000000000000008L,0x0000000010000000L});
-    public static final BitSet FOLLOW_MUSTUND_in_extension3683 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_IMPORT_in_imports3705 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_imports3710 = new BitSet(new long[]{0x0000000000000000L,0x0000000000002000L});
-    public static final BitSet FOLLOW_STRING_in_imports3714 = new BitSet(new long[]{0x0000000000000008L,0x0000000000020400L});
-    public static final BitSet FOLLOW_ID_in_imports3719 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000400L});
-    public static final BitSet FOLLOW_viType_in_imports3722 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_MESSAGES_in_messages3741 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_message_in_messages3743 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000020L});
-    public static final BitSet FOLLOW_MESSAGE_in_message3761 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_message3763 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_VARIABLES_in_variables3782 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_variable_in_variables3784 = new BitSet(new long[]{0x0000002000000008L});
-    public static final BitSet FOLLOW_VARIABLE_in_variable3800 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_variable3804 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000E00L});
-    public static final BitSet FOLLOW_msgType_in_variable3808 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000C00L});
-    public static final BitSet FOLLOW_viType_in_variable3813 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000800L});
-    public static final BitSet FOLLOW_viElt_in_variable3818 = new BitSet(new long[]{0x0000040000000008L});
-    public static final BitSet FOLLOW_with_ex_in_variable3823 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_PARTNERLINKS_in_partnerlinks3843 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_partnerlink_in_partnerlinks3845 = new BitSet(new long[]{0x2000000000000008L});
-    public static final BitSet FOLLOW_PID_in_partnerlink3859 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_partnerlink3861 = new BitSet(new long[]{0x0008000000000008L,0x0000000020000000L});
-    public static final BitSet FOLLOW_ns_id_in_partnerlink3865 = new BitSet(new long[]{0x0008000000000008L,0x0000000020000000L});
-    public static final BitSet FOLLOW_ns_id_in_partnerlink3870 = new BitSet(new long[]{0x0008000000000008L,0x0000000020000000L});
-    public static final BitSet FOLLOW_ns_id_in_partnerlink3875 = new BitSet(new long[]{0x0000000000000008L,0x0000000020000000L});
-    public static final BitSet FOLLOW_INITPARTNER_in_partnerlink3880 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_CORRSETS_in_corr_sets3899 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_corr_set_in_corr_sets3903 = new BitSet(new long[]{0x0400000000000008L});
-    public static final BitSet FOLLOW_CORRSET_in_corr_set3917 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_corr_set3921 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_ID_in_corr_set3925 = new BitSet(new long[]{0x0000000000000008L,0x0000000000020000L});
-    public static final BitSet FOLLOW_CORRELATION_in_correlation3943 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_corr_mapping_in_correlation3947 = new BitSet(new long[]{0x0000000800000008L});
-    public static final BitSet FOLLOW_CORR_MAP_in_corr_mapping3975 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_corr_mapping3977 = new BitSet(new long[]{0x0000000000000008L,0x00000000C0000000L});
-    public static final BitSet FOLLOW_INIT_COR_in_corr_mapping3981 = new BitSet(new long[]{0x0000000000000008L,0x0000000080000000L});
-    public static final BitSet FOLLOW_PATTERN_COR_in_corr_mapping3986 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_s_expr_in_expr4041 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_EXT_EXPR_in_expr4067 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_funct_call_in_expr4090 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_CALL_in_funct_call4112 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_funct_call4116 = new BitSet(new long[]{0x0000000000000008L,0x0000000000020000L});
-    public static final BitSet FOLLOW_164_in_s_expr4146 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4150 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4154 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_165_in_s_expr4163 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4167 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4171 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_166_in_s_expr4180 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4184 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4188 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_167_in_s_expr4197 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4201 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4205 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_168_in_s_expr4214 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4218 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4222 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_197_in_s_expr4231 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4235 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4239 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_170_in_s_expr4248 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4252 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4256 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_171_in_s_expr4265 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4269 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4273 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_172_in_s_expr4282 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4286 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4290 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_173_in_s_expr4299 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4303 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_s_expr_in_s_expr4307 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_STRING_in_s_expr4315 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INT_in_s_expr4323 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_path_expr_in_s_expr4332 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PATH_in_path_expr4361 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ns_id_in_path_expr4365 = new BitSet(new long[]{0x0008000000000008L});
-    public static final BitSet FOLLOW_NS_in_ns_id4401 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_ID_in_ns_id4405 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_ID_in_ns_id4410 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_PORTTYPE_in_portType4445 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_STRING_in_portType4447 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_STD_ATTR_in_std_attr4471 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_STRING_in_std_attr4475 = new BitSet(new long[]{0x0000000000000008L,0x0000000000004000L});
-    public static final BitSet FOLLOW_SJF_in_std_attr4480 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_MSGEX_in_msgEx4510 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_STRING_in_msgEx4512 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_MSGTYPE_in_msgType4535 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_STRING_in_msgType4537 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_VITYPE_in_viType4562 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_STRING_in_viType4564 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_VIELT_in_viElt4589 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_STRING_in_viElt4591 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_FAULTNAME_in_faultName4614 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_STRING_in_faultName4616 = new BitSet(new long[]{0x0000000000000008L});
-    public static final BitSet FOLLOW_FAULTELT_in_faultElt4639 = new BitSet(new long[]{0x0000000000000004L});
-    public static final BitSet FOLLOW_STRING_in_faultElt4641 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_proc_stmt_in_proc_stmts426 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_pick_in_proc_stmt457 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_flow_in_proc_stmt473 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_if_ex_in_proc_stmt489 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_while_ex_in_proc_stmt504 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_until_ex_in_proc_stmt520 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_foreach_in_proc_stmt536 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_try_ex_in_proc_stmt551 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_scope_ex_in_proc_stmt566 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_receive_in_proc_stmt581 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_invoke_in_proc_stmt596 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_reply_in_proc_stmt611 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_assign_in_proc_stmt626 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_throw_ex_in_proc_stmt642 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_rethrow_ex_in_proc_stmt657 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_alarm_in_proc_stmt672 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_timeout_in_proc_stmt688 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_exit_in_proc_stmt704 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_variables_in_proc_stmt721 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_validate_in_proc_stmt728 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_partnerlinks_in_proc_stmt745 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_compensate_in_proc_stmt752 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ext_act_in_proc_stmt767 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_nop_in_proc_stmt782 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_messages_in_proc_stmt797 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_corr_sets_in_proc_stmt804 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_SEQUENCE_in_block821 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_proc_stmts_in_block825 = new BitSet(new long[]{0x0000000000020008L});
+    public static final BitSet FOLLOW_SEQUENCE_in_scope_block854 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_sub_declaration_in_scope_block856 = new BitSet(new long[]{0x00A4000000020028L});
+    public static final BitSet FOLLOW_proc_stmts_in_scope_block865 = new BitSet(new long[]{0x0000000000020008L});
+    public static final BitSet FOLLOW_SEQUENCE_in_param_block898 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_param_block902 = new BitSet(new long[]{0x0000000000020008L,0x0000000000020000L});
+    public static final BitSet FOLLOW_proc_stmts_in_param_block907 = new BitSet(new long[]{0x0000000000020008L});
+    public static final BitSet FOLLOW_block_in_body943 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_proc_stmts_in_body960 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PICK_in_pick985 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_onMessage_in_pick989 = new BitSet(new long[]{0x0000000080000000L,0x000000000004E016L});
+    public static final BitSet FOLLOW_onAlarm_in_pick995 = new BitSet(new long[]{0x0000000000000000L,0x000000000004E016L});
+    public static final BitSet FOLLOW_CREATE_INST_in_pick998 = new BitSet(new long[]{0x0000000000000000L,0x000000000004E016L});
+    public static final BitSet FOLLOW_std_attr_in_pick1001 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ONALARM_in_onAlarm1055 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_alarm_in_onAlarm1057 = new BitSet(new long[]{0x0000000011000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_timeout_in_onAlarm1061 = new BitSet(new long[]{0x0000000011000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_repeatEvery_in_onAlarm1065 = new BitSet(new long[]{0x0000000011000000L,0x0000000000000008L});
+    public static final BitSet FOLLOW_scope_short_in_onAlarm1068 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ALARM_in_alarm1116 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expr_in_alarm1118 = new BitSet(new long[]{0x0000000000000008L,0x000000000004E016L});
+    public static final BitSet FOLLOW_std_attr_in_alarm1121 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_TIMEOUT_in_timeout1184 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expr_in_timeout1186 = new BitSet(new long[]{0x0000000000000008L,0x000000000004E016L});
+    public static final BitSet FOLLOW_std_attr_in_timeout1189 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_REPEATEVERY_in_repeatEvery1249 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expr_in_repeatEvery1251 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ONMESSAGE_in_onMessage1295 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_param_block_in_onMessage1299 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020081L});
+    public static final BitSet FOLLOW_portType_in_onMessage1315 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020080L});
+    public static final BitSet FOLLOW_msgEx_in_onMessage1320 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_ID_in_onMessage1325 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_ID_in_onMessage1329 = new BitSet(new long[]{0x0000040400000008L});
+    public static final BitSet FOLLOW_correlation_in_onMessage1333 = new BitSet(new long[]{0x0000040000000008L});
+    public static final BitSet FOLLOW_with_ex_in_onMessage1338 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_FLOW_in_flow1433 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_sequence_in_flow1437 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
+    public static final BitSet FOLLOW_std_attr_in_flow1441 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_IF_in_if_ex1486 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expr_in_if_ex1490 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
+    public static final BitSet FOLLOW_sequence_in_if_ex1495 = new BitSet(new long[]{0x0000000000001800L,0x000000000004E016L});
+    public static final BitSet FOLLOW_ELSIF_in_if_ex1503 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expr_in_if_ex1507 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
+    public static final BitSet FOLLOW_sequence_in_if_ex1512 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ELSE_in_if_ex1523 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_sequence_in_if_ex1527 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_std_attr_in_if_ex1533 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_SIGNAL_in_signal1596 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_signal1598 = new BitSet(new long[]{0x0012800000000008L,0x0000000100002000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_expr_in_signal1602 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_JOIN_in_join1641 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_join1645 = new BitSet(new long[]{0x0012800000000008L,0x0000000100022000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_expr_in_join1650 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_SEQUENCE_in_sequence1687 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_join_in_sequence1691 = new BitSet(new long[]{0x0000000000020088L});
+    public static final BitSet FOLLOW_body_in_sequence1696 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
+    public static final BitSet FOLLOW_signal_in_sequence1701 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
+    public static final BitSet FOLLOW_std_attr_in_sequence1704 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_SEQUENCE_in_scope_sequence1749 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_join_in_scope_sequence1753 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_scope_block_in_scope_sequence1758 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
+    public static final BitSet FOLLOW_signal_in_scope_sequence1763 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
+    public static final BitSet FOLLOW_WHILE_in_while_ex1837 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expr_in_while_ex1839 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
+    public static final BitSet FOLLOW_sequence_in_while_ex1844 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
+    public static final BitSet FOLLOW_std_attr_in_while_ex1847 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_UNTIL_in_until_ex1896 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_expr_in_until_ex1898 = new BitSet(new long[]{0x0000000000000080L,0x000000000004E016L});
+    public static final BitSet FOLLOW_sequence_in_until_ex1903 = new BitSet(new long[]{0xC340314253BDFD48L,0x000000000004E016L});
+    public static final BitSet FOLLOW_std_attr_in_until_ex1906 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_FOR_in_foreach1956 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_foreach1960 = new BitSet(new long[]{0x0012800000000000L,0x0000000100002000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_expr_in_foreach1964 = new BitSet(new long[]{0x0012800000000000L,0x0000000100002000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_expr_in_foreach1969 = new BitSet(new long[]{0x0012800011000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_expr_in_foreach1974 = new BitSet(new long[]{0x0012800011000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_scope_short_in_foreach1982 = new BitSet(new long[]{0xC340314253BDFD48L,0x00000000001CE016L});
+    public static final BitSet FOLLOW_PARALLEL_in_foreach1984 = new BitSet(new long[]{0xC340314253BDFD48L,0x00000000001CE016L});
+    public static final BitSet FOLLOW_SBO_in_foreach1987 = new BitSet(new long[]{0xC340314253BDFD48L,0x00000000001CE016L});
+    public static final BitSet FOLLOW_std_attr_in_foreach1990 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_TRY_in_try_ex2068 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_catch_ex_in_try_ex2072 = new BitSet(new long[]{0x0000000004020088L});
+    public static final BitSet FOLLOW_body_in_try_ex2078 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CATCH_in_catch_ex2110 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ns_id_in_catch_ex2112 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_param_block_in_catch_ex2117 = new BitSet(new long[]{0x0000000000000008L,0x0000000000003000L});
+    public static final BitSet FOLLOW_STRING_in_catch_ex2122 = new BitSet(new long[]{0x0000000000000008L,0x0000000000001000L});
+    public static final BitSet FOLLOW_faultElt_in_catch_ex2125 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_SCOPE_in_scope_ex2152 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_scope_ex2156 = new BitSet(new long[]{0x0000000010000000L});
+    public static final BitSet FOLLOW_scope_stmt_in_scope_ex2161 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_scope_sequence_in_scope_ex2166 = new BitSet(new long[]{0x0000000000000008L,0x000000000020C000L});
+    public static final BitSet FOLLOW_ISOLATED_in_scope_ex2169 = new BitSet(new long[]{0x0000000000000008L,0x000000000000C000L});
+    public static final BitSet FOLLOW_EOSF_in_scope_ex2172 = new BitSet(new long[]{0x0000000000000008L,0x0000000000004000L});
+    public static final BitSet FOLLOW_SJF_in_scope_ex2175 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_SCOPE_in_scope_short2242 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_scope_stmt_in_scope_short2246 = new BitSet(new long[]{0x0000000000000080L});
+    public static final BitSet FOLLOW_scope_sequence_in_scope_short2250 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_SCOPE_in_scope_stmt2276 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_compensation_in_scope_stmt2280 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000050L});
+    public static final BitSet FOLLOW_termination_in_scope_stmt2285 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000010L});
+    public static final BitSet FOLLOW_eventHdl_in_scope_stmt2290 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_TERMINATION_in_termination2316 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_body_in_termination2318 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_EVENTHDL_in_eventHdl2341 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_onEvent_in_eventHdl2345 = new BitSet(new long[]{0x0000000020000008L,0x000000000004E016L});
+    public static final BitSet FOLLOW_onAlarm_in_eventHdl2350 = new BitSet(new long[]{0x0000000000000008L,0x000000000004E016L});
+    public static final BitSet FOLLOW_EVENT_in_onEvent2372 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_onEvent2376 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_ID_in_onEvent2380 = new BitSet(new long[]{0x0012840411000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_correlation_in_onEvent2384 = new BitSet(new long[]{0x0012840411000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_with_ex_in_onEvent2389 = new BitSet(new long[]{0x0012840411000000L,0x0000000100002008L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_scope_short_in_onEvent2394 = new BitSet(new long[]{0x0000000000000008L,0x0000000000020A81L});
+    public static final BitSet FOLLOW_ID_in_onEvent2401 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000A81L});
+    public static final BitSet FOLLOW_portType_in_onEvent2404 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000A80L});
+    public static final BitSet FOLLOW_msgEx_in_onEvent2407 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000A00L});
+    public static final BitSet FOLLOW_msgType_in_onEvent2410 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000800L});
+    public static final BitSet FOLLOW_viElt_in_onEvent2413 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_COMPENSATION_in_compensation2450 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_body_in_compensation2452 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_WITH_in_with_ex2483 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_with_map_in_with_ex2487 = new BitSet(new long[]{0x0000080000000008L});
+    public static final BitSet FOLLOW_MAP_in_with_map2526 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_with_map2528 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_KEY_in_with_map2530 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_path_expr_in_with_map2535 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_RECEIVE_in_receive2564 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_receive2568 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_ID_in_receive2572 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
+    public static final BitSet FOLLOW_correlation_in_receive2576 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
+    public static final BitSet FOLLOW_portType_in_receive2581 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
+    public static final BitSet FOLLOW_CREATE_INST_in_receive2586 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
+    public static final BitSet FOLLOW_msgEx_in_receive2589 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001CE097L});
+    public static final BitSet FOLLOW_std_attr_in_receive2592 = new BitSet(new long[]{0x0000040000000008L});
+    public static final BitSet FOLLOW_with_ex_in_receive2596 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_REPLY_in_reply2697 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_reply2701 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_ID_in_reply2705 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
+    public static final BitSet FOLLOW_ID_in_reply2709 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
+    public static final BitSet FOLLOW_correlation_in_reply2714 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
+    public static final BitSet FOLLOW_portType_in_reply2717 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
+    public static final BitSet FOLLOW_std_attr_in_reply2720 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000180L});
+    public static final BitSet FOLLOW_faultName_in_reply2724 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000080L});
+    public static final BitSet FOLLOW_msgEx_in_reply2727 = new BitSet(new long[]{0x0000040000000008L});
+    public static final BitSet FOLLOW_with_ex_in_reply2732 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_INVOKE_in_invoke2839 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_invoke2843 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_ID_in_invoke2847 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
+    public static final BitSet FOLLOW_ID_in_invoke2851 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
+    public static final BitSet FOLLOW_correlation_in_invoke2856 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
+    public static final BitSet FOLLOW_portType_in_invoke2859 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000001EE097L});
+    public static final BitSet FOLLOW_std_attr_in_invoke2862 = new BitSet(new long[]{0x0000040100000008L});
+    public static final BitSet FOLLOW_with_ex_in_invoke2866 = new BitSet(new long[]{0x0000000100000008L});
+    public static final BitSet FOLLOW_compensation_in_invoke2869 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_ASSIGN_in_assign2971 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_path_expr_in_assign2975 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_PROP_in_assign2977 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_portType_in_assign2980 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_CREATE_INST_in_assign2983 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_std_attr_in_assign2987 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_faultName_in_assign2989 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_msgEx_in_assign2992 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_VALID_in_assign2995 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_KEEPSRC_in_assign2998 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_IGNORE_in_assign3001 = new BitSet(new long[]{0x0012800000050000L,0x0000000103802180L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_rvalue_in_assign3007 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_receive_in_rvalue3077 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_invoke_in_rvalue3159 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_expr_in_rvalue3216 = new BitSet(new long[]{0x0000000000000002L,0x0000000004000000L});
+    public static final BitSet FOLLOW_PROP_in_rvalue3219 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_THROW_in_throw_ex3348 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ns_id_in_throw_ex3350 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_ID_in_throw_ex3354 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_std_attr_in_throw_ex3357 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_RETHROW_in_rethrow_ex3427 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_std_attr_in_rethrow_ex3429 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_COMPENSATE_in_compensate3479 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_compensate3483 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_std_attr_in_compensate3486 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_EXIT_in_exit3536 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_std_attr_in_exit3538 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_VALIDATE_in_validate3584 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_validate3588 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_std_attr_in_validate3591 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_EXTENSIONACT_in_ext_act3646 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_EXT_ACT_in_ext_act3650 = new BitSet(new long[]{0xC340314653BDFD48L,0x00000000041EE097L});
+    public static final BitSet FOLLOW_std_attr_in_ext_act3652 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_NOP_in_nop3701 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_std_attr_in_nop3703 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_NAMESPACE_in_namespace3751 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_namespace3753 = new BitSet(new long[]{0x0000000000000000L,0x0000000000002000L});
+    public static final BitSet FOLLOW_STRING_in_namespace3757 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_EXTENSION_in_extension3787 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_extension3789 = new BitSet(new long[]{0x0000000000000000L,0x0000000000002000L});
+    public static final BitSet FOLLOW_STRING_in_extension3793 = new BitSet(new long[]{0x0000000000000008L,0x0000000010000000L});
+    public static final BitSet FOLLOW_MUSTUND_in_extension3795 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_IMPORT_in_imports3817 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_imports3822 = new BitSet(new long[]{0x0000000000000000L,0x0000000000002000L});
+    public static final BitSet FOLLOW_STRING_in_imports3826 = new BitSet(new long[]{0x0000000000000008L,0x0000000000020400L});
+    public static final BitSet FOLLOW_ID_in_imports3831 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000400L});
+    public static final BitSet FOLLOW_viType_in_imports3834 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_MESSAGES_in_messages3853 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_message_in_messages3855 = new BitSet(new long[]{0x0000000000000008L,0x0000000000000020L});
+    public static final BitSet FOLLOW_MESSAGE_in_message3873 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_message3875 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_VARIABLES_in_variables3894 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_variable_in_variables3896 = new BitSet(new long[]{0x0000002000000008L});
+    public static final BitSet FOLLOW_VARIABLE_in_variable3913 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_variable3917 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000E00L});
+    public static final BitSet FOLLOW_msgType_in_variable3921 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000C00L});
+    public static final BitSet FOLLOW_viType_in_variable3926 = new BitSet(new long[]{0x0000040000000008L,0x0000000000000800L});
+    public static final BitSet FOLLOW_viElt_in_variable3931 = new BitSet(new long[]{0x0000040000000008L});
+    public static final BitSet FOLLOW_with_ex_in_variable3936 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_PARTNERLINKS_in_partnerlinks3956 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_partnerlink_in_partnerlinks3958 = new BitSet(new long[]{0x2000000000000008L});
+    public static final BitSet FOLLOW_PID_in_partnerlink3972 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_partnerlink3974 = new BitSet(new long[]{0x0008000000000008L,0x0000000020000000L});
+    public static final BitSet FOLLOW_ns_id_in_partnerlink3978 = new BitSet(new long[]{0x0008000000000008L,0x0000000020000000L});
+    public static final BitSet FOLLOW_ns_id_in_partnerlink3983 = new BitSet(new long[]{0x0008000000000008L,0x0000000020000000L});
+    public static final BitSet FOLLOW_ns_id_in_partnerlink3988 = new BitSet(new long[]{0x0000000000000008L,0x0000000020000000L});
+    public static final BitSet FOLLOW_INITPARTNER_in_partnerlink3993 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_CORRSETS_in_corr_sets4012 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_corr_set_in_corr_sets4016 = new BitSet(new long[]{0x0400000000000008L});
+    public static final BitSet FOLLOW_CORRSET_in_corr_set4030 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_corr_set4034 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_ID_in_corr_set4038 = new BitSet(new long[]{0x0000000000000008L,0x0000000000020000L});
+    public static final BitSet FOLLOW_CORRELATION_in_correlation4056 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_corr_mapping_in_correlation4060 = new BitSet(new long[]{0x0000000800000008L});
+    public static final BitSet FOLLOW_CORR_MAP_in_corr_mapping4088 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_corr_mapping4090 = new BitSet(new long[]{0x0000000000000008L,0x00000000C0000000L});
+    public static final BitSet FOLLOW_INIT_COR_in_corr_mapping4094 = new BitSet(new long[]{0x0000000000000008L,0x0000000080000000L});
+    public static final BitSet FOLLOW_PATTERN_COR_in_corr_mapping4099 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_s_expr_in_expr4154 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_EXT_EXPR_in_expr4181 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_funct_call_in_expr4204 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_CALL_in_funct_call4226 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_funct_call4230 = new BitSet(new long[]{0x0000000000000008L,0x0000000000020000L});
+    public static final BitSet FOLLOW_164_in_s_expr4266 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4270 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4275 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_165_in_s_expr4285 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4289 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4294 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_166_in_s_expr4304 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4308 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4313 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_167_in_s_expr4323 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4327 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4332 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_168_in_s_expr4342 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4346 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4351 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_197_in_s_expr4361 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4365 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4370 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_170_in_s_expr4380 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4384 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4389 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_171_in_s_expr4399 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4403 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4408 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_172_in_s_expr4418 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4422 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4427 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_173_in_s_expr4437 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4441 = new BitSet(new long[]{0x0010000000000000L,0x0000000100402000L,0x00003DF000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_s_expr_in_s_expr4446 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_STRING_in_s_expr4455 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INT_in_s_expr4463 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_path_expr_in_s_expr4472 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PATH_in_path_expr4501 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ns_id_in_path_expr4505 = new BitSet(new long[]{0x0008000000000008L});
+    public static final BitSet FOLLOW_NS_in_ns_id4541 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_ID_in_ns_id4545 = new BitSet(new long[]{0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_ID_in_ns_id4550 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_PORTTYPE_in_portType4585 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_STRING_in_portType4589 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_STD_ATTR_in_std_attr4613 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_STRING_in_std_attr4617 = new BitSet(new long[]{0x0000000000000008L,0x0000000000004000L});
+    public static final BitSet FOLLOW_SJF_in_std_attr4622 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_MSGEX_in_msgEx4652 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_STRING_in_msgEx4656 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_MSGTYPE_in_msgType4679 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_STRING_in_msgType4683 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_VITYPE_in_viType4708 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_STRING_in_viType4712 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_VIELT_in_viElt4737 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_STRING_in_viElt4741 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_FAULTNAME_in_faultName4764 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_STRING_in_faultName4768 = new BitSet(new long[]{0x0000000000000008L});
+    public static final BitSet FOLLOW_FAULTELT_in_faultElt4791 = new BitSet(new long[]{0x0000000000000004L});
+    public static final BitSet FOLLOW_STRING_in_faultElt4795 = new BitSet(new long[]{0x0000000000000008L});
 
 }

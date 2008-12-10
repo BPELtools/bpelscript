@@ -27,6 +27,9 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 
+import antlr.CommonASTWithHiddenTokens;
+import antlr.CommonHiddenStreamToken;
+
 public class TestBPELscript {
 
 	// provide a test rig for bosto.a

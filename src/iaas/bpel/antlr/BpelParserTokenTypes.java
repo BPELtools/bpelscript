@@ -103,5 +103,6 @@ public interface BpelParserTokenTypes {
 	// "<terminationHandler>" = 75
 	// "<query>" = 76
 	// "<literal>" = 77
-	int OTHER_TAG = 78;
+	// "<documentation>" = 78
+	int OTHER_TAG = 79;
 }

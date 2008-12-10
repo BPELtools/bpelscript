@@ -3,7 +3,7 @@
  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
 
   <sequence>
-    <receive partnerLink="customer" portType="lns::loanServicePT" operation="request" createInstance="yes">
+    <receive partnerLink="customer" portType="lns:loanServicePT" operation="request" createInstance="yes">
       <targets>
         <target linkName="setMessage-to-reply"/>
         <target linkName="approval-to-reply"/>

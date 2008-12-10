@@ -18,6 +18,7 @@ grammar BPELscript;
 
 options {
     output=AST; 
+   //TokenLabelType=CommonHiddenStreamToken;
     ASTLabelType=CommonTree;
 }
 tokens {
@@ -49,6 +50,8 @@ tokens {
  */
 
 package iaas.bpelscript.antlr;
+
+import antlr.CommonHiddenStreamToken;
 }
 
 @lexer::header {

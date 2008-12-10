@@ -46,6 +46,8 @@ tokens {
  * limitations under the License.
  */
 package iaas.bpelscript.antlr;
+
+import antlr.CommonASTWithHiddenTokens;
 }
 
 @members{
@@ -94,6 +96,58 @@ public void throwDefinedWarning(String stmt, CommonTree ID) {
     	System.err.println("Error on Line "+ID.getLine()+":"+ID.getCharPositionInLine()+": "+stmt
     		+" '"+ID.getText()+"' already defined.");
 }
+
+
+/**
+     * looks for hidden token in front of STMT
+     *
+     * Comments are HiddenToken marked by the lexer.
+     * The parser can access them by looking in front of the tokenstream.
+     * If a HiddenToken in front of an activity starts with "//" or "#" we found a comment.
+     * In case of multiline comments we have to look all HiddenToken in front off the activity.
+     * 
+     * @param stmt
+     * @return HiddenTokenCommentsList
+     */
+    public List<String> getComments (TreeRuleReturnScope stmt) {
+            
+            // get token stream
+            CommonTokenStream ts = (CommonTokenStream) input.getTokenStream(); 
+            // get tree for STMT
+            CommonTree ct = new CommonTree((CommonTree) stmt.start);
+
+            // get start/stop indices from tree
+            int startidx = ct.getTokenStartIndex()-1;
+            int stopidx = ct.getTokenStopIndex()-1;
+            
+            // get token from token stream
+            List<?> l = ts.getTokens(startidx, stopidx);
+            CommonToken cto = (CommonToken) l.get(0);
+            
+            // prepare return
+            List<String> ls = new ArrayList<String>();
+            
+            // look for HIDDEN_CHANNEL token in front of STMT beginning with '//' or '#'
+            while ((cto.getText().contains("//") | cto.getText().contains("#"))&& cto.getChannel()==HIDDEN) {
+            	// fetch current comment
+            	String crtStr = cto.getText();
+            	// remove commentchar(s)
+            	if (crtStr.contains("//")) crtStr=crtStr.substring(2);
+            	else if (crtStr.contains("#")) crtStr=crtStr.substring(1);
+            	
+            	//remove /n of first comment (we are looking in reverse order and therefore, the first here is the last in BPEL)
+            	if (ls.isEmpty()) crtStr=crtStr.trim();
+            	
+            	// add comment token at begin of the list (we are looking in reverse order)
+            	ls.add(0, crtStr);
+            	// expand the window to lo for comments
+            	l = ts.getTokens(--startidx, stopidx);
+            	// get new token
+            	cto = (CommonToken) l.get(0);
+            }
+            return ls;
+        }
+
 }
 
 
@@ -145,38 +199,41 @@ HashMap<String, StringTemplate> _faults_pb = new HashMap<String, StringTemplate>
 
 proc_stmts[Boolean isInScope, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb]
-	:	^(PROC_STMTS j+=join? s+=signal* proc_stmt[$j, $s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb]) 
+	:	^(PROC_STMTS j+=join? s+=signal* p=proc_stmt[$j, $s, isInScope, _vars, _pl, _messages, _cs, _faults, _faults_pb]) 
 	-> 	list(content_st={$proc_stmt.st})
 	;
 
 proc_stmt [List join, List signal, Boolean isInScope, HashMap<String, String> _vars, HashMap<String, String> _pl, 
 		HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb]
-@init{boolean empty= join==null && signal==null;}//compute empty-boolean for use in templates
-	: pick[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st={$pick.st}) 
-	| flow[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st={$flow.st}) // tagged by parallel
-	| if_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st={$if_ex.st})
-	| while_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st={$while_ex.st}) 
-	| until_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb] -> list(content_st={$until_ex.st}) 
-	| foreach[join, signal] -> list(content_st={$foreach.st})
-	| try_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope] -> list(content_st={$try_ex.st})
-	| scope_ex[join, signal] -> list(content_st={$scope_ex.st})
-	| receive[join, signal, empty] -> list(content_st={$receive.st})
-	| invoke[join, signal, empty, _faults, _faults_pb] -> list(content_st={$invoke.st})
-	| reply[join, signal, empty] -> list(content_st={$reply.st})
-	| assign[join, signal, empty, _vars, _pl, null, null] -> list(content_st={$assign.st}) 
-	| throw_ex[join, signal, empty] -> list(content_st={$throw_ex.st})
-	| rethrow_ex[join, signal, empty] -> list(content_st={$rethrow_ex.st})
-	| alarm [join, signal, empty, true]-> list(content_st={$alarm.st}) 
-	| timeout [join, signal, empty, true]-> list(content_st={$timeout.st}) 
-	| exit [join, signal, empty] -> list(content_st={$exit.st}) 
-	| variables[_vars, isInScope] // no rewrited necessary here, because variables are stored in global hash map and handled at process
-	| validate[join, signal, empty, _vars] -> list(content_st={$validate.st})
-	| pl=partnerlinks[_pl, isInScope] // no rewrited necessary here, because they are stored in global hash map and handled at process
-	| compensate[join, signal, empty] -> list(content_st={$compensate.st})
-	| ext_act[join, signal] -> list(content_st={$ext_act.st})
-	| nop[join, signal, empty] -> list(content_st={$nop.st})
-	| messages[_messages, isInScope] // no rewrited necessary here, because they are stored in global hash map and handled at process
-	| corr_sets[_cs, isInScope]
+@init{boolean empty= join==null && signal==null;
+	List comments = getComments(retval);
+	if (comments!=null && !comments.isEmpty()) empty=false;
+	}//compute empty-boolean for use in templates
+	: pick[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st={$pick.st}) 
+	| flow[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st={$flow.st}) // tagged by parallel
+	| if_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st={$if_ex.st})
+	| while_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st={$while_ex.st}) 
+	| until_ex[join, signal, _vars, _pl, _messages, _cs, _faults, _faults_pb, comments] -> list(content_st={$until_ex.st}) 
+	| foreach[join, signal, comments] -> list(content_st={$foreach.st})
+	| try_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope, comments] -> list(content_st={$try_ex.st})
+	| scope_ex[join, signal, comments] -> list(content_st={$scope_ex.st})
+	| receive[join, signal, empty, comments] -> list(content_st={$receive.st})
+	| invoke[join, signal, empty, _faults, _faults_pb, comments] -> list(content_st={$invoke.st})
+	| reply[join, signal, empty, comments] -> list(content_st={$reply.st})
+	| assign[join, signal, empty, _vars, _pl, null, null, comments] -> list(content_st={$assign.st}) 
+	| throw_ex[join, signal, empty, comments] -> list(content_st={$throw_ex.st})
+	| rethrow_ex[join, signal, empty, comments] -> list(content_st={$rethrow_ex.st})
+	| alarm [join, signal, empty, true, comments]-> list(content_st={$alarm.st}) 
+	| timeout [join, signal, empty, true, comments]-> list(content_st={$timeout.st}) 
+	| exit [join, signal, empty, comments] -> list(content_st={$exit.st}) 
+	| variables[_vars, isInScope, comments] // no rewrited necessary here, because variables are stored in global hash map and handled at process
+	| validate[join, signal, empty, _vars, comments] -> list(content_st={$validate.st})
+	| pl=partnerlinks[_pl, isInScope, comments] // no rewrited necessary here, because they are stored in global hash map and handled at process
+	| compensate[join, signal, empty, comments] -> list(content_st={$compensate.st})
+	| ext_act[join, signal, comments] -> list(content_st={$ext_act.st})
+	| nop[join, signal, empty, comments] -> list(content_st={$nop.st})
+	| messages[_messages, isInScope, comments] // no rewrited necessary here, because they are stored in global hash map and handled at process
+	| corr_sets[_cs, isInScope, comments]
 	;
 	
 
@@ -212,24 +269,24 @@ body [	HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<Strin
 
 // Structured activities
 pick [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
-	HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb]
+	HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments]
 	:	^(PICK om+=onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb]+ to+=onAlarm* CREATE_INST? std_attr)
-	-> 	pick(oms={$om}, onalarm={$to}, join={$join}, signal={$signal}, crt_inst={$CREATE_INST}, std_attr={$std_attr.st})
+	-> 	pick(oms={$om}, onalarm={$to}, join={$join}, signal={$signal}, crt_inst={$CREATE_INST}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
 onAlarm
-	:	^(ONALARM alarm[null, null, true, false]? timeout[null, null, true, false]? repeatEvery? scope_short)
+	:	^(ONALARM alarm[null, null, true, false, null]? timeout[null, null, true, false, null]? repeatEvery? scope_short)
 	->	onAlarm(alarm={$alarm.st},timeout={$timeout.st}, repeat={$repeatEvery.st}, scope_ex={$scope_short.st})
 	;
         
-alarm [List join, List signal, Boolean empty, Boolean isWait] 
+alarm [List join, List signal, Boolean empty, Boolean isWait, List comments] 
 	:	^(ALARM expr[null] std_attr?)
-	->	wait(art={"for"}, expr={$expr.st}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait})
+	->	wait(art={"for"}, expr={$expr.st}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait}, comments={$comments})
 	;
 	
-timeout [List join, List signal, Boolean empty, Boolean isWait] 
+timeout [List join, List signal, Boolean empty, Boolean isWait, List comments] 
 	:	^(TIMEOUT expr[null] std_attr?)
-	->	wait(art={"until"}, expr={$expr.st}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait})
+	->	wait(art={"until"}, expr={$expr.st}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait}, comments={$comments})
 	;
 
 repeatEvery 
@@ -246,17 +303,17 @@ onMessage [HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<S
         ; 
 
 flow [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
-		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb]
+		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
 	: 	^(FLOW s+=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]+ std_attr)
-	->	flow(sequence={$s}, join={$join}, signal={$signal}, std_attr={$std_attr.st})
+	->	flow(sequence={$s}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
 if_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
-		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb]
+		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
 	: 	^(IF iex=expr[null] s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] 
 		(^(ELSIF eiex+=expr[null] sie+=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))* 
 		(^(ELSE se=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))? std_attr)
-	->	if_ex(iex={$iex.st}, seq={$s.st}, eiex={$eiex}, seqei={$sie}, seqe={$se.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st})
+	->	if_ex(iex={$iex.st}, seq={$s.st}, eiex={$eiex}, seqei={$sie}, seqe={$se.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
 signal
@@ -274,8 +331,9 @@ join
 
 sequence [HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb]
+@init{List comments = getComments(retval);}
 	:	^(SEQUENCE j+=join? b=body[_vars, _pl, _messages, _cs, _faults, _faults_pb] s+=signal* std_attr)
-	->	sequence(content={$b.st}, join={$j}, signal={$s}, std_attr={$std_attr.st})
+	->	sequence(content={$b.st}, join={$j}, signal={$s}, std_attr={$std_attr.st}, comments={comments})
 	;
 
 
@@ -287,28 +345,28 @@ scope_sequence[HashMap<String, String> _vars, HashMap<String, String> _pl, HashM
 	;
 
 while_ex [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
-		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb]
+		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
 	:	^(WHILE expr[null] s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr)
-	->	while(expr_st={$expr.st},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st})
+	->	while(expr_st={$expr.st},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
 until_ex [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
-		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb]
+		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
 	:	^(UNTIL expr[null] s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr)
-	-> 	until(expr_st={$expr.st},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st})
+	-> 	until(expr_st={$expr.st},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
-foreach [List join, List signal]
+foreach [List join, List signal, List comments]
 	:	^(FOR cName=ID init=expr[null] cond=expr[null] complete+=expr[null]? 
 			scope_short PARALLEL? SBO? std_attr)
 	->	foreach(id={$cName}, init_st={$init.st}, cond_st={$cond.st}, complete={$complete}, body_st={$scope_short.st}, 
-			join={$join}, signal={$signal}, std_attr={$std_attr.st}, parallel={$PARALLEL}, sbo={$SBO})
+			join={$join}, signal={$signal}, std_attr={$std_attr.st}, parallel={$PARALLEL}, sbo={$SBO}, comments={$comments})
 	;
 
 try_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, 
-	HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope]
+	HashMap<String, String> _messages, HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, Boolean isInScope, List comments]
 	:	^(TRY cls+=catch_ex[_vars, _pl, _messages, _cs, _faults, _faults_pb, isInScope]* c+=body [_vars, _pl, _messages, _cs, _faults, _faults_pb]? )
-	->	list(content_st={$c})
+	->	list(content_st={$c}) //, comments={$comments} TODO
 	;		
 
 catch_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, 
@@ -341,7 +399,7 @@ catch_ex[HashMap<String, String> _vars, HashMap<String, String> _pl,
 		 * when done this like fMT, the behavior was to write "faultMessageType='faultElementName'"
 		 */
 		if ($pb.param_ids!=null) attributes+="\n       faultVariable=\""+$pb.param_ids.get(0)+"\"";
-		if ($fMT.text!=null) attributes+="\n       faultMessageType="+$fMT.text;
+		if ($fMT.text!=null) attributes+="\n       faultMessageType="+$fMT.text.replaceFirst(":", "");
 		if ($faultElt.st!=null) attributes+=$faultElt.st;
 		// 3)
 		Boolean definedIn = _faults.containsKey(faultName);
@@ -357,7 +415,7 @@ catch_ex[HashMap<String, String> _vars, HashMap<String, String> _pl,
 	//->	catch_ex(ns={faultName}, content_st={$pb.st})
 	;
 
-scope_ex [List join, List signal]
+scope_ex [List join, List signal, List comments]
 	@init{	// reset local HashMaps on begin		
 		HashMap<String, String> _vars = new HashMap<String, String>(); 
         		HashMap<String, String> _pl = new HashMap<String, String>();
@@ -367,7 +425,7 @@ scope_ex [List join, List signal]
 		HashMap<String, StringTemplate> _faults_pb = new HashMap<String, StringTemplate>();
 		}
 	:	^(SCOPE id+=ID? handler=scope_stmt  s=scope_sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb, $handler.st] ISOLATED? EOSF? SJF?)
-	-> 	scope_ex(id_opt={$id}, body_st={$s.st}, join={$join}, signal={$signal}, isolated={$ISOLATED}, eosf={$EOSF}, std_attr={$SJF.text})
+	-> 	scope_ex(id_opt={$id}, body_st={$s.st}, join={$join}, signal={$signal}, isolated={$ISOLATED}, eosf={$EOSF}, std_attr={$SJF.text}, comments={$comments})
 	;
 	
 scope_short 
@@ -431,28 +489,28 @@ with_map[HashMap<String, StringTemplate> fromParts, HashMap<String, StringTempla
 	;
 
 // Simple activities
-receive	 [List join, List signal, boolean empty]
+receive	 [List join, List signal, boolean empty, List comments]
         	:		^(RECEIVE partner=ID op=ID c+=correlation? pt=portType? ci=CREATE_INST? msgEx? std_attr w+=with_ex? )
         	{// adjust empty tag to handle correlations, since it signals only presence of standard elements else
         		if ($c!=null) empty=false;
         	}
 	-> 	receive(partner={$partner.text},op={$op.text}, join={$join}, signal={$signal}, empty={$empty},
 			portType={$portType.st},std_attr={$std_attr.st}, crt_inst={$ci.text}, msgEx={$msgEx.st},
-			correlation_opt={$c}, with_ex={$w}) 
+			correlation_opt={$c}, with_ex={$w}, comments={$comments}) 
 	;
 
 
-reply [List join, List signal,boolean empty] 
+reply [List join, List signal,boolean empty, List comments] 
 	:	^(REPLY partner=ID op+=ID inv=ID? c+=correlation? portType? std_attr fn=faultName? msgEx? w+=with_ex?)
 	{// adjust empty tag to handle correlations, since it signals only presence of standard elements else
         		if ($c!=null) empty=false;
         	}
 	-> 	reply(partner={$partner.text}, op={$op}, inv={$inv.text}, join={$join}, signal={$signal}, empty={$empty},
 			portType={$portType.st},std_attr={$std_attr.st}, faultName={$fn.st}, msgEx={$msgEx.st},
-			correlation_opt={$c}, with_ex={$w}) 
+			correlation_opt={$c}, with_ex={$w}, comments={$comments}) 
 	;
 
-invoke	 [List join, List signal, boolean empty, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb]
+invoke	 [List join, List signal, boolean empty, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments]
 @init {
 HashMap<String, String> __faults = new HashMap<String, String>();
 HashMap<String, StringTemplate> __faults_pb = new HashMap<String, StringTemplate>();
@@ -474,10 +532,10 @@ if (_faults!=null) {
         	}
 	->	invoke(partner={$partner.text}, op={$op.text}, inv={$inv}, join={$join}, signal={$signal}, empty={$empty},
 			portType={$portType.st}, std_attr={$std_attr.st}, correlation_opt={$c}, with_ex={$w}, 
-			faults={__faults}, faults_pb={__faults_pb}, compensation={$compensation.st})
+			faults={__faults}, faults_pb={__faults_pb}, compensation={$compensation.st}, comments={$comments})
 	;
 
-assign	 [List join, List signal, boolean empty, HashMap<String, String>_vars, HashMap<String, String>_pl, String name, StringTemplate pb]
+assign	 [List join, List signal, boolean empty, HashMap<String, String>_vars, HashMap<String, String>_pl, String name, StringTemplate pb, List comments]
 	:	^(ASSIGN pe=path_expr PROP? portType? CREATE_INST?  std_attr faultName? msgEx? VALID? KEEPSRC? IGNORE? 
 		rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, join, signal, empty, 
 			$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] ) 
@@ -485,14 +543,14 @@ assign	 [List join, List signal, boolean empty, HashMap<String, String>_vars, Ha
 			boolean isRealAssign = true;
 			if ($rvalue.text.contains("invoke") || $rvalue.text.contains("receive")) isRealAssign=false;
 		}
-	-> 	assign(rvalue_st={$rvalue.st}, join={$join}, signal={$signal}, empty={$empty}, valid={$VALID.text}, std_attr={$std_attr.st}, real={isRealAssign})
+	-> 	assign(rvalue_st={$rvalue.st}, join={$join}, signal={$signal}, empty={$empty}, valid={$VALID.text}, std_attr={$std_attr.st}, real={isRealAssign}, comments={$comments})
 	;
 
 rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl, 
 	StringTemplate path_expr, String str_path_expr, String lhs_prop, List join, List signal, boolean empty, 
 	StringTemplate portType, String crtInst, StringTemplate std_attr, StringTemplate faultName, StringTemplate msgEx,
 	String valid, String keepsrc, String ignore, String name, StringTemplate pb]
-	: 	r=receive[null, null, true]
+	: 	r=receive[null, null, true, null]
 		{
 		if ($valid!=null || $keepsrc!=null || $ignore!=null) {
 			System.err.println("Error-Info: these attributes are not allowed in this context.");
@@ -505,7 +563,7 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 		}
 	-> 	receive(rec_name={name}, pb={pb}, rec_tpl={$r.st},path_st={$path_expr}, join={join}, signal={signal}, empty={empty}, 
 			portType={$portType}, crt_inst={crtInst}, std_attr={$std_attr}, faultName={$faultName}, msgEx={$msgEx})
-	| 	i=invoke[null, null, true, null, null]
+	| 	i=invoke[null, null, true, null, null, null]
 		{
 		if ($valid!=null || $keepsrc!=null || $ignore!=null) {
 			System.err.println("Error-Info: these attributes are not allowed in this context.");
@@ -524,7 +582,7 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 		if ($portType!=null || $faultName!=null || $msgEx!=null) {
 			System.err.println("Error-Info: these attributes are not allowed in this context.");
 		}
-
+		
 		String from_spec = $expr.text; //fetch right hand side
 		String[] from_part;
 		
@@ -532,7 +590,7 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 		
 		// if 'from_spec' contains a path (to a part, property or endPoint) strip the parts out
 		if (from_spec.contains(".")) {
-			//split from_spec with regex '.' (excaped with '\\')
+			//split from_spec with regex '.' (escaped with '\\')
 			from_part = from_spec.split("\\.");
 		} else {//else use 'from_spec' itself
 			from_part=new String[]{from_spec};
@@ -591,7 +649,15 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 		 * Handling of (RHS)-Variables 
 		 * if the rhs is contained in variables HashMap (and is not a partnerlink)
 		 */
-		 
+		
+		// check if vars in rhs are all known
+		Boolean rhsKnown=false;
+		if (_vars!=null) {
+		for (Object obj : $expr.vars) {
+                      	rhsKnown = _vars.containsKey(obj);
+                                 if (!rhsKnown) System.err.println("undefined Variable "+obj);
+                      }}		
+		
 		String var = null; //the variable
 		String part = null; //the part description
 		String property = null; //the property description
@@ -603,12 +669,11 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 		 * a RHS-variable should be known at an assignment and might have optional part or property description
 		 */
 		if (!isPL) { 
-		    if (_vars!=null && _vars.containsKey(from_part[0])) {//rhs known as var?
-			var = from_part[0];
-			isVar=true;
+		    if (_vars!=null && rhsKnown) {//_vars.containsKey(from_part[0])) {//rhs known as var?
 			
 			//if there is a path expression, set it
-			if(from_part.length>1 && from_part[1]!=null) {
+			if($expr.vars.size()==1 && from_part.length>1 && from_part[1]!=null) {
+			    var = from_part[0];
 			    if ($PROP!=null) {
 			    	if ($PROP.text.equals("property")) {
 				    property="";
@@ -622,17 +687,23 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 			    } else {
 			        part=from_part[1].replaceFirst(":", "");
 			    }
+			} else if (rhsKnown) {
+			    from = from_part[0]; 
+			    isExt=true;
+			    isPLorVar=false;
 			}
+			
 		    } else {// rhs is not known as var and is not partnerlink (only (extended) expression is now possible)
 		        	/**
-			 * handling extended expression
+			 * handling extended expression or literals
 			 */
-			from = from_part[0]; 
+			from = from_part[0]; //may set a literal here
 			isPLorVar=false; 
 			if (from_part[0].contains("[")) {//an extended expression is contained in '[...]'
 			    from = from.substring(1, from.length()-1); //remove brackets
 			    isExt=true;
-			}
+			} else from = from.substring(1, from.length()-1); //remove colons from literal
+
 		    }
 		} 
 		
@@ -684,17 +755,17 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 //	->	walk(xmlelt_st={$elt.text})
 	;
 	
-throw_ex [List join, List signal,boolean  empty]
+throw_ex [List join, List signal,boolean  empty, List comments]
 	:	^(THROW ns_id faultVar=ID? std_attr)
 	->	throw(  ns_pre={$ns_id.nspre}, ns_loc={$ns_id.nsloc}, 
 			join={$join}, signal={$signal}, empty={$empty},
-			faultVar={$faultVar.text}, std_attr={$std_attr.st})
+			faultVar={$faultVar.text}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
 
-rethrow_ex [List join, List signal,boolean  empty]
+rethrow_ex [List join, List signal,boolean  empty, List comments]
 	:	^(RETHROW std_attr)
-	->	rethrow(join={$join}, signal={$signal}, empty={$empty},std_attr={$std_attr.st})
+	->	rethrow(join={$join}, signal={$signal}, empty={$empty},std_attr={$std_attr.st}, comments={$comments})
 	;
 
 //delayed execution
@@ -703,24 +774,24 @@ rethrow_ex [List join, List signal,boolean  empty]
 //	->	wait(expr_st={$expr.st}, join={$join}, signal={$signal}, empty={$empty})
 //	;
 
-compensate [List join, List signal, boolean empty]
+compensate [List join, List signal, boolean empty, List comments]
 	:	^(COMPENSATE target+=ID? std_attr)
-	->	compensate(id_opt={$target}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st})
+	->	compensate(id_opt={$target}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
-exit [List join, List signal, boolean empty]
+exit [List join, List signal, boolean empty, List comments]
 	:	^(EXIT std_attr)
-	->	exit(join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st})
+	->	exit(join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, comments={$comments})
 	;
 		
-validate[List join, List signal, boolean empty, HashMap<String, String> _vars]
+validate[List join, List signal, boolean empty, HashMap<String, String> _vars, List comments]
 	:	^(VALIDATE vars+=ID+ std_attr)
 	{
 	}
-	->	validate(join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, var={$vars})
+	->	validate(join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, var={$vars}, comments={$comments})
 	;
 	
-ext_act	 [List join, List signal]
+ext_act	 [List join, List signal, List comments]
 	:	^(EXTENSIONACT ea=EXT_ACT std_attr)	
 	{
 		/*
@@ -731,12 +802,12 @@ ext_act	 [List join, List signal]
            	int post = ea.token.getText().indexOf("}}}");	
            	String m = ea.token.getText().substring(pre, post);
 	}
-	->	ext_act(join={$join}, signal={$signal}, ext_act={m.trim()}, std_attr={$std_attr.st})
+	->	ext_act(join={$join}, signal={$signal}, ext_act={m.trim()}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
-nop [List join, List signal, boolean empty]
+nop [List join, List signal, boolean empty, List comments]
 	:	^(NOP std_attr)
-	->	nop(join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st})
+	->	nop(join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
 // Others
@@ -807,11 +878,11 @@ imports
 	}
 	;//no rewrite because imports are included in the header
 
-messages[HashMap<String, String> _messages, Boolean isInScope] //Exchange
-	:	^(MESSAGES message[_messages, isInScope]+)
+messages[HashMap<String, String> _messages, Boolean isInScope, List comments] //Exchange  //TODO , comments={$comments}
+	:	^(MESSAGES message[_messages, isInScope, comments]+)
 	;
 	
-message[HashMap<String, String> _messages, Boolean isInScope] 
+message[HashMap<String, String> _messages, Boolean isInScope, List comments] 
 	:	^(MESSAGE ID)
 	{	
 		Boolean definedIn = _messages.containsKey($ID.text);
@@ -825,10 +896,10 @@ message[HashMap<String, String> _messages, Boolean isInScope]
 	;//no rewrite because messages are included in the header	
 
 
-variables[HashMap<String, String> _vars, Boolean isInScope]
-	:	 ^(VARIABLES variable[_vars, isInScope]+);
+variables[HashMap<String, String> _vars, Boolean isInScope, List comments]
+	:	 ^(VARIABLES variable[_vars, isInScope, comments]+);
 		
-variable[HashMap<String, String> _vars, Boolean isInScope]
+variable[HashMap<String, String> _vars, Boolean isInScope, List comments] //TODO , comments={$comments}
 	:	^(VARIABLE id=ID msgT=msgType? viT=viType? viE=viElt? with=with_ex?)
 	{	boolean empty = $with.st == null;
 		/**
@@ -865,10 +936,10 @@ variable[HashMap<String, String> _vars, Boolean isInScope]
 //	-> variable(id={$ID.text}, msgT={$msgT.st}, viT={$viT.st}, viE={$viE.st}, with={with.st}, empty={empty})
 	;// no rewrite necessary because variables are stored in global hash map 'variables'
 
-partnerlinks[HashMap<String, String> _pl, Boolean isInScope]	
-	:	^(PARTNERLINKS partnerlink[_pl, isInScope]+);
+partnerlinks[HashMap<String, String> _pl, Boolean isInScope, List comments]	//TODO , comments={$comments}
+	:	^(PARTNERLINKS partnerlink[_pl, isInScope, comments]+);
 
-partnerlink[HashMap<String, String> _pl, Boolean isInScope]
+partnerlink[HashMap<String, String> _pl, Boolean isInScope, List comments]
 	:	^(PID ID plType=ns_id? roleA=ns_id? roleB=ns_id? init=INITPARTNER?)
 	{
 	/**
@@ -933,10 +1004,10 @@ partnerlink[HashMap<String, String> _pl, Boolean isInScope]
 	}
 	;// no rewrite necessary because partnerlinks are stored in global hash map 'pl'
 
-corr_sets[HashMap<String, String>_cs, Boolean isInScope] 
-	:	^(CORRSETS cs+=corr_set[_cs, isInScope]+);
+corr_sets[HashMap<String, String>_cs, Boolean isInScope, List comments] //TODO , comments={$comments}
+	:	^(CORRSETS cs+=corr_set[_cs, isInScope, comments]+);
 
-corr_set[HashMap<String, String>_cs, Boolean isInScope]
+corr_set[HashMap<String, String>_cs, Boolean isInScope, List comments]
 	:	^(CORRSET f=ID params+=ID+)
 	{
 	/**
@@ -995,8 +1066,8 @@ corr_mapping
 /*
  * returns the respective expression as string
  */
-expr [StringTemplate path_expr] returns [String retval] 
-	: 	se=s_expr {$retval=$se.retval;}
+expr [StringTemplate path_expr] returns [String retval, List vars=new ArrayList()] 
+	: 	se=s_expr[$vars] {$retval=$se.retval;$vars=$se.retvar;}
 	-> 	s_expr(value={$se.retval}, path={$path_expr})
 	| 	ee=EXT_EXPR
 	{	
@@ -1039,25 +1110,21 @@ funct_call returns [String retval]
 /*
  * returns the statement expression string
  */
-s_expr returns [String retval]// TODO add && || !
-	: ^('==' s1=s_expr s2=s_expr) {$retval=$s1.text+"=="+ $s2.text;}
-	| ^('!=' s1=s_expr s2=s_expr) {$retval=$s1.text+"!="+ $s2.text;}
-	| ^('<' s1=s_expr s2=s_expr) {$retval=$s1.text+"&lt;"+ $s2.text;}
-	| ^('>' s1=s_expr s2=s_expr) {$retval=$s1.text+"&gt;"+ $s2.text;}
-	| ^('<=' s1=s_expr s2=s_expr) {$retval=$s1.text+"<="+ $s2.text;}
-	| ^('=>' s1=s_expr s2=s_expr) {$retval=$s1.text+"=>"+ $s2.text;}
-	| ^('+' s1=s_expr s2=s_expr) {$retval=$s1.text+"+"+ $s2.text;}
-	| ^('-' s1=s_expr s2=s_expr) {$retval=$s1.text+"-"+ $s2.text;}
-	| ^('*' s1=s_expr s2=s_expr) {$retval=$s1.text+"*"+ $s2.text;}
-	| ^('/' s1=s_expr s2=s_expr) {$retval=$s1.text+"/"+ $s2.text;}
-	| STRING
-	{
-		$retval = $STRING.text;
-		// remove quotation marks
-		$retval = $retval.substring(1, retval.retval.length()-1);
-	}
+s_expr [List vars] returns [String retval, List retvar]// TODO add && || !
+@init{$retvar=$vars;}
+	: ^('==' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"=="+ $s2.text;}
+	| ^('!=' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"!="+ $s2.text;}
+	| ^('<' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"&lt;"+ $s2.text;}
+	| ^('>' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"&gt;"+ $s2.text;}
+	| ^('<=' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"<="+ $s2.text;}
+	| ^('=>' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"=>"+ $s2.text;}
+	| ^('+' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"+"+ $s2.text;}
+	| ^('-' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"-"+ $s2.text;}
+	| ^('*' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"*"+ $s2.text;}
+	| ^('/' s1=s_expr[$retvar] s2=s_expr[$retvar]) {$retval=$s1.text+"/"+ $s2.text;}
+	| STRING {$retval = $STRING.text;} //literal
 	| INT {$retval=$INT.text;}
-	| pe=path_expr {$retval=$pe.retval;} -> path_expr(path={pe.st})
+	| pe=path_expr {$retval=$pe.retval;$retvar.add($pe.retval);} -> path_expr(path={pe.st})
 	;
 
 /*
@@ -1086,8 +1153,8 @@ ns_id returns [String nspre, String nsloc, CommonTree locID]
 	;
 	
 portType
-	:	^(PORTTYPE STRING)
-	->	portType(port={$STRING})
+	:	^(PORTTYPE s=STRING)
+	->	portType(port={$s.text.replaceFirst(":", "")})
 	;
 	
 std_attr
@@ -1096,31 +1163,31 @@ std_attr
 	;
 	
 msgEx
-	:	^(MSGEX STRING)
-	->	msgEx(msgEx={$STRING})
+	:	^(MSGEX s=STRING)
+	->	msgEx(msgEx={$s.text.replaceFirst(":", "")})
 	;
 
 msgType
-	:	^(MSGTYPE STRING)
-	->	msgType(msgT={$STRING})
+	:	^(MSGTYPE s=STRING)
+	->	msgType(msgT={$s.text.replaceFirst(":", "")})
 	;
 	
 viType //var or import type
-	:	^(VITYPE STRING)
-	->	viType(type={$STRING})
+	:	^(VITYPE s=STRING)
+	->	viType(type={$s.text.replaceFirst(":", "")})
 	;
 	
 viElt	
-	:	^(VIELT STRING)
-	->	viElt(elt={$STRING})
+	:	^(VIELT s=STRING)
+	->	viElt(elt={$s.text.replaceFirst(":", "")})
 	;
 
 faultName
-	:	^(FAULTNAME STRING)
-	->	faultName(faultName={$STRING})
+	:	^(FAULTNAME s=STRING)
+	->	faultName(faultName={$s.text.replaceFirst(":", "")})
 	;
 
 faultElt
-	:	^(FAULTELT STRING)
-	->	faultElt(name={$STRING})
+	:	^(FAULTELT s=STRING)
+	->	faultElt(name={$s.text.replaceFirst(":", "")})
 	;

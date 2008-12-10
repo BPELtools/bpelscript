@@ -232,13 +232,13 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			_loop18093:
+			_loop5929:
 			do {
 				if ((LA(1)==8)) {
 					__xml_import();
 				}
 				else {
-					break _loop18093;
+					break _loop5929;
 				}
 				
 			} while (true);
@@ -510,17 +510,17 @@ public BpelParser(ParserSharedInputState state) {
 			match(6);
 			{
 			{
-			int _cnt18103=0;
-			_loop18103:
+			int _cnt5939=0;
+			_loop5939:
 			do {
 				if ((LA(1)==7)) {
 					__xml_extension();
 				}
 				else {
-					if ( _cnt18103>=1 ) { break _loop18103; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt5939>=1 ) { break _loop5939; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18103++;
+				_cnt5939++;
 			} while (true);
 			}
 			}
@@ -604,17 +604,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String mex = "";
 			{
-			int _cnt18111=0;
-			_loop18111:
+			int _cnt5947=0;
+			_loop5947:
 			do {
 				if ((LA(1)==10)) {
 					mex=__xml_messageExchange(mex);
 				}
 				else {
-					if ( _cnt18111>=1 ) { break _loop18111; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt5947>=1 ) { break _loop5947; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18111++;
+				_cnt5947++;
 			} while (true);
 			}
 			text+="messages "+mex+";\n";
@@ -639,17 +639,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String pl="";
 			{
-			int _cnt18117=0;
-			_loop18117:
+			int _cnt5953=0;
+			_loop5953:
 			do {
 				if ((LA(1)==12)) {
 					pl=__xml_partnerLink(pl);
 				}
 				else {
-					if ( _cnt18117>=1 ) { break _loop18117; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt5953>=1 ) { break _loop5953; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18117++;
+				_cnt5953++;
 			} while (true);
 			}
 			text+="partnerLink "+pl+";\n";
@@ -674,17 +674,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String ret="";
 			{
-			int _cnt18123=0;
-			_loop18123:
+			int _cnt5959=0;
+			_loop5959:
 			do {
 				if ((LA(1)==14)) {
 					ret=__xml_variable(ret);
 				}
 				else {
-					if ( _cnt18123>=1 ) { break _loop18123; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt5959>=1 ) { break _loop5959; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18123++;
+				_cnt5959++;
 			} while (true);
 			}
 			text+="var "+ret+";\n";
@@ -709,17 +709,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String cors="";
 			{
-			int _cnt18130=0;
-			_loop18130:
+			int _cnt5966=0;
+			_loop5966:
 			do {
 				if ((LA(1)==16)) {
 					cors=__xml_correlationSet(cors);
 				}
 				else {
-					if ( _cnt18130>=1 ) { break _loop18130; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt5966>=1 ) { break _loop5966; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18130++;
+				_cnt5966++;
 			} while (true);
 			}
 			
@@ -750,13 +750,13 @@ public BpelParser(ParserSharedInputState state) {
 				String catcha="";
 			
 			{
-			_loop18136:
+			_loop5972:
 			do {
 				if ((LA(1)==52)) {
 					catchs=__xml_catch(catchs);
 				}
 				else {
-					break _loop18136;
+					break _loop5972;
 				}
 				
 			} while (true);
@@ -803,25 +803,25 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String oE=""; String oA="";
 			{
-			_loop18141:
+			_loop5977:
 			do {
 				if ((LA(1)==19)) {
 					oE=__xml_onEvent(oE);
 				}
 				else {
-					break _loop18141;
+					break _loop5977;
 				}
 				
 			} while (true);
 			}
 			{
-			_loop18143:
+			_loop5979:
 			do {
 				if ((LA(1)==20)) {
 					oA=__xml_onAlarm(oA, false);
 				}
 				else {
-					break _loop18143;
+					break _loop5979;
 				}
 				
 			} while (true);
@@ -1133,7 +1133,7 @@ public BpelParser(ParserSharedInputState state) {
 		try {      // for error handling
 			match(OTHER_TAG);
 			{
-			_loop18326:
+			_loop6184:
 			do {
 				switch ( LA(1)) {
 				case OTHER_TAG:
@@ -1148,7 +1148,7 @@ public BpelParser(ParserSharedInputState state) {
 				}
 				default:
 				{
-					break _loop18326;
+					break _loop6184;
 				}
 				}
 			} while (true);
@@ -1239,13 +1239,13 @@ public BpelParser(ParserSharedInputState state) {
 			case 60:
 			{
 				{
-				_loop18281:
+				_loop6137:
 				do {
 					if ((LA(1)==60)) {
 						fr=__xml_from(fr);
 					}
 					else {
-						break _loop18281;
+						break _loop6137;
 					}
 					
 				} while (true);
@@ -1554,17 +1554,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String cor="";
 			{
-			int _cnt18260=0;
-			_loop18260:
+			int _cnt6116=0;
+			_loop6116:
 			do {
 				if ((LA(1)==51)) {
 					cor=__xml_correlation(cor);
 				}
 				else {
-					if ( _cnt18260>=1 ) { break _loop18260; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6116>=1 ) { break _loop6116; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18260++;
+				_cnt6116++;
 			} while (true);
 			}
 				
@@ -1597,8 +1597,55 @@ public BpelParser(ParserSharedInputState state) {
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
 			String se=""; String fh=""; String var=""; String pl=""; String mex=""; 
-			String ac=""; String cor="";String ch="";String eh="";String th="";
+			String ac=""; String cor="";String ch="";String eh="";String th=""; String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 9:
+			case 11:
+			case 13:
+			case 15:
+			case 17:
+			case 18:
+			case 21:
+			case 22:
+			case 23:
+			case 24:
+			case 25:
+			case 26:
+			case 27:
+			case 28:
+			case 29:
+			case 30:
+			case 31:
+			case 32:
+			case 33:
+			case 34:
+			case 36:
+			case 37:
+			case 38:
+			case 39:
+			case 40:
+			case 41:
+			case 42:
+			case 44:
+			case 47:
+			case 54:
+			case 75:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
 			switch ( LA(1)) {
@@ -1926,6 +1973,9 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			ac=activity(ac);
 			
+			//handle comment
+			text+=doc;
+			
 			//handle attributes as annotations
 				text+=Helper.cvBoolAttr("isolated", isolated);
 				text+=Helper.cvBoolAttr("exitOnStandardFault", exitOnStdFault);
@@ -2068,8 +2118,29 @@ public BpelParser(ParserSharedInputState state) {
 			String mex = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"messageExchange");
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean dpe = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
-			String se=null; String ret=""; String cors="";;String content="";String fr="";
+			String se=null; String ret=""; String cors="";;String content="";String fr="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			case 50:
+			case 58:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
 			switch ( LA(1)) {
@@ -2106,6 +2177,9 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			}
+				
+				//handle comment
+				text+=doc;
 				
 				//handle attributes as annotations
 				text+=Helper.cvAttr("portType", pt);
@@ -2157,8 +2231,29 @@ public BpelParser(ParserSharedInputState state) {
 			String mex = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"messageExchange");
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
-			String content=""; String se=""; String cor=null; String to="";
+			String content=""; String se=""; String cor=null; String to="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			case 50:
+			case 55:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
 			switch ( LA(1)) {
@@ -2195,6 +2290,9 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			}
+			
+			//handle doc
+			text+=doc;
 			
 			//handle attributes as annotations
 				text+=Helper.cvAttr("portType", pt);
@@ -2246,8 +2344,33 @@ public BpelParser(ParserSharedInputState state) {
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
 			String se=""; String content=""; String cor=""; String ca="";String cc="";
-			String fr=""; String ch=""; String to="";
+			String fr=""; String ch=""; String to=""; String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			case 50:
+			case 52:
+			case 53:
+			case 54:
+			case 55:
+			case 58:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
 			switch ( LA(1)) {
@@ -2272,13 +2395,13 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			_loop18165:
+			_loop6004:
 			do {
 				if ((LA(1)==52)) {
 					cc=__xml_catch(ca);
 				}
 				else {
-					break _loop18165;
+					break _loop6004;
 				}
 				
 			} while (true);
@@ -2363,6 +2486,9 @@ public BpelParser(ParserSharedInputState state) {
 			text+="try {\n";
 			}
 			
+			//handle comment
+			text+=doc;
+			
 			//handle attributes as annotations
 				text+=Helper.cvAttr("portType", pt);
 				text+=Helper.cvStdAttr(name, supprJF);
@@ -2419,12 +2545,32 @@ public BpelParser(ParserSharedInputState state) {
 			BpelBoolean val = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"validate"));
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
-			String se="";String copy=""; String eAOp ="";
+			String se="";String copy=""; String eAOp ="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 44:
+			case 47:
+			case 61:
+			case 64:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
-			int _cnt18173=0;
-			_loop18173:
+			int _cnt6013=0;
+			_loop6013:
 			do {
 				switch ( LA(1)) {
 				case 64:
@@ -2443,12 +2589,15 @@ public BpelParser(ParserSharedInputState state) {
 				}
 				default:
 				{
-					if ( _cnt18173>=1 ) { break _loop18173; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6013>=1 ) { break _loop6013; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				}
-				_cnt18173++;
+				_cnt6013++;
 			} while (true);
 			}
+			
+			//handle comments
+			text+=doc;
 			
 			//handle attributes
 			text+=Helper.cvBoolAttr("validate", val);
@@ -2488,8 +2637,31 @@ public BpelParser(ParserSharedInputState state) {
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
 			String se=""; //standard elements
+			String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
+			
+			//handle comment
+			text+=doc;
 			
 			//handle attributes
 			text+=Helper.cvAttr("faultVariable", faultVar);
@@ -2525,9 +2697,31 @@ public BpelParser(ParserSharedInputState state) {
 			
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
-			String se="";
+			String se=""; String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
+			
+			//handle comment
+			text+=doc;
 			
 			//handle attributes
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -2560,8 +2754,28 @@ public BpelParser(ParserSharedInputState state) {
 			
 				String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 				//
-			String se=""; String cond="";
+			String se=""; String cond="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 44:
+			case 47:
+			case 62:
+			case 63:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
 			switch ( LA(1)) {
@@ -2581,6 +2795,9 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			}
+			
+			//handle comment
+			text+=doc;
 			
 				//handle attributes
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -2615,9 +2832,31 @@ public BpelParser(ParserSharedInputState state) {
 			
 				String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 				//
-			String se="";
+			String se="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
+			
+			//handle comment
+			text+=doc;
 			
 				//handle attributes
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -2650,23 +2889,65 @@ public BpelParser(ParserSharedInputState state) {
 			
 				String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 				//
-			String se=""; String ac="";
+			String se=""; String ac="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 21:
+			case 22:
+			case 23:
+			case 24:
+			case 25:
+			case 26:
+			case 27:
+			case 28:
+			case 29:
+			case 30:
+			case 31:
+			case 32:
+			case 33:
+			case 34:
+			case 36:
+			case 37:
+			case 38:
+			case 39:
+			case 40:
+			case 41:
+			case 42:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
-			int _cnt18186=0;
-			_loop18186:
+			int _cnt6031=0;
+			_loop6031:
 			do {
 				if ((_tokenSet_8.member(LA(1)))) {
 					ac=activity(ac);
 				}
 				else {
-					if ( _cnt18186>=1 ) { break _loop18186; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6031>=1 ) { break _loop6031; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18186++;
+				_cnt6031++;
 			} while (true);
 			}
+			
+			//handle comment
+			text+=doc;
 			
 				//handle attributes
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -2699,19 +2980,38 @@ public BpelParser(ParserSharedInputState state) {
 			
 				String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 				//
-			String se=""; String ac=""; String expr=""; String elsi=""; String els="";
+			String se=""; String ac=""; String expr=""; String elsi=""; String els=""; String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 44:
+			case 47:
+			case 65:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			expr=__xml_condition();
 			ac=activity(ac);
 			{
-			_loop18190:
+			_loop6036:
 			do {
 				if ((LA(1)==66)) {
 					elsi=__xml_elseif(elsi);
 				}
 				else {
-					break _loop18190;
+					break _loop6036;
 				}
 				
 			} while (true);
@@ -2733,6 +3033,9 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			}
+			
+			//handle comment
+			text+=doc;
 			
 				//handle attributes
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -2777,11 +3080,33 @@ public BpelParser(ParserSharedInputState state) {
 			
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 				//
-			String se=""; String ac=""; String cond="";
+			String se=""; String ac=""; String cond="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 44:
+			case 47:
+			case 65:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			cond=__xml_condition();
 			ac=activity(ac);
+			
+			//handle comment
+			text+=doc;
 			
 				//handle attributes
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -2813,11 +3138,53 @@ public BpelParser(ParserSharedInputState state) {
 			
 				String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 				//
-			String se=""; String ac=""; String cond="";
+			String se=""; String ac=""; String cond="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 21:
+			case 22:
+			case 23:
+			case 24:
+			case 25:
+			case 26:
+			case 27:
+			case 28:
+			case 29:
+			case 30:
+			case 31:
+			case 32:
+			case 33:
+			case 34:
+			case 36:
+			case 37:
+			case 38:
+			case 39:
+			case 40:
+			case 41:
+			case 42:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			ac=activity(ac);
 			cond=__xml_condition();
+			
+			//handle comment
+			text+=doc;
 			
 				//handle attributes
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -2851,8 +3218,27 @@ public BpelParser(ParserSharedInputState state) {
 			BpelBoolean parallel = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"parallel"));
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
-			String se=""; String sc=""; String sCount=""; String fCount=""; String[] cC=null; String content="";
+			String se=""; String sc=""; String sCount=""; String fCount=""; String[] cC=null; String content="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 44:
+			case 47:
+			case 68:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			sCount=__xml_startCounterValue();
 			fCount=__xml_finalCounterValue();
@@ -2874,6 +3260,9 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			sc=__xml_scope(true);
+			
+			//handle comment
+			text+=doc;
 			
 			//handle attributes
 			text+=Helper.cvBoolAttr("parallel", parallel);
@@ -2920,35 +3309,57 @@ public BpelParser(ParserSharedInputState state) {
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean dpe = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
 			String se=""; String onM=""; String oA="";
-			String ci="";
+			String ci="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 35:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
-			int _cnt18202=0;
-			_loop18202:
+			int _cnt6052=0;
+			_loop6052:
 			do {
 				if ((LA(1)==35)) {
 					onM=__xml_onMessage(onM);
 				}
 				else {
-					if ( _cnt18202>=1 ) { break _loop18202; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6052>=1 ) { break _loop6052; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18202++;
+				_cnt6052++;
 			} while (true);
 			}
 			{
-			_loop18204:
+			_loop6054:
 			do {
 				if ((LA(1)==20)) {
 					oA=__xml_onAlarm(oA, true);
 				}
 				else {
-					break _loop18204;
+					break _loop6054;
 				}
 				
 			} while (true);
 			}
+			
+			//handle comment
+			text+=doc;
 			
 			//handle attributes
 			text+=Helper.cvBoolAttr("createInstance", crtInst);
@@ -2980,9 +3391,49 @@ public BpelParser(ParserSharedInputState state) {
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
 			String content="";
-			String se="";
+			String se="";String doc="";
 			String act="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case 21:
+			case 22:
+			case 23:
+			case 24:
+			case 25:
+			case 26:
+			case 27:
+			case 28:
+			case 29:
+			case 30:
+			case 31:
+			case 32:
+			case 33:
+			case 34:
+			case 36:
+			case 37:
+			case 38:
+			case 39:
+			case 40:
+			case 41:
+			case 42:
+			case 44:
+			case 47:
+			case 73:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
 			switch ( LA(1)) {
@@ -3022,20 +3473,23 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			int _cnt18213=0;
-			_loop18213:
+			int _cnt6064=0;
+			_loop6064:
 			do {
 				if ((_tokenSet_8.member(LA(1)))) {
 					if (!act.isEmpty()) act+="} and {\n";
 					act=activity(act);
 				}
 				else {
-					if ( _cnt18213>=1 ) { break _loop18213; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6064>=1 ) { break _loop6064; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18213++;
+				_cnt6064++;
 			} while (true);
 			}
+			
+			//handle comment
+			text+=doc;
 			
 			//handle attributes as annotations
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -3070,9 +3524,31 @@ public BpelParser(ParserSharedInputState state) {
 			
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
-			String se="";
+			String se="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
+			
+			//handle comment
+			text+=doc;
 			
 				//handle attributes as annotations
 				text+=Helper.cvStdAttr(name, supprJF);
@@ -3141,9 +3617,31 @@ public BpelParser(ParserSharedInputState state) {
 			
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
-			String se="";
+			String se="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
+			
+			//handle doc
+			text+=doc;
 			
 				//handle attributes as annotations
 				text+=Helper.cvStdAttr(name, supprJF);
@@ -3175,9 +3673,31 @@ public BpelParser(ParserSharedInputState state) {
 			String vars = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"variables");
 			String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
-			String se="";
+			String se="";String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
+			
+			//handle doc
+			text+=doc;
 			
 			//handle attributes as annotations
 			text+=Helper.cvStdAttr(name, supprJF);
@@ -3212,8 +3732,27 @@ public BpelParser(ParserSharedInputState state) {
 				String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
 			//
 			String se="";
-			String tg=""; String sc="";
+			String tg=""; String sc=""; String doc="";
 			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case PCDATA:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			se=std_elts();
 			{
 			switch ( LA(1)) {
@@ -3253,6 +3792,9 @@ public BpelParser(ParserSharedInputState state) {
 			ExtAct = LT(1);
 			match(PCDATA);
 			
+			//handle comment
+			text+=doc;
+			
 				//handle attributes as annotations
 				text+=Helper.cvStdAttr(name, supprJF);
 				
@@ -3268,6 +3810,31 @@ public BpelParser(ParserSharedInputState state) {
 		catch (RecognitionException ex) {
 			reportError(ex);
 			recover(ex,_tokenSet_9);
+		}
+		return text;
+	}
+	
+	public final String  __xml_documentation() throws RecognitionException, TokenStreamException {
+		String text="";
+		
+		Token  __xml_startTag = null;
+		Token  docValue = null;
+		
+		try {      // for error handling
+			__xml_startTag = LT(1);
+			match(78);
+			{
+			docValue = LT(1);
+			match(PCDATA);
+			
+				text+=Helper.parseComment(docValue.getText());
+			
+			}
+			match(XML_END_TAG);
+		}
+		catch (RecognitionException ex) {
+			reportError(ex);
+			recover(ex,_tokenSet_24);
 		}
 		return text;
 	}
@@ -3328,13 +3895,13 @@ public BpelParser(ParserSharedInputState state) {
 			case 57:
 			{
 				{
-				_loop18272:
+				_loop6128:
 				do {
 					if ((LA(1)==57)) {
 						to=__xml_to(to);
 					}
 					else {
-						break _loop18272;
+						break _loop6128;
 					}
 					
 				} while (true);
@@ -3789,17 +4356,17 @@ public BpelParser(ParserSharedInputState state) {
 			match(73);
 			{
 			{
-			int _cnt18315=0;
-			_loop18315:
+			int _cnt6171=0;
+			_loop6171:
 			do {
 				if ((LA(1)==74)) {
 					__xml_link();
 				}
 				else {
-					if ( _cnt18315>=1 ) { break _loop18315; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6171>=1 ) { break _loop6171; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18315++;
+				_cnt6171++;
 			} while (true);
 			}
 			}
@@ -3867,17 +4434,17 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			int _cnt18243=0;
-			_loop18243:
+			int _cnt6099=0;
+			_loop6099:
 			do {
 				if ((LA(1)==46)) {
 					tg=__xml_target(tg);
 				}
 				else {
-					if ( _cnt18243>=1 ) { break _loop18243; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6099>=1 ) { break _loop6099; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18243++;
+				_cnt6099++;
 			} while (true);
 			}
 			
@@ -3904,17 +4471,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String sc="";
 			{
-			int _cnt18251=0;
-			_loop18251:
+			int _cnt6107=0;
+			_loop6107:
 			do {
 				if ((LA(1)==48)) {
 					sc=__xml_source(sc);
 				}
 				else {
-					if ( _cnt18251>=1 ) { break _loop18251; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt6107>=1 ) { break _loop6107; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt18251++;
+				_cnt6107++;
 			} while (true);
 			}
 			text+=sc;
@@ -4354,7 +4921,7 @@ public BpelParser(ParserSharedInputState state) {
 			literalValue = LT(1);
 			match(PCDATA);
 			
-				text+=literalValue.getText().trim();
+				text+="\""+literalValue.getText().trim()+"\"";
 			
 			}
 			match(XML_END_TAG);
@@ -4499,6 +5066,7 @@ public BpelParser(ParserSharedInputState state) {
 		"\"<terminationHandler>\"",
 		"\"<query>\"",
 		"\"<literal>\"",
+		"\"<documentation>\"",
 		"OTHER_TAG"
 	};
 	
@@ -4568,7 +5136,7 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_12 = new BitSet(mk_tokenSet_12());
 	private static final long[] mk_tokenSet_13() {
-		long[] data = { 8796093022240L, 16384L, 0L, 0L};
+		long[] data = { 8796093022240L, 32768L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_13 = new BitSet(mk_tokenSet_13());

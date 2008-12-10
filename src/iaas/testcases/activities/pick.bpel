@@ -19,7 +19,7 @@
         <scope>
 
           <sequence>
-            <reply partnerLink="customer" portType="lns::loanServicePT" operation="request" variable="approval">
+            <reply partnerLink="customer" portType="lns:loanServicePT" operation="request" variable="approval">
               <targets>
                 <target linkName="setMessage-to-reply"/>
                 <target linkName="approval-to-reply"/>
