@@ -22,6 +22,7 @@ import java.lang.reflect.*;
 import org.antlr.runtime.*;
 import org.antlr.runtime.tree.*;
 
+import iaas.bpel.antlr.TestBpel;
 import iaas.bpelscript.antlr.BPELscriptLexer;
 import iaas.bpelscript.antlr.BPELscriptParser;
 import iaas.bpelscript.antlr.BPELscriptWalker;
@@ -30,8 +31,9 @@ import org.antlr.stringtemplate.StringTemplateGroup;
 public class TestBPELscriptWalker extends TestCase {
 	String stdout;
 	String stderr;
-	String prefix = "src/iaas/testcases/";
-	String templatePath = "src/iaas/bpelscript/antlr/BPELscript.stg";
+	String prefix = TestBpel.class.getResource("/").getPath();
+	String templatePath = BPELscriptLexer.class.getResource("BPELscript.stg").getPath(); 
+		//"src/iaas/bpelscript/antlr/BPELscript.stg";
 
 	public void testProgram_walks_Program1() throws Exception {
 		// test input: "doc_extension"
