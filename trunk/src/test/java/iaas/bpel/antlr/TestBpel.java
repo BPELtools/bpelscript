@@ -27,7 +27,7 @@ import com.javadude.antxr.scanner.BasicCrimsonXMLTokenStream;
 public class TestBpel extends TestCase {
 	String stdout;
 	String stderr;
-	String prefix = "src/iaas/testcases/";
+	String prefix = TestBpel.class.getResource("/").getPath();
 
 	public void testDocument1() throws Exception {
 		// test input: "doc_extension"
