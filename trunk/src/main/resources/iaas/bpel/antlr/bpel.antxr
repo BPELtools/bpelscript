@@ -1,6 +1,6 @@
 header {
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -1305,9 +1305,16 @@ std_elts returns [String text=""]
   } 
   : (q=<query>)? 
   { 
-  	if (part!=null && !part.isEmpty()) optPart="."+part;
-  	if (prop!=null && !prop.isEmpty()) optPart="."+prop+" @property";
-  	text+=var+optPart;
+  	//if var is not null, handle part or property, else handle partnerLink 
+  	if (var!=null) {
+  		if (part!=null && !part.isEmpty()) optPart="."+part;
+  		if (prop!=null && !prop.isEmpty()) optPart="."+prop+" @property";
+  		text+=var+optPart;
+  	}
+  	else {
+  		if (pl!=null && !pl.isEmpty()) text=pl;
+  	}
+  	
   }
   | expr:PCDATA 
   { 
@@ -1351,11 +1358,17 @@ std_elts returns [String text=""]
     //
     String lit=""; String q="";String optPart="";
   }
-  : (q=<query>)? {
-  	if (part!=null && !part.isEmpty()) optPart="."+part;
-  	if (prop!=null && !prop.isEmpty()) optPart="."+Helper.strip(prop)+" @property";
-  	
-  	text+=q+var+optPart;
+  : (q=<query>)? 
+  {
+  	//if var is not null, handle part or property, else handle partnerLink 	
+  	if (var!=null) {
+  		if (part!=null && !part.isEmpty()) optPart="."+part;
+  		if (prop!=null && !prop.isEmpty()) optPart="."+Helper.strip(prop)+" @property";
+  	  	text+=q+var+optPart;
+  	} else {
+  		// handle partnerlink variant 
+    	if (pl!=null && epRef!=null) text+=pl+"."+epRef;
+  	}
   	
   	}
     | expr:PCDATA {text+="["+expr.getText().trim()+"]";}
