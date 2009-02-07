@@ -76,7 +76,7 @@ request and answer is via auction Id -->
 			<copy>
 				<from>
 					<literal>
-						<sref:service-ref>
+						<![CDATA[<sref:service-ref>
 							<addr:EndpointReference>
 								<addr:Address>
 http://example.com/auction/
@@ -87,6 +87,7 @@ as:RegistrationService
 								</addr:ServiceName>
 							</addr:EndpointReference>
 						</sref:service-ref>
+						]]>
 					</literal>
 				</from>
 				<to partnerLink="auctionRegistrationService" />
