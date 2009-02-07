@@ -1,122 +1,170 @@
-<process name="loanApprovalProcess"
- targetNamespace="http://example.com/loan-approval/"
- suppressJoinFailure="yes"
- xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
- xmlns:lns="http://example.com/loan-approval/wsdl/">
-
-  <import importType="http://schemas.xmlsoap.org/wsdl/"
-   location="loanServicePT.wsdl"
-   namespace="http://example.com/loan-approval/wsdl/"/>
-
-  <partnerLinks>
-    <partnerLink name="assessor"
-     partnerLinkType="lns:riskAssessmentLT"
-     partnerRole="assessor"/>
-    <partnerLink name="approver"
-     partnerLinkType="lns:loanApprovalLT"
-     partnerRole="approver"/>
-    <partnerLink name="customer"
-     partnerLinkType="lns:loanPartnerLT"
-     myRole="loanService"/>
-  </partnerLinks>
-
-  <variables>
-    <variable name="risk"/>
-    <variable name="request"/>
-    <variable name="approval"/>
-  </variables>
-  <faultHandlers>
-    <catch faultName="lns:loanProcessFault"
-           faultVariable="error"
-           faultMessageType="lns:errorMessage">
-      <reply partnerLink="customer" portType="lns:loanServicePT" operation="request" variable="error" faultName="unableToHandleRequest"/>
-
-    </catch>
-  </faultHandlers>
-
-  <sequence>
-
-    <flow>
-      <sequence>
-        <receive partnerLink="customer" portType="lns:leanServicePT" operation="request" variable="request" createInstance="yes">
-          <sources>
-            <source linkName="receive-to-assess">
-              <transitionCondition>
-                $request.amount &lt; 10000
-              </transitionCondition>
-            </source>
-            <source linkName="receive-to-approval">
-              <transitionCondition>
-                $request.amount >= 10000
-              </transitionCondition>
-            </source>
-          </sources>
-
-        </receive>
-
-      </sequence>
-      <sequence>
-        <invoke partnerLink="assessor" portType="lns:riskAssessmentPT" operation="check" outputVariable="risk" inputVariable="request">
-          <targets>
-            <target linkName="receive-to-assess"/>
-          </targets>
-          <sources>
-            <source linkName="assess-to-setMessage">
-              <transitionCondition>
-                $risk.level = 'low'
-              </transitionCondition>
-            </source>
-            <source linkName="assess-to-approval">
-              <transitionCondition>
-                $risk.level != 'low'
-              </transitionCondition>
-            </source>
-          </sources>
-
-        </invoke>
-
-      </sequence>
-      <sequence>
-        <assign>
-          <targets>
-            <target linkName="assess-to-setMessage"/>
-          </targets>
-          <sources>
-            <source linkName="setMessage-to-reply"/>
-          </sources>
-          <copy>
-            <from>
-              <literal>
-                "yes"
-              </literal>
-            </from>
-            <to variable="approval" part="accept"/>
-          </copy>
-        </assign>
-      </sequence>
-      <sequence>
-        <invoke partnerLink="approver" portType="lns:loanApprovalPT" operation="approve" outputVariable="approval" inputVariable="request">
-          <targets>
-            <target linkName="receive-to-approval"/>
-            <target linkName="assess-to-approval"/>
-          </targets>
-          <sources>
-            <source linkName="approval-to-reply"/>
-          </sources>
-
-        </invoke>
-
-      </sequence>
-      <sequence>
-        <reply partnerLink="customer" portType="lns:loanServicePT" operation="request" variable="approval">
-          <targets>
-            <target linkName="approval-to-reply"/>
-            <target linkName="setMessage-to-reply"/>
-          </targets>
-
-        </reply>
-
-      </sequence>
-    </flow>
-  </sequence>
+<process name="auctionService"
+targetNamespace="http://example.com/auction"
+xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+xmlns:sref=" http://docs.oasis-open.org/wsbpel/2.0/serviceref"
+xmlns:addr="http://example.com/addressing"
+xmlns:as="http://example.com/auction/wsdl/auctionService/">
+	<import importType="http://schemas.xmlsoap.org/wsdl/"
+location="auctionServiceInterface.wsdl"
+namespace="http://example.com/auction/wsdl/auctionService/" />
+	<partnerLinks>
+		<partnerLink name="seller"
+partnerLinkType="as:sellerAuctionHouseLT"
+myRole="auctionHouse"
+partnerRole="seller" />
+		<partnerLink name="buyer"
+partnerLinkType="as:buyerAuctionHouseLT"
+myRole="auctionHouse"
+partnerRole="buyer" />
+		<partnerLink name="auctionRegistrationService"
+partnerLinkType="as:auctionHouseAuctionRegistrationServiceLT"
+myRole="auctionHouse"
+partnerRole="auctionRegistrationService" />
+	</partnerLinks>
+	<variables>
+		<variable name="sellerData"
+messageType="as:sellerData" />
+		<variable name="sellerAnswerData"
+messageType="as:sellerAnswerData" />
+		<variable name="buyerData"
+messageType="as:buyerData" />
+		<variable name="buyerAnswerData"
+messageType="as:buyerAnswerData" />
+		<variable name="auctionData"
+messageType="as:auctionData" />
+		<variable name="auctionAnswerData"
+messageType="as:auctionAnswerData" />
+	</variables>
+	<correlationSets>
+		<correlationSet name="auctionIdentification"
+properties="as:auctionId" />
+	</correlationSets>
+	<sequence>
+		<!-- Process buyer and seller request concurrently
+Either one can create a process instance -->
+		<flow>
+			<!-- Process seller request -->
+			<receive name="acceptSellerInformation"
+partnerLink="seller"
+portType="as:sellerPT"
+operation="submit"
+variable="sellerData"
+createInstance="yes">
+				<correlations>
+					<correlation set="auctionIdentification"
+initiate="join" />
+				</correlations>
+			</receive>
+			<!-- Process buyer request -->
+			<receive name="acceptBuyerInformation"
+partnerLink="buyer"
+portType="as:buyerPT"
+operation="submit"
+variable="buyerData"
+createInstance="yes">
+				<correlations>
+					<correlation set="auctionIdentification"
+initiate="join" />
+				</correlations>
+			</receive>
+		</flow>
+		<!-- Invoke auction registration service by setting the target
+endpoint reference and setting my own endpoint reference
+for call back and receiving the answer Correlation of
+request and answer is via auction Id -->
+		<assign>
+			<copy>
+				<from>
+					<literal>
+						<sref:service-ref>
+							<addr:EndpointReference>
+								<addr:Address>
+http://example.com/auction/
+RegistrationService/
+								</addr:Address>
+								<addr:ServiceName>
+as:RegistrationService
+								</addr:ServiceName>
+							</addr:EndpointReference>
+						</sref:service-ref>
+					</literal>
+				</from>
+				<to partnerLink="auctionRegistrationService" />
+			</copy>
+			<copy>
+				<from partnerLink="auctionRegistrationService"
+endpointReference="myRole" />
+				<to>$auctionData.auctionHouseEndpointReference</to>
+			</copy>
+			<copy>
+				<from>$sellerData.auctionId</from>
+				<to>$auctionData.auctionId</to>
+			</copy>
+			<copy>
+				<from>1</from>
+				<to>$auctionData.amount</to>
+			</copy>
+		</assign>
+		<invoke name="registerAuctionResults"
+partnerLink="auctionRegistrationService"
+portType="as:auctionRegistrationPT"
+operation="process"
+inputVariable="auctionData" />
+		<receive name="receiveAuctionRegistrationInformation"
+partnerLink="auctionRegistrationService"
+portType="as:auctionRegistrationAnswerPT"
+operation="answer"
+variable="auctionAnswerData">
+			<correlations>
+				<correlation set="auctionIdentification" />
+			</correlations>
+		</receive>
+		<!-- Send responses back to seller and buyer -->
+		<flow>
+			<!-- Process seller response by setting the seller to
+the endpoint reference provided by the seller
+and invoking the response -->
+			<sequence>
+				<assign>
+					<copy>
+						<from>$sellerData.endpointReference</from>
+						<to partnerLink="seller" />
+					</copy>
+					<copy>
+						<from>
+							<literal>Thank you!</literal>
+						</from>
+						<to>$sellerAnswerData.thankYouText</to>
+					</copy>
+				</assign>
+				<invoke name="respondToSeller"
+partnerLink="seller"
+portType="as:sellerAnswerPT"
+operation="answer"
+inputVariable="sellerAnswerData" />
+			</sequence>
+			<!-- Process buyer response by setting the buyer to
+the endpoint reference provided by the buyer
+and invoking the response -->
+			<sequence>
+				<assign>
+					<copy>
+						<from>$buyerData.endpointReference</from>
+						<to partnerLink="buyer" />
+					</copy>
+					<copy>
+						<from>
+							<literal>Thank you!</literal>
+						</from>
+						<to>$buyerAnswerData.thankYouText</to>
+					</copy>
+				</assign>
+				<invoke name="respondToBuyer"
+partnerLink="buyer"
+portType="as:buyerAnswerPT"
+operation="answer"
+inputVariable="buyerAnswerData" />
+			</sequence>
+		</flow>
+	</sequence>
 </process>

@@ -25,7 +25,7 @@ public class BpelTest {
   public static void main(String[] args) throws Exception {
 //    // Create our scanner (using a simple SAX parser setup)
     BasicCrimsonXMLTokenStream stream =
-        new BasicCrimsonXMLTokenStream(new FileReader("src/loan.bpel"),
+        new BasicCrimsonXMLTokenStream(new FileReader("src/main/resources/loan.bpel"),
                                        BpelParser.class, false, false);
 
     // Create our ANTLR parser
