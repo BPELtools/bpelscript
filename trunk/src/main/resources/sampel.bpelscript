@@ -4,4 +4,8 @@ process pns::loanApprovalProcess {
 
 nop;
 
+while(##opaque) {nop;}
+
+
+
 }

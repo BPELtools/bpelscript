@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  * based on simpelwalker.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -30,7 +30,7 @@ tokens {
 
 @header {
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  * based on simpelwalker.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -281,18 +281,18 @@ onAlarm
 	;
         
 alarm [List join, List signal, Boolean empty, Boolean isWait, List comments] 
-	:	^(ALARM expr[null] std_attr?)
-	->	wait(art={"for"}, expr={$expr.st}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait}, comments={$comments})
+	:	^(ALARM e+=expr[null]? op+=OPAQUE_EXPR? std_attr?)
+	->	wait(art={"for"}, expr={$e}, opaque={$op} , join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait}, comments={$comments})
 	;
 	
 timeout [List join, List signal, Boolean empty, Boolean isWait, List comments] 
-	:	^(TIMEOUT expr[null] std_attr?)
-	->	wait(art={"until"}, expr={$expr.st}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait}, comments={$comments})
+	:	^(TIMEOUT e+=expr[null]? op+=OPAQUE_EXPR? std_attr?)
+	->	wait(art={"until"}, expr={$e}, opaque={$op}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait}, comments={$comments})
 	;
 
 repeatEvery 
-	:	^(REPEATEVERY expr[null])
-	->	wait(art={"repeatEvery"}, expr={$expr.st}, skip={"true"})
+	:	^(REPEATEVERY e+=expr[null]? op+=OPAQUE_EXPR?)
+	->	wait(art={"repeatEvery"}, expr={$e}, opaque={$op}, skip={"true"})
 	;
 
 onMessage [HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
@@ -311,23 +311,23 @@ flow [List join, List signal, HashMap<String, String> _vars, HashMap<String, Str
 
 if_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
-	: 	^(IF iex=expr[null] s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] 
-		(^(ELSIF eiex+=expr[null] sie+=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))* 
+	: 	^(IF iex+=expr[null]? iop+=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] 
+		(^(ELSIF eiex+=expr[null]? eiop+=OPAQUE_EXPR? sie+=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))* 
 		(^(ELSE se=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))? std_attr)
-	->	if_ex(iex={$iex.st}, seq={$s.st}, eiex={$eiex}, seqei={$sie}, seqe={$se.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
+	->	if_ex(iex={$iex}, iop={$iop}, seq={$s.st}, eiex={$eiex}, eiop={$eiop}, seqei={$sie}, seqe={$se.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
 signal
-	:	^(SIGNAL ID exp+=expr[null]?)
+	:	^(SIGNAL ID exp+=expr[null]? op+=OPAQUE_EXPR?)
 	{//signals whether transitionCondition id null or not to provide a shortcut in template if empty
-		Boolean empty=exp==null; 
+		Boolean empty=exp==null && op==null; 
 	}
-	-> 	source(source={$ID.text}, trans={$exp}, empty={empty})
+	-> 	source(source={$ID.text}, trans={$exp}, empty={empty}, opaque={$op})
 	;
 
 join
-	:	^(JOIN ids+=ID+ exp+=expr[null]?)
-	-> 	std_elt(target={$ids}, join={$exp})
+	:	^(JOIN ids+=ID+ exp+=expr[null]? op+=OPAQUE_EXPR?)
+	-> 	std_elt(target={$ids}, join={$exp}, opaque={$op})
 	;
 
 sequence [HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
@@ -347,21 +347,25 @@ scope_sequence[HashMap<String, String> _vars, HashMap<String, String> _pl, HashM
 
 while_ex [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
-	:	^(WHILE expr[null] s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr)
-	->	while(expr_st={$expr.st},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
+	:	^(WHILE e+=expr[null]? op+=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr)
+	->	while(expr_st={$e},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments}, opaque={$op})
 	;
 
 until_ex [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
-	:	^(UNTIL expr[null] s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr)
-	-> 	until(expr_st={$expr.st},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
+	:	^(UNTIL e+=expr[null]? op+=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr)
+	-> 	until(expr_st={$e},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments}, opaque={$op})
 	;
 
 foreach [List join, List signal, List comments]
-	:	^(FOR cName=ID init=expr[null] cond=expr[null] complete+=expr[null]? 
+	:	^(FOR cName=ID init+=expr[null] initop+=OPAQUE_EXPR? 
+			cond+=expr[null] //condop=OPAQUE_EXPR? 
+			complete+=expr[null]? //compop=OPAQUE_EXPR?
 			scope_short PARALLEL? SBO? std_attr)
-	->	foreach(id={$cName}, init_st={$init.st}, cond_st={$cond.st}, complete={$complete}, body_st={$scope_short.st}, 
-			join={$join}, signal={$signal}, std_attr={$std_attr.st}, parallel={$PARALLEL}, sbo={$SBO}, comments={$comments})
+	->	foreach(id={$cName}, init_st={$init}, initop={$initop},
+			cond_st={$cond}, //condop={$condop},
+			complete={$complete}, //comop={$comop},
+			body_st={$scope_short.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, parallel={$PARALLEL}, sbo={$SBO}, comments={$comments})
 	;
 
 try_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, 
@@ -1088,6 +1092,7 @@ expr [StringTemplate path_expr] returns [String retval, List vars=new ArrayList(
 	-> 	expr(expr={$retval})
 	| 	fc=funct_call {$retval=$fc.retval;}//-> expr(expr={$fc.text})//TODO
 	;
+
 
 /*
  * shall return function call list >>>>>>TODO: validate!

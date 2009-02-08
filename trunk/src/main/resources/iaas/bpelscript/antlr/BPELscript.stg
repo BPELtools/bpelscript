@@ -53,11 +53,11 @@ taggin(tagname, incontent, content, after_block, empty) ::=
  *  source: non empty list of source linkNames
  *  trans: optional bool-expr of the transition condition
  */
-std_elt(join, target, source, trans) ::=
+std_elt(join, target, source, trans, opaque) ::=
 <<
 <if (target)>
 <taggin(tagname="targets", 
-		content=target(join=join, target=target)
+		content=target(join=join, target=target, opaque=opaque)
 		)>
 <endif>
 >>
@@ -81,9 +81,10 @@ std_aux(join, signal, empty) ::= <<
  *  join: optional joinCondition
  *  target: non empty list of target linkNames
  */
-target(join, target) ::= 
+target(join, target, opaque) ::= 
 <<
-<if (join)><taggin(tagname="joinCondition",
+<if (join+opaque)><taggin(tagname="joinCondition",
+				   incontent=opaque,
 				   content=join)><endif>
 <if (target)><target:{t| \<target linkName="<t>"/\>};separator="\n"><endif>
 >>
@@ -96,11 +97,11 @@ target(join, target) ::=
  *  source: non empty list of source linkNames which contains optional transitionCondition
  *  trans: optional transitionCondition
  */
-source(source, trans, empty) ::= 
+source(source, trans, empty, opaque) ::= 
 <<
 <if (source)><taggin(tagname="source",
 					 incontent=" linkName=\""+source+"\"",
-					 content={<trans:{t|<taggin(tagname="transitionCondition", content=t)>};separator="\n">},
+					 content={<taggin(tagname="transitionCondition", incontent=opaque, content=trans)>},
 					 empty=empty
 					 )><endif>
 >>
@@ -737,11 +738,13 @@ onmessage(rb_st, pb_st) ::=
  * Variables
  *  ex: list of elsif expressions
  *  ei: list of elsif bodies
+ *  eiop: opaque expression
  */
-elsif(ex, ei) ::=
+elsif(ex, eiop, ei) ::=
 <<
 <ex,ei:{c,b| <taggin(tagname="elseif", 
 					 content={<taggin(tagname="condition",
+					 				  incontent=eiop,
 					 				  content=c)><\n><b>})>};separator="\n">
 >>
 
@@ -757,13 +760,15 @@ elsif(ex, ei) ::=
  *  elsifex: possible empty list of 'elsif' expressions
  *  elsif: possible empty list of 'elsif' bodies
  *  else_st: optional 'else' body
+ *  iop: opaque expression of "if"
+ *  eiop: opaque expression of "elsif"
  */
-if_ex(iex, seq, eiex, seqei, seqe, join, signal, std_attr, comments) ::=
+if_ex(iex, iop, seq, eiex, eiop, seqei, seqe, join, signal, std_attr, comments) ::=
 <<
 <taggin(tagname="if",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal)
-				+{<taggin(tagname="condition",content=iex)><\n>}+seq
-				+{<if (seqei)><\n><elsif(ex=eiex, ei=seqei)><endif>}+"\n"
+				+{<taggin(tagname="condition",incontent=iop,content=iex)><\n>}+seq
+				+{<if (seqei)><\n><elsif(ex=eiex, eiop=eiop, ei=seqei)><endif>}+"\n"
 				+{<if (seqe)><taggin(tagname="else", content=seqe)><endif>},
 		incontent=std_attr
 		)>
@@ -804,10 +809,10 @@ flow(sequence, join, signal, std_attr, comments) ::= <<
  *  expr_st: the while expression
  *  body_st: the while body
  */
-while(expr_st, body_st, join, signal, std_attr, comments) ::= <<
+while(expr_st, body_st, join, signal, std_attr, comments, opaque) ::= <<
 <taggin(tagname="while",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal)
-				+{<taggin(tagname="condition", content=expr_st)><\n><body_st>},
+				+{<taggin(tagname="condition", incontent=opaque, content=expr_st)><\n><body_st>},
 		incontent=std_attr
 		)>
 >>
@@ -821,10 +826,10 @@ while(expr_st, body_st, join, signal, std_attr, comments) ::= <<
  *  expr_st: the while expression
  *  body_st: the while body
  */
-until(expr_st, body_st, join, signal, std_attr, comments) ::= <<
+until(expr_st, body_st, join, signal, std_attr, comments, opaque) ::= <<
 <taggin(tagname="repeatUntil",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal)
-				+{<body_st><\n><taggin(tagname="condition", content=expr_st)>},
+				+{<body_st><\n><taggin(tagname="condition", incontent=opaque, content=expr_st)>},
 		incontent=std_attr
 		)>
 >>
@@ -841,10 +846,11 @@ until(expr_st, body_st, join, signal, std_attr, comments) ::= <<
  *  assign_st: the loop assignment
  *  body_st: the loop body
  */
-foreach(id, init_st, cond_st, complete, body_st, join, signal, std_attr, parallel, sbo, comments) ::= <<
+foreach(id, init_st, initop, cond_st, complete, body_st, join, signal, std_attr, parallel, sbo, comments) ::= <<
 <taggin(tagname="forEach",
 		content=std_aux(join=join, signal=signal)+doc(comments=comments)
 				+{<taggin(tagname="startCounterValue",
+						  incontent=initop,
 						  content=init_st)><\n><taggin(tagname="finalCounterValue", 
 						 							   content=cond_st)><\n><if(complete)><taggin(tagname="completionCondition", 
 						 							  							    content=taggin(tagname="branches", content=complete, incontent={<if(sbo)><sbo><endif>})
@@ -1000,14 +1006,14 @@ rethrow(join, signal, empty,std_attr, comments) ::= <<
  * art=for | until
  *
  */
-wait(art, expr, join, signal, empty, std_attr, isWait, comments) ::= 
+wait(art, expr, opaque, join, signal, empty, std_attr, isWait, comments) ::= 
 <<
 <if(isWait)>
 <taggin(tagname="wait",
-		content=doc(comments=comments)+std_aux(join=join, signal=signal)+{<taggin(tagname=art, content=expr)>},
+		content=doc(comments=comments)+std_aux(join=join, signal=signal)+{<taggin(tagname=art, incontent=opaque, content=expr)>},
 		incontent=std_attr
 		)>
-<else><taggin(tagname=art, content=expr)><endif>
+<else><taggin(tagname=art, incontent=opaque, content=expr)><endif>
 >>
 
 
