@@ -222,6 +222,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -232,13 +233,13 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			_loop531:
+			_loop1329:
 			do {
 				if ((LA(1)==8)) {
 					__xml_import();
 				}
 				else {
-					break _loop531;
+					break _loop1329;
 				}
 				
 			} while (true);
@@ -276,6 +277,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -319,6 +321,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -360,6 +363,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -399,6 +403,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -439,6 +444,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -476,6 +482,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -510,17 +517,17 @@ public BpelParser(ParserSharedInputState state) {
 			match(6);
 			{
 			{
-			int _cnt541=0;
-			_loop541:
+			int _cnt1339=0;
+			_loop1339:
 			do {
 				if ((LA(1)==7)) {
 					__xml_extension();
 				}
 				else {
-					if ( _cnt541>=1 ) { break _loop541; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1339>=1 ) { break _loop1339; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt541++;
+				_cnt1339++;
 			} while (true);
 			}
 			}
@@ -604,17 +611,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String mex = "";
 			{
-			int _cnt549=0;
-			_loop549:
+			int _cnt1347=0;
+			_loop1347:
 			do {
 				if ((LA(1)==10)) {
 					mex=__xml_messageExchange(mex);
 				}
 				else {
-					if ( _cnt549>=1 ) { break _loop549; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1347>=1 ) { break _loop1347; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt549++;
+				_cnt1347++;
 			} while (true);
 			}
 			text+="messages "+mex+";\n";
@@ -639,17 +646,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String pl="";
 			{
-			int _cnt555=0;
-			_loop555:
+			int _cnt1353=0;
+			_loop1353:
 			do {
 				if ((LA(1)==12)) {
 					pl=__xml_partnerLink(pl);
 				}
 				else {
-					if ( _cnt555>=1 ) { break _loop555; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1353>=1 ) { break _loop1353; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt555++;
+				_cnt1353++;
 			} while (true);
 			}
 			text+="partnerLink "+pl+";\n";
@@ -674,17 +681,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String ret="";
 			{
-			int _cnt561=0;
-			_loop561:
+			int _cnt1359=0;
+			_loop1359:
 			do {
 				if ((LA(1)==14)) {
 					ret=__xml_variable(ret);
 				}
 				else {
-					if ( _cnt561>=1 ) { break _loop561; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1359>=1 ) { break _loop1359; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt561++;
+				_cnt1359++;
 			} while (true);
 			}
 			text+="var "+ret+";\n";
@@ -709,17 +716,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String cors="";
 			{
-			int _cnt568=0;
-			_loop568:
+			int _cnt1366=0;
+			_loop1366:
 			do {
 				if ((LA(1)==16)) {
 					cors=__xml_correlationSet(cors);
 				}
 				else {
-					if ( _cnt568>=1 ) { break _loop568; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1366>=1 ) { break _loop1366; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt568++;
+				_cnt1366++;
 			} while (true);
 			}
 			
@@ -750,13 +757,13 @@ public BpelParser(ParserSharedInputState state) {
 				String catcha="";
 			
 			{
-			_loop574:
+			_loop1372:
 			do {
 				if ((LA(1)==52)) {
 					catchs=__xml_catch(catchs);
 				}
 				else {
-					break _loop574;
+					break _loop1372;
 				}
 				
 			} while (true);
@@ -803,25 +810,25 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String oE=""; String oA="";
 			{
-			_loop579:
+			_loop1377:
 			do {
 				if ((LA(1)==19)) {
 					oE=__xml_onEvent(oE);
 				}
 				else {
-					break _loop579;
+					break _loop1377;
 				}
 				
 			} while (true);
 			}
 			{
-			_loop581:
+			_loop1379:
 			do {
 				if ((LA(1)==20)) {
 					oA=__xml_onAlarm(oA, false);
 				}
 				else {
-					break _loop581;
+					break _loop1379;
 				}
 				
 			} while (true);
@@ -971,6 +978,12 @@ public BpelParser(ParserSharedInputState state) {
 			case 42:
 			{
 				ret=__xml_extensionActivity();
+				text+=rets+ret;
+				break;
+			}
+			case 79:
+			{
+				ret=__xml_opaqueActivity();
 				text+=rets+ret;
 				break;
 			}
@@ -1133,7 +1146,7 @@ public BpelParser(ParserSharedInputState state) {
 		try {      // for error handling
 			match(OTHER_TAG);
 			{
-			_loop786:
+			_loop1590:
 			do {
 				switch ( LA(1)) {
 				case OTHER_TAG:
@@ -1148,7 +1161,7 @@ public BpelParser(ParserSharedInputState state) {
 				}
 				default:
 				{
-					break _loop786;
+					break _loop1590;
 				}
 				}
 			} while (true);
@@ -1239,13 +1252,13 @@ public BpelParser(ParserSharedInputState state) {
 			case 60:
 			{
 				{
-				_loop739:
+				_loop1537:
 				do {
 					if ((LA(1)==60)) {
 						fr=__xml_from(fr);
 					}
 					else {
-						break _loop739;
+						break _loop1537;
 					}
 					
 				} while (true);
@@ -1554,17 +1567,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				String cor="";
 			{
-			int _cnt718=0;
-			_loop718:
+			int _cnt1516=0;
+			_loop1516:
 			do {
 				if ((LA(1)==51)) {
 					cor=__xml_correlation(cor);
 				}
 				else {
-					if ( _cnt718>=1 ) { break _loop718; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1516>=1 ) { break _loop1516; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt718++;
+				_cnt1516++;
 			} while (true);
 			}
 				
@@ -1637,6 +1650,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 47:
 			case 54:
 			case 75:
+			case 79:
 			{
 				break;
 			}
@@ -1682,6 +1696,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 42:
 			case 54:
 			case 75:
+			case 79:
 			{
 				break;
 			}
@@ -1725,6 +1740,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 42:
 			case 54:
 			case 75:
+			case 79:
 			{
 				break;
 			}
@@ -1767,6 +1783,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 42:
 			case 54:
 			case 75:
+			case 79:
 			{
 				break;
 			}
@@ -1808,6 +1825,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 42:
 			case 54:
 			case 75:
+			case 79:
 			{
 				break;
 			}
@@ -1848,6 +1866,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 42:
 			case 54:
 			case 75:
+			case 79:
 			{
 				break;
 			}
@@ -1887,6 +1906,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 41:
 			case 42:
 			case 75:
+			case 79:
 			{
 				break;
 			}
@@ -1925,6 +1945,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -1962,6 +1983,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -2028,11 +2050,14 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");//not supported by BPELscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			durationExpr = LT(1);
 			match(PCDATA);
 			
-			text+=durationExpr.getText().trim();
+			//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, durationExpr.getText().trim());
 			
 			}
 			match(XML_END_TAG);
@@ -2056,11 +2081,14 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");//not supported by BPELscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			deadlineExpr = LT(1);
 			match(PCDATA);
 			
-			text+=deadlineExpr.getText().trim();
+			//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, deadlineExpr.getText().trim());
 			
 			}
 			match(XML_END_TAG);
@@ -2084,11 +2112,14 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage"); //not supported by BPElscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			durationExpr = LT(1);
 			match(PCDATA);
 			
-			text+=durationExpr.getText().trim();
+			//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, durationExpr.getText().trim());
 			
 			}
 			match(XML_END_TAG);
@@ -2395,13 +2426,13 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			_loop606:
+			_loop1404:
 			do {
 				if ((LA(1)==52)) {
 					cc=__xml_catch(ca);
 				}
 				else {
-					break _loop606;
+					break _loop1404;
 				}
 				
 			} while (true);
@@ -2569,8 +2600,8 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			se=std_elts();
 			{
-			int _cnt615=0;
-			_loop615:
+			int _cnt1413=0;
+			_loop1413:
 			do {
 				switch ( LA(1)) {
 				case 64:
@@ -2589,10 +2620,10 @@ public BpelParser(ParserSharedInputState state) {
 				}
 				default:
 				{
-					if ( _cnt615>=1 ) { break _loop615; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1413>=1 ) { break _loop1413; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				}
-				_cnt615++;
+				_cnt1413++;
 			} while (true);
 			}
 			
@@ -2921,6 +2952,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 42:
 			case 44:
 			case 47:
+			case 79:
 			{
 				break;
 			}
@@ -2932,17 +2964,17 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			se=std_elts();
 			{
-			int _cnt633=0;
-			_loop633:
+			int _cnt1431=0;
+			_loop1431:
 			do {
 				if ((_tokenSet_8.member(LA(1)))) {
 					ac=activity(ac);
 				}
 				else {
-					if ( _cnt633>=1 ) { break _loop633; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1431>=1 ) { break _loop1431; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt633++;
+				_cnt1431++;
 			} while (true);
 			}
 			
@@ -3005,13 +3037,13 @@ public BpelParser(ParserSharedInputState state) {
 			expr=__xml_condition();
 			ac=activity(ac);
 			{
-			_loop638:
+			_loop1436:
 			do {
 				if ((LA(1)==66)) {
 					elsi=__xml_elseif(elsi);
 				}
 				else {
-					break _loop638;
+					break _loop1436;
 				}
 				
 			} while (true);
@@ -3170,6 +3202,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 42:
 			case 44:
 			case 47:
+			case 79:
 			{
 				break;
 			}
@@ -3332,27 +3365,27 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			se=std_elts();
 			{
-			int _cnt654=0;
-			_loop654:
+			int _cnt1452=0;
+			_loop1452:
 			do {
 				if ((LA(1)==35)) {
 					onM=__xml_onMessage(onM);
 				}
 				else {
-					if ( _cnt654>=1 ) { break _loop654; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1452>=1 ) { break _loop1452; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt654++;
+				_cnt1452++;
 			} while (true);
 			}
 			{
-			_loop656:
+			_loop1454:
 			do {
 				if ((LA(1)==20)) {
 					oA=__xml_onAlarm(oA, true);
 				}
 				else {
-					break _loop656;
+					break _loop1454;
 				}
 				
 			} while (true);
@@ -3425,6 +3458,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 44:
 			case 47:
 			case 73:
+			case 79:
 			{
 				break;
 			}
@@ -3463,6 +3497,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -3473,18 +3508,18 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			int _cnt666=0;
-			_loop666:
+			int _cnt1464=0;
+			_loop1464:
 			do {
 				if ((_tokenSet_8.member(LA(1)))) {
 					if (!act.isEmpty()) act+="} and {\n";
 					act=activity(act);
 				}
 				else {
-					if ( _cnt666>=1 ) { break _loop666; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1464>=1 ) { break _loop1464; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt666++;
+				_cnt1464++;
 			} while (true);
 			}
 			
@@ -3814,6 +3849,79 @@ public BpelParser(ParserSharedInputState state) {
 		return text;
 	}
 	
+/**
+ * Opaque Language Extensions
+ *
+ * "The common base allows the following uses of opacity in Abstract Processes:
+ *	- Opaque activities are allowed.
+ *	- All WS-BPEL expressions are allowed to be opaque.
+ *	- All WS-BPEL attributes are allowed to be opaque in the common base.
+ *	- The from-spec (e.g. in <assign>) is allowed to be opaque.
+ * The function of the four types of opaque tokens allowed in Abstract Processes (activities, expressions, attributes and from-specs)
+ *
+ * An opaque activity is an explicit placeholder for exactly one Executable WS-BPEL activity, and any activities that could be nested within that activity. 
+ * The Executable WS-BPEL activity uses all non-opaque elements/attributes defined by the opaque activity it replaces. 
+ * It also replaces any opaque attributes or expressions that are part of that opaque activity." [BPELspec13.1.3]
+ *
+ * @see BPELspec 13.1.3
+ * @category opaqueActivity
+ */
+	public final String  __xml_opaqueActivity() throws RecognitionException, TokenStreamException {
+		String text="";
+		
+		Token  __xml_startTag = null;
+		
+		try {      // for error handling
+			__xml_startTag = LT(1);
+			match(79);
+			{
+			
+				String name = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"name"); BpelBoolean supprJF = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"suppressJoinFailure")); //standard attributes
+				//
+				String doc=""; String se="";
+			
+			{
+			switch ( LA(1)) {
+			case 78:
+			{
+				doc=__xml_documentation();
+				break;
+			}
+			case XML_END_TAG:
+			case 44:
+			case 47:
+			{
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
+			se=std_elts();
+			
+			//handle comment
+			text+=doc;
+			
+				//handle attributes as annotations
+				text+=Helper.cvStdAttr(name, supprJF);
+				
+				text+="opaque();\n";
+				 	
+				//handle standard elements
+				text=Helper.cvStdElt(se, text);
+			
+			}
+			match(XML_END_TAG);
+		}
+		catch (RecognitionException ex) {
+			reportError(ex);
+			recover(ex,_tokenSet_9);
+		}
+		return text;
+	}
+	
 	public final String  __xml_documentation() throws RecognitionException, TokenStreamException {
 		String text="";
 		
@@ -3895,13 +4003,13 @@ public BpelParser(ParserSharedInputState state) {
 			case 57:
 			{
 				{
-				_loop730:
+				_loop1528:
 				do {
 					if ((LA(1)==57)) {
 						to=__xml_to(to);
 					}
 					else {
-						break _loop730;
+						break _loop1528;
 					}
 					
 				} while (true);
@@ -3974,7 +4082,24 @@ public BpelParser(ParserSharedInputState state) {
 			//
 			String from="";String to="";
 			
-			from=__xml_from("");
+			{
+			switch ( LA(1)) {
+			case 60:
+			{
+				from=__xml_from("");
+				break;
+			}
+			case 80:
+			{
+				from=__xml_opaqueFrom();
+				break;
+			}
+			default:
+			{
+				throw new NoViableAltException(LT(1), getFilename());
+			}
+			}
+			}
 			to=__xml_to("");
 			
 			//handle previous copies
@@ -4039,11 +4164,14 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");//not supported by BPELscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			boolExpr = LT(1);
 			match(PCDATA);
 				
-				text+=Helper.strip(boolExpr.getText().trim());
+				//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, Helper.strip(boolExpr.getText().trim()));
 			
 			}
 			match(XML_END_TAG);
@@ -4136,11 +4264,14 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");//not supported by BPELscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			intExpr = LT(1);
 			match(PCDATA);
 			
-			text+=intExpr.getText().trim();
+			//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, intExpr.getText().trim());
 			
 			}
 			match(XML_END_TAG);
@@ -4164,11 +4295,14 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");//not supported by BPELscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			intExpr = LT(1);
 			match(PCDATA);
 			
-			text+=intExpr.getText().trim();
+			//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, intExpr.getText().trim());
 			
 			}
 			match(XML_END_TAG);
@@ -4270,6 +4404,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 41:
 			case 42:
 			case 58:
+			case 79:
 			{
 				break;
 			}
@@ -4307,6 +4442,7 @@ public BpelParser(ParserSharedInputState state) {
 			case 40:
 			case 41:
 			case 42:
+			case 79:
 			{
 				break;
 			}
@@ -4356,17 +4492,17 @@ public BpelParser(ParserSharedInputState state) {
 			match(73);
 			{
 			{
-			int _cnt773=0;
-			_loop773:
+			int _cnt1572=0;
+			_loop1572:
 			do {
 				if ((LA(1)==74)) {
 					__xml_link();
 				}
 				else {
-					if ( _cnt773>=1 ) { break _loop773; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1572>=1 ) { break _loop1572; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt773++;
+				_cnt1572++;
 			} while (true);
 			}
 			}
@@ -4434,17 +4570,17 @@ public BpelParser(ParserSharedInputState state) {
 			}
 			}
 			{
-			int _cnt701=0;
-			_loop701:
+			int _cnt1499=0;
+			_loop1499:
 			do {
 				if ((LA(1)==46)) {
 					tg=__xml_target(tg);
 				}
 				else {
-					if ( _cnt701>=1 ) { break _loop701; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1499>=1 ) { break _loop1499; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt701++;
+				_cnt1499++;
 			} while (true);
 			}
 			
@@ -4471,17 +4607,17 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			String sc="";
 			{
-			int _cnt709=0;
-			_loop709:
+			int _cnt1507=0;
+			_loop1507:
 			do {
 				if ((LA(1)==48)) {
 					sc=__xml_source(sc);
 				}
 				else {
-					if ( _cnt709>=1 ) { break _loop709; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1507>=1 ) { break _loop1507; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt709++;
+				_cnt1507++;
 			} while (true);
 			}
 			text+=sc;
@@ -4507,11 +4643,18 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");//not supported by BPELscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			boolExpr = LT(1);
 			match(PCDATA);
 			
-				text+=", ["+boolExpr.getText().trim()+"]"; //convert PCDATA
+				text+=", [";
+				
+				//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, boolExpr.getText().trim());
+				
+				text+="]";
 			
 			}
 			match(XML_END_TAG);
@@ -4615,11 +4758,18 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String exprLG = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");//not supported by BPELscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			boolExpr = LT(1);
 			match(PCDATA);
 			
-				text+="["+boolExpr.getText().trim()+"]"; //convert PCDATA
+				text+="[";
+				
+				//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, boolExpr.getText().trim());
+				 	
+				text+="]";
 			
 			}
 			match(XML_END_TAG);
@@ -4684,6 +4834,8 @@ public BpelParser(ParserSharedInputState state) {
 			String pl = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"partnerLink"); //
 			String prop = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"property"); //
 				String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");
+				//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque")); //only for expression and query
 				//
 				String optPart=""; String q="";
 			
@@ -4727,7 +4879,12 @@ public BpelParser(ParserSharedInputState state) {
 				expr = LT(1);
 				match(PCDATA);
 				
-					text+=expr.getText().trim();
+					text+="[";
+					
+					//distinguish betwenn executable and abstract expression
+						text+=Helper.cvOpaque(opaque, expr.getText().trim());
+						
+						text+="]";
 				
 				break;
 			}
@@ -4784,11 +4941,14 @@ public BpelParser(ParserSharedInputState state) {
 			{
 			
 			String qLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"queryLanguage"); //not supported by BPELscript
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			queryContent = LT(1);
 			match(PCDATA);
 			
-			text+=queryContent.getText().trim();
+			//distinguish betwenn executable and abstract expression
+				text+=Helper.cvOpaque(opaque, queryContent.getText().trim());
 			
 			}
 			match(XML_END_TAG);
@@ -4819,6 +4979,8 @@ public BpelParser(ParserSharedInputState state) {
 			String epRef = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"endpointReference"); //
 			String prop = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"property"); //+var
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque")); //only for expression and query
 			//
 			String lit=""; String q="";String optPart="";
 			
@@ -4827,7 +4989,14 @@ public BpelParser(ParserSharedInputState state) {
 			{
 				expr = LT(1);
 				match(PCDATA);
-				text+="["+expr.getText().trim()+"]";
+				
+					text+="[";
+					
+					//distinguish betwenn executable and abstract expression
+						text+=Helper.cvOpaque(opaque, expr.getText().trim());
+						
+						text+="]";
+				
 				break;
 			}
 			case 77:
@@ -4945,6 +5114,41 @@ public BpelParser(ParserSharedInputState state) {
 		return text;
 	}
 	
+/**
+ * Opaque Language Extensions
+ *
+ * "The common base allows the following uses of opacity in Abstract Processes:
+ *	- Opaque activities are allowed.
+ *	- All WS-BPEL expressions are allowed to be opaque.
+ *	- All WS-BPEL attributes are allowed to be opaque in the common base.
+ *	- The from-spec (e.g. in <assign>) is allowed to be opaque.
+ * The function of the four types of opaque tokens allowed in Abstract Processes (activities, expressions, attributes and from-specs)
+ *
+ * A special case for generic opaque assignment is allowed. It represents hiding any of the forms of the from-spec" [BPELspec13.1.3]
+ *
+ * @see BPELspec 13.1.3
+ * @category opaqueActivity
+ */
+	public final String  __xml_opaqueFrom() throws RecognitionException, TokenStreamException {
+		String text="";
+		
+		Token  __xml_startTag = null;
+		
+		try {      // for error handling
+			__xml_startTag = LT(1);
+			match(80);
+			{
+			text+="\"##opaque\"";
+			}
+			match(XML_END_TAG);
+		}
+		catch (RecognitionException ex) {
+			reportError(ex);
+			recover(ex,_tokenSet_39);
+		}
+		return text;
+	}
+	
 	public final String[]  __xml_branches() throws RecognitionException, TokenStreamException {
 		String[] text={"",""};;
 		
@@ -4958,6 +5162,8 @@ public BpelParser(ParserSharedInputState state) {
 			
 			String exprLg = ((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"expressionLanguage");//not supported by BPELscript
 			BpelBoolean successfulOnly = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"successfulBranchesOnly"));
+			//An opaque expression is a placeholder for a corresponding Executable WS-BPEL expression.
+			BpelBoolean opaque = BpelBoolean.toBpelBoolean(((XMLToken)__xml_startTag).getAttribute(resolveNamespace(""),"opaque"));
 			
 			intExpr = LT(1);
 			match(PCDATA);
@@ -4965,8 +5171,8 @@ public BpelParser(ParserSharedInputState state) {
 			//handle attribute as annotation
 			text[0]=Helper.cvBoolAttr("successfulBranchesOnly", successfulOnly);
 			
-			//handle content
-			text[1]=intExpr.getText().trim();
+			//distinguish betwenn executable and abstract expression
+				text[1]+=Helper.cvOpaque(opaque, intExpr.getText().trim());
 			
 			}
 			match(XML_END_TAG);
@@ -4994,7 +5200,7 @@ public BpelParser(ParserSharedInputState state) {
 		}
 		catch (RecognitionException ex) {
 			reportError(ex);
-			recover(ex,_tokenSet_39);
+			recover(ex,_tokenSet_40);
 		}
 	}
 	
@@ -5079,6 +5285,8 @@ public BpelParser(ParserSharedInputState state) {
 		"\"<query>\"",
 		"\"<literal>\"",
 		"\"<documentation>\"",
+		"\"<opaqueActivity>\"",
+		"\"<opaqueFrom>\"",
 		"OTHER_TAG"
 	};
 	
@@ -5093,42 +5301,42 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_1 = new BitSet(mk_tokenSet_1());
 	private static final long[] mk_tokenSet_2() {
-		long[] data = { 8761731623680L, 0L};
+		long[] data = { 8761731623680L, 32768L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_2 = new BitSet(mk_tokenSet_2());
 	private static final long[] mk_tokenSet_3() {
-		long[] data = { 18023160241104896L, 2048L, 0L, 0L};
+		long[] data = { 18023160241104896L, 34816L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_3 = new BitSet(mk_tokenSet_3());
 	private static final long[] mk_tokenSet_4() {
-		long[] data = { 18023160241103360L, 2048L, 0L, 0L};
+		long[] data = { 18023160241103360L, 34816L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_4 = new BitSet(mk_tokenSet_4());
 	private static final long[] mk_tokenSet_5() {
-		long[] data = { 18023160241094656L, 2048L, 0L, 0L};
+		long[] data = { 18023160241094656L, 34816L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_5 = new BitSet(mk_tokenSet_5());
 	private static final long[] mk_tokenSet_6() {
-		long[] data = { 18023160241061888L, 2048L, 0L, 0L};
+		long[] data = { 18023160241061888L, 34816L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_6 = new BitSet(mk_tokenSet_6());
 	private static final long[] mk_tokenSet_7() {
-		long[] data = { 18023160240963584L, 2048L, 0L, 0L};
+		long[] data = { 18023160240963584L, 34816L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_7 = new BitSet(mk_tokenSet_7());
 	private static final long[] mk_tokenSet_8() {
-		long[] data = { 8761731186688L, 0L};
+		long[] data = { 8761731186688L, 32768L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_8 = new BitSet(mk_tokenSet_8());
 	private static final long[] mk_tokenSet_9() {
-		long[] data = { 8761731186720L, 14L, 0L, 0L};
+		long[] data = { 8761731186720L, 32782L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_9 = new BitSet(mk_tokenSet_9());
@@ -5148,7 +5356,7 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_12 = new BitSet(mk_tokenSet_12());
 	private static final long[] mk_tokenSet_13() {
-		long[] data = { 8796093022240L, 32768L, 0L, 0L};
+		long[] data = { 8796093022240L, 131072L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_13 = new BitSet(mk_tokenSet_13());
@@ -5158,7 +5366,7 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_14 = new BitSet(mk_tokenSet_14());
 	private static final long[] mk_tokenSet_15() {
-		long[] data = { 8761731186720L, 0L};
+		long[] data = { 8761731186720L, 32768L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_15 = new BitSet(mk_tokenSet_15());
@@ -5188,7 +5396,7 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_20 = new BitSet(mk_tokenSet_20());
 	private static final long[] mk_tokenSet_21() {
-		long[] data = { 355793132293455904L, 0L};
+		long[] data = { 355793132293455904L, 32768L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_21 = new BitSet(mk_tokenSet_21());
@@ -5203,7 +5411,7 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_23 = new BitSet(mk_tokenSet_23());
 	private static final long[] mk_tokenSet_24() {
-		long[] data = { -1948756816885798368L, 2579L, 0L, 0L};
+		long[] data = { -1948756816885798368L, 35347L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_24 = new BitSet(mk_tokenSet_24());
@@ -5213,7 +5421,7 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_25 = new BitSet(mk_tokenSet_25());
 	private static final long[] mk_tokenSet_26() {
-		long[] data = { 324267934902124576L, 2048L, 0L, 0L};
+		long[] data = { 324267934902124576L, 34816L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_26 = new BitSet(mk_tokenSet_26());
@@ -5243,7 +5451,7 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_31 = new BitSet(mk_tokenSet_31());
 	private static final long[] mk_tokenSet_32() {
-		long[] data = { 8761731448832L, 0L};
+		long[] data = { 8761731448832L, 32768L, 0L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_32 = new BitSet(mk_tokenSet_32());
@@ -5278,9 +5486,14 @@ public BpelParser(ParserSharedInputState state) {
 	}
 	public static final BitSet _tokenSet_38 = new BitSet(mk_tokenSet_38());
 	private static final long[] mk_tokenSet_39() {
-		long[] data = { 32L, 1024L, 0L, 0L};
+		long[] data = { 144115188075855872L, 0L};
 		return data;
 	}
 	public static final BitSet _tokenSet_39 = new BitSet(mk_tokenSet_39());
+	private static final long[] mk_tokenSet_40() {
+		long[] data = { 32L, 1024L, 0L, 0L};
+		return data;
+	}
+	public static final BitSet _tokenSet_40 = new BitSet(mk_tokenSet_40());
 	
 	}
