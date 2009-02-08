@@ -104,5 +104,7 @@ public interface BpelParserTokenTypes {
 	// "<query>" = 76
 	// "<literal>" = 77
 	// "<documentation>" = 78
-	int OTHER_TAG = 79;
+	// "<opaqueActivity>" = 79
+	// "<opaqueFrom>" = 80
+	int OTHER_TAG = 81;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -25,15 +25,15 @@ tokens {
     ROOT; PROCESS; PICK; SEQUENCE; FLOW; FLOWS; IF; ELSIF; ELSE; WHILE; UNTIL; FOR; INVOKE;PROC_STMTS;
     RECEIVE; REPLY; ASSIGN; THROW; WAIT; EXIT; TIMEOUT; TRY; CATCH; CATCH_ALL; SCOPE; EVENT;
     ALARM; ONMESSAGE; COMPENSATION; COMPENSATE; CORRELATION; CORR_MAP; PARTNERLINK; VARIABLE; VALIDATE; BLOCK_PARAM; 
-    SIGNAL; JOIN; WITH; MAP; NOP; RETHROW; 
+    SIGNAL; JOIN; WITH; MAP; NOP; RETHROW; OPAQUE;
     EXPR; EXT_EXPR; XML_LITERAL; CALL; NAMESPACE; NS; PATH; EXTENSION; EXTENSIONACT; IMPORT; MESSAGES; CORRSETS; CORRSET;
-    XML; JS;
+    XML; JS; FINAL; BRANCH;
     PID; VARIABLES; PARTNERLINKS; PORTTYPE; STD_ATTR;ONALARM;REPEATEVERY;EVENTHDL;MESSAGE; TERMINATION; 
     MSGEX; FAULTNAME; MSGTYPE; VITYPE; VIELT;FAULTELT;
 }
 @parser::header {
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -56,7 +56,7 @@ import antlr.CommonHiddenStreamToken;
 
 @lexer::header {
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -104,7 +104,7 @@ proc_stmt
 		| try_ex | corr_sets
 		//simple stmts
 		| ((invoke | receive | reply | assign | throw_ex | rethrow_ex | alarm | timeout | exit
-		| variables | validate | partner_links | compensate | nop | messages) SEMI!);
+		| variables | validate | partner_links | compensate | nop | messages | opaque) SEMI!);
 
 block		:	'{' proc_stmts+ '}' -> ^(SEQUENCE proc_stmts+);
 	
@@ -132,33 +132,33 @@ onAlarm
 	->	^(ONALARM alarm? timeout? repeatEvery? scope_short);
         
 alarm		:	std_attr
-			'alarm' '(' expr ')' 
-		-> 	^(ALARM  expr std_attr?);
+			'alarm' '(' (expr | OPAQUE_EXPR)? ')' 
+		-> 	^(ALARM  expr? OPAQUE_EXPR? std_attr?);
 	
 timeout	:	std_attr
-			'timeout' '('expr ')' 
-		->	^(TIMEOUT expr std_attr?);
+			'timeout' '(' (expr | OPAQUE_EXPR)? ')' 
+		->	^(TIMEOUT expr? OPAQUE_EXPR? std_attr?);
 	
 repeatEvery
-	:	'repeatEvery' '(' expr ')'
-	->	^(REPEATEVERY expr);
+	:	'repeatEvery' '(' (expr | OPAQUE_EXPR)? ')'
+	->	^(REPEATEVERY expr? OPAQUE_EXPR?);
 	
 flow 	:	std_attr
 		'parallel' s+=sequence ( 'and' s+=sequence)*
 	-> 	^(FLOW  $s+ std_attr) ;
 
-signal		:	'signal' '('ID (',' expr)? ')' -> ^(SIGNAL ID expr?);
+signal		:	'signal' '('ID (',' (expr | OPAQUE_EXPR))? ')' -> ^(SIGNAL ID expr? OPAQUE_EXPR?);
 
-asignal	:	'@signal' '('ID (',' expr)? ')' -> ^(SIGNAL ID expr?);
+asignal	:	'@signal' '('ID (',' (expr | OPAQUE_EXPR))? ')' -> ^(SIGNAL ID expr? OPAQUE_EXPR?);
 
-ajoin		:	'@join' '(' k+=ID (',' k+=ID)* (',' expr)? ')' -> ^(JOIN $k+ expr?);
+ajoin		:	'@join' '(' k+=ID (',' k+=ID)* (',' (expr | OPAQUE_EXPR))? ')' -> ^(JOIN $k+ expr? OPAQUE_EXPR?);
 
-join		:	'join' '(' k+=ID (',' k+=ID)* (',' expr)? ')' -> ^(JOIN $k+ expr?);
+join		:	'join' '(' k+=ID (',' k+=ID)* (',' (expr | OPAQUE_EXPR))? ')' -> ^(JOIN $k+ expr? OPAQUE_EXPR?);
 
 if_ex
 	:	std_attr
-		'if' '(' iex=expr ')' s=sequence ('elseif' '(' eiex+=expr ')' sei+=sequence)* ('else' se=sequence)? 
-	-> 	^(IF $iex $s (^(ELSIF $eiex $sei))* (^(ELSE $se))? std_attr);
+		'if' '(' (iex=expr|iop=OPAQUE_EXPR) ')' s=sequence ('elseif' '(' (eiex+=expr|eiop=OPAQUE_EXPR) ')' sei+=sequence)* ('else' se=sequence)? 
+	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex? $eiop? $sei))* (^(ELSE $se))? std_attr );
 
 sequence
 	:	std_attr
@@ -172,17 +172,18 @@ scope_sequence
 	->	^(SEQUENCE $j? $b $s*);
 
 while_ex	:	std_attr
-			'while' '(' expr ')' s=sequence -> ^(WHILE expr sequence std_attr);
+			'while' '(' (expr|OPAQUE_EXPR) ')' s=sequence -> ^(WHILE expr? OPAQUE_EXPR? sequence std_attr);
 
 until_ex	:	std_attr
-			'repeat' s=sequence 'until' '(' expr ')' -> ^(UNTIL expr sequence std_attr);
+			'repeat' s=sequence 'until' '(' (expr|OPAQUE_EXPR)? ')' -> ^(UNTIL expr? OPAQUE_EXPR? sequence std_attr);
 
 foreach
 	:	PARALLEL?
 		successfulBranchesOnly=SBO? 
 		std_attr
-		'for' '(' cName=ID '=' init=expr ('to'|SEMI) cond=expr (('finish'|SEMI) complete+=expr)? ')' scope_short
-	-> 	^(FOR $cName $init $cond $complete? scope_short PARALLEL? SBO? std_attr);
+		'for' '(' cName=ID '=' (init=expr|initop=OPAQUE_EXPR) ('to'|SEMI) (cond=expr | condop=OPAQUE_EXPR) (('finish'|SEMI) (complete+=expr|compop+=OPAQUE_EXPR))? ')' scope_short
+	-> 	^(FOR $cName $init? $initop? (^(FINAL $cond? $condop?))? (^(BRANCH $complete $compop))?
+			scope_short PARALLEL? SBO? std_attr);
 
 try_ex		:	'try' body catch_ex* catchAll?-> ^(TRY catch_ex* body?);		
 
@@ -247,13 +248,14 @@ invoke
 
 assign
 	:	portType? CREATE_INST? VALID? KEEPSRC? IGNORE? faultName? msgEx? std_attr //only receive and invoke
-		path_expr PROP? '=' rvalue 
+		path_expr PROP? '=' rvalue
 	-> 	^(ASSIGN path_expr PROP? portType? CREATE_INST? std_attr faultName? msgEx? VALID? KEEPSRC? IGNORE? rvalue);
 
 rvalue
 	:	receive
 	|	invoke
-	|	expr PROP?;
+	|	expr PROP?
+	;
 	
 throw_ex
 	:	(('@faultVariable' |'@faultVar') faultVar=ID)? std_attr
@@ -279,6 +281,9 @@ ext_act  	:	std_attr
 
 nop		:	std_attr
 			'nop' -> ^(NOP std_attr);
+			
+opaque	:	std_attr
+			'opaque()' -> ^(OPAQUE std_attr); 
 
 // Others
 namespace
@@ -338,6 +343,7 @@ atom		:	path_expr | INT | '(' s_expr ')' -> s_expr;
 path_expr	:	pelmt+=ns_id ('.' pelmt+=ns_id)* -> ^(PATH $pelmt+);
 ns_id		:	(pr=ID '::')? loc=ID -> ^(NS $pr? $loc);
 
+
 //optional attributes 
 portType 	:	('@portType' | '@pt') STRING
 		->	^(PORTTYPE STRING);
@@ -367,6 +373,7 @@ faultElt	:	'@faultElement' STRING
 // LEXER RULES
 EXT_EXPR		:	'[' (options {greedy=false;} : .)* ']';
 EXT_ACT		:	pre='{{{' (options {greedy=false;} : c=.)* post='}}}';
+OPAQUE_EXPR	:	'##opaque' {setText(" opaque=\"yes\"");};
 
 // Basic tokens
 KEY			:	'in' | 'out' | 'inout';
@@ -375,7 +382,7 @@ ID			:	(LETTER | '_' ) (LETTER | DIGIT | '_' | '-' )*;
 INT			:	(DIGIT )+ ;
 STRING		:	'"' ( ESCAPE_SEQ | ~('\\'|'"') )* '"';
 ESCAPE_SEQ		:	'\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\');
-SL_COMMENTS	:	('#'|'//') .* CR { $channel = HIDDEN; };
+SL_COMMENTS	:	( '//') .* CR { $channel = HIDDEN; };
 CR			:	('\r' | '\n' )+ { $channel = HIDDEN; };
 WS			:	( ' ' | '\t' )+ { skip(); };
 fragment DIGIT	:	'0'..'9';

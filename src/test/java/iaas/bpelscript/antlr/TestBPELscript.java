@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -27,30 +27,26 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 
-import antlr.CommonASTWithHiddenTokens;
-import antlr.CommonHiddenStreamToken;
-
 public class TestBPELscript {
 
 	// provide a test rig for bosto.a
   public static void main(String[] args) throws Exception {
 	    
-	  	String namespace = "namespace marc = \"http://org.antlr/developers/bosto/marc\";" +
-	  			"namespace olly = \"http://org.iaas/developers/antlr/marc\";";
-	    String process = "process marc {partnerLink Katze, Marc; var Muhaha;}";
+	  	String namespace = "namespace test = \"http://org.antlr/developers/bosto/test\";" +
+	  			"namespace test2 = \"http://org.iaas/developers/antlr/test2\";";
+	    String process = "process pc1 {partnerLink p1, p2; var v1;}";
 	    String func = "function auticc(muh){muh.ID}";
-	    String sampel = "src/sampel.bpelscript";
+	    String sampel = "src/main/resources/sampel.bpelscript";
 	  	String retval = compile(sampel);
 //	    System.out.println(retval );
   }
 
   public static String compile (String simpelinput) throws RecognitionException, IOException {
-	  //load in SimPEL.stg template group, put in templates variable
-	  FileReader groupFileSimPEL = new FileReader("src/iaas/bpelscript/antlr/BPELscript.stg");
-	  StringTemplateGroup templates = new StringTemplateGroup(groupFileSimPEL);
-	  groupFileSimPEL.close();
+	  //load in BPELscript.stg template group, put in templates variable
+	  FileReader groupFile = new FileReader(BPELscriptLexer.class.getResource("BPELscript.stg").getPath());
+	  StringTemplateGroup templates = new StringTemplateGroup(groupFile);
+	  groupFile.close();
 	  
-//	  	SimPELLexer lexer = new SimPELLexer(new ANTLRStringStream(simpelinput));
 	    BPELscriptLexer lexer = new BPELscriptLexer(new ANTLRFileStream(simpelinput));
 	    //Create a stream of tokens pulled from the lexer
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -59,8 +55,6 @@ public class TestBPELscript {
 		//Invoke the program rule in get return value
 		BPELscriptParser.program_return r = parser.program();
 		CommonTree t = (CommonTree)r.getTree();
-		
-//		System.out.println(t.toStringTree());
 		
 		//Walk resulting tree; create treenode stream first
 		CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);

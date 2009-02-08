@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -33,7 +33,6 @@ public class TestBPELscriptWalker extends TestCase {
 	String stderr;
 	String prefix = TestBpel.class.getResource("/").getPath();
 	String templatePath = BPELscriptLexer.class.getResource("BPELscript.stg").getPath(); 
-		//"src/iaas/bpelscript/antlr/BPELscript.stg";
 
 	public void testProgram_walks_Program1() throws Exception {
 		// test input: "doc_extension"
