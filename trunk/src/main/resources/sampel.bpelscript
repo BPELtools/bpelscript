@@ -1,55 +1,7 @@
 namespace pns = "http://example.com/loan-approval/";
-namespace lns = "http://example.com/loan-approval/wsdl/";
-@type "http://schemas.xmlsoap.org/wsdl/" 
-import loanServicePT = lns::"loanServicePT.wsdl";
 
-@suppressJoinFailure
 process pns::loanApprovalProcess {
 
-partnerLink assessor = (lns::riskAssessmentLT, null, assessor),
- approver = (lns::loanApprovalLT, null, approver),
- customer = (lns::loanPartnerLT, loanService, null);
+nop;
 
-var risk, 
-    request, 
-    approval;
-
-try {
-parallel {
-@portType "lns::leanServicePT" 
-@createInstance
-request = receive(customer, request);
-signal(receive-to-assess, [$request.amount < 10000]);
-signal(receive-to-approval, [$request.amount >= 10000]);
-
-} and {
-join(receive-to-assess);
-@portType "lns::riskAssessmentPT" 
-risk = invoke(assessor, check, request);
-signal(assess-to-setMessage, [$risk.level = 'low']);
-signal(assess-to-approval, [$risk.level != 'low']);
-
-} and {
-join(assess-to-setMessage);
-approval.accept = "yes";
-signal(setMessage-to-reply);
-
-} and {
-join(receive-to-approval, assess-to-approval);
-@portType "lns::loanApprovalPT" 
-approval = invoke(approver, approve, request);
-signal(approval-to-reply);
-
-} and {
-join(approval-to-reply, setMessage-to-reply);
-@portType "lns::loanServicePT" 
-reply(customer, request, approval);
-}
-}
-@faultMessageType "lns::errorMessage" 
-catch (lns::loanProcessFault) { |error|
-@portType "lns::loanServicePT" 
-@faultName "unableToHandleRequest" 
-reply(customer, request, error);
-}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -25,7 +25,7 @@ tokens {
     ROOT; PROCESS; PICK; SEQUENCE; FLOW; FLOWS; IF; ELSIF; ELSE; WHILE; UNTIL; FOR; INVOKE;PROC_STMTS;
     RECEIVE; REPLY; ASSIGN; THROW; WAIT; EXIT; TIMEOUT; TRY; CATCH; CATCH_ALL; SCOPE; EVENT;
     ALARM; ONMESSAGE; COMPENSATION; COMPENSATE; CORRELATION; CORR_MAP; PARTNERLINK; VARIABLE; VALIDATE; BLOCK_PARAM; 
-    SIGNAL; JOIN; WITH; MAP; NOP; RETHROW; 
+    SIGNAL; JOIN; WITH; MAP; NOP; RETHROW; OPAQUE;
     EXPR; EXT_EXPR; XML_LITERAL; CALL; NAMESPACE; NS; PATH; EXTENSION; EXTENSIONACT; IMPORT; MESSAGES; CORRSETS; CORRSET;
     XML; JS;
     PID; VARIABLES; PARTNERLINKS; PORTTYPE; STD_ATTR;ONALARM;REPEATEVERY;EVENTHDL;MESSAGE; TERMINATION; 
@@ -33,7 +33,7 @@ tokens {
 }
 @parser::header {
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -56,7 +56,7 @@ import antlr.CommonHiddenStreamToken;
 
 @lexer::header {
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -104,7 +104,7 @@ proc_stmt
 		| try_ex | corr_sets
 		//simple stmts
 		| ((invoke | receive | reply | assign | throw_ex | rethrow_ex | alarm | timeout | exit
-		| variables | validate | partner_links | compensate | nop | messages) SEMI!);
+		| variables | validate | partner_links | compensate | nop | messages | opaque) SEMI!);
 
 block		:	'{' proc_stmts+ '}' -> ^(SEQUENCE proc_stmts+);
 	
@@ -279,6 +279,9 @@ ext_act  	:	std_attr
 
 nop		:	std_attr
 			'nop' -> ^(NOP std_attr);
+			
+opaque	:	std_attr
+			'opaque()' -> ^(OPAQUE std_attr); 
 
 // Others
 namespace

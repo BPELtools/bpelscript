@@ -234,6 +234,7 @@ proc_stmt [List join, List signal, Boolean isInScope, HashMap<String, String> _v
 	| nop[join, signal, empty, comments] -> list(content_st={$nop.st})
 	| messages[_messages, isInScope, comments] // no rewrited necessary here, because they are stored in global hash map and handled at process
 	| corr_sets[_cs, isInScope, comments]
+	| opaque[join, signal, empty, comments] -> list(content_st={$opaque.st})
 	;
 	
 
@@ -808,6 +809,11 @@ ext_act	 [List join, List signal, List comments]
 nop [List join, List signal, boolean empty, List comments]
 	:	^(NOP std_attr)
 	->	nop(join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, comments={$comments})
+	;
+	
+opaque [List join, List signal, boolean empty, List comments]
+	:	^(OPAQUE std_attr)
+	->	opaque(join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, comments={$comments})
 	;
 
 // Others

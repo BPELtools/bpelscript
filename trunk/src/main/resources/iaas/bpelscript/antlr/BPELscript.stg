@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Marc Bischof 
+ * Copyright 2008, 2009 Marc Bischof 
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -1023,6 +1023,16 @@ compensate(id_opt, join, signal, empty, sdt_attr, comments) ::=
 nop(join, signal, empty, std_attr, comments) ::= 
 <<
 <taggin(tagname="empty",
+		content=doc(comments=comments)+std_aux(join=join, signal=signal),
+		incontent=std_attr,
+		empty=empty
+		)>
+>>
+
+
+opaque(join, signal, empty, std_attr, comments) ::=
+<<
+<taggin(tagname="opaqueActivity",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal),
 		incontent=std_attr,
 		empty=empty
