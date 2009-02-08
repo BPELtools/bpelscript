@@ -20,6 +20,10 @@
             <layout>default</layout>
         </repository>
     </repositories>
+    <issueManagement>
+    	<system>Google Code</system>
+    	<url>http://code.google.com/p/bpelscript/</url>
+    </issueManagement>
 
     <licenses>
         <license>
