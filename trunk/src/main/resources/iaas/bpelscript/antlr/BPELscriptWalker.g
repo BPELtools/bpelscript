@@ -358,13 +358,13 @@ until_ex [List join, List signal, HashMap<String, String> _vars, HashMap<String,
 	;
 
 foreach [List join, List signal, List comments]
-	:	^(FOR cName=ID init=expr[null] initop=OPAQUE_EXPR?
-			cond=expr[null] condop=OPAQUE_EXPR?
-			complete+=expr[null]? //comop+=OPAQUE_EXPR?
+	:	^(FOR cName=ID init+=expr[null]? initop+=OPAQUE_EXPR?
+		 (^(FINAL cond+=expr[null]? condop+=OPAQUE_EXPR?))? 
+		 (^(BRANCH complete+=expr[null]? comop+=OPAQUE_EXPR?))?
 			scope_short PARALLEL? SBO? std_attr)
-	->	foreach(id={$cName}, init_st={$init.st}, initop={$initop.text},
-			cond_st={$cond.st}, condop={$condop.text},
-			complete={$complete}, //comop={$comop},
+	->	foreach(id={$cName}, init_st={$init}, initop={$initop},
+			cond_st={$cond}, condop={$condop},
+			complete={$complete}, comop={$comop},
 			body_st={$scope_short.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, parallel={$PARALLEL}, sbo={$SBO}, comments={$comments})
 	;
 

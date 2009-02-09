@@ -856,7 +856,7 @@ foreach(id, init_st, initop, cond_st, condop, complete, comop, body_st, join, si
 						  )><\n><taggin(tagname="finalCounterValue", 
 						  				incontent=condop,
 						 				content=cond_st)><\n><if(complete+comop)><taggin(tagname="completionCondition", 
-						 							  							    content=taggin(tagname="branches", content=complete, incontent={<comop><if(sbo)><sbo><endif>})
+						 							  							    content=taggin(tagname="branches", content=complete, incontent={<comop><if(sbo)><sbo><endif>},empty=comop)
 						 							  							    			  )><\n><endif><body_st>},
 		incontent={ counterName="<id>"<if(parallel)> <parallel><endif><std_attr>}
 		)>

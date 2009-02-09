@@ -182,7 +182,7 @@ foreach
 		successfulBranchesOnly=SBO? 
 		std_attr
 		'for' '(' cName=ID '=' (init=expr|initop=OPAQUE_EXPR) ('to'|SEMI) (cond=expr | condop=OPAQUE_EXPR) (('finish'|SEMI) (complete+=expr|compop+=OPAQUE_EXPR))? ')' scope_short
-	-> 	^(FOR $cName $init? $initop? (^(FINAL $cond? $condop?))? (^(BRANCH $complete $compop))?
+	-> 	^(FOR $cName $init? $initop? (^(FINAL $cond? $condop?))? (^(BRANCH $complete? $compop?))?
 			scope_short PARALLEL? SBO? std_attr);
 
 try_ex		:	'try' body catch_ex* catchAll?-> ^(TRY catch_ex* body?);		

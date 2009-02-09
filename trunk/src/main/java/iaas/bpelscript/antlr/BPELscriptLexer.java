@@ -1,4 +1,4 @@
-// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-08 17:00:08
+// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-09 19:13:37
 
 /*
  * Copyright 2008, 2009 Marc Bischof 
@@ -28,26 +28,27 @@ import java.util.ArrayList;
 public class BPELscriptLexer extends Lexer {
     public static final int T__159=159;
     public static final int T__158=158;
-    public static final int LETTER=99;
+    public static final int LETTER=101;
     public static final int NOP=44;
     public static final int T__160=160;
-    public static final int PARTNERLINKS=64;
+    public static final int PARTNERLINKS=66;
     public static final int T__167=167;
     public static final int T__168=168;
     public static final int EOF=-1;
     public static final int T__165=165;
-    public static final int EVENTHDL=69;
+    public static final int EVENTHDL=71;
     public static final int T__166=166;
     public static final int T__163=163;
     public static final int T__164=164;
     public static final int T__161=161;
     public static final int T__162=162;
+    public static final int FINAL=62;
     public static final int IMPORT=56;
     public static final int T__148=148;
     public static final int T__147=147;
     public static final int T__149=149;
     public static final int FLOWS=9;
-    public static final int VALID=89;
+    public static final int VALID=91;
     public static final int T__154=154;
     public static final int T__155=155;
     public static final int T__156=156;
@@ -61,13 +62,13 @@ public class BPELscriptLexer extends Lexer {
     public static final int T__138=138;
     public static final int T__137=137;
     public static final int T__136=136;
-    public static final int PID=62;
+    public static final int PID=64;
     public static final int RETHROW=45;
-    public static final int KEY=88;
+    public static final int KEY=90;
     public static final int MESSAGES=57;
     public static final int ELSE=12;
-    public static final int INT=98;
-    public static final int SJF=79;
+    public static final int INT=100;
+    public static final int SJF=81;
     public static final int WAIT=22;
     public static final int T__141=141;
     public static final int T__142=142;
@@ -75,16 +76,16 @@ public class BPELscriptLexer extends Lexer {
     public static final int T__145=145;
     public static final int T__146=146;
     public static final int T__143=143;
-    public static final int CREATE_INST=83;
+    public static final int CREATE_INST=85;
     public static final int T__144=144;
     public static final int T__126=126;
     public static final int T__125=125;
     public static final int T__128=128;
     public static final int T__127=127;
-    public static final int WS=104;
+    public static final int WS=106;
     public static final int T__129=129;
-    public static final int SBO=86;
-    public static final int EOSF=80;
+    public static final int SBO=88;
+    public static final int EOSF=82;
     public static final int CALL=50;
     public static final int ELSIF=11;
     public static final int INVOKE=16;
@@ -107,43 +108,42 @@ public class BPELscriptLexer extends Lexer {
     public static final int T__122=122;
     public static final int T__121=121;
     public static final int T__120=120;
-    public static final int ONALARM=67;
+    public static final int ONALARM=69;
     public static final int EXT_EXPR=48;
     public static final int T__107=107;
     public static final int T__108=108;
     public static final int T__109=109;
-    public static final int T__105=105;
     public static final int SIGNAL=40;
-    public static final int T__106=106;
     public static final int T__111=111;
-    public static final int STD_ATTR=66;
+    public static final int STD_ATTR=68;
     public static final int T__110=110;
     public static final int T__113=113;
-    public static final int MESSAGE=70;
+    public static final int MESSAGE=72;
     public static final int T__112=112;
     public static final int BLOCK_PARAM=39;
-    public static final int ISOLATED=87;
+    public static final int ISOLATED=89;
     public static final int PARTNERLINK=36;
-    public static final int IGNORE=91;
-    public static final int MSGTYPE=74;
-    public static final int FAULTELT=77;
-    public static final int SEMI=81;
+    public static final int IGNORE=93;
+    public static final int MSGTYPE=76;
+    public static final int FAULTELT=79;
+    public static final int SEMI=83;
     public static final int VALIDATE=38;
-    public static final int TERMINATION=71;
+    public static final int TERMINATION=73;
+    public static final int BRANCH=63;
     public static final int CORRSETS=58;
-    public static final int INITPARTNER=95;
+    public static final int INITPARTNER=97;
     public static final int PROC_STMTS=17;
     public static final int PROCESS=5;
-    public static final int CR=102;
+    public static final int CR=104;
     public static final int RECEIVE=18;
     public static final int EXTENSION=54;
-    public static final int STRING=78;
-    public static final int MSGEX=72;
+    public static final int STRING=80;
+    public static final int MSGEX=74;
     public static final int WHILE=13;
     public static final int OPAQUE=46;
-    public static final int FAULTNAME=73;
-    public static final int REPEATEVERY=68;
-    public static final int INIT_COR=96;
+    public static final int FAULTNAME=75;
+    public static final int REPEATEVERY=70;
+    public static final int INIT_COR=98;
     public static final int CATCH_ALL=27;
     public static final int PICK=6;
     public static final int PATH=53;
@@ -152,33 +152,35 @@ public class BPELscriptLexer extends Lexer {
     public static final int EXIT=23;
     public static final int NS=52;
     public static final int CORRELATION=34;
-    public static final int PORTTYPE=65;
+    public static final int PORTTYPE=67;
     public static final int CORR_MAP=35;
-    public static final int VIELT=76;
+    public static final int VIELT=78;
     public static final int TRY=25;
     public static final int NAMESPACE=51;
     public static final int SEQUENCE=7;
-    public static final int VITYPE=75;
-    public static final int SL_COMMENTS=103;
-    public static final int PATTERN_COR=97;
+    public static final int VITYPE=77;
+    public static final int SL_COMMENTS=105;
+    public static final int PATTERN_COR=99;
     public static final int VARIABLE=37;
     public static final int FLOW=8;
     public static final int UNTIL=14;
     public static final int CORRSET=59;
     public static final int REPLY=19;
-    public static final int EXT_ACT=93;
+    public static final int EXT_ACT=95;
     public static final int CATCH=26;
     public static final int THROW=21;
-    public static final int KEEPSRC=90;
-    public static final int PARALLEL=85;
+    public static final int KEEPSRC=92;
+    public static final int PARALLEL=87;
     public static final int FOR=15;
     public static final int ALARM=30;
-    public static final int ID=82;
-    public static final int PROP=92;
+    public static final int ID=84;
+    public static final int PROP=94;
     public static final int IF=10;
     public static final int EXPR=47;
     public static final int SCOPE=28;
-    public static final int DIGIT=100;
+    public static final int T__191=191;
+    public static final int T__190=190;
+    public static final int DIGIT=102;
     public static final int WITH=42;
     public static final int T__184=184;
     public static final int T__183=183;
@@ -186,7 +188,7 @@ public class BPELscriptLexer extends Lexer {
     public static final int T__185=185;
     public static final int T__188=188;
     public static final int T__187=187;
-    public static final int MUSTUND=94;
+    public static final int MUSTUND=96;
     public static final int T__189=189;
     public static final int T__180=180;
     public static final int T__182=182;
@@ -199,7 +201,7 @@ public class BPELscriptLexer extends Lexer {
     public static final int T__174=174;
     public static final int T__173=173;
     public static final int COMPENSATION=32;
-    public static final int OPAQUE_EXPR=84;
+    public static final int OPAQUE_EXPR=86;
     public static final int T__172=172;
     public static final int T__179=179;
     public static final int T__178=178;
@@ -207,10 +209,10 @@ public class BPELscriptLexer extends Lexer {
     public static final int T__176=176;
     public static final int T__171=171;
     public static final int T__170=170;
+    public static final int ESCAPE_SEQ=103;
     public static final int MAP=43;
-    public static final int ESCAPE_SEQ=101;
+    public static final int VARIABLES=65;
     public static final int ASSIGN=20;
-    public static final int VARIABLES=63;
     public static final int XML_LITERAL=49;
     public static final int T__169=169;
 
@@ -227,57 +229,15 @@ public class BPELscriptLexer extends Lexer {
     }
     public String getGrammarFileName() { return "/home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g"; }
 
-    // $ANTLR start "T__105"
-    public final void mT__105() throws RecognitionException {
-        try {
-            int _type = T__105;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:24:8: ( '@queryLanguage' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:24:10: '@queryLanguage'
-            {
-            match("@queryLanguage"); 
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__105"
-
-    // $ANTLR start "T__106"
-    public final void mT__106() throws RecognitionException {
-        try {
-            int _type = T__106;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:25:8: ( '@expressionLanguage' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:25:10: '@expressionLanguage'
-            {
-            match("@expressionLanguage"); 
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "T__106"
-
     // $ANTLR start "T__107"
     public final void mT__107() throws RecognitionException {
         try {
             int _type = T__107;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:26:8: ( 'process' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:26:10: 'process'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:24:8: ( '@queryLanguage' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:24:10: '@queryLanguage'
             {
-            match("process"); 
+            match("@queryLanguage"); 
 
 
             }
@@ -295,10 +255,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__108;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:27:8: ( '{' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:27:10: '{'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:25:8: ( '@expressionLanguage' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:25:10: '@expressionLanguage'
             {
-            match('{'); 
+            match("@expressionLanguage"); 
+
 
             }
 
@@ -315,10 +276,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__109;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:28:8: ( '}' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:28:10: '}'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:26:8: ( 'process' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:26:10: 'process'
             {
-            match('}'); 
+            match("process"); 
+
 
             }
 
@@ -335,10 +297,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__110;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:29:8: ( '|' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:29:10: '|'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:27:8: ( '{' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:27:10: '{'
             {
-            match('|'); 
+            match('{'); 
 
             }
 
@@ -355,10 +317,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__111;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:30:8: ( ',' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:30:10: ','
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:28:8: ( '}' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:28:10: '}'
             {
-            match(','); 
+            match('}'); 
 
             }
 
@@ -375,11 +337,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__112;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:31:8: ( 'pick' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:31:10: 'pick'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:29:8: ( '|' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:29:10: '|'
             {
-            match("pick"); 
-
+            match('|'); 
 
             }
 
@@ -396,11 +357,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__113;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:32:8: ( 'onMessage' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:32:10: 'onMessage'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:30:8: ( ',' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:30:10: ','
             {
-            match("onMessage"); 
-
+            match(','); 
 
             }
 
@@ -417,10 +377,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__114;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:33:8: ( '(' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:33:10: '('
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:31:8: ( 'pick' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:31:10: 'pick'
             {
-            match('('); 
+            match("pick"); 
+
 
             }
 
@@ -437,10 +398,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__115;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:34:8: ( ')' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:34:10: ')'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:32:8: ( 'onMessage' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:32:10: 'onMessage'
             {
-            match(')'); 
+            match("onMessage"); 
+
 
             }
 
@@ -457,11 +419,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__116;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:35:8: ( 'alarm' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:35:10: 'alarm'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:33:8: ( '(' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:33:10: '('
             {
-            match("alarm"); 
-
+            match('('); 
 
             }
 
@@ -478,11 +439,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__117;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:36:8: ( 'timeout' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:36:10: 'timeout'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:34:8: ( ')' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:34:10: ')'
             {
-            match("timeout"); 
-
+            match(')'); 
 
             }
 
@@ -499,10 +459,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__118;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:37:8: ( 'repeatEvery' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:37:10: 'repeatEvery'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:35:8: ( 'alarm' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:35:10: 'alarm'
             {
-            match("repeatEvery"); 
+            match("alarm"); 
 
 
             }
@@ -520,10 +480,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__119;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:38:8: ( 'parallel' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:38:10: 'parallel'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:36:8: ( 'timeout' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:36:10: 'timeout'
             {
-            match("parallel"); 
+            match("timeout"); 
 
 
             }
@@ -541,10 +501,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__120;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:39:8: ( 'and' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:39:10: 'and'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:37:8: ( 'repeatEvery' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:37:10: 'repeatEvery'
             {
-            match("and"); 
+            match("repeatEvery"); 
 
 
             }
@@ -562,10 +522,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__121;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:40:8: ( 'signal' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:40:10: 'signal'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:38:8: ( 'parallel' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:38:10: 'parallel'
             {
-            match("signal"); 
+            match("parallel"); 
 
 
             }
@@ -583,10 +543,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__122;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:41:8: ( '@signal' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:41:10: '@signal'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:39:8: ( 'and' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:39:10: 'and'
             {
-            match("@signal"); 
+            match("and"); 
 
 
             }
@@ -604,10 +564,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__123;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:42:8: ( '@join' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:42:10: '@join'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:40:8: ( 'signal' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:40:10: 'signal'
             {
-            match("@join"); 
+            match("signal"); 
 
 
             }
@@ -625,10 +585,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__124;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:43:8: ( 'join' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:43:10: 'join'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:41:8: ( '@signal' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:41:10: '@signal'
             {
-            match("join"); 
+            match("@signal"); 
 
 
             }
@@ -646,10 +606,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__125;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:44:8: ( 'if' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:44:10: 'if'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:42:8: ( '@join' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:42:10: '@join'
             {
-            match("if"); 
+            match("@join"); 
 
 
             }
@@ -667,10 +627,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__126;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:45:8: ( 'elseif' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:45:10: 'elseif'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:43:8: ( 'join' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:43:10: 'join'
             {
-            match("elseif"); 
+            match("join"); 
 
 
             }
@@ -688,10 +648,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__127;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:46:8: ( 'else' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:46:10: 'else'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:44:8: ( 'if' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:44:10: 'if'
             {
-            match("else"); 
+            match("if"); 
 
 
             }
@@ -709,10 +669,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__128;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:47:8: ( 'while' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:47:10: 'while'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:45:8: ( 'elseif' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:45:10: 'elseif'
             {
-            match("while"); 
+            match("elseif"); 
 
 
             }
@@ -730,10 +690,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__129;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:48:8: ( 'repeat' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:48:10: 'repeat'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:46:8: ( 'else' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:46:10: 'else'
             {
-            match("repeat"); 
+            match("else"); 
 
 
             }
@@ -751,10 +711,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__130;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:49:8: ( 'until' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:49:10: 'until'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:47:8: ( 'while' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:47:10: 'while'
             {
-            match("until"); 
+            match("while"); 
 
 
             }
@@ -772,10 +732,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__131;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:50:8: ( 'for' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:50:10: 'for'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:48:8: ( 'repeat' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:48:10: 'repeat'
             {
-            match("for"); 
+            match("repeat"); 
 
 
             }
@@ -793,10 +753,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__132;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:51:8: ( '=' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:51:10: '='
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:49:8: ( 'until' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:49:10: 'until'
             {
-            match('='); 
+            match("until"); 
+
 
             }
 
@@ -813,10 +774,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__133;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:52:8: ( 'to' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:52:10: 'to'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:50:8: ( 'for' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:50:10: 'for'
             {
-            match("to"); 
+            match("for"); 
 
 
             }
@@ -834,11 +795,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__134;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:53:8: ( 'finish' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:53:10: 'finish'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:51:8: ( '=' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:51:10: '='
             {
-            match("finish"); 
-
+            match('='); 
 
             }
 
@@ -855,10 +815,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__135;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:54:8: ( 'try' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:54:10: 'try'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:52:8: ( 'to' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:52:10: 'to'
             {
-            match("try"); 
+            match("to"); 
 
 
             }
@@ -876,10 +836,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__136;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:55:8: ( '@faultMessageType' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:55:10: '@faultMessageType'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:53:8: ( 'finish' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:53:10: 'finish'
             {
-            match("@faultMessageType"); 
+            match("finish"); 
 
 
             }
@@ -897,10 +857,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__137;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:56:8: ( 'catch' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:56:10: 'catch'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:54:8: ( 'try' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:54:10: 'try'
             {
-            match("catch"); 
+            match("try"); 
 
 
             }
@@ -918,10 +878,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__138;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:57:8: ( 'catchAll' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:57:10: 'catchAll'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:55:8: ( '@faultMessageType' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:55:10: '@faultMessageType'
             {
-            match("catchAll"); 
+            match("@faultMessageType"); 
 
 
             }
@@ -939,10 +899,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__139;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:58:8: ( 'scope' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:58:10: 'scope'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:56:8: ( 'catch' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:56:10: 'catch'
             {
-            match("scope"); 
+            match("catch"); 
 
 
             }
@@ -960,10 +920,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__140;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:59:8: ( 'onTermination' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:59:10: 'onTermination'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:57:8: ( 'catchAll' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:57:10: 'catchAll'
             {
-            match("onTermination"); 
+            match("catchAll"); 
 
 
             }
@@ -981,10 +941,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__141;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:60:8: ( 'events' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:60:10: 'events'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:58:8: ( 'scope' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:58:10: 'scope'
             {
-            match("events"); 
+            match("scope"); 
 
 
             }
@@ -1002,10 +962,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__142;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:61:8: ( 'event' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:61:10: 'event'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:59:8: ( 'onTermination' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:59:10: 'onTermination'
             {
-            match("event"); 
+            match("onTermination"); 
 
 
             }
@@ -1023,10 +983,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__143;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:62:8: ( 'compensation' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:62:10: 'compensation'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:60:8: ( 'events' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:60:10: 'events'
             {
-            match("compensation"); 
+            match("events"); 
 
 
             }
@@ -1044,10 +1004,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__144;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:63:8: ( 'with' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:63:10: 'with'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:61:8: ( 'event' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:61:10: 'event'
             {
-            match("with"); 
+            match("event"); 
 
 
             }
@@ -1065,10 +1025,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__145;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:64:8: ( ':' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:64:10: ':'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:62:8: ( 'compensation' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:62:10: 'compensation'
             {
-            match(':'); 
+            match("compensation"); 
+
 
             }
 
@@ -1085,10 +1046,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__146;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:65:8: ( 'receive' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:65:10: 'receive'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:63:8: ( 'with' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:63:10: 'with'
             {
-            match("receive"); 
+            match("with"); 
 
 
             }
@@ -1106,11 +1067,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__147;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:66:8: ( 'reply' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:66:10: 'reply'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:64:8: ( ':' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:64:10: ':'
             {
-            match("reply"); 
-
+            match(':'); 
 
             }
 
@@ -1127,10 +1087,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__148;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:67:8: ( 'invoke' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:67:10: 'invoke'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:65:8: ( 'receive' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:65:10: 'receive'
             {
-            match("invoke"); 
+            match("receive"); 
 
 
             }
@@ -1148,10 +1108,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__149;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:68:8: ( '@faultVariable' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:68:10: '@faultVariable'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:66:8: ( 'reply' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:66:10: 'reply'
             {
-            match("@faultVariable"); 
+            match("reply"); 
 
 
             }
@@ -1169,10 +1129,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__150;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:69:8: ( '@faultVar' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:69:10: '@faultVar'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:67:8: ( 'invoke' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:67:10: 'invoke'
             {
-            match("@faultVar"); 
+            match("invoke"); 
 
 
             }
@@ -1190,10 +1150,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__151;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:70:8: ( 'throw' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:70:10: 'throw'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:68:8: ( '@faultVariable' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:68:10: '@faultVariable'
             {
-            match("throw"); 
+            match("@faultVariable"); 
 
 
             }
@@ -1211,10 +1171,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__152;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:71:8: ( 'rethrow' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:71:10: 'rethrow'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:69:8: ( '@faultVar' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:69:10: '@faultVar'
             {
-            match("rethrow"); 
+            match("@faultVar"); 
 
 
             }
@@ -1232,10 +1192,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__153;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:72:8: ( 'compensate' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:72:10: 'compensate'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:70:8: ( 'throw' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:70:10: 'throw'
             {
-            match("compensate"); 
+            match("throw"); 
 
 
             }
@@ -1253,10 +1213,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__154;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:73:8: ( 'exit' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:73:10: 'exit'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:71:8: ( 'rethrow' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:71:10: 'rethrow'
             {
-            match("exit"); 
+            match("rethrow"); 
 
 
             }
@@ -1274,10 +1234,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__155;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:74:8: ( 'validate' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:74:10: 'validate'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:72:8: ( 'compensate' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:72:10: 'compensate'
             {
-            match("validate"); 
+            match("compensate"); 
 
 
             }
@@ -1295,10 +1255,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__156;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:75:8: ( 'nop' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:75:10: 'nop'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:73:8: ( 'exit' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:73:10: 'exit'
             {
-            match("nop"); 
+            match("exit"); 
 
 
             }
@@ -1316,10 +1276,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__157;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:76:8: ( 'opaque()' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:76:10: 'opaque()'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:74:8: ( 'validate' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:74:10: 'validate'
             {
-            match("opaque()"); 
+            match("validate"); 
 
 
             }
@@ -1337,10 +1297,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__158;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:77:8: ( 'namespace' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:77:10: 'namespace'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:75:8: ( 'nop' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:75:10: 'nop'
             {
-            match("namespace"); 
+            match("nop"); 
 
 
             }
@@ -1358,10 +1318,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__159;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:78:8: ( 'extension' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:78:10: 'extension'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:76:8: ( 'opaque()' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:76:10: 'opaque()'
             {
-            match("extension"); 
+            match("opaque()"); 
 
 
             }
@@ -1379,10 +1339,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__160;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:79:8: ( 'import' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:79:10: 'import'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:77:8: ( 'namespace' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:77:10: 'namespace'
             {
-            match("import"); 
+            match("namespace"); 
 
 
             }
@@ -1400,10 +1360,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__161;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:80:8: ( '::' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:80:10: '::'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:78:8: ( 'extension' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:78:10: 'extension'
             {
-            match("::"); 
+            match("extension"); 
 
 
             }
@@ -1421,10 +1381,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__162;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:81:8: ( 'messages' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:81:10: 'messages'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:79:8: ( 'import' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:79:10: 'import'
             {
-            match("messages"); 
+            match("import"); 
 
 
             }
@@ -1442,10 +1402,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__163;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:82:8: ( 'var' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:82:10: 'var'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:80:8: ( '::' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:80:10: '::'
             {
-            match("var"); 
+            match("::"); 
 
 
             }
@@ -1463,10 +1423,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__164;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:83:8: ( 'partnerLink' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:83:10: 'partnerLink'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:81:8: ( 'messages' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:81:10: 'messages'
             {
-            match("partnerLink"); 
+            match("messages"); 
 
 
             }
@@ -1484,10 +1444,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__165;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:84:8: ( 'partnerlink' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:84:10: 'partnerlink'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:82:8: ( 'var' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:82:10: 'var'
             {
-            match("partnerlink"); 
+            match("var"); 
 
 
             }
@@ -1505,10 +1465,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__166;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:85:8: ( 'correlates' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:85:10: 'correlates'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:83:8: ( 'partnerLink' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:83:10: 'partnerLink'
             {
-            match("correlates"); 
+            match("partnerLink"); 
 
 
             }
@@ -1526,10 +1486,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__167;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:86:8: ( '==' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:86:10: '=='
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:84:8: ( 'partnerlink' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:84:10: 'partnerlink'
             {
-            match("=="); 
+            match("partnerlink"); 
 
 
             }
@@ -1547,10 +1507,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__168;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:87:8: ( '!=' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:87:10: '!='
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:85:8: ( 'correlates' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:85:10: 'correlates'
             {
-            match("!="); 
+            match("correlates"); 
 
 
             }
@@ -1568,10 +1528,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__169;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:88:8: ( '<' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:88:10: '<'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:86:8: ( '==' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:86:10: '=='
             {
-            match('<'); 
+            match("=="); 
+
 
             }
 
@@ -1588,10 +1549,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__170;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:89:8: ( '>' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:89:10: '>'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:87:8: ( '!=' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:87:10: '!='
             {
-            match('>'); 
+            match("!="); 
+
 
             }
 
@@ -1608,11 +1570,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__171;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:90:8: ( '<=' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:90:10: '<='
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:88:8: ( '<' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:88:10: '<'
             {
-            match("<="); 
-
+            match('<'); 
 
             }
 
@@ -1629,11 +1590,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__172;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:91:8: ( '>=' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:91:10: '>='
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:89:8: ( '>' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:89:10: '>'
             {
-            match(">="); 
-
+            match('>'); 
 
             }
 
@@ -1650,10 +1610,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__173;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:92:8: ( '+' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:92:10: '+'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:90:8: ( '<=' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:90:10: '<='
             {
-            match('+'); 
+            match("<="); 
+
 
             }
 
@@ -1670,10 +1631,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__174;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:93:8: ( '-' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:93:10: '-'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:91:8: ( '>=' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:91:10: '>='
             {
-            match('-'); 
+            match(">="); 
+
 
             }
 
@@ -1690,10 +1652,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__175;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:94:8: ( '*' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:94:10: '*'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:92:8: ( '+' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:92:10: '+'
             {
-            match('*'); 
+            match('+'); 
 
             }
 
@@ -1710,10 +1672,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__176;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:95:8: ( '/' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:95:10: '/'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:93:8: ( '-' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:93:10: '-'
             {
-            match('/'); 
+            match('-'); 
 
             }
 
@@ -1730,10 +1692,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__177;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:96:8: ( '.' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:96:10: '.'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:94:8: ( '*' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:94:10: '*'
             {
-            match('.'); 
+            match('*'); 
 
             }
 
@@ -1750,11 +1712,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__178;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:97:8: ( '@portType' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:97:10: '@portType'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:95:8: ( '/' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:95:10: '/'
             {
-            match("@portType"); 
-
+            match('/'); 
 
             }
 
@@ -1771,11 +1732,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__179;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:98:8: ( '@pt' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:98:10: '@pt'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:96:8: ( '.' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:96:10: '.'
             {
-            match("@pt"); 
-
+            match('.'); 
 
             }
 
@@ -1792,10 +1752,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__180;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:99:8: ( '@name' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:99:10: '@name'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:97:8: ( '@portType' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:97:10: '@portType'
             {
-            match("@name"); 
+            match("@portType"); 
 
 
             }
@@ -1813,10 +1773,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__181;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:100:8: ( '@messageExchange' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:100:10: '@messageExchange'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:98:8: ( '@pt' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:98:10: '@pt'
             {
-            match("@messageExchange"); 
+            match("@pt"); 
 
 
             }
@@ -1834,10 +1794,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__182;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:101:8: ( '@mex' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:101:10: '@mex'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:99:8: ( '@name' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:99:10: '@name'
             {
-            match("@mex"); 
+            match("@name"); 
 
 
             }
@@ -1855,10 +1815,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__183;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:102:8: ( '@messageType' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:102:10: '@messageType'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:100:8: ( '@messageExchange' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:100:10: '@messageExchange'
             {
-            match("@messageType"); 
+            match("@messageExchange"); 
 
 
             }
@@ -1876,10 +1836,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__184;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:103:8: ( '@msgType' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:103:10: '@msgType'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:101:8: ( '@mex' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:101:10: '@mex'
             {
-            match("@msgType"); 
+            match("@mex"); 
 
 
             }
@@ -1897,10 +1857,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__185;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:104:8: ( '@type' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:104:10: '@type'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:102:8: ( '@messageType' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:102:10: '@messageType'
             {
-            match("@type"); 
+            match("@messageType"); 
 
 
             }
@@ -1918,10 +1878,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__186;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:105:8: ( '@element' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:105:10: '@element'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:103:8: ( '@msgType' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:103:10: '@msgType'
             {
-            match("@element"); 
+            match("@msgType"); 
 
 
             }
@@ -1939,10 +1899,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__187;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:106:8: ( '@faultName' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:106:10: '@faultName'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:104:8: ( '@type' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:104:10: '@type'
             {
-            match("@faultName"); 
+            match("@type"); 
 
 
             }
@@ -1960,10 +1920,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__188;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:107:8: ( '@fault' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:107:10: '@fault'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:105:8: ( '@element' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:105:10: '@element'
             {
-            match("@fault"); 
+            match("@element"); 
 
 
             }
@@ -1981,6 +1941,48 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = T__189;
             int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:106:8: ( '@faultName' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:106:10: '@faultName'
+            {
+            match("@faultName"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__189"
+
+    // $ANTLR start "T__190"
+    public final void mT__190() throws RecognitionException {
+        try {
+            int _type = T__190;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:107:8: ( '@fault' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:107:10: '@fault'
+            {
+            match("@fault"); 
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "T__190"
+
+    // $ANTLR start "T__191"
+    public final void mT__191() throws RecognitionException {
+        try {
+            int _type = T__191;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
             // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:108:8: ( '@faultElement' )
             // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:108:10: '@faultElement'
             {
@@ -1995,7 +1997,7 @@ public class BPELscriptLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "T__189"
+    // $ANTLR end "T__191"
 
     // $ANTLR start "EXT_EXPR"
     public final void mEXT_EXPR() throws RecognitionException {
@@ -4159,602 +4161,602 @@ public class BPELscriptLexer extends Lexer {
     // $ANTLR end "MUSTUND"
 
     public void mTokens() throws RecognitionException {
-        // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:8: ( T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | T__177 | T__178 | T__179 | T__180 | T__181 | T__182 | T__183 | T__184 | T__185 | T__186 | T__187 | T__188 | T__189 | EXT_EXPR | EXT_ACT | OPAQUE_EXPR | KEY | SEMI | ID | INT | STRING | ESCAPE_SEQ | SL_COMMENTS | CR | WS | EOSF | SJF | PARALLEL | SBO | INITPARTNER | INIT_COR | PATTERN_COR | ISOLATED | CREATE_INST | VALID | KEEPSRC | IGNORE | PROP | MUSTUND )
+        // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:8: ( T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | T__177 | T__178 | T__179 | T__180 | T__181 | T__182 | T__183 | T__184 | T__185 | T__186 | T__187 | T__188 | T__189 | T__190 | T__191 | EXT_EXPR | EXT_ACT | OPAQUE_EXPR | KEY | SEMI | ID | INT | STRING | ESCAPE_SEQ | SL_COMMENTS | CR | WS | EOSF | SJF | PARALLEL | SBO | INITPARTNER | INIT_COR | PATTERN_COR | ISOLATED | CREATE_INST | VALID | KEEPSRC | IGNORE | PROP | MUSTUND )
         int alt43=111;
         alt43 = dfa43.predict(input);
         switch (alt43) {
             case 1 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:10: T__105
-                {
-                mT__105(); 
-
-                }
-                break;
-            case 2 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:17: T__106
-                {
-                mT__106(); 
-
-                }
-                break;
-            case 3 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:24: T__107
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:10: T__107
                 {
                 mT__107(); 
 
                 }
                 break;
-            case 4 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:31: T__108
+            case 2 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:17: T__108
                 {
                 mT__108(); 
 
                 }
                 break;
-            case 5 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:38: T__109
+            case 3 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:24: T__109
                 {
                 mT__109(); 
 
                 }
                 break;
-            case 6 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:45: T__110
+            case 4 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:31: T__110
                 {
                 mT__110(); 
 
                 }
                 break;
-            case 7 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:52: T__111
+            case 5 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:38: T__111
                 {
                 mT__111(); 
 
                 }
                 break;
-            case 8 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:59: T__112
+            case 6 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:45: T__112
                 {
                 mT__112(); 
 
                 }
                 break;
-            case 9 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:66: T__113
+            case 7 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:52: T__113
                 {
                 mT__113(); 
 
                 }
                 break;
-            case 10 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:73: T__114
+            case 8 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:59: T__114
                 {
                 mT__114(); 
 
                 }
                 break;
-            case 11 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:80: T__115
+            case 9 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:66: T__115
                 {
                 mT__115(); 
 
                 }
                 break;
-            case 12 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:87: T__116
+            case 10 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:73: T__116
                 {
                 mT__116(); 
 
                 }
                 break;
-            case 13 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:94: T__117
+            case 11 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:80: T__117
                 {
                 mT__117(); 
 
                 }
                 break;
-            case 14 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:101: T__118
+            case 12 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:87: T__118
                 {
                 mT__118(); 
 
                 }
                 break;
-            case 15 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:108: T__119
+            case 13 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:94: T__119
                 {
                 mT__119(); 
 
                 }
                 break;
-            case 16 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:115: T__120
+            case 14 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:101: T__120
                 {
                 mT__120(); 
 
                 }
                 break;
-            case 17 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:122: T__121
+            case 15 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:108: T__121
                 {
                 mT__121(); 
 
                 }
                 break;
-            case 18 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:129: T__122
+            case 16 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:115: T__122
                 {
                 mT__122(); 
 
                 }
                 break;
-            case 19 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:136: T__123
+            case 17 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:122: T__123
                 {
                 mT__123(); 
 
                 }
                 break;
-            case 20 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:143: T__124
+            case 18 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:129: T__124
                 {
                 mT__124(); 
 
                 }
                 break;
-            case 21 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:150: T__125
+            case 19 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:136: T__125
                 {
                 mT__125(); 
 
                 }
                 break;
-            case 22 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:157: T__126
+            case 20 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:143: T__126
                 {
                 mT__126(); 
 
                 }
                 break;
-            case 23 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:164: T__127
+            case 21 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:150: T__127
                 {
                 mT__127(); 
 
                 }
                 break;
-            case 24 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:171: T__128
+            case 22 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:157: T__128
                 {
                 mT__128(); 
 
                 }
                 break;
-            case 25 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:178: T__129
+            case 23 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:164: T__129
                 {
                 mT__129(); 
 
                 }
                 break;
-            case 26 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:185: T__130
+            case 24 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:171: T__130
                 {
                 mT__130(); 
 
                 }
                 break;
-            case 27 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:192: T__131
+            case 25 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:178: T__131
                 {
                 mT__131(); 
 
                 }
                 break;
-            case 28 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:199: T__132
+            case 26 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:185: T__132
                 {
                 mT__132(); 
 
                 }
                 break;
-            case 29 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:206: T__133
+            case 27 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:192: T__133
                 {
                 mT__133(); 
 
                 }
                 break;
-            case 30 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:213: T__134
+            case 28 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:199: T__134
                 {
                 mT__134(); 
 
                 }
                 break;
-            case 31 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:220: T__135
+            case 29 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:206: T__135
                 {
                 mT__135(); 
 
                 }
                 break;
-            case 32 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:227: T__136
+            case 30 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:213: T__136
                 {
                 mT__136(); 
 
                 }
                 break;
-            case 33 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:234: T__137
+            case 31 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:220: T__137
                 {
                 mT__137(); 
 
                 }
                 break;
-            case 34 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:241: T__138
+            case 32 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:227: T__138
                 {
                 mT__138(); 
 
                 }
                 break;
-            case 35 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:248: T__139
+            case 33 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:234: T__139
                 {
                 mT__139(); 
 
                 }
                 break;
-            case 36 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:255: T__140
+            case 34 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:241: T__140
                 {
                 mT__140(); 
 
                 }
                 break;
-            case 37 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:262: T__141
+            case 35 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:248: T__141
                 {
                 mT__141(); 
 
                 }
                 break;
-            case 38 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:269: T__142
+            case 36 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:255: T__142
                 {
                 mT__142(); 
 
                 }
                 break;
-            case 39 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:276: T__143
+            case 37 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:262: T__143
                 {
                 mT__143(); 
 
                 }
                 break;
-            case 40 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:283: T__144
+            case 38 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:269: T__144
                 {
                 mT__144(); 
 
                 }
                 break;
-            case 41 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:290: T__145
+            case 39 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:276: T__145
                 {
                 mT__145(); 
 
                 }
                 break;
-            case 42 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:297: T__146
+            case 40 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:283: T__146
                 {
                 mT__146(); 
 
                 }
                 break;
-            case 43 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:304: T__147
+            case 41 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:290: T__147
                 {
                 mT__147(); 
 
                 }
                 break;
-            case 44 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:311: T__148
+            case 42 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:297: T__148
                 {
                 mT__148(); 
 
                 }
                 break;
-            case 45 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:318: T__149
+            case 43 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:304: T__149
                 {
                 mT__149(); 
 
                 }
                 break;
-            case 46 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:325: T__150
+            case 44 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:311: T__150
                 {
                 mT__150(); 
 
                 }
                 break;
-            case 47 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:332: T__151
+            case 45 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:318: T__151
                 {
                 mT__151(); 
 
                 }
                 break;
-            case 48 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:339: T__152
+            case 46 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:325: T__152
                 {
                 mT__152(); 
 
                 }
                 break;
-            case 49 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:346: T__153
+            case 47 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:332: T__153
                 {
                 mT__153(); 
 
                 }
                 break;
-            case 50 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:353: T__154
+            case 48 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:339: T__154
                 {
                 mT__154(); 
 
                 }
                 break;
-            case 51 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:360: T__155
+            case 49 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:346: T__155
                 {
                 mT__155(); 
 
                 }
                 break;
-            case 52 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:367: T__156
+            case 50 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:353: T__156
                 {
                 mT__156(); 
 
                 }
                 break;
-            case 53 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:374: T__157
+            case 51 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:360: T__157
                 {
                 mT__157(); 
 
                 }
                 break;
-            case 54 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:381: T__158
+            case 52 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:367: T__158
                 {
                 mT__158(); 
 
                 }
                 break;
-            case 55 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:388: T__159
+            case 53 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:374: T__159
                 {
                 mT__159(); 
 
                 }
                 break;
-            case 56 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:395: T__160
+            case 54 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:381: T__160
                 {
                 mT__160(); 
 
                 }
                 break;
-            case 57 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:402: T__161
+            case 55 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:388: T__161
                 {
                 mT__161(); 
 
                 }
                 break;
-            case 58 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:409: T__162
+            case 56 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:395: T__162
                 {
                 mT__162(); 
 
                 }
                 break;
-            case 59 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:416: T__163
+            case 57 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:402: T__163
                 {
                 mT__163(); 
 
                 }
                 break;
-            case 60 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:423: T__164
+            case 58 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:409: T__164
                 {
                 mT__164(); 
 
                 }
                 break;
-            case 61 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:430: T__165
+            case 59 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:416: T__165
                 {
                 mT__165(); 
 
                 }
                 break;
-            case 62 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:437: T__166
+            case 60 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:423: T__166
                 {
                 mT__166(); 
 
                 }
                 break;
-            case 63 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:444: T__167
+            case 61 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:430: T__167
                 {
                 mT__167(); 
 
                 }
                 break;
-            case 64 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:451: T__168
+            case 62 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:437: T__168
                 {
                 mT__168(); 
 
                 }
                 break;
-            case 65 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:458: T__169
+            case 63 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:444: T__169
                 {
                 mT__169(); 
 
                 }
                 break;
-            case 66 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:465: T__170
+            case 64 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:451: T__170
                 {
                 mT__170(); 
 
                 }
                 break;
-            case 67 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:472: T__171
+            case 65 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:458: T__171
                 {
                 mT__171(); 
 
                 }
                 break;
-            case 68 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:479: T__172
+            case 66 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:465: T__172
                 {
                 mT__172(); 
 
                 }
                 break;
-            case 69 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:486: T__173
+            case 67 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:472: T__173
                 {
                 mT__173(); 
 
                 }
                 break;
-            case 70 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:493: T__174
+            case 68 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:479: T__174
                 {
                 mT__174(); 
 
                 }
                 break;
-            case 71 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:500: T__175
+            case 69 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:486: T__175
                 {
                 mT__175(); 
 
                 }
                 break;
-            case 72 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:507: T__176
+            case 70 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:493: T__176
                 {
                 mT__176(); 
 
                 }
                 break;
-            case 73 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:514: T__177
+            case 71 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:500: T__177
                 {
                 mT__177(); 
 
                 }
                 break;
-            case 74 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:521: T__178
+            case 72 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:507: T__178
                 {
                 mT__178(); 
 
                 }
                 break;
-            case 75 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:528: T__179
+            case 73 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:514: T__179
                 {
                 mT__179(); 
 
                 }
                 break;
-            case 76 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:535: T__180
+            case 74 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:521: T__180
                 {
                 mT__180(); 
 
                 }
                 break;
-            case 77 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:542: T__181
+            case 75 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:528: T__181
                 {
                 mT__181(); 
 
                 }
                 break;
-            case 78 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:549: T__182
+            case 76 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:535: T__182
                 {
                 mT__182(); 
 
                 }
                 break;
-            case 79 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:556: T__183
+            case 77 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:542: T__183
                 {
                 mT__183(); 
 
                 }
                 break;
-            case 80 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:563: T__184
+            case 78 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:549: T__184
                 {
                 mT__184(); 
 
                 }
                 break;
-            case 81 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:570: T__185
+            case 79 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:556: T__185
                 {
                 mT__185(); 
 
                 }
                 break;
-            case 82 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:577: T__186
+            case 80 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:563: T__186
                 {
                 mT__186(); 
 
                 }
                 break;
-            case 83 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:584: T__187
+            case 81 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:570: T__187
                 {
                 mT__187(); 
 
                 }
                 break;
-            case 84 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:591: T__188
+            case 82 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:577: T__188
                 {
                 mT__188(); 
 
                 }
                 break;
-            case 85 :
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:598: T__189
+            case 83 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:584: T__189
                 {
                 mT__189(); 
+
+                }
+                break;
+            case 84 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:591: T__190
+                {
+                mT__190(); 
+
+                }
+                break;
+            case 85 :
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:1:598: T__191
+                {
+                mT__191(); 
 
                 }
                 break;
@@ -6578,7 +6580,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA43_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | T__177 | T__178 | T__179 | T__180 | T__181 | T__182 | T__183 | T__184 | T__185 | T__186 | T__187 | T__188 | T__189 | EXT_EXPR | EXT_ACT | OPAQUE_EXPR | KEY | SEMI | ID | INT | STRING | ESCAPE_SEQ | SL_COMMENTS | CR | WS | EOSF | SJF | PARALLEL | SBO | INITPARTNER | INIT_COR | PATTERN_COR | ISOLATED | CREATE_INST | VALID | KEEPSRC | IGNORE | PROP | MUSTUND );";
+            return "1:1: Tokens : ( T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | T__170 | T__171 | T__172 | T__173 | T__174 | T__175 | T__176 | T__177 | T__178 | T__179 | T__180 | T__181 | T__182 | T__183 | T__184 | T__185 | T__186 | T__187 | T__188 | T__189 | T__190 | T__191 | EXT_EXPR | EXT_ACT | OPAQUE_EXPR | KEY | SEMI | ID | INT | STRING | ESCAPE_SEQ | SL_COMMENTS | CR | WS | EOSF | SJF | PARALLEL | SBO | INITPARTNER | INIT_COR | PATTERN_COR | ISOLATED | CREATE_INST | VALID | KEEPSRC | IGNORE | PROP | MUSTUND );";
         }
     }
  
