@@ -1639,7 +1639,7 @@ std_elts returns [String text=""]
   : queryContent:PCDATA
   {
     //distinguish betwenn executable and abstract expression
-  	text+=Helper.cvOpaque(opaque, queryContent.getText().trim());
+  	text+="["+Helper.cvOpaque(opaque, queryContent.getText().trim())+"]";
   }
   ;
   

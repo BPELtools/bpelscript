@@ -157,7 +157,9 @@ join		:	'join' '(' k+=ID (',' k+=ID)* (',' (expr | OPAQUE_EXPR))? ')' -> ^(JOIN 
 
 if_ex
 	:	std_attr
-		'if' '(' (iex=expr|iop=OPAQUE_EXPR) ')' s=sequence ('elseif' '(' (eiex+=expr|eiop=OPAQUE_EXPR) ')' sei+=sequence)* ('else' se=sequence)? 
+		'if' '(' (iex=expr|iop=OPAQUE_EXPR) ')' s=sequence 
+		('elseif' '(' (eiex=expr|eiop=OPAQUE_EXPR) ')' sei+=sequence)* 
+		('else' se=sequence)? 
 	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex? $eiop? $sei))* (^(ELSE $se))? std_attr );
 
 sequence
