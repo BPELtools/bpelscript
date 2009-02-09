@@ -846,14 +846,17 @@ until(expr_st, body_st, join, signal, std_attr, comments, opaque) ::= <<
  *  assign_st: the loop assignment
  *  body_st: the loop body
  */
-foreach(id, init_st, initop, cond_st, complete, body_st, join, signal, std_attr, parallel, sbo, comments) ::= <<
+foreach(id, init_st, initop, cond_st, condop, complete, comop, body_st, join, signal, std_attr, parallel, sbo, comments) ::= <<
+<condop>
 <taggin(tagname="forEach",
 		content=std_aux(join=join, signal=signal)+doc(comments=comments)
 				+{<taggin(tagname="startCounterValue",
 						  incontent=initop,
-						  content=init_st)><\n><taggin(tagname="finalCounterValue", 
-						 							   content=cond_st)><\n><if(complete)><taggin(tagname="completionCondition", 
-						 							  							    content=taggin(tagname="branches", content=complete, incontent={<if(sbo)><sbo><endif>})
+						  content=init_st
+						  )><\n><taggin(tagname="finalCounterValue", 
+						  				incontent=condop,
+						 				content=cond_st)><\n><if(complete+comop)><taggin(tagname="completionCondition", 
+						 							  							    content=taggin(tagname="branches", content=complete, incontent={<comop><if(sbo)><sbo><endif>})
 						 							  							    			  )><\n><endif><body_st>},
 		incontent={ counterName="<id>"<if(parallel)> <parallel><endif><std_attr>}
 		)>
@@ -871,14 +874,14 @@ foreach(id, init_st, initop, cond_st, complete, body_st, join, signal, std_attr,
  *  to_st: the to expression
  *  body_st: the loop body
  */
-forall(id, from_st, to_st, body_st, join, signal) ::= <<
-<taggin(tagname="forEach",
-		content=std_aux(join=join, signal=signal)
-				+{<taggin(tagname="startCounterValue",
-						 content=from_st)><\n><taggin(tagname="finalCounterValue", 
-						 							  content=to_st)><\n><body_st>}
-		)>
->>
+//forall(id, from_st, to_st, body_st, join, signal) ::= <<
+//<taggin(tagname="forEach",
+//		content=std_aux(join=join, signal=signal)
+//				+{<taggin(tagname="startCounterValue",
+//						 content=from_st)><\n><taggin(tagname="finalCounterValue", 
+//						 							  content=to_st)><\n><body_st>}
+//		)>
+//>>
 
 
 ///////////////// Scopes //////////////////////////////////////////////////////////////////////////

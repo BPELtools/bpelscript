@@ -27,7 +27,7 @@ tokens {
     ALARM; ONMESSAGE; COMPENSATION; COMPENSATE; CORRELATION; CORR_MAP; PARTNERLINK; VARIABLE; VALIDATE; BLOCK_PARAM; 
     SIGNAL; JOIN; WITH; MAP; NOP; RETHROW; OPAQUE;
     EXPR; EXT_EXPR; XML_LITERAL; CALL; NAMESPACE; NS; PATH; EXTENSION; EXTENSIONACT; IMPORT; MESSAGES; CORRSETS; CORRSET;
-    XML; JS;
+    XML; JS; FINAL; BRANCH;
     PID; VARIABLES; PARTNERLINKS; PORTTYPE; STD_ATTR;ONALARM;REPEATEVERY;EVENTHDL;MESSAGE; TERMINATION; 
     MSGEX; FAULTNAME; MSGTYPE; VITYPE; VIELT;FAULTELT;
 }
@@ -181,8 +181,8 @@ foreach
 	:	PARALLEL?
 		successfulBranchesOnly=SBO? 
 		std_attr
-		'for' '(' cName=ID '=' (init=expr|initop=OPAQUE_EXPR) ('to'|SEMI) (cond=expr|condop=OPAQUE_EXPR)? (('finish'|SEMI) (complete+=expr|compop+=OPAQUE_EXPR))? ')' scope_short
-	-> 	^(FOR $cName $init? $initop? $cond? $condop? $complete? $compop?
+		'for' '(' cName=ID '=' (init=expr|initop=OPAQUE_EXPR) ('to'|SEMI) (cond=expr | condop=OPAQUE_EXPR) (('finish'|SEMI) (complete+=expr|compop+=OPAQUE_EXPR))? ')' scope_short
+	-> 	^(FOR $cName $init? $initop? (^(FINAL $cond? $condop?))? (^(BRANCH $complete $compop))?
 			scope_short PARALLEL? SBO? std_attr);
 
 try_ex		:	'try' body catch_ex* catchAll?-> ^(TRY catch_ex* body?);		
