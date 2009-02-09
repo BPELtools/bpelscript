@@ -2,10 +2,7 @@ namespace pns = "http://example.com/loan-approval/";
 
 process pns::loanApprovalProcess {
 
-nop;
-
-while(##opaque) {nop;}
-
+for (i=##opaque; 55; ##opaque) {exit;}
 
 
 }
