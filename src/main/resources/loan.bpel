@@ -2,26 +2,8 @@
  targetNamespace="http://example.com/loan-approval/"
  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
 
-  <partnerLinks>
-    <partnerLink name="assessor"
-     partnerLinkType="pns:riskAssessmentLT"
-     myRole="assessor"
-     initializePartnerRole="no"/>
-    <partnerLink name="manager"
-     partnerLinkType="pns:KfWManagementLT"
-     initializePartnerRole="yes"/>
-    <partnerLink name="approver"
-     partnerLinkType="pns:loanApprovalLT"
-     partnerRole="approver"
-     initializePartnerRole="yes"/>
-    <partnerLink name="customer"
-     partnerLinkType="pns:loanPartnerLT"
-     partnerRole="roleB"/>
-  </partnerLinks>
-
-
   <sequence>
 
-    <empty/>
+    <opaqueFrom/>
   </sequence>
 </process>

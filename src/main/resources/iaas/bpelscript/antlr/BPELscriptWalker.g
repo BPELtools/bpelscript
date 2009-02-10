@@ -541,8 +541,8 @@ if (_faults!=null) {
 	;
 
 assign	 [List join, List signal, boolean empty, HashMap<String, String>_vars, HashMap<String, String>_pl, String name, StringTemplate pb, List comments]
-	:	^(ASSIGN pe=path_expr PROP? portType? CREATE_INST?  std_attr faultName? msgEx? VALID? KEEPSRC? IGNORE? 
-		rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, join, signal, empty, 
+	:	^(ASSIGN pe=path_expr? PROP? OPAQUE_EXPR? portType? CREATE_INST?  std_attr faultName? msgEx? VALID? KEEPSRC? IGNORE? 
+		rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, $OPAQUE_EXPR.text, join, signal, empty, 
 			$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] ) 
 		{
 			boolean isRealAssign = true;
@@ -552,14 +552,14 @@ assign	 [List join, List signal, boolean empty, HashMap<String, String>_vars, Ha
 	;
 
 rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl, 
-	StringTemplate path_expr, String str_path_expr, String lhs_prop, List join, List signal, boolean empty, 
+	StringTemplate path_expr, String str_path_expr, String lhs_prop, String lhs_opaque, List join, List signal, boolean empty, 
 	StringTemplate portType, String crtInst, StringTemplate std_attr, StringTemplate faultName, StringTemplate msgEx,
 	String valid, String keepsrc, String ignore, String name, StringTemplate pb]
 	: 	r=receive[null, null, true, null]
 		{
 		if ($valid!=null || $keepsrc!=null || $ignore!=null) {
 			System.err.println("Error-Info: these attributes are not allowed in this context.");
-		}
+		}	
 		//if LHS is not known in variables HashMap, it must be declared (implicit variable declaration)
 		String[] lhs = $str_path_expr.split("\\."); // fetch left hand side
 		if (!_vars.containsKey(lhs[0])) {
@@ -583,7 +583,7 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 	| 	
 	  	expr[$path_expr] PROP?
 	  	{
-		// display error when atrributes are used which are only allowe for other alternatives
+		// display error when atrributes are used which are only allowed for other alternatives
 		if ($portType!=null || $faultName!=null || $msgEx!=null) {
 			System.err.println("Error-Info: these attributes are not allowed in this context.");
 		}
@@ -591,7 +591,11 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 		String from_spec = $expr.text; //fetch right hand side
 		String[] from_part;
 		
-		String[] lhs = $str_path_expr.split("\\."); // fetch left hand side
+		String[] lhs = null;
+		//distinguish between normal assignment and opaque assignment
+		if ($str_path_expr!=null) {
+			lhs = $str_path_expr.split("\\."); // fetch left hand side
+		} 
 		
 		// if 'from_spec' contains a path (to a part, property or endPoint) strip the parts out
 		if (from_spec.contains(".")) {
@@ -643,7 +647,7 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 				    }
 
 				    //since BPEL states an implicit partnerrole assignment allow only a partnerole description (but is ignored)
-				    if (lhs.length>1 && !lhs[1].equals("partnerRole")) {
+				    if (lhs!=null && lhs.length>1 && !lhs[1].equals("partnerRole")) {
 				        System.err.println("Error: PartnerLink '"+topl+"' has wrong Endpoint Reference. MUST be empty or 'partnerRole'.");
 				    }
 				}
@@ -727,11 +731,12 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 		     */
 		     
 		    //handle variable description
-			tovar=lhs[0];
+			tovar=lhs==null?null:lhs[0];
+			//tovar=lhs[0];
 			isToExpr=true;
 			    
 			//if there is a part or property description
-			if (lhs.length>1 && lhs[1]!=null) {
+			if (lhs!=null && lhs.length>1 && lhs[1]!=null) {
 			    //if the annotation '@part' is set on lhs assign it to 'tpart', else it is a property and assigned to 'tprop'
 			    if ($lhs_prop!=null && $lhs_prop.equals("property")) {//handle property reference
 			        tprop=lhs[1].replaceFirst(":", "");;
@@ -745,7 +750,7 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 			}
 			    
 			//if LHS is not known in variables HashMap, it must be declared (implicit variable declaration)
-			if (!_vars.containsKey(lhs[0])) {
+			if (lhs!=null && !_vars.containsKey(lhs[0])) {
 			    _vars.put(lhs[0], null);
 			}
 		}
@@ -754,9 +759,97 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 			empty={isPLorVar}, ext={isExt}, //signals if it is an extended expression or not
 			pl={pL}, pl_p={ePR}, //partnerlink parts
 			var={var}, part={part}, prop={property}, //variable parts
-			topart={tpart}, toprop={tprop}, topl={topl}, tovar={tovar}, toempty={isToExpr}, //LHS part
+			topart={tpart}, toprop={tprop}, topl={topl}, tovar={tovar}, toempty={isToExpr}, toopaque={lhs_opaque},//LHS part
 		  	keep={$keepsrc}, ignore={$ignore}) //attributes of 'copy'-tag
-//	| 	elt=xmlElement
+	|	OPAQUE_EXPR
+	{
+		// display error when atrributes are used which are only allowed for other alternatives
+		if ($portType!=null || $faultName!=null || $msgEx!=null) {
+			System.err.println("Error-Info: these attributes are not allowed in this context.");
+		}
+		
+		String from_spec = null; //fetch right hand side
+		String[] from_part;
+		
+		String[] lhs =null;
+		//distinguish between normal assignment and opaque assignment
+		if ($str_path_expr!=null) {
+			lhs = $str_path_expr.split("\\."); // fetch left hand side
+		}
+		
+		from_part=new String[]{from_spec};
+
+		// if from part known as partnerlink set its content for the template
+		String ePR = null; //endPointReference
+		String pL = null;//partnerLink
+		String topl=null; //partnerLink of to-part
+		Boolean isToExpr=false;
+		Boolean isPL = false; //signals if lhs is a partnerlink or not (used by variables-handling)
+
+		/** 
+		 * Handling of (RHS)-Variables 
+		 * if the rhs is contained in variables HashMap (and is not a partnerlink)
+		 */
+		
+		String var = null; //the variable
+		String part = null; //the part description
+		String property = null; //the property description
+		Boolean isVar=false; //signals if rhs is a variable or not
+		String from = null;
+		Boolean isExt=false; //signals if rhs is an extended expression or not
+		Boolean isPLorVar=true; //signal whether an expression is present or not
+					
+		from = from_part[0]; 
+		isExt=true;
+		//isPLorVar=null;
+		 
+		/** 
+		 * handle LHS 
+		 */
+		String tpart=null; //the part description of the lhs
+		String tprop=null; //the property description of the lhs
+		String tovar=null; //the lhs
+		// topl is set in partnerlink-code
+		Boolean isToEmpty=true; //signal whether an expression is present or not
+		
+		if (!isPL) {//handling only if it is no partnerlink
+		    /**
+		     * lhs could only be an extended expression or a variable description
+		     */
+		     
+		    //handle variable description
+			tovar=lhs==null?null:lhs[0];
+			//tovar=lhs[0];
+			isToExpr=true;
+			    
+			//if there is a part or property description
+			if (lhs!=null && lhs.length>1 && lhs[1]!=null) {
+			    //if the annotation '@part' is set on lhs assign it to 'tpart', else it is a property and assigned to 'tprop'
+			    if ($lhs_prop!=null && $lhs_prop.equals("property")) {//handle property reference
+			        tprop=lhs[1].replaceFirst(":", "");;
+			    } else {//handle part reference
+			        tpart="";
+			        for (int j=1; j<lhs.length; j++) {//handle multiple part references
+             		            tpart+=lhs[j].replaceFirst(":", "");;
+              		            if (j<lhs.length-1) tpart+=".";   
+             		        }
+			    }
+			}
+			    
+			//if LHS is not known in variables HashMap, it must be declared (implicit variable declaration)
+			if (lhs!=null && !_vars.containsKey(lhs[0])) {
+			    _vars.put(lhs[0], null);
+			}
+		}
+		}	
+	->	copy(	from={from}, rhs_opaque={$OPAQUE_EXPR},//from is only set when it is an expression (extended one or normal)
+			empty={isPLorVar}, ext={isExt}, //signals if it is an extended expression or not
+			pl={pL}, pl_p={ePR}, //partnerlink parts
+			var={var}, part={part}, prop={property}, //variable parts
+			topart={tpart}, toprop={tprop}, topl={topl}, 
+			tovar={tovar}, toopaque={lhs_opaque},//
+			toempty={isToExpr}, //LHS part
+		  	keep={$keepsrc}, ignore={$ignore}) //attributes of 'copy'-tag
 //	->	walk(xmlelt_st={$elt.text})
 	;
 	

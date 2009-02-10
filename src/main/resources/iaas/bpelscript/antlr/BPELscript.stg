@@ -536,25 +536,25 @@ attribute_base(tpl, partner, op, path_st, outvar, invar, fault, portType, std_at
  *  var: the copy variable (LHS)
  * 
  */
-copy(from, ext, empty, 
+copy(from, ext, empty, rhs_opaque,
 	 pl, pl_p,
 	 var, part, prop,
-	 tovar, topl, topart, toprop, toempty,
+	 tovar, topl, topart, toprop, toempty, toopaque,
 	 keep, ignore) ::= 	
 <<
 <taggin(tagname="copy", 
-		content=from_to_base(name="from", from=from, pl=pl, pl_p=pl_p, 
+		content=from_to_base(name="from", from=from, pl=pl, pl_p=pl_p, rhs_opaque=rhs_opaque,
 							 var=var, part=part, prop=prop, ext=ext, empty=empty)
 +"\n"+from_to_base(name="to", from="null", pl=topl,  
-				   var=tovar, part=topart, prop=toprop, empty=toempty),
+				   var=tovar, part=topart, prop=toprop, empty=toempty, toopaque=toopaque),
 		incontent=keep+ignore)>
 >>
 
 
-from_to_base(name, from, pl, pl_p, var, part, prop, ext, empty) ::=
+from_to_base(name, from, pl, pl_p, var, part, prop, ext, empty, toopaque, rhs_opaque) ::=
 <<
 <taggin(tagname=name,
-		incontent={<if(pl)> partnerLink="<pl>"<if(pl_p)> endpointReference="<pl_p>"<endif><endif><if (var)>
+		incontent={<toopaque><rhs_opaque><if(pl)> partnerLink="<pl>"<if(pl_p)> endpointReference="<pl_p>"<endif><endif><if (var)>
  variable="<var>"<if(part)> part="<part>"<endif><if(prop)> property="<prop>"<endif><endif>},
 		content={<if (from)><if(!pl)><if(!var)><if(ext)><from><else><taggin(tagname="literal", content=from)><endif><endif><endif><endif>},
 		empty=empty
