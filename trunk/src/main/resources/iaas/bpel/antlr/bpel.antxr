@@ -1713,7 +1713,7 @@ std_elts returns [String text=""]
  * @category opaqueActivity
  */    
 <opaqueFrom> returns [String text=""]
-  : {text+="\"##opaque\"";}
+  : {text+="##opaque";}
   ;
     
 // Support of wildcards  ###########################################

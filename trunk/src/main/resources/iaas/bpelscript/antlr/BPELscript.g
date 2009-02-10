@@ -250,13 +250,14 @@ invoke
 
 assign
 	:	portType? CREATE_INST? VALID? KEEPSRC? IGNORE? faultName? msgEx? std_attr //only receive and invoke
-		path_expr PROP? '=' rvalue
-	-> 	^(ASSIGN path_expr PROP? portType? CREATE_INST? std_attr faultName? msgEx? VALID? KEEPSRC? IGNORE? rvalue);
+		(lhs_opaque=OPAQUE_EXPR | path_expr PROP?) '=' rvalue
+	-> 	^(ASSIGN path_expr? PROP? $lhs_opaque? portType? CREATE_INST? std_attr faultName? msgEx? VALID? KEEPSRC? IGNORE? rvalue?);
 
 rvalue
 	:	receive
 	|	invoke
 	|	expr PROP?
+	|	OPAQUE_EXPR
 	;
 	
 throw_ex
