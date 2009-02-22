@@ -1,4 +1,4 @@
-// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscriptWalker.g 2009-02-10 20:42:33
+// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscriptWalker.g 2009-02-22 17:55:23
 
 /*
  * Copyright 2008, 2009 Marc Bischof 

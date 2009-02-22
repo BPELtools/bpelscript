@@ -1,4 +1,4 @@
-// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-10 18:52:13
+// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-22 17:56:17
 
 /*
  * Copyright 2008, 2009 Marc Bischof 
@@ -3280,14 +3280,14 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = INITPARTNER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:2: ( ( '@initializePartner' | '@init' ) | ( '@initializePartner no' | '@init no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:2: ( ( '@initializePartnerRole' | '@init' ) | ( '@initializePartnerRole no' | '@init no' ) )
             int alt24=2;
             alt24 = dfa24.predict(input);
             switch (alt24) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:4: ( '@initializePartner' | '@init' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:4: ( '@initializePartnerRole' | '@init' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:4: ( '@initializePartner' | '@init' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:4: ( '@initializePartnerRole' | '@init' )
                     int alt22=2;
                     int LA22_0 = input.LA(1);
 
@@ -3348,15 +3348,15 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt22) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:5: '@initializePartner'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:5: '@initializePartnerRole'
                             {
-                            match("@initializePartner"); 
+                            match("@initializePartnerRole"); 
 
 
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:28: '@init'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:32: '@init'
                             {
                             match("@init"); 
 
@@ -3371,9 +3371,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:4: ( '@initializePartner no' | '@init no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:4: ( '@initializePartnerRole no' | '@init no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:4: ( '@initializePartner no' | '@init no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:4: ( '@initializePartnerRole no' | '@init no' )
                     int alt23=2;
                     int LA23_0 = input.LA(1);
 
@@ -3441,15 +3441,15 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt23) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:5: '@initializePartner no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:5: '@initializePartnerRole no'
                             {
-                            match("@initializePartner no"); 
+                            match("@initializePartnerRole no"); 
 
 
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:31: '@init no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:35: '@init no'
                             {
                             match("@init no"); 
 
@@ -5321,19 +5321,21 @@ public class BPELscriptLexer extends Lexer {
         }
     }
     static final String DFA24_eotS =
-        "\5\uffff\1\10\16\uffff\1\10";
+        "\5\uffff\1\10\22\uffff\1\10";
     static final String DFA24_eofS =
-        "\25\uffff";
+        "\31\uffff";
     static final String DFA24_minS =
         "\1\100\1\151\1\156\1\151\1\164\1\40\1\141\2\uffff\1\154\1\151\1"+
-        "\172\1\145\1\120\1\141\1\162\1\164\1\156\1\145\1\162\1\40";
+        "\172\1\145\1\120\1\141\1\162\1\164\1\156\1\145\1\162\1\122\1\157"+
+        "\1\154\1\145\1\40";
     static final String DFA24_maxS =
         "\1\100\1\151\1\156\1\151\1\164\1\151\1\141\2\uffff\1\154\1\151\1"+
-        "\172\1\145\1\120\1\141\1\162\1\164\1\156\1\145\1\162\1\40";
+        "\172\1\145\1\120\1\141\1\162\1\164\1\156\1\145\1\162\1\122\1\157"+
+        "\1\154\1\145\1\40";
     static final String DFA24_acceptS =
-        "\7\uffff\1\2\1\1\14\uffff";
+        "\7\uffff\1\2\1\1\20\uffff";
     static final String DFA24_specialS =
-        "\25\uffff}>";
+        "\31\uffff}>";
     static final String[] DFA24_transitionS = {
             "\1\1",
             "\1\2",
@@ -5355,6 +5357,10 @@ public class BPELscriptLexer extends Lexer {
             "\1\22",
             "\1\23",
             "\1\24",
+            "\1\25",
+            "\1\26",
+            "\1\27",
+            "\1\30",
             "\1\7"
     };
 
@@ -5388,7 +5394,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA24_transition;
         }
         public String getDescription() {
-            return "411:11: protected INITPARTNER : ( ( '@initializePartner' | '@init' ) | ( '@initializePartner no' | '@init no' ) );";
+            return "411:11: protected INITPARTNER : ( ( '@initializePartnerRole' | '@init' ) | ( '@initializePartnerRole no' | '@init no' ) );";
         }
     }
     static final String DFA31_eotS =
