@@ -2,7 +2,7 @@ namespace pns = "http://example.com/loan-approval/";
 
 process pns::loanApprovalProcess {
 
-partnerLink assessor = (pns::riskAssessmentLT, assessor, null, @init no),
+partnerLink assessor = (pns::riskAssessmentLT, assessor, null, @initializePartnerRole no),
  manager = (pns::KfWManagementLT, null, null, @init),
  approver = (pns::loanApprovalLT, null, approver, @init),
  customer = (pns::loanPartnerLT, null, roleB);

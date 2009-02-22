@@ -409,8 +409,8 @@ protected SBO
 	|	('@successfulBranchesOnly no' | '@sbo no') {setText("successfulBranchesOnly=\"no\"");};
 	
 protected INITPARTNER
-	:	('@initializePartner' | '@init') {setText("initializePartnerRole=\"yes\"");}
-	|	('@initializePartner no' | '@init no') {setText("initializePartnerRole=\"no\"");};
+	:	('@initializePartnerRole' | '@init') {setText("initializePartnerRole=\"yes\"");}
+	|	('@initializePartnerRole no' | '@init no') {setText("initializePartnerRole=\"no\"");};
 
 protected INIT_COR
 	:	('!' | 'force') {setText("initiate=\"yes\"");}

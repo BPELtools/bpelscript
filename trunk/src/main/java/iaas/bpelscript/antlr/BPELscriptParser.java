@@ -1,4 +1,4 @@
-// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-10 18:52:12
+// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-22 17:56:16
 
 /*
  * Copyright 2008, 2009 Marc Bischof 
@@ -801,7 +801,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: block, sjf, std_attr, eventHdl, ns_id, exitOnStandardFault, exprLg, asignal, ajoin, queryLg
+            // elements: queryLg, asignal, block, ajoin, exitOnStandardFault, sjf, exprLg, ns_id, std_attr, eventHdl
             // token labels: exitOnStandardFault, sjf, queryLg, exprLg
             // rule labels: retval
             // token list labels: 
@@ -995,7 +995,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: signal, proc_stmt, join
+            // elements: join, signal, proc_stmt
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1725,7 +1725,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: sub_declaration, proc_stmts
+            // elements: proc_stmts, sub_declaration
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2212,7 +2212,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: CREATE_INST, std_attr, onAlarm, onMessage
+            // elements: std_attr, onMessage, CREATE_INST, onAlarm
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2450,7 +2450,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, ID, portType, with_ex, param_block, correlation, msgEx
+            // elements: ID, param_block, ID, with_ex, portType, correlation, msgEx
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -2676,7 +2676,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: repeatEvery, timeout, scope_short, alarm
+            // elements: alarm, repeatEvery, timeout, scope_short
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3118,7 +3118,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: expr, OPAQUE_EXPR
+            // elements: OPAQUE_EXPR, expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3426,7 +3426,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, expr, OPAQUE_EXPR
+            // elements: OPAQUE_EXPR, expr, ID
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3597,7 +3597,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: expr, OPAQUE_EXPR, ID
+            // elements: ID, expr, OPAQUE_EXPR
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -3813,7 +3813,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: OPAQUE_EXPR, expr, k
+            // elements: expr, OPAQUE_EXPR, k
             // token labels: 
             // rule labels: retval
             // token list labels: k
@@ -4037,7 +4037,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: OPAQUE_EXPR, expr, k
+            // elements: OPAQUE_EXPR, k, expr
             // token labels: 
             // rule labels: retval
             // token list labels: k
@@ -4331,7 +4331,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: sei, iop, eiop, iex, se, eiex, std_attr, s
+            // elements: iop, sei, std_attr, se, iex, s, eiop, eiex
             // token labels: iop, eiop
             // rule labels: retval, eiex, s, iex, se
             // token list labels: 
@@ -4537,7 +4537,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: s, j, std_attr, b
+            // elements: j, std_attr, b, s
             // token labels: 
             // rule labels: retval, b
             // token list labels: 
@@ -4690,7 +4690,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: j, b, s
+            // elements: s, j, b
             // token labels: 
             // rule labels: retval, b
             // token list labels: 
@@ -4852,7 +4852,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: OPAQUE_EXPR, sequence, std_attr, expr
+            // elements: expr, OPAQUE_EXPR, std_attr, sequence
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5013,7 +5013,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: sequence, expr, OPAQUE_EXPR, std_attr
+            // elements: sequence, expr, std_attr, OPAQUE_EXPR
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5432,7 +5432,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: std_attr, SBO, scope_short, initop, condop, cond, PARALLEL, complete, cName, init, compop
+            // elements: SBO, scope_short, PARALLEL, cond, condop, complete, initop, cName, std_attr, compop, init
             // token labels: condop, cName, initop
             // rule labels: retval, init, cond
             // token list labels: compop
@@ -5468,7 +5468,7 @@ public class BPELscriptParser extends Parser {
                 }
                 stream_initop.reset();
                 // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:187:35: ( ^( FINAL ( $cond)? ( $condop)? ) )?
-                if ( stream_condop.hasNext()||stream_cond.hasNext() ) {
+                if ( stream_cond.hasNext()||stream_condop.hasNext() ) {
                     // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:187:36: ^( FINAL ( $cond)? ( $condop)? )
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
@@ -5491,8 +5491,8 @@ public class BPELscriptParser extends Parser {
                     }
 
                 }
-                stream_condop.reset();
                 stream_cond.reset();
+                stream_condop.reset();
                 // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:187:63: ( ^( BRANCH ( $complete)? ( $compop)? ) )?
                 if ( stream_complete.hasNext()||stream_compop.hasNext() ) {
                     // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:187:64: ^( BRANCH ( $complete)? ( $compop)? )
@@ -5667,7 +5667,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: body, catch_ex
+            // elements: catch_ex, body
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5832,7 +5832,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ns_id, faultElt, param_block, fMT
+            // elements: fMT, faultElt, param_block, ns_id
             // token labels: fMT
             // rule labels: retval
             // token list labels: 
@@ -6136,7 +6136,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ISOLATED, scope_stmt, EOSF, SJF, ID, scope_sequence
+            // elements: ISOLATED, scope_sequence, scope_stmt, ID, EOSF, SJF
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -6244,7 +6244,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: scope_stmt, scope_sequence
+            // elements: scope_sequence, scope_stmt
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -6935,7 +6935,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: var, portType, viElt, msgEx, scope_short, correlation, o, p, msgType, with_ex
+            // elements: msgEx, correlation, with_ex, scope_short, p, var, msgType, o, viElt, portType
             // token labels: var, p, o
             // rule labels: retval
             // token list labels: 
@@ -7311,7 +7311,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, path_expr, KEY
+            // elements: ID, KEY, path_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -7559,7 +7559,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: std_attr, msgEx, o, p, with_ex, portType, correlation, CREATE_INST
+            // elements: with_ex, std_attr, correlation, p, CREATE_INST, o, portType, msgEx
             // token labels: p, o
             // rule labels: retval
             // token list labels: 
@@ -7868,7 +7868,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, faultName, ID, std_attr, ID, portType, correlation, with_ex, msgEx
+            // elements: faultName, ID, std_attr, portType, with_ex, ID, msgEx, ID, correlation
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -8155,7 +8155,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: compensation, o, with_ex, std_attr, p, correlation, portType, in
+            // elements: p, o, in, compensation, with_ex, std_attr, correlation, portType
             // token labels: p, o, in
             // rule labels: retval
             // token list labels: 
@@ -8519,7 +8519,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: CREATE_INST, portType, std_attr, msgEx, lhs_opaque, VALID, faultName, rvalue, PROP, path_expr, IGNORE, KEEPSRC
+            // elements: lhs_opaque, IGNORE, PROP, rvalue, path_expr, VALID, faultName, msgEx, CREATE_INST, std_attr, portType, KEEPSRC
             // token labels: lhs_opaque
             // rule labels: retval
             // token list labels: 
@@ -8879,7 +8879,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: std_attr, ns_id, faultVar
+            // elements: std_attr, faultVar, ns_id
             // token labels: faultVar
             // rule labels: retval
             // token list labels: 
@@ -9082,7 +9082,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, std_attr
+            // elements: std_attr, ID
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -9294,7 +9294,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: std_attr, v
+            // elements: v, std_attr
             // token labels: 
             // rule labels: retval
             // token list labels: v
@@ -9383,7 +9383,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: std_attr, e
+            // elements: e, std_attr
             // token labels: e
             // rule labels: retval
             // token list labels: 
@@ -9641,7 +9641,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: STRING, ID
+            // elements: ID, STRING
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -9761,7 +9761,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: MUSTUND, STRING, ID
+            // elements: ID, MUSTUND, STRING
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -9906,7 +9906,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: loc, ns, id, viType
+            // elements: ns, viType, id, loc
             // token labels: id, ns, loc
             // rule labels: retval
             // token list labels: 
@@ -10425,7 +10425,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: msgType, with_ex, ID, viElt, viType
+            // elements: with_ex, viElt, ID, msgType, viType
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -10827,7 +10827,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: roleB, plType, init, ID, roleA
+            // elements: ID, init, roleA, roleB, plType
             // token labels: init
             // rule labels: retval, roleA, roleB, plType
             // token list labels: 
@@ -11104,7 +11104,7 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: pattern, f1, init
+            // elements: pattern, init, f1
             // token labels: pattern, init, f1
             // rule labels: retval
             // token list labels: 
