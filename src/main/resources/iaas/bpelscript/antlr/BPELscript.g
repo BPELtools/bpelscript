@@ -1,5 +1,5 @@
 /*
- * Copyright 2008, 2009 Marc Bischof 
+ * Copyright 2008-2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -33,7 +33,7 @@ tokens {
 }
 @parser::header {
 /*
- * Copyright 2008, 2009 Marc Bischof 
+ * Copyright 2008-2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -56,7 +56,7 @@ import java.util.HashMap;
 
 @lexer::header {
 /*
- * Copyright 2008, 2009 Marc Bischof 
+ * Copyright 2008-2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -148,17 +148,21 @@ onMessage
 onAlarm 
 	:	// use syntactic predicate to garantie that at least one expression must be there 
 		// (also garanties that standard attributes are not used in this context)
-		{input.LT(1).getText().equals("alarm") || input.LT(1).getText().equals("timeout") || input.LT(1).getText().equals("repeatEvery")}? 
+		{input.LT(1).getText().equals("alarm") || input.LT(1).getText().equals("timeout") || input.LT(1).getText().equals("repeatEvery")|| input.LT(1).getText().contains("@")}? 
 		(alarm | timeout)? repeatEvery? {input.LT(1).getText().equals("{")}? scope_short
 	->	^(ONALARM alarm? timeout? repeatEvery? scope_short);
         
-alarm		:	std_attr
+alarm		:	( {q==null}? q=queryLg  | {e==null}? e=exprLg 	        
+	//should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 			'alarm' '(' (expr | OPAQUE_EXPR) ')' 
-		-> 	^(ALARM  expr? OPAQUE_EXPR? std_attr?);
+		-> 	^(ALARM  expr? OPAQUE_EXPR? queryLg? exprLg? $name? SJF?);
 	
-timeout	:	std_attr
+timeout	:	( {q==null}? q=queryLg  | {e==null}? e=exprLg 	        
+	//should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 			'timeout' '(' (expr | OPAQUE_EXPR) ')' 
-		->	^(TIMEOUT expr? OPAQUE_EXPR? std_attr?);
+		->	^(TIMEOUT expr? OPAQUE_EXPR? queryLg? exprLg? $name? SJF?);
 	
 repeatEvery
 	:	'repeatEvery' '(' (expr | OPAQUE_EXPR) ')'
@@ -168,20 +172,24 @@ flow 	:	std_attr
 		'parallel' s+=sequence ( 'and' s+=sequence)*
 	-> 	^(FLOW  $s+ std_attr) ;
 
-signal		:	'signal' '('ID (',' (expr | OPAQUE_EXPR))? ')' -> ^(SIGNAL ID expr? OPAQUE_EXPR?);
+signal		:	( q=queryLg?  | exprLg?  | {q==null}? q=queryLg) 
+			'signal' '('ID (',' (expr | OPAQUE_EXPR))? ')' -> ^(SIGNAL ID expr? OPAQUE_EXPR? queryLg? exprLg?);
 
 asignal	:	'@signal' '('ID (',' (expr | OPAQUE_EXPR))? ')' -> ^(SIGNAL ID expr? OPAQUE_EXPR?);
 
 ajoin		:	'@join' '(' k+=ID (',' k+=ID)* (',' (expr | OPAQUE_EXPR))? ')' -> ^(JOIN $k+ expr? OPAQUE_EXPR?);
 
-join		:	'join' '(' k+=ID (',' k+=ID)* (',' (expr | OPAQUE_EXPR))? ')' -> ^(JOIN $k+ expr? OPAQUE_EXPR?);
+join		:	( q=queryLg?  | exprLg?  | {q==null}? q=queryLg)
+			'join' '(' k+=ID (',' k+=ID)* (',' (expr | OPAQUE_EXPR))? ')' -> ^(JOIN $k+ expr? OPAQUE_EXPR? queryLg? exprLg?);
 
 if_ex
-	:	std_attr
+	:	( {q==null}? q=queryLg  | {e==null}? e=exprLg 	        
+	//should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		'if' '(' (iex=expr|iop=OPAQUE_EXPR) ')' s=sequence 
-		('elseif' '(' (eiex=expr|eiop=OPAQUE_EXPR) ')' sei+=sequence)* 
+		('elseif' '(' (eiex=expr|eiop=OPAQUE_EXPR) ')' sei+=sequence)* //todo add expr,querLg as annotation
 		('else' se=sequence)? 
-	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex? $eiop? $sei))* (^(ELSE $se))? std_attr);
+	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex? $eiop? $sei))* (^(ELSE $se))? $name? SJF? queryLg? exprLg?);
 
 sequence
 	:	std_attr
@@ -195,19 +203,23 @@ scope_sequence
 		b=scope_block
 	->	^(SEQUENCE $j? $b $s*);
 
-while_ex	:	std_attr
-			'while' '(' (expr|OPAQUE_EXPR) ')' s=sequence -> ^(WHILE expr? OPAQUE_EXPR? sequence std_attr);
+while_ex	:	( {q==null}? q=queryLg  | {e==null}? e=exprLg 	        
+	//should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
+			'while' '(' (expr|OPAQUE_EXPR) ')' s=sequence -> ^(WHILE expr? OPAQUE_EXPR? sequence $name? SJF? queryLg? exprLg?);
 
-until_ex	:	std_attr
-			'repeat' s=sequence 'until' '(' (expr|OPAQUE_EXPR) ')' -> ^(UNTIL expr? OPAQUE_EXPR? sequence std_attr);
+until_ex	:	( {q==null}? q=queryLg  | {e==null}? e=exprLg 	        
+	//should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
+			'repeat' s=sequence 'until' '(' (expr|OPAQUE_EXPR) ')' -> ^(UNTIL expr? OPAQUE_EXPR? sequence $name? SJF? queryLg? exprLg?);
 
-foreach
-	:	({par==null}? par=PARALLEL | {successfulBranchesOnly==null}? successfulBranchesOnly=SBO 
+foreach //todo add exprlanguae
+	:	({par==null}? par=PARALLEL | {successfulBranchesOnly==null}? successfulBranchesOnly=SBO | {q==null}? q=queryLg  | {e==null}? e=exprLg
 	        //should be std_attr. but did not work with occurence-order-independency
         	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		'for' '(' cName=ID '=' (init=expr|initop=OPAQUE_EXPR) ('to'|SEMI) (cond=expr | condop=OPAQUE_EXPR) (('finish'|SEMI) (complete+=expr|compop+=OPAQUE_EXPR))? ')' scope_short
 	-> 	^(FOR $cName $init? $initop? (^(FINAL $cond? $condop?))? (^(BRANCH $complete? $compop?))?
-			scope_short PARALLEL? SBO? $name? SJF?);
+			scope_short PARALLEL? SBO? $name? SJF? queryLg? exprLg?);
 	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 try_ex		:	'try' body catch_ex* catchAll?-> ^(TRY catch_ex* body?);		
@@ -301,7 +313,7 @@ throw_ex
 	:	( {f==null}? f=(('@faultVariable' |'@faultVar') faultVar=ID) 
 	//should be std_attr. but did not work with occurence-order-independency
         	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
-		'throw' '(' ns_id ')' -> ^(THROW ns_id $faultVar? $name SJF?);
+		'throw' '(' ns_id ')' -> ^(THROW ns_id $faultVar? $name? SJF?);
 	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 		
 rethrow_ex
