@@ -1,5 +1,5 @@
 /*
- * Copyright 2008, 2009 Marc Bischof 
+ * Copyright 2008-2009 Marc Bischof 
  * based on simpelwalker.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -30,7 +30,7 @@ tokens {
 
 @header {
 /*
- * Copyright 2008, 2009 Marc Bischof 
+ * Copyright 2008-2009 Marc Bischof 
  * based on simpelwalker.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -285,13 +285,23 @@ onAlarm
 	;
         
 alarm [List join, List signal, Boolean empty, Boolean isWait, List comments] 
-	:	^(ALARM e+=expr[null]? op+=OPAQUE_EXPR? std_attr?)
-	->	wait(art={"for"}, expr={$e}, opaque={$op} , join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait}, comments={$comments})
+	:	^(ALARM e+=expr[null]? op+=OPAQUE_EXPR? queryLg? exprLg? name=STRING? sjf=SJF?)
+	{
+	        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	}
+	->	wait(art={"for"}, expr={$e}, opaque={$op} , join={$join}, signal={$signal}, empty={$empty}, 
+		std_attr={std_attr}, isWait={isWait}, comments={$comments}, queryLg={$queryLg.st}, exprLg={$exprLg.st})
 	;
 	
 timeout [List join, List signal, Boolean empty, Boolean isWait, List comments] 
-	:	^(TIMEOUT e+=expr[null]? op+=OPAQUE_EXPR? std_attr?)
-	->	wait(art={"until"}, expr={$e}, opaque={$op}, join={$join}, signal={$signal}, empty={$empty}, std_attr={$std_attr.st}, isWait={isWait}, comments={$comments})
+	:	^(TIMEOUT e+=expr[null]? op+=OPAQUE_EXPR? queryLg? exprLg? name=STRING?sjf=SJF?)
+	{
+	        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	}
+	->	wait(art={"until"}, expr={$e}, opaque={$op}, join={$join}, signal={$signal}, empty={$empty}, 
+		std_attr={std_attr}, isWait={isWait}, comments={$comments}, queryLg={$queryLg.st}, exprLg={$exprLg.st})
 	;
 
 repeatEvery 
@@ -317,21 +327,27 @@ if_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, Str
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
 	: 	^(IF iex+=expr[null]? iop+=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] 
 		(^(ELSIF eiex+=expr[null]? eiop+=OPAQUE_EXPR? sie+=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))* 
-		(^(ELSE se=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))? std_attr)
-	->	if_ex(iex={$iex}, iop={$iop}, seq={$s.st}, eiex={$eiex}, eiop={$eiop}, seqei={$sie}, seqe={$se.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments})
+		(^(ELSE se=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))? name=STRING? sjf=SJF? queryLg? exprLg?)
+	{
+        		String std_attr =templateLib.getInstanceOf("std_attr",
+              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	}
+
+	->	if_ex(iex={$iex}, iop={$iop}, seq={$s.st}, eiex={$eiex}, eiop={$eiop}, seqei={$sie}, seqe={$se.st}, 
+		join={$join}, signal={$signal}, std_attr={std_attr}, comments={$comments}, queryLg={$queryLg.st}, exprLg={$exprLg.st})
 	;
 
 signal
-	:	^(SIGNAL ID exp+=expr[null]? op+=OPAQUE_EXPR?)
+	:	^(SIGNAL ID exp+=expr[null]? op+=OPAQUE_EXPR? queryLg? exprLg?)
 	{//signals whether transitionCondition id null or not to provide a shortcut in template if empty
 		Boolean empty=exp==null && op==null; 
 	}
-	-> 	source(source={$ID.text}, trans={$exp}, empty={empty}, opaque={$op})
+	-> 	source(source={$ID.text}, trans={$exp}, empty={empty}, opaque={$op}, queryLg={$queryLg.st}, exprLg={$exprLg.st})
 	;
 
 join
-	:	^(JOIN ids+=ID+ exp+=expr[null]? op+=OPAQUE_EXPR?)
-	-> 	std_elt(target={$ids}, join={$exp}, opaque={$op})
+	:	^(JOIN ids+=ID+ exp+=expr[null]? op+=OPAQUE_EXPR? queryLg? exprLg?)
+	-> 	std_elt(target={$ids}, join={$exp}, opaque={$op}, queryLg={$queryLg.st}, exprLg={$exprLg.st})
 	;
 
 sequence [HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
@@ -351,21 +367,31 @@ scope_sequence[HashMap<String, String> _vars, HashMap<String, String> _pl, HashM
 
 while_ex [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
-	:	^(WHILE e+=expr[null]? op+=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr)
-	->	while(expr_st={$e},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments}, opaque={$op})
+	:	^(WHILE e+=expr[null]? op+=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] name=STRING? sjf=SJF? queryLg? exprLg?)
+	{
+	        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	}
+
+	->	while(expr_st={$e},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={std_attr}, comments={$comments}, opaque={$op}, queryLg={$queryLg.st}, exprLg={$exprLg.st})
 	;
 
 until_ex [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
-	:	^(UNTIL e+=expr[null]? op+=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] std_attr)
-	-> 	until(expr_st={$e},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, comments={$comments}, opaque={$op})
+	:	^(UNTIL e+=expr[null]? op+=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] name=STRING? sjf=SJF? queryLg? exprLg?)
+	{
+	        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	}
+
+	-> 	until(expr_st={$e},body_st={$s.st}, join={$join}, signal={$signal}, std_attr={std_attr}, comments={$comments}, opaque={$op}, queryLg={$queryLg.st}, exprLg={$exprLg.st})
 	;
 
 foreach [List join, List signal, List comments]
 	:	^(FOR cName=ID init+=expr[null]? initop+=OPAQUE_EXPR?
 		 (^(FINAL cond+=expr[null]? condop+=OPAQUE_EXPR?))? 
 		 (^(BRANCH complete+=expr[null]? comop+=OPAQUE_EXPR?))?
-			scope_short PARALLEL? SBO? name=STRING? sjf=SJF?)
+			scope_short PARALLEL? SBO? name=STRING? sjf=SJF? queryLg? exprLg?)
 	{
 	        		String std_attr =templateLib.getInstanceOf("std_attr",
 	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
@@ -373,7 +399,8 @@ foreach [List join, List signal, List comments]
 	->	foreach(id={$cName}, init_st={$init}, initop={$initop},
 			cond_st={$cond}, condop={$condop},
 			complete={$complete}, comop={$comop},
-			body_st={$scope_short.st}, join={$join}, signal={$signal}, std_attr={std_attr}, parallel={$PARALLEL}, sbo={$SBO}, comments={$comments})
+			body_st={$scope_short.st}, join={$join}, signal={$signal}, std_attr={std_attr}, parallel={$PARALLEL}, sbo={$SBO}, 
+			comments={$comments}, queryLg={$queryLg.st}, exprLg={$exprLg.st})
 	;
 
 try_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, 

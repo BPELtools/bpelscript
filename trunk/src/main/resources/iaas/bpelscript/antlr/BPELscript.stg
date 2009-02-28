@@ -53,11 +53,12 @@ taggin(tagname, incontent, content, after_block, empty) ::=
  *  source: non empty list of source linkNames
  *  trans: optional bool-expr of the transition condition
  */
-std_elt(join, target, source, trans, opaque) ::=
+std_elt(join, target, source, trans, opaque, queryLg, exprLg) ::=
 <<
 <if (target)>
 <taggin(tagname="targets", 
-		content=target(join=join, target=target, opaque=opaque)
+		content=target(join=join, target=target, opaque=opaque),
+		incontent=queryLg+exprLg
 		)>
 <endif>
 >>
@@ -97,10 +98,10 @@ target(join, target, opaque) ::=
  *  source: non empty list of source linkNames which contains optional transitionCondition
  *  trans: optional transitionCondition
  */
-source(source, trans, empty, opaque) ::= 
+source(source, trans, empty, opaque, queryLg, exprLg) ::= 
 <<
 <if (source)><taggin(tagname="source",
-					 incontent=" linkName=\""+source+"\"",
+					 incontent=" linkName=\""+source+"\""+queryLg+exprLg,
 					 content={<taggin(tagname="transitionCondition", incontent=opaque, content=trans)>},
 					 empty=empty
 					 )><endif>
@@ -185,8 +186,8 @@ process(name, tns, local, content_st,
 <taggin(tagname="process", 
 		incontent=" name=\""+name+"\""
 				 +"\n targetNamespace="+tns
-				 +{<if (queryLg)><\n> <queryLg><endif>}
-				 +{<if (exprLg)><\n> <exprLg><endif>}
+				 +queryLg
+				 +exprLg
 				 +{<if (sjf)><\n> <sjf><endif>}
 				 +{<if (eOSF)><\n> <eOSF><endif>}
 				 +"\n xmlns=\"http://docs.oasis-open.org/wsbpel/2.0/process/executable\"" 
@@ -763,14 +764,14 @@ elsif(ex, eiop, ei) ::=
  *  iop: opaque expression of "if"
  *  eiop: opaque expression of "elsif"
  */
-if_ex(iex, iop, seq, eiex, eiop, seqei, seqe, join, signal, std_attr, comments) ::=
+if_ex(iex, iop, seq, eiex, eiop, seqei, seqe, join, signal, std_attr, comments, queryLg, exprLg) ::=
 <<
 <taggin(tagname="if",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal)
 				+{<taggin(tagname="condition",incontent=iop,content=iex)><\n>}+seq
 				+{<if (seqei)><\n><elsif(ex=eiex, eiop=eiop, ei=seqei)><endif>}+"\n"
 				+{<if (seqe)><taggin(tagname="else", content=seqe)><endif>},
-		incontent=std_attr
+		incontent=std_attr+queryLg+exprLg
 		)>
 >>
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -809,11 +810,11 @@ flow(sequence, join, signal, std_attr, comments) ::= <<
  *  expr_st: the while expression
  *  body_st: the while body
  */
-while(expr_st, body_st, join, signal, std_attr, comments, opaque) ::= <<
+while(expr_st, body_st, join, signal, std_attr, comments, opaque, queryLg, exprLg) ::= <<
 <taggin(tagname="while",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal)
 				+{<taggin(tagname="condition", incontent=opaque, content=expr_st)><\n><body_st>},
-		incontent=std_attr
+		incontent=std_attr+queryLg+exprLg
 		)>
 >>
 
@@ -826,11 +827,11 @@ while(expr_st, body_st, join, signal, std_attr, comments, opaque) ::= <<
  *  expr_st: the while expression
  *  body_st: the while body
  */
-until(expr_st, body_st, join, signal, std_attr, comments, opaque) ::= <<
+until(expr_st, body_st, join, signal, std_attr, comments, opaque, queryLg, exprLg) ::= <<
 <taggin(tagname="repeatUntil",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal)
 				+{<body_st><\n><taggin(tagname="condition", incontent=opaque, content=expr_st)>},
-		incontent=std_attr
+		incontent=std_attr+queryLg+exprLg
 		)>
 >>
 
@@ -846,7 +847,7 @@ until(expr_st, body_st, join, signal, std_attr, comments, opaque) ::= <<
  *  assign_st: the loop assignment
  *  body_st: the loop body
  */
-foreach(id, init_st, initop, cond_st, condop, complete, comop, body_st, join, signal, std_attr, parallel, sbo, comments) ::= <<
+foreach(id, init_st, initop, cond_st, condop, complete, comop, body_st, join, signal, std_attr, parallel, sbo, comments, queryLg, exprLg) ::= <<
 <condop>
 <taggin(tagname="forEach",
 		content=std_aux(join=join, signal=signal)+doc(comments=comments)
@@ -1009,14 +1010,14 @@ rethrow(join, signal, empty,std_attr, comments) ::= <<
  * art=for | until
  *
  */
-wait(art, expr, opaque, join, signal, empty, std_attr, isWait, comments) ::= 
+wait(art, expr, opaque, join, signal, empty, std_attr, isWait, comments, queryLg, exprLg) ::= 
 <<
 <if(isWait)>
 <taggin(tagname="wait",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal)+{<taggin(tagname=art, incontent=opaque, content=expr)>},
-		incontent=std_attr
+		incontent=std_attr+queryLg+exprLg
 		)>
-<else><taggin(tagname=art, incontent=opaque, content=expr)><endif>
+<else><taggin(tagname=art, incontent=opaque+queryLg+exprLg, content=expr)><endif>
 >>
 
 
@@ -1075,9 +1076,9 @@ doc(comments) ::= <<
 >>
 
 exprLg(name) ::= <<
-expressionLanguage=<name>
+<\n> expressionLanguage=<name>
 >>
 
 queryLg(name) ::= <<
-queryLanguage=<name>
+<\n> queryLanguage=<name>
 >>

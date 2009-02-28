@@ -1,7 +1,7 @@
-// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-28 19:13:04
+// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-28 20:28:17
 
 /*
- * Copyright 2008, 2009 Marc Bischof 
+ * Copyright 2008-2009 Marc Bischof 
  * based on simpel.g by Matthieu Riou
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
@@ -2051,11 +2051,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = EXT_EXPR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:426:11: ( '[' ( options {greedy=false; } : . )* ']' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:426:13: '[' ( options {greedy=false; } : . )* ']'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:11: ( '[' ( options {greedy=false; } : . )* ']' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:13: '[' ( options {greedy=false; } : . )* ']'
             {
             match('['); 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:426:17: ( options {greedy=false; } : . )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:17: ( options {greedy=false; } : . )*
             loop1:
             do {
                 int alt1=2;
@@ -2071,7 +2071,7 @@ public class BPELscriptLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:426:44: .
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:44: .
             	    {
             	    matchAny(); 
 
@@ -2104,13 +2104,13 @@ public class BPELscriptLexer extends Lexer {
             Token post=null;
             int c;
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:427:10: (pre= '{{{' ( options {greedy=false; } : c= . )* post= '}}}' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:427:12: pre= '{{{' ( options {greedy=false; } : c= . )* post= '}}}'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:439:10: (pre= '{{{' ( options {greedy=false; } : c= . )* post= '}}}' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:439:12: pre= '{{{' ( options {greedy=false; } : c= . )* post= '}}}'
             {
             int preStart = getCharIndex();
             match("{{{"); 
             pre = new CommonToken(input, Token.INVALID_TOKEN_TYPE, Token.DEFAULT_CHANNEL, preStart, getCharIndex()-1);
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:427:22: ( options {greedy=false; } : c= . )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:439:22: ( options {greedy=false; } : c= . )*
             loop2:
             do {
                 int alt2=2;
@@ -2144,7 +2144,7 @@ public class BPELscriptLexer extends Lexer {
 
                 switch (alt2) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:427:49: c= .
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:439:49: c= .
             	    {
             	    c = input.LA(1);
             	    matchAny(); 
@@ -2176,8 +2176,8 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = OPAQUE_EXPR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:428:13: ( '##opaque' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:428:15: '##opaque'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:440:13: ( '##opaque' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:440:15: '##opaque'
             {
             match("##opaque"); 
 
@@ -2198,7 +2198,7 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = KEY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:7: ( 'in' | 'out' | 'inout' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:443:7: ( 'in' | 'out' | 'inout' )
             int alt3=3;
             int LA3_0 = input.LA(1);
 
@@ -2232,7 +2232,7 @@ public class BPELscriptLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:9: 'in'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:443:9: 'in'
                     {
                     match("in"); 
 
@@ -2240,7 +2240,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:16: 'out'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:443:16: 'out'
                     {
                     match("out"); 
 
@@ -2248,7 +2248,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:24: 'inout'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:443:24: 'inout'
                     {
                     match("inout"); 
 
@@ -2270,8 +2270,8 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = SEMI;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:8: ( ';' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:10: ';'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:444:8: ( ';' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:444:10: ';'
             {
             match(';'); 
 
@@ -2290,8 +2290,8 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:433:6: ( ( LETTER | '_' ) ( LETTER | DIGIT | '_' | '-' )* )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:433:8: ( LETTER | '_' ) ( LETTER | DIGIT | '_' | '-' )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:445:6: ( ( LETTER | '_' ) ( LETTER | DIGIT | '_' | '-' )* )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:445:8: ( LETTER | '_' ) ( LETTER | DIGIT | '_' | '-' )*
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -2302,7 +2302,7 @@ public class BPELscriptLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:433:24: ( LETTER | DIGIT | '_' | '-' )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:445:24: ( LETTER | DIGIT | '_' | '-' )*
             loop4:
             do {
                 int alt4=2;
@@ -2351,10 +2351,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:7: ( ( DIGIT )+ )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:9: ( DIGIT )+
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:446:7: ( ( DIGIT )+ )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:446:9: ( DIGIT )+
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:9: ( DIGIT )+
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:446:9: ( DIGIT )+
             int cnt5=0;
             loop5:
             do {
@@ -2368,7 +2368,7 @@ public class BPELscriptLexer extends Lexer {
 
                 switch (alt5) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:10: DIGIT
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:446:10: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -2400,11 +2400,11 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:9: ( '\"' ( ESCAPE_SEQ | ~ ( '\\\\' | '\"' ) )* '\"' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:11: '\"' ( ESCAPE_SEQ | ~ ( '\\\\' | '\"' ) )* '\"'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:447:9: ( '\"' ( ESCAPE_SEQ | ~ ( '\\\\' | '\"' ) )* '\"' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:447:11: '\"' ( ESCAPE_SEQ | ~ ( '\\\\' | '\"' ) )* '\"'
             {
             match('\"'); 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:15: ( ESCAPE_SEQ | ~ ( '\\\\' | '\"' ) )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:447:15: ( ESCAPE_SEQ | ~ ( '\\\\' | '\"' ) )*
             loop6:
             do {
                 int alt6=3;
@@ -2420,14 +2420,14 @@ public class BPELscriptLexer extends Lexer {
 
                 switch (alt6) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:17: ESCAPE_SEQ
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:447:17: ESCAPE_SEQ
             	    {
             	    mESCAPE_SEQ(); 
 
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:30: ~ ( '\\\\' | '\"' )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:447:30: ~ ( '\\\\' | '\"' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFE') ) {
             	        input.consume();
@@ -2464,8 +2464,8 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = ESCAPE_SEQ;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:436:13: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:436:15: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:448:13: ( '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:448:15: '\\\\' ( 'b' | 't' | 'n' | 'f' | 'r' | '\\\"' | '\\'' | '\\\\' )
             {
             match('\\'); 
             if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||input.LA(1)=='t' ) {
@@ -2493,18 +2493,18 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = SL_COMMENTS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:437:13: ( ( '//' ) ( . )* CR )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:437:15: ( '//' ) ( . )* CR
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:13: ( ( '//' ) ( . )* CR )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:15: ( '//' ) ( . )* CR
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:437:15: ( '//' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:437:17: '//'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:15: ( '//' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:17: '//'
             {
             match("//"); 
 
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:437:23: ( . )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:23: ( . )*
             loop7:
             do {
                 int alt7=2;
@@ -2520,7 +2520,7 @@ public class BPELscriptLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:437:23: .
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:23: .
             	    {
             	    matchAny(); 
 
@@ -2550,10 +2550,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = CR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:6: ( ( '\\r' | '\\n' )+ )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:8: ( '\\r' | '\\n' )+
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:450:6: ( ( '\\r' | '\\n' )+ )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:450:8: ( '\\r' | '\\n' )+
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:8: ( '\\r' | '\\n' )+
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:450:8: ( '\\r' | '\\n' )+
             int cnt8=0;
             loop8:
             do {
@@ -2608,10 +2608,10 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:439:6: ( ( ' ' | '\\t' )+ )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:439:8: ( ' ' | '\\t' )+
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:451:6: ( ( ' ' | '\\t' )+ )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:451:8: ( ' ' | '\\t' )+
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:439:8: ( ' ' | '\\t' )+
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:451:8: ( ' ' | '\\t' )+
             int cnt9=0;
             loop9:
             do {
@@ -2664,8 +2664,8 @@ public class BPELscriptLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:440:16: ( '0' .. '9' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:440:18: '0' .. '9'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:452:16: ( '0' .. '9' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:452:18: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -2680,7 +2680,7 @@ public class BPELscriptLexer extends Lexer {
     // $ANTLR start "LETTER"
     public final void mLETTER() throws RecognitionException {
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:441:19: ( 'a' .. 'z' | 'A' .. 'Z' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:453:19: ( 'a' .. 'z' | 'A' .. 'Z' )
             // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
@@ -2706,14 +2706,14 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = EOSF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:445:2: ( ( '@exitOnStandardFault' | '@exit' ) | ( '@exitOnStandardFault no' | '@exit no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:2: ( ( '@exitOnStandardFault' | '@exit' ) | ( '@exitOnStandardFault no' | '@exit no' ) )
             int alt12=2;
             alt12 = dfa12.predict(input);
             switch (alt12) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:445:4: ( '@exitOnStandardFault' | '@exit' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:4: ( '@exitOnStandardFault' | '@exit' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:445:4: ( '@exitOnStandardFault' | '@exit' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:4: ( '@exitOnStandardFault' | '@exit' )
                     int alt10=2;
                     int LA10_0 = input.LA(1);
 
@@ -2774,7 +2774,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt10) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:445:5: '@exitOnStandardFault'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:5: '@exitOnStandardFault'
                             {
                             match("@exitOnStandardFault"); 
 
@@ -2782,7 +2782,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:445:30: '@exit'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:30: '@exit'
                             {
                             match("@exit"); 
 
@@ -2797,9 +2797,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:446:4: ( '@exitOnStandardFault no' | '@exit no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:458:4: ( '@exitOnStandardFault no' | '@exit no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:446:4: ( '@exitOnStandardFault no' | '@exit no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:458:4: ( '@exitOnStandardFault no' | '@exit no' )
                     int alt11=2;
                     int LA11_0 = input.LA(1);
 
@@ -2867,7 +2867,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt11) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:446:5: '@exitOnStandardFault no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:458:5: '@exitOnStandardFault no'
                             {
                             match("@exitOnStandardFault no"); 
 
@@ -2875,7 +2875,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:446:33: '@exit no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:458:33: '@exit no'
                             {
                             match("@exit no"); 
 
@@ -2904,14 +2904,14 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = SJF;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:2: ( ( '@suppressJoinFailure' | '@dpe' ) | ( '@suppressJoinFailure no' | '@dpe no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:2: ( ( '@suppressJoinFailure' | '@dpe' ) | ( '@suppressJoinFailure no' | '@dpe no' ) )
             int alt15=2;
             alt15 = dfa15.predict(input);
             switch (alt15) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:4: ( '@suppressJoinFailure' | '@dpe' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:4: ( '@suppressJoinFailure' | '@dpe' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:4: ( '@suppressJoinFailure' | '@dpe' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:4: ( '@suppressJoinFailure' | '@dpe' )
                     int alt13=2;
                     int LA13_0 = input.LA(1);
 
@@ -2939,7 +2939,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt13) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:5: '@suppressJoinFailure'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:5: '@suppressJoinFailure'
                             {
                             match("@suppressJoinFailure"); 
 
@@ -2947,7 +2947,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:449:30: '@dpe'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:30: '@dpe'
                             {
                             match("@dpe"); 
 
@@ -2962,9 +2962,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:450:4: ( '@suppressJoinFailure no' | '@dpe no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:462:4: ( '@suppressJoinFailure no' | '@dpe no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:450:4: ( '@suppressJoinFailure no' | '@dpe no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:462:4: ( '@suppressJoinFailure no' | '@dpe no' )
                     int alt14=2;
                     int LA14_0 = input.LA(1);
 
@@ -2992,7 +2992,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt14) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:450:5: '@suppressJoinFailure no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:462:5: '@suppressJoinFailure no'
                             {
                             match("@suppressJoinFailure no"); 
 
@@ -3000,7 +3000,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:450:33: '@dpe no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:462:33: '@dpe no'
                             {
                             match("@dpe no"); 
 
@@ -3029,14 +3029,14 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = PARALLEL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:453:2: ( ( '@parallel' | '@par' ) | ( '@parallel no' | '@par no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:2: ( ( '@parallel' | '@par' ) | ( '@parallel no' | '@par no' ) )
             int alt18=2;
             alt18 = dfa18.predict(input);
             switch (alt18) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:453:4: ( '@parallel' | '@par' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:4: ( '@parallel' | '@par' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:453:4: ( '@parallel' | '@par' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:4: ( '@parallel' | '@par' )
                     int alt16=2;
                     int LA16_0 = input.LA(1);
 
@@ -3087,7 +3087,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt16) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:453:5: '@parallel'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:5: '@parallel'
                             {
                             match("@parallel"); 
 
@@ -3095,7 +3095,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:453:19: '@par'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:19: '@par'
                             {
                             match("@par"); 
 
@@ -3110,9 +3110,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:454:4: ( '@parallel no' | '@par no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:466:4: ( '@parallel no' | '@par no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:454:4: ( '@parallel no' | '@par no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:466:4: ( '@parallel no' | '@par no' )
                     int alt17=2;
                     int LA17_0 = input.LA(1);
 
@@ -3170,7 +3170,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt17) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:454:5: '@parallel no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:466:5: '@parallel no'
                             {
                             match("@parallel no"); 
 
@@ -3178,7 +3178,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:454:22: '@par no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:466:22: '@par no'
                             {
                             match("@par no"); 
 
@@ -3207,19 +3207,19 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = SBO;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:2: ( ( '@successfulBranchesOnly' | '@success' | '@sbo' ) | ( '@successfulBranchesOnly no' | '@sbo no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:2: ( ( '@successfulBranchesOnly' | '@success' | '@sbo' ) | ( '@successfulBranchesOnly no' | '@sbo no' ) )
             int alt21=2;
             alt21 = dfa21.predict(input);
             switch (alt21) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:4: ( '@successfulBranchesOnly' | '@success' | '@sbo' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:4: ( '@successfulBranchesOnly' | '@success' | '@sbo' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:4: ( '@successfulBranchesOnly' | '@success' | '@sbo' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:4: ( '@successfulBranchesOnly' | '@success' | '@sbo' )
                     int alt19=3;
                     alt19 = dfa19.predict(input);
                     switch (alt19) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:5: '@successfulBranchesOnly'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:5: '@successfulBranchesOnly'
                             {
                             match("@successfulBranchesOnly"); 
 
@@ -3227,7 +3227,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:33: '@success'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:33: '@success'
                             {
                             match("@success"); 
 
@@ -3235,7 +3235,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 3 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:457:46: '@sbo'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:46: '@sbo'
                             {
                             match("@sbo"); 
 
@@ -3250,9 +3250,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:458:4: ( '@successfulBranchesOnly no' | '@sbo no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:470:4: ( '@successfulBranchesOnly no' | '@sbo no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:458:4: ( '@successfulBranchesOnly no' | '@sbo no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:470:4: ( '@successfulBranchesOnly no' | '@sbo no' )
                     int alt20=2;
                     int LA20_0 = input.LA(1);
 
@@ -3290,7 +3290,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt20) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:458:5: '@successfulBranchesOnly no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:470:5: '@successfulBranchesOnly no'
                             {
                             match("@successfulBranchesOnly no"); 
 
@@ -3298,7 +3298,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:458:36: '@sbo no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:470:36: '@sbo no'
                             {
                             match("@sbo no"); 
 
@@ -3327,14 +3327,14 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = INITPARTNER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:2: ( ( '@initializePartnerRole' | '@init' ) | ( '@initializePartnerRole no' | '@init no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:473:2: ( ( '@initializePartnerRole' | '@init' ) | ( '@initializePartnerRole no' | '@init no' ) )
             int alt24=2;
             alt24 = dfa24.predict(input);
             switch (alt24) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:4: ( '@initializePartnerRole' | '@init' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:473:4: ( '@initializePartnerRole' | '@init' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:4: ( '@initializePartnerRole' | '@init' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:473:4: ( '@initializePartnerRole' | '@init' )
                     int alt22=2;
                     int LA22_0 = input.LA(1);
 
@@ -3395,7 +3395,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt22) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:5: '@initializePartnerRole'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:473:5: '@initializePartnerRole'
                             {
                             match("@initializePartnerRole"); 
 
@@ -3403,7 +3403,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:461:32: '@init'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:473:32: '@init'
                             {
                             match("@init"); 
 
@@ -3418,9 +3418,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:462:4: ( '@initializePartnerRole no' | '@init no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:474:4: ( '@initializePartnerRole no' | '@init no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:462:4: ( '@initializePartnerRole no' | '@init no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:474:4: ( '@initializePartnerRole no' | '@init no' )
                     int alt23=2;
                     int LA23_0 = input.LA(1);
 
@@ -3488,7 +3488,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt23) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:462:5: '@initializePartnerRole no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:474:5: '@initializePartnerRole no'
                             {
                             match("@initializePartnerRole no"); 
 
@@ -3496,7 +3496,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:462:35: '@init no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:474:35: '@init no'
                             {
                             match("@init no"); 
 
@@ -3525,7 +3525,7 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = INIT_COR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:2: ( ( '!' | 'force' ) | ( '?' | 'join' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:477:2: ( ( '!' | 'force' ) | ( '?' | 'join' ) )
             int alt27=2;
             int LA27_0 = input.LA(1);
 
@@ -3543,9 +3543,9 @@ public class BPELscriptLexer extends Lexer {
             }
             switch (alt27) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:4: ( '!' | 'force' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:477:4: ( '!' | 'force' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:4: ( '!' | 'force' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:477:4: ( '!' | 'force' )
                     int alt25=2;
                     int LA25_0 = input.LA(1);
 
@@ -3563,14 +3563,14 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt25) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:5: '!'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:477:5: '!'
                             {
                             match('!'); 
 
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:465:11: 'force'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:477:11: 'force'
                             {
                             match("force"); 
 
@@ -3585,9 +3585,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:466:4: ( '?' | 'join' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:4: ( '?' | 'join' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:466:4: ( '?' | 'join' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:4: ( '?' | 'join' )
                     int alt26=2;
                     int LA26_0 = input.LA(1);
 
@@ -3605,14 +3605,14 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt26) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:466:5: '?'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:5: '?'
                             {
                             match('?'); 
 
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:466:11: 'join'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:11: 'join'
                             {
                             match("join"); 
 
@@ -3641,14 +3641,14 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = PATTERN_COR;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:2: ( ( '@>' | 'request' ) | ( '@<' | 'response' ) | ( '@><' | 'request-response' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:481:2: ( ( '@>' | 'request' ) | ( '@<' | 'response' ) | ( '@><' | 'request-response' ) )
             int alt31=3;
             alt31 = dfa31.predict(input);
             switch (alt31) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:4: ( '@>' | 'request' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:481:4: ( '@>' | 'request' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:4: ( '@>' | 'request' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:481:4: ( '@>' | 'request' )
                     int alt28=2;
                     int LA28_0 = input.LA(1);
 
@@ -3666,7 +3666,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt28) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:5: '@>'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:481:5: '@>'
                             {
                             match("@>"); 
 
@@ -3674,7 +3674,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:469:12: 'request'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:481:12: 'request'
                             {
                             match("request"); 
 
@@ -3689,9 +3689,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:470:4: ( '@<' | 'response' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:482:4: ( '@<' | 'response' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:470:4: ( '@<' | 'response' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:482:4: ( '@<' | 'response' )
                     int alt29=2;
                     int LA29_0 = input.LA(1);
 
@@ -3709,7 +3709,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt29) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:470:5: '@<'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:482:5: '@<'
                             {
                             match("@<"); 
 
@@ -3717,7 +3717,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:470:12: 'response'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:482:12: 'response'
                             {
                             match("response"); 
 
@@ -3732,9 +3732,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:471:4: ( '@><' | 'request-response' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:483:4: ( '@><' | 'request-response' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:471:4: ( '@><' | 'request-response' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:483:4: ( '@><' | 'request-response' )
                     int alt30=2;
                     int LA30_0 = input.LA(1);
 
@@ -3752,7 +3752,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt30) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:471:5: '@><'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:483:5: '@><'
                             {
                             match("@><"); 
 
@@ -3760,7 +3760,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:471:13: 'request-response'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:483:13: 'request-response'
                             {
                             match("request-response"); 
 
@@ -3789,12 +3789,12 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = ISOLATED;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:474:2: ( '@isolated' | '@isolated no' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:486:2: ( '@isolated' | '@isolated no' )
             int alt32=2;
             alt32 = dfa32.predict(input);
             switch (alt32) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:474:4: '@isolated'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:486:4: '@isolated'
                     {
                     match("@isolated"); 
 
@@ -3803,7 +3803,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:475:4: '@isolated no'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:487:4: '@isolated no'
                     {
                     match("@isolated no"); 
 
@@ -3826,14 +3826,14 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = CREATE_INST;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:2: ( ( '@createInstance' | '@ci' ) | ( '@createInstance no' | '@ci no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:490:2: ( ( '@createInstance' | '@ci' ) | ( '@createInstance no' | '@ci no' ) )
             int alt35=2;
             alt35 = dfa35.predict(input);
             switch (alt35) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:4: ( '@createInstance' | '@ci' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:490:4: ( '@createInstance' | '@ci' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:4: ( '@createInstance' | '@ci' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:490:4: ( '@createInstance' | '@ci' )
                     int alt33=2;
                     int LA33_0 = input.LA(1);
 
@@ -3871,7 +3871,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt33) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:5: '@createInstance'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:490:5: '@createInstance'
                             {
                             match("@createInstance"); 
 
@@ -3879,7 +3879,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:478:25: '@ci'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:490:25: '@ci'
                             {
                             match("@ci"); 
 
@@ -3894,9 +3894,9 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:479:4: ( '@createInstance no' | '@ci no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:491:4: ( '@createInstance no' | '@ci no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:479:4: ( '@createInstance no' | '@ci no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:491:4: ( '@createInstance no' | '@ci no' )
                     int alt34=2;
                     int LA34_0 = input.LA(1);
 
@@ -3934,7 +3934,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     switch (alt34) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:479:5: '@createInstance no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:491:5: '@createInstance no'
                             {
                             match("@createInstance no"); 
 
@@ -3942,7 +3942,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:479:28: '@ci no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:491:28: '@ci no'
                             {
                             match("@ci no"); 
 
@@ -3971,12 +3971,12 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = VALID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:482:2: ( '@validate' | '@validate no' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:494:2: ( '@validate' | '@validate no' )
             int alt36=2;
             alt36 = dfa36.predict(input);
             switch (alt36) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:482:4: '@validate'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:494:4: '@validate'
                     {
                     match("@validate"); 
 
@@ -3985,7 +3985,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:483:4: '@validate no'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:495:4: '@validate no'
                     {
                     match("@validate no"); 
 
@@ -4008,19 +4008,19 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = KEEPSRC;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:486:2: ( ( '@keepSrcElementName' | '@keepSrc' ) | ( '@keepSrcElementName no' | '@keepSrc no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:498:2: ( ( '@keepSrcElementName' | '@keepSrc' ) | ( '@keepSrcElementName no' | '@keepSrc no' ) )
             int alt39=2;
             alt39 = dfa39.predict(input);
             switch (alt39) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:486:4: ( '@keepSrcElementName' | '@keepSrc' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:498:4: ( '@keepSrcElementName' | '@keepSrc' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:486:4: ( '@keepSrcElementName' | '@keepSrc' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:498:4: ( '@keepSrcElementName' | '@keepSrc' )
                     int alt37=2;
                     alt37 = dfa37.predict(input);
                     switch (alt37) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:486:5: '@keepSrcElementName'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:498:5: '@keepSrcElementName'
                             {
                             match("@keepSrcElementName"); 
 
@@ -4028,7 +4028,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:486:29: '@keepSrc'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:498:29: '@keepSrc'
                             {
                             match("@keepSrc"); 
 
@@ -4043,14 +4043,14 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:487:4: ( '@keepSrcElementName no' | '@keepSrc no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:499:4: ( '@keepSrcElementName no' | '@keepSrc no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:487:4: ( '@keepSrcElementName no' | '@keepSrc no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:499:4: ( '@keepSrcElementName no' | '@keepSrc no' )
                     int alt38=2;
                     alt38 = dfa38.predict(input);
                     switch (alt38) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:487:5: '@keepSrcElementName no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:499:5: '@keepSrcElementName no'
                             {
                             match("@keepSrcElementName no"); 
 
@@ -4058,7 +4058,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:487:32: '@keepSrc no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:499:32: '@keepSrc no'
                             {
                             match("@keepSrc no"); 
 
@@ -4087,12 +4087,12 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = IGNORE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:490:2: ( '@ignoreMisssingFromData' | '@ignore' | ( '@ignoreMisssingFromData no' | '@ignore no' ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:502:2: ( '@ignoreMisssingFromData' | '@ignore' | ( '@ignoreMisssingFromData no' | '@ignore no' ) )
             int alt41=3;
             alt41 = dfa41.predict(input);
             switch (alt41) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:490:4: '@ignoreMisssingFromData'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:502:4: '@ignoreMisssingFromData'
                     {
                     match("@ignoreMisssingFromData"); 
 
@@ -4100,7 +4100,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:490:32: '@ignore'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:502:32: '@ignore'
                     {
                     match("@ignore"); 
 
@@ -4109,14 +4109,14 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:491:4: ( '@ignoreMisssingFromData no' | '@ignore no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:503:4: ( '@ignoreMisssingFromData no' | '@ignore no' )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:491:4: ( '@ignoreMisssingFromData no' | '@ignore no' )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:503:4: ( '@ignoreMisssingFromData no' | '@ignore no' )
                     int alt40=2;
                     alt40 = dfa40.predict(input);
                     switch (alt40) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:491:5: '@ignoreMisssingFromData no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:503:5: '@ignoreMisssingFromData no'
                             {
                             match("@ignoreMisssingFromData no"); 
 
@@ -4124,7 +4124,7 @@ public class BPELscriptLexer extends Lexer {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:491:36: '@ignore no'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:503:36: '@ignore no'
                             {
                             match("@ignore no"); 
 
@@ -4153,8 +4153,8 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = PROP;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:494:2: ( '@property' )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:494:4: '@property'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:506:2: ( '@property' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:506:4: '@property'
             {
             match("@property"); 
 
@@ -4175,12 +4175,12 @@ public class BPELscriptLexer extends Lexer {
         try {
             int _type = MUSTUND;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:497:2: ( '@mustUnderstand' | '@mustUnderstand no' )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:509:2: ( '@mustUnderstand' | '@mustUnderstand no' )
             int alt42=2;
             alt42 = dfa42.predict(input);
             switch (alt42) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:497:4: '@mustUnderstand'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:509:4: '@mustUnderstand'
                     {
                     match("@mustUnderstand"); 
 
@@ -4189,7 +4189,7 @@ public class BPELscriptLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:498:4: '@mustUnderstand no'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:510:4: '@mustUnderstand no'
                     {
                     match("@mustUnderstand no"); 
 
@@ -5098,7 +5098,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA12_transition;
         }
         public String getDescription() {
-            return "444:11: protected EOSF : ( ( '@exitOnStandardFault' | '@exit' ) | ( '@exitOnStandardFault no' | '@exit no' ) );";
+            return "456:11: protected EOSF : ( ( '@exitOnStandardFault' | '@exit' ) | ( '@exitOnStandardFault no' | '@exit no' ) );";
         }
     }
     static final String DFA15_eotS =
@@ -5176,7 +5176,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA15_transition;
         }
         public String getDescription() {
-            return "448:11: protected SJF : ( ( '@suppressJoinFailure' | '@dpe' ) | ( '@suppressJoinFailure no' | '@dpe no' ) );";
+            return "460:11: protected SJF : ( ( '@suppressJoinFailure' | '@dpe' ) | ( '@suppressJoinFailure no' | '@dpe no' ) );";
         }
     }
     static final String DFA18_eotS =
@@ -5238,7 +5238,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA18_transition;
         }
         public String getDescription() {
-            return "452:11: protected PARALLEL : ( ( '@parallel' | '@par' ) | ( '@parallel no' | '@par no' ) );";
+            return "464:11: protected PARALLEL : ( ( '@parallel' | '@par' ) | ( '@parallel no' | '@par no' ) );";
         }
     }
     static final String DFA21_eotS =
@@ -5318,7 +5318,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA21_transition;
         }
         public String getDescription() {
-            return "456:11: protected SBO : ( ( '@successfulBranchesOnly' | '@success' | '@sbo' ) | ( '@successfulBranchesOnly no' | '@sbo no' ) );";
+            return "468:11: protected SBO : ( ( '@successfulBranchesOnly' | '@success' | '@sbo' ) | ( '@successfulBranchesOnly no' | '@sbo no' ) );";
         }
     }
     static final String DFA19_eotS =
@@ -5378,7 +5378,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA19_transition;
         }
         public String getDescription() {
-            return "457:4: ( '@successfulBranchesOnly' | '@success' | '@sbo' )";
+            return "469:4: ( '@successfulBranchesOnly' | '@success' | '@sbo' )";
         }
     }
     static final String DFA24_eotS =
@@ -5455,7 +5455,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA24_transition;
         }
         public String getDescription() {
-            return "460:11: protected INITPARTNER : ( ( '@initializePartnerRole' | '@init' ) | ( '@initializePartnerRole no' | '@init no' ) );";
+            return "472:11: protected INITPARTNER : ( ( '@initializePartnerRole' | '@init' ) | ( '@initializePartnerRole no' | '@init no' ) );";
         }
     }
     static final String DFA31_eotS =
@@ -5518,7 +5518,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA31_transition;
         }
         public String getDescription() {
-            return "468:11: protected PATTERN_COR : ( ( '@>' | 'request' ) | ( '@<' | 'response' ) | ( '@><' | 'request-response' ) );";
+            return "480:11: protected PATTERN_COR : ( ( '@>' | 'request' ) | ( '@<' | 'response' ) | ( '@><' | 'request-response' ) );";
         }
     }
     static final String DFA32_eotS =
@@ -5578,7 +5578,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA32_transition;
         }
         public String getDescription() {
-            return "473:11: protected ISOLATED : ( '@isolated' | '@isolated no' );";
+            return "485:11: protected ISOLATED : ( '@isolated' | '@isolated no' );";
         }
     }
     static final String DFA35_eotS =
@@ -5647,7 +5647,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA35_transition;
         }
         public String getDescription() {
-            return "477:11: protected CREATE_INST : ( ( '@createInstance' | '@ci' ) | ( '@createInstance no' | '@ci no' ) );";
+            return "489:11: protected CREATE_INST : ( ( '@createInstance' | '@ci' ) | ( '@createInstance no' | '@ci no' ) );";
         }
     }
     static final String DFA36_eotS =
@@ -5707,7 +5707,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA36_transition;
         }
         public String getDescription() {
-            return "481:11: protected VALID : ( '@validate' | '@validate no' );";
+            return "493:11: protected VALID : ( '@validate' | '@validate no' );";
         }
     }
     static final String DFA39_eotS =
@@ -5779,7 +5779,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA39_transition;
         }
         public String getDescription() {
-            return "485:11: protected KEEPSRC : ( ( '@keepSrcElementName' | '@keepSrc' ) | ( '@keepSrcElementName no' | '@keepSrc no' ) );";
+            return "497:11: protected KEEPSRC : ( ( '@keepSrcElementName' | '@keepSrc' ) | ( '@keepSrcElementName no' | '@keepSrc no' ) );";
         }
     }
     static final String DFA37_eotS =
@@ -5838,7 +5838,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA37_transition;
         }
         public String getDescription() {
-            return "486:4: ( '@keepSrcElementName' | '@keepSrc' )";
+            return "498:4: ( '@keepSrcElementName' | '@keepSrc' )";
         }
     }
     static final String DFA38_eotS =
@@ -5897,7 +5897,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA38_transition;
         }
         public String getDescription() {
-            return "487:4: ( '@keepSrcElementName no' | '@keepSrc no' )";
+            return "499:4: ( '@keepSrcElementName no' | '@keepSrc no' )";
         }
     }
     static final String DFA41_eotS =
@@ -5976,7 +5976,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA41_transition;
         }
         public String getDescription() {
-            return "489:11: protected IGNORE : ( '@ignoreMisssingFromData' | '@ignore' | ( '@ignoreMisssingFromData no' | '@ignore no' ) );";
+            return "501:11: protected IGNORE : ( '@ignoreMisssingFromData' | '@ignore' | ( '@ignoreMisssingFromData no' | '@ignore no' ) );";
         }
     }
     static final String DFA40_eotS =
@@ -6034,7 +6034,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA40_transition;
         }
         public String getDescription() {
-            return "491:4: ( '@ignoreMisssingFromData no' | '@ignore no' )";
+            return "503:4: ( '@ignoreMisssingFromData no' | '@ignore no' )";
         }
     }
     static final String DFA42_eotS =
@@ -6102,7 +6102,7 @@ public class BPELscriptLexer extends Lexer {
             this.transition = DFA42_transition;
         }
         public String getDescription() {
-            return "496:11: protected MUSTUND : ( '@mustUnderstand' | '@mustUnderstand no' );";
+            return "508:11: protected MUSTUND : ( '@mustUnderstand' | '@mustUnderstand no' );";
         }
     }
     static final String DFA43_eotS =
