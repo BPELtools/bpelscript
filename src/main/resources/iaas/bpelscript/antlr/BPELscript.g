@@ -29,7 +29,7 @@ tokens {
     EXPR; EXT_EXPR; XML_LITERAL; CALL; NAMESPACE; NS; PATH; EXTENSION; EXTENSIONACT; IMPORT; MESSAGES; CORRSETS; CORRSET;
     XML; JS; FINAL; BRANCH;
     PID; VARIABLES; PARTNERLINKS; PORTTYPE; STD_ATTR;ONALARM;REPEATEVERY;EVENTHDL;MESSAGE; TERMINATION; 
-    MSGEX; FAULTNAME; MSGTYPE; VITYPE; VIELT;FAULTELT;
+    MSGEX; FAULTNAME; MSGTYPE; VITYPE; VIELT;FAULTELT;EXPRLG; QUERYLG;
 }
 @parser::header {
 /*
@@ -51,7 +51,7 @@ tokens {
 
 package iaas.bpelscript.antlr;
 
-import antlr.CommonHiddenStreamToken;
+import java.util.HashMap;
 }
 
 @lexer::header {
@@ -73,6 +73,24 @@ import antlr.CommonHiddenStreamToken;
  */
 
 package iaas.bpelscript.antlr;
+
+}
+
+@members{
+/**
+ * Shortcut with default name "Option"
+ * reports a failed predicate exception to system.err.println
+ */
+public void reportFailedPredicateWarning(FailedPredicateException exc) {
+    reportFailedPredicateWarning(exc, "Option");
+}
+
+/**
+ * reports a failed predicate exception to system.err.println
+ */
+public void reportFailedPredicateWarning(FailedPredicateException exc, String name) {
+    System.err.println("Warning: Duplicate "+name+" definition on line "+exc.line);
+}
 }
 
 // MAIN BPEL SYNTAX
@@ -85,14 +103,13 @@ sub_declaration
 
 // Process
 process
-	:	('@queryLanguage' queryLg=STRING)?
-		('@expressionLanguage' exprLg=STRING)?	
-		sjf=SJF?
-		exitOnStandardFault=EOSF?
+	:	
+	 	( {q==null}? q=queryLg  | {e==null}? e=exprLg  | {sjf==null}? sjf=SJF  | {exitOnStandardFault==null}? exitOnStandardFault=EOSF  )*
 		'process' ns_id std_attr
 		j+=ajoin? s+=asignal* 
 		block eventHdl?
-	->	^(PROCESS ns_id block eventHdl? $queryLg? $exprLg? $sjf? $exitOnStandardFault? std_attr ajoin? asignal*);
+	->	^(PROCESS ns_id block eventHdl? queryLg? exprLg? $sjf? $exitOnStandardFault? std_attr ajoin? asignal*);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 	
 proc_stmts
 	:	(join SEMI)? proc_stmt (s+=signal SEMI)* 
@@ -115,14 +132,18 @@ param_block	:	'{' ('|' in+=ID (',' in+=ID)* '|')? proc_stmts+ '}' -> ^(SEQUENCE 
 body		:	block | proc_stmts;
 
 // Structured activities
-pick	:	CREATE_INST? std_attr
-		'pick' '{' onMessage+ onAlarm* '}' -> ^(PICK onMessage+ onAlarm* CREATE_INST? std_attr);
+pick	:	( {c==null}? c=CREATE_INST 
+	        //should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
+		'pick' '{' onMessage+ onAlarm* '}' -> ^(PICK onMessage+ onAlarm* CREATE_INST? $name? SJF?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 onMessage 
-        	:	portType? msgEx?
+        	:	( {pT==null}? pT=portType | {m==null}? m=msgEx )*
 		'onMessage' '(' p=ID ',' o=ID (',' correlation)? ')' with_ex?
         		param_block 
         		-> ^(ONMESSAGE param_block portType? msgEx? ID ID correlation? with_ex?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
         
 onAlarm 
 	:	// use syntactic predicate to garantie that at least one expression must be there 
@@ -132,15 +153,15 @@ onAlarm
 	->	^(ONALARM alarm? timeout? repeatEvery? scope_short);
         
 alarm		:	std_attr
-			'alarm' '(' (expr | OPAQUE_EXPR)? ')' 
+			'alarm' '(' (expr | OPAQUE_EXPR) ')' 
 		-> 	^(ALARM  expr? OPAQUE_EXPR? std_attr?);
 	
 timeout	:	std_attr
-			'timeout' '(' (expr | OPAQUE_EXPR)? ')' 
+			'timeout' '(' (expr | OPAQUE_EXPR) ')' 
 		->	^(TIMEOUT expr? OPAQUE_EXPR? std_attr?);
 	
 repeatEvery
-	:	'repeatEvery' '(' (expr | OPAQUE_EXPR)? ')'
+	:	'repeatEvery' '(' (expr | OPAQUE_EXPR) ')'
 	->	^(REPEATEVERY expr? OPAQUE_EXPR?);
 	
 flow 	:	std_attr
@@ -160,13 +181,14 @@ if_ex
 		'if' '(' (iex=expr|iop=OPAQUE_EXPR) ')' s=sequence 
 		('elseif' '(' (eiex=expr|eiop=OPAQUE_EXPR) ')' sei+=sequence)* 
 		('else' se=sequence)? 
-	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex? $eiop? $sei))* (^(ELSE $se))? std_attr );
+	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex? $eiop? $sei))* (^(ELSE $se))? std_attr);
 
 sequence
 	:	std_attr
-		j+=ajoin? s+=asignal* 
+		j+=ajoin? s+=asignal*
 		b=body
-	->	^(SEQUENCE $j? $b $s* std_attr);
+	->	^(SEQUENCE $j? $b $s* std_attr?);
+//	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 scope_sequence
 	:	j+=ajoin? s+=asignal* 
@@ -177,15 +199,16 @@ while_ex	:	std_attr
 			'while' '(' (expr|OPAQUE_EXPR) ')' s=sequence -> ^(WHILE expr? OPAQUE_EXPR? sequence std_attr);
 
 until_ex	:	std_attr
-			'repeat' s=sequence 'until' '(' (expr|OPAQUE_EXPR)? ')' -> ^(UNTIL expr? OPAQUE_EXPR? sequence std_attr);
+			'repeat' s=sequence 'until' '(' (expr|OPAQUE_EXPR) ')' -> ^(UNTIL expr? OPAQUE_EXPR? sequence std_attr);
 
 foreach
-	:	PARALLEL?
-		successfulBranchesOnly=SBO? 
-		std_attr
+	:	({par==null}? par=PARALLEL | {successfulBranchesOnly==null}? successfulBranchesOnly=SBO 
+	        //should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		'for' '(' cName=ID '=' (init=expr|initop=OPAQUE_EXPR) ('to'|SEMI) (cond=expr | condop=OPAQUE_EXPR) (('finish'|SEMI) (complete+=expr|compop+=OPAQUE_EXPR))? ')' scope_short
 	-> 	^(FOR $cName $init? $initop? (^(FINAL $cond? $condop?))? (^(BRANCH $complete? $compop?))?
-			scope_short PARALLEL? SBO? std_attr);
+			scope_short PARALLEL? SBO? $name? SJF?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 try_ex		:	'try' body catch_ex* catchAll?-> ^(TRY catch_ex* body?);		
 
@@ -199,16 +222,18 @@ catchAll
 	-> 	^(CATCH block);
 
 scope_ex
-	:	ISOLATED? EOSF? SJF?
+	:	( {i==null}? i=ISOLATED | {eosf==null}? eosf=EOSF | {sjf==null}? sjf=SJF )*
 		'scope' ('(' ID? ')')? scope_sequence scope_stmt 
 	-> 	^(SCOPE ID? scope_stmt scope_sequence ISOLATED? EOSF? SJF?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 	
 scope_short 
 	:	scope_sequence scope_stmt -> ^(SCOPE scope_stmt scope_sequence);
 
 scope_stmt
-	:	compensation? termination? eventHdl?
+	:	( {c==null}? c=compensation | {t==null}? t=termination | {e==null}? e=eventHdl )*
 	->	^(SCOPE compensation? termination? eventHdl?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc, "Alternative");}
 
 termination 
 	:	'onTermination' body -> ^(TERMINATION body);
@@ -218,10 +243,10 @@ eventHdl
 		->	^(EVENTHDL onEvent* onAlarm*);
 	
 onEvent	
-	:	portType? msgEx?
-		( msgType | viElt )?					
+	:	( {pt==null}? pt=portType | {msg==null}? msg=msgEx | {te==null}? te=( msgType | viElt ) )*
 		(var=ID '=' )? 'event' '(' p=ID ',' o=ID (',' correlation)? ')' with_ex? scope_short 
 	-> 	^(EVENT $p $o correlation? with_ex? scope_short $var? portType? msgEx? msgType? viElt?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 		
 compensation //compensation handler
 	:	'compensation' body -> ^(COMPENSATION body);
@@ -234,24 +259,36 @@ with_map
 
 // Simple activities
 receive
-        :		portType? CREATE_INST? msgEx? std_attr
+        :		( {pt==null}? pt=portType | {msg==null}? msg=msgEx | {ci==null}? ci=CREATE_INST 
+        //should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		'receive' '(' p=ID ',' o=ID (',' correlation)? ')' with_ex?
-	-> 	^(RECEIVE $p $o correlation? portType? CREATE_INST? msgEx? std_attr with_ex?);
+	-> 	^(RECEIVE $p $o correlation? portType? CREATE_INST? msgEx? $name? SJF? with_ex?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 reply
-	:	portType? faultName? msgEx? std_attr
+	:	( {pt==null}? pt=portType | {fn==null}? fn=faultName | {msg==null}? msg=msgEx
+        //should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		'reply' '(' p=ID ',' o=ID (',' in=ID)? (',' correlation)? ')'  with_ex?
-	-> 	^(REPLY ID ID ID? correlation? portType? std_attr faultName? msgEx? with_ex?);
+	-> 	^(REPLY ID ID ID? correlation? portType? $name? SJF? faultName? msgEx? with_ex?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 invoke
-	:	portType? std_attr
+	:	( {pt==null}? pt=portType         //should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		'invoke' '(' p=ID ',' o=ID (',' in=ID)? (',' correlation)? ')' with_ex? compensation?
-	-> 	^(INVOKE $p $o $in? correlation? portType? std_attr with_ex? compensation?);
+	-> 	^(INVOKE $p $o $in? correlation? portType? $name? SJF? with_ex? compensation?);
+		catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 assign
-	:	portType? CREATE_INST? VALID? KEEPSRC? IGNORE? faultName? msgEx? std_attr //only receive and invoke
+	:	( {pt==null}? pt=portType | {ci==null}? ci=CREATE_INST | {val==null}? val=VALID | {ke==null}? ke=KEEPSRC 
+	  | {ig==null}? ig=IGNORE | {fn==null}? fn=faultName | {msg==null}? msg=msgEx 
+          //should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		(lhs_opaque=OPAQUE_EXPR | path_expr PROP?) '=' rvalue
-	-> 	^(ASSIGN path_expr? PROP? $lhs_opaque? portType? CREATE_INST? std_attr faultName? msgEx? VALID? KEEPSRC? IGNORE? rvalue?);
+	-> 	^(ASSIGN path_expr? PROP? $lhs_opaque? portType? CREATE_INST? $name? SJF? faultName? msgEx? VALID? KEEPSRC? IGNORE? rvalue?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 rvalue
 	:	receive
@@ -261,8 +298,11 @@ rvalue
 	;
 	
 throw_ex
-	:	(('@faultVariable' |'@faultVar') faultVar=ID)? std_attr
-		'throw' '(' ns_id ')' -> ^(THROW ns_id $faultVar? std_attr);
+	:	( {f==null}? f=(('@faultVariable' |'@faultVar') faultVar=ID) 
+	//should be std_attr. but did not work with occurence-order-independency
+        	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
+		'throw' '(' ns_id ')' -> ^(THROW ns_id $faultVar? $name SJF?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 		
 rethrow_ex
 	:	std_attr
@@ -276,10 +316,10 @@ compensate
 exit		:	std_attr
 			'exit' -> ^(EXIT std_attr);
 	
-validate	:	std_attr 
+validate	:	std_attr
 			'validate' v+=ID (',' v+=ID)*-> ^(VALIDATE $v+ std_attr);
 	
-ext_act  	:	std_attr 
+ext_act  	:	std_attr
 			e=EXT_ACT ->  ^(EXTENSIONACT $e std_attr);
 
 nop		:	std_attr
@@ -311,9 +351,10 @@ variables	:	'var' v+=variable (',' v+=variable)*
 		-> 	^(VARIABLES variable+);
 
 variable
-	:	msgType? viType? viElt?
+	:	( {msg==null}? msg=msgType | {vi==null}? vi=viType | {viE==null}? viE=viElt )*
 		ID  with_ex?
 	-> 	^(VARIABLE ID msgType? viType? viElt? with_ex?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 partner_links
 	:	('partnerLink' | 'partnerlink') pl+=partner_link (',' pl+=partner_link)* -> ^(PARTNERLINKS $pl+);
@@ -326,10 +367,10 @@ correlation
 	:	'{' corr_mapping (',' corr_mapping)* '}' -> ^(CORRELATION corr_mapping+);
 
 corr_mapping
-	:	init=INIT_COR?
-		pattern=PATTERN_COR?
+	:	( {init==null}? init=INIT_COR | {pattern==null}? pattern=PATTERN_COR )*
 		f1=ID
 	-> 	^(CORR_MAP $f1 $init? $pattern?);
+	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 corr_sets 	:	'correlates' '{'cs+=corr_set ';' (cs+=corr_set ';')* '}' -> ^(CORRSETS $cs+);
 
@@ -351,8 +392,10 @@ ns_id		:	(pr=ID '::')? loc=ID -> ^(NS $pr? $loc);
 portType 	:	('@portType' | '@pt') STRING
 		->	^(PORTTYPE STRING);
 	
-std_attr	:	('@name' name=STRING)? suppressJoinFailure=SJF?
+std_attr	:	( {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		->	^(STD_ATTR $name? $suppressJoinFailure?);
+		catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
+
 	
 msgEx 	:	('@messageExchange' | '@mex') STRING
 		->	^(MSGEX STRING);
@@ -372,6 +415,12 @@ faultName	:	('@faultName' | '@fault') STRING
 
 faultElt	:	'@faultElement' STRING
 		->	^(FAULTELT STRING);	
+		
+exprLg		:	('@expressionLanguage' | '@exprLg') STRING
+		->	^(EXPRLG STRING);
+		
+queryLg	:	('@queryLanguage' | '@queryLg') STRING
+		->	^(QUERYLG STRING);
 
 // LEXER RULES
 EXT_EXPR		:	'[' (options {greedy=false;} : .)* ']';

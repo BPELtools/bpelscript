@@ -17,7 +17,7 @@
 tree grammar BPELscriptWalker;
 
 options {
-    tokenVocab=BPELscript; // reuse SimPEL Grammar tokens
+    tokenVocab=BPELscript; // reuse Grammar tokens
     ASTLabelType=CommonTree; // $label will have type CommonTree
   //backtrack=true; // automatic handling of ambiguities
     output=template; //we will use StringTemplate for output
@@ -179,7 +179,7 @@ HashMap<String, String> _faults = new HashMap<String, String>();
 HashMap<String, StringTemplate> _faults_pb = new HashMap<String, StringTemplate>();
 }
 	:	^(PROCESS ns=ns_id block[_vars, _pl, _messages, _cs, _faults, _faults_pb] eventHdl? 
-			queryLg=STRING? exprLg=STRING? SJF? EOSF? std_attr j+=join? s+=signal*)
+			queryLg? exprLg? SJF? EOSF? std_attr j+=join? s+=signal*)
 	{// remove process' namespace from local namespace list
 		loc_ns.remove($ns.nspre);
 	} 
@@ -191,7 +191,7 @@ HashMap<String, StringTemplate> _faults_pb = new HashMap<String, StringTemplate>
 	 */
 	-> process(name={$ns.nsloc}, tns={glob_ns.get($ns.nspre)}, local={loc_ns}, 
 		      content_st={$block.st},
-		      queryLg={$queryLg}, exprLg={$exprLg}, sjf={$SJF}, eOSF={$EOSF}, 
+		      queryLg={$queryLg.st}, exprLg={$exprLg.st}, sjf={$SJF}, eOSF={$EOSF}, 
 		      exts={extensions}, imports={imports}, plinks_p={_pl}, messages={_messages}, vars={_vars}, cors={_cs}, 
 		      faultHdl={_faults}, faultHdl_pb={_faults_pb}, eventHdl={$eventHdl.st},
 		      std_attr={$std_attr.st}, join={$j}, signal={$s} )
@@ -271,8 +271,12 @@ body [	HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<Strin
 // Structured activities
 pick [List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 	HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb, List comments]
-	:	^(PICK om+=onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb]+ to+=onAlarm* CREATE_INST? std_attr)
-	-> 	pick(oms={$om}, onalarm={$to}, join={$join}, signal={$signal}, crt_inst={$CREATE_INST}, std_attr={$std_attr.st}, comments={$comments})
+	:	^(PICK om+=onMessage[_vars, _pl, _messages, _cs, _faults, _faults_pb]+ to+=onAlarm* CREATE_INST? name=STRING? sjf=SJF?)
+	{
+	        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	}
+	-> 	pick(oms={$om}, onalarm={$to}, join={$join}, signal={$signal}, crt_inst={$CREATE_INST}, std_attr={std_attr}, comments={$comments})
 	;
 
 onAlarm
@@ -331,7 +335,7 @@ join
 	;
 
 sequence [HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
-		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb]
+		HashMap<String, String> _cs, HashMap<String, String> _faults, HashMap<String, StringTemplate> _faults_pb]
 @init{List comments = getComments(retval);}
 	:	^(SEQUENCE j+=join? b=body[_vars, _pl, _messages, _cs, _faults, _faults_pb] s+=signal* std_attr)
 	->	sequence(content={$b.st}, join={$j}, signal={$s}, std_attr={$std_attr.st}, comments={comments})
@@ -361,11 +365,15 @@ foreach [List join, List signal, List comments]
 	:	^(FOR cName=ID init+=expr[null]? initop+=OPAQUE_EXPR?
 		 (^(FINAL cond+=expr[null]? condop+=OPAQUE_EXPR?))? 
 		 (^(BRANCH complete+=expr[null]? comop+=OPAQUE_EXPR?))?
-			scope_short PARALLEL? SBO? std_attr)
+			scope_short PARALLEL? SBO? name=STRING? sjf=SJF?)
+	{
+	        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	}
 	->	foreach(id={$cName}, init_st={$init}, initop={$initop},
 			cond_st={$cond}, condop={$condop},
 			complete={$complete}, comop={$comop},
-			body_st={$scope_short.st}, join={$join}, signal={$signal}, std_attr={$std_attr.st}, parallel={$PARALLEL}, sbo={$SBO}, comments={$comments})
+			body_st={$scope_short.st}, join={$join}, signal={$signal}, std_attr={std_attr}, parallel={$PARALLEL}, sbo={$SBO}, comments={$comments})
 	;
 
 try_ex[HashMap<String, String> _vars, HashMap<String, String> _pl, 
@@ -495,23 +503,32 @@ with_map[HashMap<String, StringTemplate> fromParts, HashMap<String, StringTempla
 
 // Simple activities
 receive	 [List join, List signal, boolean empty, List comments]
-        	:		^(RECEIVE partner=ID op=ID c+=correlation? pt=portType? ci=CREATE_INST? msgEx? std_attr w+=with_ex? )
+        	:		^(RECEIVE partner=ID op=ID c+=correlation? pt=portType? ci=CREATE_INST? msgEx? name=STRING? sjf=SJF? w+=with_ex? )
         	{// adjust empty tag to handle correlations, since it signals only presence of standard elements else
         		if ($c!=null) empty=false;
+        		
+        		
+        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+  
         	}
 	-> 	receive(partner={$partner.text},op={$op.text}, join={$join}, signal={$signal}, empty={$empty},
-			portType={$portType.st},std_attr={$std_attr.st}, crt_inst={$ci.text}, msgEx={$msgEx.st},
+			portType={$portType.st},std_attr={std_attr}, crt_inst={$ci.text}, msgEx={$msgEx.st},
 			correlation_opt={$c}, with_ex={$w}, comments={$comments}) 
 	;
 
 
 reply [List join, List signal,boolean empty, List comments] 
-	:	^(REPLY partner=ID op+=ID inv=ID? c+=correlation? portType? std_attr fn=faultName? msgEx? w+=with_ex?)
+	:	^(REPLY partner=ID op+=ID inv=ID? c+=correlation? portType? name=STRING? sjf=SJF? fn=faultName? msgEx? w+=with_ex?)
 	{// adjust empty tag to handle correlations, since it signals only presence of standard elements else
         		if ($c!=null) empty=false;
+        		
+        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+
         	}
 	-> 	reply(partner={$partner.text}, op={$op}, inv={$inv.text}, join={$join}, signal={$signal}, empty={$empty},
-			portType={$portType.st},std_attr={$std_attr.st}, faultName={$fn.st}, msgEx={$msgEx.st},
+			portType={$portType.st},std_attr={std_attr}, faultName={$fn.st}, msgEx={$msgEx.st},
 			correlation_opt={$c}, with_ex={$w}, comments={$comments}) 
 	;
 
@@ -531,29 +548,37 @@ if (_faults!=null) {
     _faults_pb.clear();   
 }
 }
-	:	^(INVOKE partner=ID op=ID inv+=ID? c+=correlation? portType? std_attr w+=with_ex? compensation?)
+	:	^(INVOKE partner=ID op=ID inv+=ID? c+=correlation? portType? name=STRING? sjf=SJF? w+=with_ex? compensation?)
 	{// adjust empty tag to handle correlations, since it signals only presence of standard elements else
         		if ($c!=null || $_faults!=null) empty=false;
+        		
+        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+
         	}
 	->	invoke(partner={$partner.text}, op={$op.text}, inv={$inv}, join={$join}, signal={$signal}, empty={$empty},
-			portType={$portType.st}, std_attr={$std_attr.st}, correlation_opt={$c}, with_ex={$w}, 
+			portType={$portType.st}, std_attr={std_attr}, correlation_opt={$c}, with_ex={$w}, 
 			faults={__faults}, faults_pb={__faults_pb}, compensation={$compensation.st}, comments={$comments})
 	;
 
 assign	 [List join, List signal, boolean empty, HashMap<String, String>_vars, HashMap<String, String>_pl, String name, StringTemplate pb, List comments]
-	:	^(ASSIGN pe=path_expr? PROP? OPAQUE_EXPR? portType? CREATE_INST?  std_attr faultName? msgEx? VALID? KEEPSRC? IGNORE? 
+	:	^(ASSIGN pe=path_expr? PROP? OPAQUE_EXPR? portType? CREATE_INST?  strattrname=STRING? sjf=SJF? faultName? msgEx? VALID? KEEPSRC? IGNORE? 
+		{
+		        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (strattrname!=null?strattrname.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	           }
 		rvalue[_vars, _pl, $pe.st, $pe.text, $PROP.text, $OPAQUE_EXPR.text, join, signal, empty, 
-			$portType.st, $CREATE_INST.text, $std_attr.st, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] ) 
+			$portType.st, $CREATE_INST.text, std_attr, $faultName.st, $msgEx.st, $VALID.text, $KEEPSRC.text, $IGNORE.text, name, pb] ) 
 		{
 			boolean isRealAssign = true;
 			if ($rvalue.text.contains("invoke") || $rvalue.text.contains("receive")) isRealAssign=false;
 		}
-	-> 	assign(rvalue_st={$rvalue.st}, join={$join}, signal={$signal}, empty={$empty}, valid={$VALID.text}, std_attr={$std_attr.st}, real={isRealAssign}, comments={$comments})
+	-> 	assign(rvalue_st={$rvalue.st}, join={$join}, signal={$signal}, empty={$empty}, valid={$VALID.text}, std_attr={std_attr}, real={isRealAssign}, comments={$comments})
 	;
 
 rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl, 
 	StringTemplate path_expr, String str_path_expr, String lhs_prop, String lhs_opaque, List join, List signal, boolean empty, 
-	StringTemplate portType, String crtInst, StringTemplate std_attr, StringTemplate faultName, StringTemplate msgEx,
+	StringTemplate portType, String crtInst, String std_attr, StringTemplate faultName, StringTemplate msgEx,
 	String valid, String keepsrc, String ignore, String name, StringTemplate pb]
 	: 	r=receive[null, null, true, null]
 		{
@@ -854,10 +879,14 @@ rvalue [HashMap<String, String>_vars, HashMap<String, String>_pl,
 	;
 	
 throw_ex [List join, List signal,boolean  empty, List comments]
-	:	^(THROW ns_id faultVar=ID? std_attr)
+	:	^(THROW ns_id faultVar=ID? name=STRING? sjf=SJF?)
+	{
+	        		String std_attr =templateLib.getInstanceOf("std_attr",
+	              new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
+	 }
 	->	throw(  ns_pre={$ns_id.nspre}, ns_loc={$ns_id.nsloc}, 
 			join={$join}, signal={$signal}, empty={$empty},
-			faultVar={$faultVar.text}, std_attr={$std_attr.st}, comments={$comments})
+			faultVar={$faultVar.text}, std_attr={std_attr}, comments={$comments})
 	;
 
 
@@ -1294,4 +1323,14 @@ faultName
 faultElt
 	:	^(FAULTELT s=STRING)
 	->	faultElt(name={$s.text.replaceFirst(":", "")})
+	;
+	
+exprLg
+	:	^(EXPRLG s=STRING)
+	->	exprLg(name={$s.text.replaceAll("::", ":")})
+	;
+	
+queryLg
+	:	^(QUERYLG s=STRING)
+	->	queryLg(name={$s.text.replaceAll("::", ":")})
 	;
