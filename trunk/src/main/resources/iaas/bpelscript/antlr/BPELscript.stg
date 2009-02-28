@@ -185,8 +185,8 @@ process(name, tns, local, content_st,
 <taggin(tagname="process", 
 		incontent=" name=\""+name+"\""
 				 +"\n targetNamespace="+tns
-				 +{<if (queryLg)><\n> queryLanguage=<queryLg><endif>}
-				 +{<if (exprLg)><\n> expressionLanguage=<exprLg><endif>}
+				 +{<if (queryLg)><\n> <queryLg><endif>}
+				 +{<if (exprLg)><\n> <exprLg><endif>}
 				 +{<if (sjf)><\n> <sjf><endif>}
 				 +{<if (eOSF)><\n> <eOSF><endif>}
 				 +"\n xmlns=\"http://docs.oasis-open.org/wsbpel/2.0/process/executable\"" 
@@ -1072,4 +1072,12 @@ faultElt(name) ::= <<
 doc(comments) ::= <<
 <if(comments)><taggin(tagname="documentation",
 		content=comments)><\n><endif>
+>>
+
+exprLg(name) ::= <<
+expressionLanguage=<name>
+>>
+
+queryLg(name) ::= <<
+queryLanguage=<name>
 >>
