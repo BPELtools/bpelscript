@@ -186,10 +186,12 @@ if_ex
 	:	( {q==null}? q=queryLg  | {e==null}? e=exprLg 	        
 	//should be std_attr. but did not work with occurence-order-independency
         	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
-		'if' '(' (iex=expr|iop=OPAQUE_EXPR) ')' s=sequence 
-		('elseif' '(' (eiex=expr|eiop=OPAQUE_EXPR) ')' sei+=sequence)* //todo add expr,querLg as annotation
+		'if' '(' (iex=expr | iop=OPAQUE_EXPR) ')' s=sequence 
+		( ( {qie==null}? qie+=queryLg  | {eie==null}? eie+=exprLg )*
+		  'elseif' '(' (eiex+=expr? {if ($eiop==null) $eiop=new ArrayList();$eiop.add(null);} | eiop+=OPAQUE_EXPR? {if ($eiex==null) $eiex=new ArrayList();$eiex.add(null);}) ')' sei+=sequence 
+		)*
 		('else' se=sequence)? 
-	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex? $eiop? $sei))* (^(ELSE $se))? $name? SJF? queryLg? exprLg?);
+	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex $eiop $sei $qie? $eie?))* (^(ELSE $se))? $name? SJF? queryLg? exprLg?);
 
 sequence
 	:	std_attr
@@ -213,13 +215,18 @@ until_ex	:	( {q==null}? q=queryLg  | {e==null}? e=exprLg
         	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 			'repeat' s=sequence 'until' '(' (expr|OPAQUE_EXPR) ')' -> ^(UNTIL expr? OPAQUE_EXPR? sequence $name? SJF? queryLg? exprLg?);
 
-foreach //todo add exprlanguae
-	:	({par==null}? par=PARALLEL | {successfulBranchesOnly==null}? successfulBranchesOnly=SBO | {q==null}? q=queryLg  | {e==null}? e=exprLg
+foreach //todo add exprlanguage
+	:	({par==null}? par=PARALLEL | {successfulBranchesOnly==null}? successfulBranchesOnly=SBO 
 	        //should be std_attr. but did not work with occurence-order-independency
         	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
-		'for' '(' cName=ID '=' (init=expr|initop=OPAQUE_EXPR) ('to'|SEMI) (cond=expr | condop=OPAQUE_EXPR) (('finish'|SEMI) (complete+=expr|compop+=OPAQUE_EXPR))? ')' scope_short
-	-> 	^(FOR $cName $init? $initop? (^(FINAL $cond? $condop?))? (^(BRANCH $complete? $compop?))?
-			scope_short PARALLEL? SBO? $name? SJF? queryLg? exprLg?);
+		'for' '('  ({q==null}? q=queryLg  | {e==null}? e=exprLg)* cName=ID '=' (init=expr | initop=OPAQUE_EXPR)
+			('to'|SEMI) ({qt==null}? qt=queryLg  | {et==null}? et=exprLg)* (cond=expr | condop=OPAQUE_EXPR)
+			 (('finish'|SEMI) ({qf==null}? qf=queryLg  | {ef==null}? ef=exprLg)* (complete+=expr | compop+=OPAQUE_EXPR))? 
+		        ')' scope_short
+	-> 	^(FOR $cName $init? $initop? 
+			(^(FINAL $cond? $condop? $qt? $et?))? 
+			(^(BRANCH $complete? $compop? $qf? $ef?))?
+			scope_short PARALLEL? SBO? $name? SJF? $q? $e?);
 	catch [FailedPredicateException exc] {	reportFailedPredicateWarning(exc);}
 
 try_ex		:	'try' body catch_ex* catchAll?-> ^(TRY catch_ex* body?);		

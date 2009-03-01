@@ -1,5 +1,5 @@
 /*
- * Copyright 2008, 2009 Marc Bischof 
+ * Copyright 2008-2009 Marc Bischof 
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
@@ -740,13 +740,16 @@ onmessage(rb_st, pb_st) ::=
  *  ex: list of elsif expressions
  *  ei: list of elsif bodies
  *  eiop: opaque expression
+ *  qei: queryLanguage attribute
+ *  eie: expressionLanguage attribute
  */
-elsif(ex, eiop, ei) ::=
+elsif(ex, eiop, ei, qei, eie) ::=
 <<
-<ex,ei:{c,b| <taggin(tagname="elseif", 
-					 content={<taggin(tagname="condition",
-					 				  incontent=eiop,
-					 				  content=c)><\n><b>})>};separator="\n">
+<ex, ei, eiop, qei, eie:{c, b, opaque, queryLg, exprLg | <taggin(tagname="elseif", 
+					 				content={<taggin(tagname="condition",
+					 								 incontent=opaque+queryLg+exprLg,
+					 								 content=c
+					 								 )><\n><b>})>};separator="\n">
 >>
 
 
@@ -764,14 +767,14 @@ elsif(ex, eiop, ei) ::=
  *  iop: opaque expression of "if"
  *  eiop: opaque expression of "elsif"
  */
-if_ex(iex, iop, seq, eiex, eiop, seqei, seqe, join, signal, std_attr, comments, queryLg, exprLg) ::=
+if_ex(iex, iop, seq, eiex, eiop, seqei, seqe, join, signal, std_attr, comments, queryLg, exprLg, qei, eie) ::=
 <<
 <taggin(tagname="if",
 		content=doc(comments=comments)+std_aux(join=join, signal=signal)
-				+{<taggin(tagname="condition",incontent=iop,content=iex)><\n>}+seq
-				+{<if (seqei)><\n><elsif(ex=eiex, eiop=eiop, ei=seqei)><endif>}+"\n"
+				+{<taggin(tagname="condition", incontent={<iop><queryLg><exprLg>}, content=iex)><\n>}+seq
+				+{<if (seqei)><\n><elsif(ex=eiex, eiop=eiop, ei=seqei, qei=qei, eie=eie)><endif>}+"\n"
 				+{<if (seqe)><taggin(tagname="else", content=seqe)><endif>},
-		incontent=std_attr+queryLg+exprLg
+		incontent=std_attr
 		)>
 >>
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -847,17 +850,17 @@ until(expr_st, body_st, join, signal, std_attr, comments, opaque, queryLg, exprL
  *  assign_st: the loop assignment
  *  body_st: the loop body
  */
-foreach(id, init_st, initop, cond_st, condop, complete, comop, body_st, join, signal, std_attr, parallel, sbo, comments, queryLg, exprLg) ::= <<
+foreach(id, init_st, initop, cond_st, condop, complete, comop, body_st, join, signal, std_attr, parallel, sbo, comments, queryLg, exprLg, qf, ef, qb, eb) ::= <<
 <condop>
 <taggin(tagname="forEach",
 		content=std_aux(join=join, signal=signal)+doc(comments=comments)
 				+{<taggin(tagname="startCounterValue",
-						  incontent=initop,
+						  incontent=initop+queryLg+exprLg,
 						  content=init_st
 						  )><\n><taggin(tagname="finalCounterValue", 
-						  				incontent=condop,
+						  				incontent=condop+qf+ef,
 						 				content=cond_st)><\n><if(complete+comop)><taggin(tagname="completionCondition", 
-						 							  							    content=taggin(tagname="branches", content=complete, incontent={<comop><if(sbo)><sbo><endif>},empty=comop)
+						 							  							    content=taggin(tagname="branches", content=complete, incontent={<comop><if(sbo)><sbo><endif>}+qb+eb,empty=comop)
 						 							  							    			  )><\n><endif><body_st>},
 		incontent={ counterName="<id>"<if(parallel)> <parallel><endif><std_attr>}
 		)>
