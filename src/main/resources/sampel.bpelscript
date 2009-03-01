@@ -1,24 +1,20 @@
 namespace pns = "http://example.com/loan-approval/";
 
+@suppressJoinFailure no
 process pns::loanApprovalProcess {
 
-pick {
-@portType "orderEntry" 
-onMessage (buyer, inputLineItem) {
-|lineItem|
+join(ifJoin1, ifJoin2);
+@exprLg "hh"
+if (##opaque) @join(a) {
+exit;
+} elseif (expr) @signal(b) @signal(c) {
+exit;
+} elseif (##opaque) @join(d, e, f) @signal(g) {
 nop;
-
+} else @join(a, b, g) @signal(g) @signal(k) @signal(i) {
+exit;
 }
-@portType "orderEntry" 
-onMessage (buyer, orderComplete) {
-|completionDetail|
-nop;
+signal(ifSignal1);
+signal(ifSignal2);
 
-}
-@exprLg "test"
-alarm (['P3DT10H']) {
-join(setMessage-to-reply, approval-to-reply);
-@portType "lns::loanServicePT" 
-reply(customer, request, approval);
-} }
 }

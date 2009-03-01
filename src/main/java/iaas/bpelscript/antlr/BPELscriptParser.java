@@ -1,4 +1,4 @@
-// $ANTLR 3.1b2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-02-28 20:28:14
+// $ANTLR 3.1.2 /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g 2009-03-01 10:29:09
 
 /*
  * Copyright 2008-2009 Marc Bischof 
@@ -237,6 +237,7 @@ public class BPELscriptParser extends Parser {
         }
         public BPELscriptParser(TokenStream input, RecognizerSharedState state) {
             super(input, state);
+             
         }
         
     protected TreeAdaptor adaptor = new CommonTreeAdaptor();
@@ -332,8 +333,9 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 97:24: -> ^( ROOT ( declaration )+ )
@@ -357,7 +359,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -604,8 +606,10 @@ public class BPELscriptParser extends Parser {
 
         BPELscriptParser.eventHdl_return eventHdl11 = null;
 
-        RuleReturnScope j = null;
-        RuleReturnScope s = null;
+        BPELscriptParser.ajoin_return j = null;
+         j = null;
+        BPELscriptParser.asignal_return s = null;
+         s = null;
         CommonTree sjf_tree=null;
         CommonTree exitOnStandardFault_tree=null;
         CommonTree string_literal7_tree=null;
@@ -658,7 +662,7 @@ public class BPELscriptParser extends Parser {
             	case 1 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:107:6: {...}?q= queryLg
             	    {
-            	    if ( !(q==null) ) {
+            	    if ( !((q==null)) ) {
             	        throw new FailedPredicateException(input, "process", "q==null");
             	    }
             	    pushFollow(FOLLOW_queryLg_in_process389);
@@ -673,7 +677,7 @@ public class BPELscriptParser extends Parser {
             	case 2 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:107:30: {...}?e= exprLg
             	    {
-            	    if ( !(e==null) ) {
+            	    if ( !((e==null)) ) {
             	        throw new FailedPredicateException(input, "process", "e==null");
             	    }
             	    pushFollow(FOLLOW_exprLg_in_process398);
@@ -688,7 +692,7 @@ public class BPELscriptParser extends Parser {
             	case 3 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:107:53: {...}?sjf= SJF
             	    {
-            	    if ( !(sjf==null) ) {
+            	    if ( !((sjf==null)) ) {
             	        throw new FailedPredicateException(input, "process", "sjf==null");
             	    }
             	    sjf=(Token)match(input,SJF,FOLLOW_SJF_in_process407);  
@@ -700,7 +704,7 @@ public class BPELscriptParser extends Parser {
             	case 4 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:107:77: {...}?exitOnStandardFault= EOSF
             	    {
-            	    if ( !(exitOnStandardFault==null) ) {
+            	    if ( !((exitOnStandardFault==null)) ) {
             	        throw new FailedPredicateException(input, "process", "exitOnStandardFault==null");
             	    }
             	    exitOnStandardFault=(Token)match(input,EOSF,FOLLOW_EOSF_in_process416);  
@@ -748,7 +752,7 @@ public class BPELscriptParser extends Parser {
 
                     stream_ajoin.add(j.getTree());
                     if (list_j==null) list_j=new ArrayList();
-                    list_j.add(j);
+                    list_j.add(j.getTree());
 
 
                     }
@@ -778,7 +782,7 @@ public class BPELscriptParser extends Parser {
 
             	    stream_asignal.add(s.getTree());
             	    if (list_s==null) list_s=new ArrayList();
-            	    list_s.add(s);
+            	    list_s.add(s.getTree());
 
 
             	    }
@@ -821,15 +825,16 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: asignal, std_attr, exprLg, block, ns_id, ajoin, sjf, queryLg, exitOnStandardFault, eventHdl
+            // elements: sjf, ns_id, asignal, exprLg, ajoin, exitOnStandardFault, std_attr, eventHdl, queryLg, block
             // token labels: exitOnStandardFault, sjf
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_exitOnStandardFault=new RewriteRuleTokenStream(adaptor,"token exitOnStandardFault",exitOnStandardFault);
             RewriteRuleTokenStream stream_sjf=new RewriteRuleTokenStream(adaptor,"token sjf",sjf);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 111:2: -> ^( PROCESS ns_id block ( eventHdl )? ( queryLg )? ( exprLg )? ( $sjf)? ( $exitOnStandardFault)? std_attr ( ajoin )? ( asignal )* )
@@ -890,7 +895,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -928,7 +933,8 @@ public class BPELscriptParser extends Parser {
 
         BPELscriptParser.proc_stmt_return proc_stmt14 = null;
 
-        RuleReturnScope s = null;
+        BPELscriptParser.signal_return s = null;
+         s = null;
         CommonTree SEMI13_tree=null;
         CommonTree SEMI15_tree=null;
         RewriteRuleTokenStream stream_SEMI=new RewriteRuleTokenStream(adaptor,"token SEMI");
@@ -1070,7 +1076,7 @@ public class BPELscriptParser extends Parser {
 
             	    stream_signal.add(s.getTree());
             	    if (list_s==null) list_s=new ArrayList();
-            	    list_s.add(s);
+            	    list_s.add(s.getTree());
 
             	    SEMI15=(Token)match(input,SEMI,FOLLOW_SEMI_in_proc_stmts515);  
             	    stream_SEMI.add(SEMI15);
@@ -1087,13 +1093,14 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: proc_stmt, join, signal
+            // elements: signal, join, proc_stmt
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 116:2: -> ^( PROC_STMTS ( join )? ( signal )* proc_stmt )
@@ -1122,7 +1129,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -1667,8 +1674,9 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 126:30: -> ^( SEQUENCE ( proc_stmts )+ )
@@ -1692,7 +1700,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -1817,13 +1825,14 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: proc_stmts, sub_declaration
+            // elements: sub_declaration, proc_stmts
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 128:52: -> ^( SEQUENCE ( sub_declaration )* ( proc_stmts )+ )
@@ -1853,7 +1862,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -2024,9 +2033,10 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: in
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_in=new RewriteRuleTokenStream(adaptor,"token in", list_in);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 130:67: -> ^( SEQUENCE ( $in)* ( proc_stmts )+ )
@@ -2056,7 +2066,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -2234,7 +2244,7 @@ public class BPELscriptParser extends Parser {
             	case 1 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:135:10: {...}?c= CREATE_INST
             	    {
-            	    if ( !(c==null) ) {
+            	    if ( !((c==null)) ) {
             	        throw new FailedPredicateException(input, "pick", "c==null");
             	    }
             	    c=(Token)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_pick789);  
@@ -2246,7 +2256,7 @@ public class BPELscriptParser extends Parser {
             	case 2 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:137:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "pick", "name==null");
             	    }
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:137:26: ( '@name' name= STRING )
@@ -2267,7 +2277,7 @@ public class BPELscriptParser extends Parser {
             	case 3 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:137:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "pick", "suppressJoinFailure==null");
             	    }
             	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_pick829);  
@@ -2359,14 +2369,15 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: CREATE_INST, onAlarm, name, onMessage, SJF
+            // elements: onAlarm, CREATE_INST, name, onMessage, SJF
             // token labels: name
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 138:38: -> ^( PICK ( onMessage )+ ( onAlarm )* ( CREATE_INST )? ( $name)? ( SJF )? )
@@ -2414,7 +2425,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -2502,7 +2513,7 @@ public class BPELscriptParser extends Parser {
             	case 1 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:142:14: {...}?pT= portType
             	    {
-            	    if ( !(pT==null) ) {
+            	    if ( !((pT==null)) ) {
             	        throw new FailedPredicateException(input, "onMessage", "pT==null");
             	    }
             	    pushFollow(FOLLOW_portType_in_onMessage899);
@@ -2517,7 +2528,7 @@ public class BPELscriptParser extends Parser {
             	case 2 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:142:40: {...}?m= msgEx
             	    {
-            	    if ( !(m==null) ) {
+            	    if ( !((m==null)) ) {
             	        throw new FailedPredicateException(input, "onMessage", "m==null");
             	    }
             	    pushFollow(FOLLOW_msgEx_in_onMessage907);
@@ -2611,13 +2622,14 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: portType, correlation, param_block, msgEx, with_ex, ID, ID
+            // elements: with_ex, correlation, param_block, ID, ID, portType, msgEx
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 145:11: -> ^( ONMESSAGE param_block ( portType )? ( msgEx )? ID ID ( correlation )? ( with_ex )? )
@@ -2660,7 +2672,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -2708,7 +2720,7 @@ public class BPELscriptParser extends Parser {
             // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:149:2: ({...}? ( alarm | timeout )? ( repeatEvery )? {...}? scope_short -> ^( ONALARM ( alarm )? ( timeout )? ( repeatEvery )? scope_short ) )
             // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:151:3: {...}? ( alarm | timeout )? ( repeatEvery )? {...}? scope_short
             {
-            if ( !(input.LT(1).getText().equals("alarm") || input.LT(1).getText().equals("timeout") || input.LT(1).getText().equals("repeatEvery")|| input.LT(1).getText().contains("@")) ) {
+            if ( !((input.LT(1).getText().equals("alarm") || input.LT(1).getText().equals("timeout") || input.LT(1).getText().equals("repeatEvery")|| input.LT(1).getText().contains("@"))) ) {
                 throw new FailedPredicateException(input, "onAlarm", "input.LT(1).getText().equals(\"alarm\") || input.LT(1).getText().equals(\"timeout\") || input.LT(1).getText().equals(\"repeatEvery\")|| input.LT(1).getText().contains(\"@\")");
             }
             // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:152:3: ( alarm | timeout )?
@@ -2765,7 +2777,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            if ( !(input.LT(1).getText().equals("{")) ) {
+            if ( !((input.LT(1).getText().equals("{"))) ) {
                 throw new FailedPredicateException(input, "onAlarm", "input.LT(1).getText().equals(\"{\")");
             }
             pushFollow(FOLLOW_scope_short_in_onAlarm1035);
@@ -2777,13 +2789,14 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: repeatEvery, scope_short, alarm, timeout
+            // elements: scope_short, timeout, repeatEvery, alarm
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 153:2: -> ^( ONALARM ( alarm )? ( timeout )? ( repeatEvery )? scope_short )
@@ -2818,7 +2831,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -2921,7 +2934,7 @@ public class BPELscriptParser extends Parser {
             	case 1 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:155:12: {...}?q= queryLg
             	    {
-            	    if ( !(q==null) ) {
+            	    if ( !((q==null)) ) {
             	        throw new FailedPredicateException(input, "alarm", "q==null");
             	    }
             	    pushFollow(FOLLOW_queryLg_in_alarm1076);
@@ -2936,7 +2949,7 @@ public class BPELscriptParser extends Parser {
             	case 2 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:155:36: {...}?e= exprLg
             	    {
-            	    if ( !(e==null) ) {
+            	    if ( !((e==null)) ) {
             	        throw new FailedPredicateException(input, "alarm", "e==null");
             	    }
             	    pushFollow(FOLLOW_exprLg_in_alarm1085);
@@ -2951,7 +2964,7 @@ public class BPELscriptParser extends Parser {
             	case 3 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:157:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "alarm", "name==null");
             	    }
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:157:26: ( '@name' name= STRING )
@@ -2972,7 +2985,7 @@ public class BPELscriptParser extends Parser {
             	case 4 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:157:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "alarm", "suppressJoinFailure==null");
             	    }
             	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_alarm1126);  
@@ -3040,14 +3053,15 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: SJF, expr, queryLg, exprLg, OPAQUE_EXPR, name
+            // elements: expr, SJF, queryLg, exprLg, name, OPAQUE_EXPR
             // token labels: name
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 159:3: -> ^( ALARM ( expr )? ( OPAQUE_EXPR )? ( queryLg )? ( exprLg )? ( $name)? ( SJF )? )
@@ -3099,7 +3113,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -3202,7 +3216,7 @@ public class BPELscriptParser extends Parser {
             	case 1 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:161:13: {...}?q= queryLg
             	    {
-            	    if ( !(q==null) ) {
+            	    if ( !((q==null)) ) {
             	        throw new FailedPredicateException(input, "timeout", "q==null");
             	    }
             	    pushFollow(FOLLOW_queryLg_in_timeout1191);
@@ -3217,7 +3231,7 @@ public class BPELscriptParser extends Parser {
             	case 2 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:161:37: {...}?e= exprLg
             	    {
-            	    if ( !(e==null) ) {
+            	    if ( !((e==null)) ) {
             	        throw new FailedPredicateException(input, "timeout", "e==null");
             	    }
             	    pushFollow(FOLLOW_exprLg_in_timeout1200);
@@ -3232,7 +3246,7 @@ public class BPELscriptParser extends Parser {
             	case 3 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:163:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "timeout", "name==null");
             	    }
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:163:26: ( '@name' name= STRING )
@@ -3253,7 +3267,7 @@ public class BPELscriptParser extends Parser {
             	case 4 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:163:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "timeout", "suppressJoinFailure==null");
             	    }
             	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_timeout1241);  
@@ -3321,14 +3335,15 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: name, queryLg, OPAQUE_EXPR, exprLg, SJF, expr
+            // elements: name, exprLg, expr, OPAQUE_EXPR, SJF, queryLg
             // token labels: name
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 165:3: -> ^( TIMEOUT ( expr )? ( OPAQUE_EXPR )? ( queryLg )? ( exprLg )? ( $name)? ( SJF )? )
@@ -3380,7 +3395,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -3492,8 +3507,9 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 169:2: -> ^( REPEATEVERY ( expr )? ( OPAQUE_EXPR )? )
@@ -3521,7 +3537,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -3560,7 +3576,8 @@ public class BPELscriptParser extends Parser {
         List list_s=null;
         BPELscriptParser.std_attr_return std_attr93 = null;
 
-        RuleReturnScope s = null;
+        BPELscriptParser.sequence_return s = null;
+         s = null;
         CommonTree string_literal94_tree=null;
         CommonTree string_literal95_tree=null;
         RewriteRuleTokenStream stream_122=new RewriteRuleTokenStream(adaptor,"token 122");
@@ -3587,7 +3604,7 @@ public class BPELscriptParser extends Parser {
 
             stream_sequence.add(s.getTree());
             if (list_s==null) list_s=new ArrayList();
-            list_s.add(s);
+            list_s.add(s.getTree());
 
             // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:172:26: ( 'and' s+= sequence )*
             loop32:
@@ -3614,7 +3631,7 @@ public class BPELscriptParser extends Parser {
 
             	    stream_sequence.add(s.getTree());
             	    if (list_s==null) list_s=new ArrayList();
-            	    list_s.add(s);
+            	    list_s.add(s.getTree());
 
 
             	    }
@@ -3633,8 +3650,9 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: s
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
             RewriteRuleSubtreeStream stream_s=new RewriteRuleSubtreeStream(adaptor,"token s",list_s);
             root_0 = (CommonTree)adaptor.nil();
             // 173:2: -> ^( FLOW ( $s)+ std_attr )
@@ -3648,7 +3666,7 @@ public class BPELscriptParser extends Parser {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_s.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_s.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_s.nextTree());
 
                 }
                 stream_s.reset();
@@ -3659,7 +3677,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -3735,10 +3753,10 @@ public class BPELscriptParser extends Parser {
                 if ( (LA35_1==STRING) ) {
                     int LA35_5 = input.LA(3);
 
-                    if ( (!(q==null)) ) {
+                    if ( (!(((q==null)))) ) {
                         alt35=1;
                     }
-                    else if ( (q==null) ) {
+                    else if ( ((q==null)) ) {
                         alt35=3;
                     }
                     else {
@@ -3763,10 +3781,10 @@ public class BPELscriptParser extends Parser {
                 if ( (LA35_2==STRING) ) {
                     int LA35_6 = input.LA(3);
 
-                    if ( (!(q==null)) ) {
+                    if ( (!(((q==null)))) ) {
                         alt35=1;
                     }
-                    else if ( (q==null) ) {
+                    else if ( ((q==null)) ) {
                         alt35=3;
                     }
                     else {
@@ -3864,7 +3882,7 @@ public class BPELscriptParser extends Parser {
                 case 3 :
                     // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:175:38: {...}?q= queryLg
                     {
-                    if ( !(q==null) ) {
+                    if ( !((q==null)) ) {
                         throw new FailedPredicateException(input, "signal", "q==null");
                     }
                     pushFollow(FOLLOW_queryLg_in_signal1397);
@@ -3955,13 +3973,14 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: queryLg, expr, ID, OPAQUE_EXPR, exprLg
+            // elements: OPAQUE_EXPR, ID, expr, exprLg, queryLg
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 176:51: -> ^( SIGNAL ID ( expr )? ( OPAQUE_EXPR )? ( queryLg )? ( exprLg )? )
@@ -4002,7 +4021,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -4138,13 +4157,14 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, expr, OPAQUE_EXPR
+            // elements: expr, ID, OPAQUE_EXPR
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 178:59: -> ^( SIGNAL ID ( expr )? ( OPAQUE_EXPR )? )
@@ -4173,7 +4193,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -4354,14 +4374,15 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: OPAQUE_EXPR, k, expr
+            // elements: k, expr, OPAQUE_EXPR
             // token labels: 
             // rule labels: retval
             // token list labels: k
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_k=new RewriteRuleTokenStream(adaptor,"token k", list_k);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 180:73: -> ^( JOIN ( $k)+ ( expr )? ( OPAQUE_EXPR )? )
@@ -4397,7 +4418,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -4476,10 +4497,10 @@ public class BPELscriptParser extends Parser {
                 if ( (LA45_1==STRING) ) {
                     int LA45_5 = input.LA(3);
 
-                    if ( (!(q==null)) ) {
+                    if ( (!(((q==null)))) ) {
                         alt45=1;
                     }
-                    else if ( (q==null) ) {
+                    else if ( ((q==null)) ) {
                         alt45=3;
                     }
                     else {
@@ -4504,10 +4525,10 @@ public class BPELscriptParser extends Parser {
                 if ( (LA45_2==STRING) ) {
                     int LA45_6 = input.LA(3);
 
-                    if ( (!(q==null)) ) {
+                    if ( (!(((q==null)))) ) {
                         alt45=1;
                     }
-                    else if ( (q==null) ) {
+                    else if ( ((q==null)) ) {
                         alt45=3;
                     }
                     else {
@@ -4605,7 +4626,7 @@ public class BPELscriptParser extends Parser {
                 case 3 :
                     // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:182:36: {...}?q= queryLg
                     {
-                    if ( !(q==null) ) {
+                    if ( !((q==null)) ) {
                         throw new FailedPredicateException(input, "join", "q==null");
                     }
                     pushFollow(FOLLOW_queryLg_in_join1566);
@@ -4738,14 +4759,15 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: k, expr, queryLg, exprLg, OPAQUE_EXPR
+            // elements: queryLg, expr, exprLg, OPAQUE_EXPR, k
             // token labels: 
             // rule labels: retval
             // token list labels: k
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_k=new RewriteRuleTokenStream(adaptor,"token k", list_k);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
             // 183:66: -> ^( JOIN ( $k)+ ( expr )? ( OPAQUE_EXPR )? ( queryLg )? ( exprLg )? )
@@ -4793,7 +4815,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -4820,7 +4842,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "if_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:185:1: if_ex : ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'if' '(' (iex= expr | iop= OPAQUE_EXPR ) ')' s= sequence ( 'elseif' '(' (eiex= expr | eiop= OPAQUE_EXPR ) ')' sei+= sequence )* ( 'else' se= sequence )? -> ^( IF ( $iex)? ( $iop)? $s ( ^( ELSIF ( $eiex)? ( $eiop)? $sei) )* ( ^( ELSE $se) )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:185:1: if_ex : ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'if' '(' (iex= expr | iop= OPAQUE_EXPR ) ')' s= sequence ( ({...}?qie+= queryLg | {...}?eie+= exprLg )* 'elseif' '(' ( (eiex+= expr )? | (eiop+= OPAQUE_EXPR )? ) ')' sei+= sequence )* ( 'else' se= sequence )? -> ^( IF ( $iex)? ( $iop)? $s ( ^( ELSIF $eiex $eiop $sei ( $qie)? ( $eie)? ) )* ( ^( ELSE $se) )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) ;
     public final BPELscriptParser.if_ex_return if_ex() throws RecognitionException {
         BPELscriptParser.if_ex_return retval = new BPELscriptParser.if_ex_return();
         retval.start = input.LT(1);
@@ -4830,7 +4852,6 @@ public class BPELscriptParser extends Parser {
         Token name=null;
         Token suppressJoinFailure=null;
         Token iop=null;
-        Token eiop=null;
         Token string_literal126=null;
         Token string_literal127=null;
         Token char_literal128=null;
@@ -4839,6 +4860,11 @@ public class BPELscriptParser extends Parser {
         Token char_literal131=null;
         Token char_literal132=null;
         Token string_literal133=null;
+        Token eiop=null;
+        List list_eiop=null;
+        List list_qie=null;
+        List list_eie=null;
+        List list_eiex=null;
         List list_sei=null;
         BPELscriptParser.queryLg_return q = null;
 
@@ -4848,15 +4874,19 @@ public class BPELscriptParser extends Parser {
 
         BPELscriptParser.sequence_return s = null;
 
-        BPELscriptParser.expr_return eiex = null;
-
         BPELscriptParser.sequence_return se = null;
 
-        RuleReturnScope sei = null;
+        BPELscriptParser.queryLg_return qie = null;
+         qie = null;
+        BPELscriptParser.exprLg_return eie = null;
+         eie = null;
+        BPELscriptParser.expr_return eiex = null;
+         eiex = null;
+        BPELscriptParser.sequence_return sei = null;
+         sei = null;
         CommonTree name_tree=null;
         CommonTree suppressJoinFailure_tree=null;
         CommonTree iop_tree=null;
-        CommonTree eiop_tree=null;
         CommonTree string_literal126_tree=null;
         CommonTree string_literal127_tree=null;
         CommonTree char_literal128_tree=null;
@@ -4865,6 +4895,7 @@ public class BPELscriptParser extends Parser {
         CommonTree char_literal131_tree=null;
         CommonTree char_literal132_tree=null;
         CommonTree string_literal133_tree=null;
+        CommonTree eiop_tree=null;
         RewriteRuleTokenStream stream_117=new RewriteRuleTokenStream(adaptor,"token 117");
         RewriteRuleTokenStream stream_114=new RewriteRuleTokenStream(adaptor,"token 114");
         RewriteRuleTokenStream stream_OPAQUE_EXPR=new RewriteRuleTokenStream(adaptor,"token OPAQUE_EXPR");
@@ -4879,8 +4910,8 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         RewriteRuleSubtreeStream stream_exprLg=new RewriteRuleSubtreeStream(adaptor,"rule exprLg");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:186:2: ( ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'if' '(' (iex= expr | iop= OPAQUE_EXPR ) ')' s= sequence ( 'elseif' '(' (eiex= expr | eiop= OPAQUE_EXPR ) ')' sei+= sequence )* ( 'else' se= sequence )? -> ^( IF ( $iex)? ( $iop)? $s ( ^( ELSIF ( $eiex)? ( $eiop)? $sei) )* ( ^( ELSE $se) )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:186:4: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'if' '(' (iex= expr | iop= OPAQUE_EXPR ) ')' s= sequence ( 'elseif' '(' (eiex= expr | eiop= OPAQUE_EXPR ) ')' sei+= sequence )* ( 'else' se= sequence )?
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:186:2: ( ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'if' '(' (iex= expr | iop= OPAQUE_EXPR ) ')' s= sequence ( ({...}?qie+= queryLg | {...}?eie+= exprLg )* 'elseif' '(' ( (eiex+= expr )? | (eiop+= OPAQUE_EXPR )? ) ')' sei+= sequence )* ( 'else' se= sequence )? -> ^( IF ( $iex)? ( $iop)? $s ( ^( ELSIF $eiex $eiop $sei ( $qie)? ( $eie)? ) )* ( ^( ELSE $se) )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:186:4: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'if' '(' (iex= expr | iop= OPAQUE_EXPR ) ')' s= sequence ( ({...}?qie+= queryLg | {...}?eie+= exprLg )* 'elseif' '(' ( (eiex+= expr )? | (eiop+= OPAQUE_EXPR )? ) ')' sei+= sequence )* ( 'else' se= sequence )?
             {
             // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:186:4: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
             loop49:
@@ -4916,7 +4947,7 @@ public class BPELscriptParser extends Parser {
             	case 1 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:186:6: {...}?q= queryLg
             	    {
-            	    if ( !(q==null) ) {
+            	    if ( !((q==null)) ) {
             	        throw new FailedPredicateException(input, "if_ex", "q==null");
             	    }
             	    pushFollow(FOLLOW_queryLg_in_if_ex1639);
@@ -4931,7 +4962,7 @@ public class BPELscriptParser extends Parser {
             	case 2 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:186:30: {...}?e= exprLg
             	    {
-            	    if ( !(e==null) ) {
+            	    if ( !((e==null)) ) {
             	        throw new FailedPredicateException(input, "if_ex", "e==null");
             	    }
             	    pushFollow(FOLLOW_exprLg_in_if_ex1648);
@@ -4946,7 +4977,7 @@ public class BPELscriptParser extends Parser {
             	case 3 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:188:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "if_ex", "name==null");
             	    }
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:188:26: ( '@name' name= STRING )
@@ -4967,7 +4998,7 @@ public class BPELscriptParser extends Parser {
             	case 4 :
             	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:188:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "if_ex", "suppressJoinFailure==null");
             	    }
             	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_if_ex1689);  
@@ -5018,9 +5049,9 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:189:22: iop= OPAQUE_EXPR
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:189:24: iop= OPAQUE_EXPR
                     {
-                    iop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_if_ex1707);  
+                    iop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_if_ex1709);  
                     stream_OPAQUE_EXPR.add(iop);
 
 
@@ -5029,113 +5060,271 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal129=(Token)match(input,118,FOLLOW_118_in_if_ex1710);  
+            char_literal129=(Token)match(input,118,FOLLOW_118_in_if_ex1712);  
             stream_118.add(char_literal129);
 
-            pushFollow(FOLLOW_sequence_in_if_ex1714);
+            pushFollow(FOLLOW_sequence_in_if_ex1716);
             s=sequence();
 
             state._fsp--;
 
             stream_sequence.add(s.getTree());
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:3: ( 'elseif' '(' (eiex= expr | eiop= OPAQUE_EXPR ) ')' sei+= sequence )*
-            loop52:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:3: ( ({...}?qie+= queryLg | {...}?eie+= exprLg )* 'elseif' '(' ( (eiex+= expr )? | (eiop+= OPAQUE_EXPR )? ) ')' sei+= sequence )*
+            loop55:
             do {
-                int alt52=2;
-                int LA52_0 = input.LA(1);
+                int alt55=2;
+                switch ( input.LA(1) ) {
+                case 194:
+                    {
+                    int LA55_2 = input.LA(2);
 
-                if ( (LA52_0==129) ) {
-                    alt52=1;
+                    if ( ((qie==null)) ) {
+                        alt55=1;
+                    }
+
+
+                    }
+                    break;
+                case 195:
+                    {
+                    int LA55_3 = input.LA(2);
+
+                    if ( ((qie==null)) ) {
+                        alt55=1;
+                    }
+
+
+                    }
+                    break;
+                case 192:
+                    {
+                    int LA55_4 = input.LA(2);
+
+                    if ( ((eie==null)) ) {
+                        alt55=1;
+                    }
+
+
+                    }
+                    break;
+                case 193:
+                    {
+                    int LA55_5 = input.LA(2);
+
+                    if ( ((eie==null)) ) {
+                        alt55=1;
+                    }
+
+
+                    }
+                    break;
+                case 129:
+                    {
+                    alt55=1;
+                    }
+                    break;
+
                 }
 
-
-                switch (alt52) {
+                switch (alt55) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:4: 'elseif' '(' (eiex= expr | eiop= OPAQUE_EXPR ) ')' sei+= sequence
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:5: ({...}?qie+= queryLg | {...}?eie+= exprLg )* 'elseif' '(' ( (eiex+= expr )? | (eiop+= OPAQUE_EXPR )? ) ')' sei+= sequence
             	    {
-            	    string_literal130=(Token)match(input,129,FOLLOW_129_in_if_ex1720);  
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:5: ({...}?qie+= queryLg | {...}?eie+= exprLg )*
+            	    loop51:
+            	    do {
+            	        int alt51=3;
+            	        int LA51_0 = input.LA(1);
+
+            	        if ( ((LA51_0>=194 && LA51_0<=195)) ) {
+            	            alt51=1;
+            	        }
+            	        else if ( ((LA51_0>=192 && LA51_0<=193)) ) {
+            	            alt51=2;
+            	        }
+
+
+            	        switch (alt51) {
+            	    	case 1 :
+            	    	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:7: {...}?qie+= queryLg
+            	    	    {
+            	    	    if ( !((qie==null)) ) {
+            	    	        throw new FailedPredicateException(input, "if_ex", "qie==null");
+            	    	    }
+            	    	    pushFollow(FOLLOW_queryLg_in_if_ex1729);
+            	    	    qie=queryLg();
+
+            	    	    state._fsp--;
+
+            	    	    stream_queryLg.add(qie.getTree());
+            	    	    if (list_qie==null) list_qie=new ArrayList();
+            	    	    list_qie.add(qie.getTree());
+
+
+            	    	    }
+            	    	    break;
+            	    	case 2 :
+            	    	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:36: {...}?eie+= exprLg
+            	    	    {
+            	    	    if ( !((eie==null)) ) {
+            	    	        throw new FailedPredicateException(input, "if_ex", "eie==null");
+            	    	    }
+            	    	    pushFollow(FOLLOW_exprLg_in_if_ex1738);
+            	    	    eie=exprLg();
+
+            	    	    state._fsp--;
+
+            	    	    stream_exprLg.add(eie.getTree());
+            	    	    if (list_eie==null) list_eie=new ArrayList();
+            	    	    list_eie.add(eie.getTree());
+
+
+            	    	    }
+            	    	    break;
+
+            	    	default :
+            	    	    break loop51;
+            	        }
+            	    } while (true);
+
+            	    string_literal130=(Token)match(input,129,FOLLOW_129_in_if_ex1747);  
             	    stream_129.add(string_literal130);
 
-            	    char_literal131=(Token)match(input,117,FOLLOW_117_in_if_ex1722);  
+            	    char_literal131=(Token)match(input,117,FOLLOW_117_in_if_ex1749);  
             	    stream_117.add(char_literal131);
 
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:17: (eiex= expr | eiop= OPAQUE_EXPR )
-            	    int alt51=2;
-            	    int LA51_0 = input.LA(1);
-
-            	    if ( (LA51_0==EXT_EXPR||LA51_0==ID||LA51_0==STRING||LA51_0==INT||LA51_0==117) ) {
-            	        alt51=1;
-            	    }
-            	    else if ( (LA51_0==OPAQUE_EXPR) ) {
-            	        alt51=2;
-            	    }
-            	    else {
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:18: ( (eiex+= expr )? | (eiop+= OPAQUE_EXPR )? )
+            	    int alt54=2;
+            	    switch ( input.LA(1) ) {
+            	    case EXT_EXPR:
+            	    case ID:
+            	    case STRING:
+            	    case INT:
+            	    case 117:
+            	        {
+            	        alt54=1;
+            	        }
+            	        break;
+            	    case 118:
+            	        {
+            	        alt54=1;
+            	        }
+            	        break;
+            	    case OPAQUE_EXPR:
+            	        {
+            	        alt54=2;
+            	        }
+            	        break;
+            	    default:
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 51, 0, input);
+            	            new NoViableAltException("", 54, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt51) {
+
+            	    switch (alt54) {
             	        case 1 :
-            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:18: eiex= expr
+            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:19: (eiex+= expr )?
             	            {
-            	            pushFollow(FOLLOW_expr_in_if_ex1727);
-            	            eiex=expr();
+            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:23: (eiex+= expr )?
+            	            int alt52=2;
+            	            int LA52_0 = input.LA(1);
 
-            	            state._fsp--;
+            	            if ( (LA52_0==EXT_EXPR||LA52_0==ID||LA52_0==STRING||LA52_0==INT||LA52_0==117) ) {
+            	                alt52=1;
+            	            }
+            	            switch (alt52) {
+            	                case 1 :
+            	                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:23: eiex+= expr
+            	                    {
+            	                    pushFollow(FOLLOW_expr_in_if_ex1754);
+            	                    eiex=expr();
 
-            	            stream_expr.add(eiex.getTree());
+            	                    state._fsp--;
+
+            	                    stream_expr.add(eiex.getTree());
+            	                    if (list_eiex==null) list_eiex=new ArrayList();
+            	                    list_eiex.add(eiex.getTree());
+
+
+            	                    }
+            	                    break;
+
+            	            }
+
+            	            if (list_eiop==null) list_eiop=new ArrayList();list_eiop.add(null);
 
             	            }
             	            break;
             	        case 2 :
-            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:190:28: eiop= OPAQUE_EXPR
+            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:91: (eiop+= OPAQUE_EXPR )?
             	            {
-            	            eiop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_if_ex1731);  
-            	            stream_OPAQUE_EXPR.add(eiop);
+            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:95: (eiop+= OPAQUE_EXPR )?
+            	            int alt53=2;
+            	            int LA53_0 = input.LA(1);
 
+            	            if ( (LA53_0==OPAQUE_EXPR) ) {
+            	                alt53=1;
+            	            }
+            	            switch (alt53) {
+            	                case 1 :
+            	                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:95: eiop+= OPAQUE_EXPR
+            	                    {
+            	                    eiop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_if_ex1763);  
+            	                    stream_OPAQUE_EXPR.add(eiop);
+
+            	                    if (list_eiop==null) list_eiop=new ArrayList();
+            	                    list_eiop.add(eiop);
+
+
+            	                    }
+            	                    break;
+
+            	            }
+
+            	            if (list_eiex==null) list_eiex=new ArrayList();list_eiex.add(null);
 
             	            }
             	            break;
 
             	    }
 
-            	    char_literal132=(Token)match(input,118,FOLLOW_118_in_if_ex1734);  
+            	    char_literal132=(Token)match(input,118,FOLLOW_118_in_if_ex1769);  
             	    stream_118.add(char_literal132);
 
-            	    pushFollow(FOLLOW_sequence_in_if_ex1738);
+            	    pushFollow(FOLLOW_sequence_in_if_ex1773);
             	    sei=sequence();
 
             	    state._fsp--;
 
             	    stream_sequence.add(sei.getTree());
             	    if (list_sei==null) list_sei=new ArrayList();
-            	    list_sei.add(sei);
+            	    list_sei.add(sei.getTree());
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop52;
+            	    break loop55;
                 }
             } while (true);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:3: ( 'else' se= sequence )?
-            int alt53=2;
-            int LA53_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:193:3: ( 'else' se= sequence )?
+            int alt56=2;
+            int LA56_0 = input.LA(1);
 
-            if ( (LA53_0==130) ) {
-                alt53=1;
+            if ( (LA56_0==130) ) {
+                alt56=1;
             }
-            switch (alt53) {
+            switch (alt56) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:191:4: 'else' se= sequence
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:193:4: 'else' se= sequence
                     {
-                    string_literal133=(Token)match(input,130,FOLLOW_130_in_if_ex1746);  
+                    string_literal133=(Token)match(input,130,FOLLOW_130_in_if_ex1784);  
                     stream_130.add(string_literal133);
 
-                    pushFollow(FOLLOW_sequence_in_if_ex1750);
+                    pushFollow(FOLLOW_sequence_in_if_ex1788);
                     se=sequence();
 
                     state._fsp--;
@@ -5150,71 +5339,78 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: iop, sei, eiex, s, name, eiop, se, iex, exprLg, SJF, queryLg
-            // token labels: iop, name, eiop
-            // rule labels: retval, eiex, iex, s, se
-            // token list labels: 
-            // rule list labels: sei
+            // elements: queryLg, s, eiop, exprLg, eiex, iex, name, iop, eie, SJF, qie, se, sei
+            // token labels: iop, name
+            // rule labels: retval, iex, s, se
+            // token list labels: eiop
+            // rule list labels: sei, eiex, qie, eie
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_iop=new RewriteRuleTokenStream(adaptor,"token iop",iop);
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleTokenStream stream_eiop=new RewriteRuleTokenStream(adaptor,"token eiop",eiop);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
-            RewriteRuleSubtreeStream stream_eiex=new RewriteRuleSubtreeStream(adaptor,"token eiex",eiex!=null?eiex.tree:null);
-            RewriteRuleSubtreeStream stream_iex=new RewriteRuleSubtreeStream(adaptor,"token iex",iex!=null?iex.tree:null);
-            RewriteRuleSubtreeStream stream_s=new RewriteRuleSubtreeStream(adaptor,"token s",s!=null?s.tree:null);
-            RewriteRuleSubtreeStream stream_se=new RewriteRuleSubtreeStream(adaptor,"token se",se!=null?se.tree:null);
+            RewriteRuleTokenStream stream_eiop=new RewriteRuleTokenStream(adaptor,"token eiop", list_eiop);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_iex=new RewriteRuleSubtreeStream(adaptor,"rule iex",iex!=null?iex.tree:null);
+            RewriteRuleSubtreeStream stream_s=new RewriteRuleSubtreeStream(adaptor,"rule s",s!=null?s.tree:null);
+            RewriteRuleSubtreeStream stream_se=new RewriteRuleSubtreeStream(adaptor,"rule se",se!=null?se.tree:null);
             RewriteRuleSubtreeStream stream_sei=new RewriteRuleSubtreeStream(adaptor,"token sei",list_sei);
+            RewriteRuleSubtreeStream stream_eiex=new RewriteRuleSubtreeStream(adaptor,"token eiex",list_eiex);
+            RewriteRuleSubtreeStream stream_qie=new RewriteRuleSubtreeStream(adaptor,"token qie",list_qie);
+            RewriteRuleSubtreeStream stream_eie=new RewriteRuleSubtreeStream(adaptor,"token eie",list_eie);
             root_0 = (CommonTree)adaptor.nil();
-            // 192:2: -> ^( IF ( $iex)? ( $iop)? $s ( ^( ELSIF ( $eiex)? ( $eiop)? $sei) )* ( ^( ELSE $se) )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
+            // 194:2: -> ^( IF ( $iex)? ( $iop)? $s ( ^( ELSIF $eiex $eiop $sei ( $qie)? ( $eie)? ) )* ( ^( ELSE $se) )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:6: ^( IF ( $iex)? ( $iop)? $s ( ^( ELSIF ( $eiex)? ( $eiop)? $sei) )* ( ^( ELSE $se) )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:6: ^( IF ( $iex)? ( $iop)? $s ( ^( ELSIF $eiex $eiop $sei ( $qie)? ( $eie)? ) )* ( ^( ELSE $se) )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(IF, "IF"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:11: ( $iex)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:11: ( $iex)?
                 if ( stream_iex.hasNext() ) {
                     adaptor.addChild(root_1, stream_iex.nextTree());
 
                 }
                 stream_iex.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:17: ( $iop)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:17: ( $iop)?
                 if ( stream_iop.hasNext() ) {
                     adaptor.addChild(root_1, stream_iop.nextNode());
 
                 }
                 stream_iop.reset();
                 adaptor.addChild(root_1, stream_s.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:26: ( ^( ELSIF ( $eiex)? ( $eiop)? $sei) )*
-                while ( stream_sei.hasNext() ) {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:27: ^( ELSIF ( $eiex)? ( $eiop)? $sei)
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:26: ( ^( ELSIF $eiex $eiop $sei ( $qie)? ( $eie)? ) )*
+                while ( stream_eiop.hasNext()||stream_eiex.hasNext()||stream_sei.hasNext() ) {
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:27: ^( ELSIF $eiex $eiop $sei ( $qie)? ( $eie)? )
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
                     root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ELSIF, "ELSIF"), root_2);
 
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:35: ( $eiex)?
-                    if ( stream_eiex.hasNext() ) {
-                        adaptor.addChild(root_2, stream_eiex.nextTree());
+                    adaptor.addChild(root_2, stream_eiex.nextTree());
+                    adaptor.addChild(root_2, stream_eiop.nextNode());
+                    adaptor.addChild(root_2, stream_sei.nextTree());
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:52: ( $qie)?
+                    if ( stream_qie.hasNext() ) {
+                        adaptor.addChild(root_2, stream_qie.nextTree());
 
                     }
-                    stream_eiex.reset();
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:42: ( $eiop)?
-                    if ( stream_eiop.hasNext() ) {
-                        adaptor.addChild(root_2, stream_eiop.nextNode());
+                    stream_qie.reset();
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:58: ( $eie)?
+                    if ( stream_eie.hasNext() ) {
+                        adaptor.addChild(root_2, stream_eie.nextTree());
 
                     }
-                    stream_eiop.reset();
-                    adaptor.addChild(root_2, ((ParserRuleReturnScope)stream_sei.nextTree()).getTree());
+                    stream_eie.reset();
 
                     adaptor.addChild(root_1, root_2);
                     }
 
                 }
+                stream_eiop.reset();
+                stream_eiex.reset();
                 stream_sei.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:57: ( ^( ELSE $se) )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:67: ( ^( ELSE $se) )?
                 if ( stream_se.hasNext() ) {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:58: ^( ELSE $se)
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:68: ^( ELSE $se)
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
                     root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ELSE, "ELSE"), root_2);
@@ -5226,25 +5422,25 @@ public class BPELscriptParser extends Parser {
 
                 }
                 stream_se.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:72: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:82: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:79: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:89: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
                 }
                 stream_SJF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:84: ( queryLg )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:94: ( queryLg )?
                 if ( stream_queryLg.hasNext() ) {
                     adaptor.addChild(root_1, stream_queryLg.nextTree());
 
                 }
                 stream_queryLg.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:192:93: ( exprLg )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:103: ( exprLg )?
                 if ( stream_exprLg.hasNext() ) {
                     adaptor.addChild(root_1, stream_exprLg.nextTree());
 
@@ -5256,7 +5452,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -5283,7 +5479,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "sequence"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:194:1: sequence : std_attr (j+= ajoin )? (s+= asignal )* b= body -> ^( SEQUENCE ( $j)? $b ( $s)* ( std_attr )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:196:1: sequence : std_attr (j+= ajoin )? (s+= asignal )* b= body -> ^( SEQUENCE ( $j)? $b ( $s)* ( std_attr )? ) ;
     public final BPELscriptParser.sequence_return sequence() throws RecognitionException {
         BPELscriptParser.sequence_return retval = new BPELscriptParser.sequence_return();
         retval.start = input.LT(1);
@@ -5296,41 +5492,43 @@ public class BPELscriptParser extends Parser {
 
         BPELscriptParser.std_attr_return std_attr134 = null;
 
-        RuleReturnScope j = null;
-        RuleReturnScope s = null;
+        BPELscriptParser.ajoin_return j = null;
+         j = null;
+        BPELscriptParser.asignal_return s = null;
+         s = null;
         RewriteRuleSubtreeStream stream_asignal=new RewriteRuleSubtreeStream(adaptor,"rule asignal");
         RewriteRuleSubtreeStream stream_body=new RewriteRuleSubtreeStream(adaptor,"rule body");
         RewriteRuleSubtreeStream stream_std_attr=new RewriteRuleSubtreeStream(adaptor,"rule std_attr");
         RewriteRuleSubtreeStream stream_ajoin=new RewriteRuleSubtreeStream(adaptor,"rule ajoin");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:195:2: ( std_attr (j+= ajoin )? (s+= asignal )* b= body -> ^( SEQUENCE ( $j)? $b ( $s)* ( std_attr )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:195:4: std_attr (j+= ajoin )? (s+= asignal )* b= body
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:197:2: ( std_attr (j+= ajoin )? (s+= asignal )* b= body -> ^( SEQUENCE ( $j)? $b ( $s)* ( std_attr )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:197:4: std_attr (j+= ajoin )? (s+= asignal )* b= body
             {
-            pushFollow(FOLLOW_std_attr_in_sequence1822);
+            pushFollow(FOLLOW_std_attr_in_sequence1866);
             std_attr134=std_attr();
 
             state._fsp--;
 
             stream_std_attr.add(std_attr134.getTree());
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:196:4: (j+= ajoin )?
-            int alt54=2;
-            int LA54_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:198:4: (j+= ajoin )?
+            int alt57=2;
+            int LA57_0 = input.LA(1);
 
-            if ( (LA54_0==126) ) {
-                alt54=1;
+            if ( (LA57_0==126) ) {
+                alt57=1;
             }
-            switch (alt54) {
+            switch (alt57) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:196:4: j+= ajoin
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:198:4: j+= ajoin
                     {
-                    pushFollow(FOLLOW_ajoin_in_sequence1828);
+                    pushFollow(FOLLOW_ajoin_in_sequence1872);
                     j=ajoin();
 
                     state._fsp--;
 
                     stream_ajoin.add(j.getTree());
                     if (list_j==null) list_j=new ArrayList();
-                    list_j.add(j);
+                    list_j.add(j.getTree());
 
 
                     }
@@ -5338,40 +5536,40 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:196:14: (s+= asignal )*
-            loop55:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:198:14: (s+= asignal )*
+            loop58:
             do {
-                int alt55=2;
-                int LA55_0 = input.LA(1);
+                int alt58=2;
+                int LA58_0 = input.LA(1);
 
-                if ( (LA55_0==125) ) {
-                    alt55=1;
+                if ( (LA58_0==125) ) {
+                    alt58=1;
                 }
 
 
-                switch (alt55) {
+                switch (alt58) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:196:14: s+= asignal
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:198:14: s+= asignal
             	    {
-            	    pushFollow(FOLLOW_asignal_in_sequence1833);
+            	    pushFollow(FOLLOW_asignal_in_sequence1877);
             	    s=asignal();
 
             	    state._fsp--;
 
             	    stream_asignal.add(s.getTree());
             	    if (list_s==null) list_s=new ArrayList();
-            	    list_s.add(s);
+            	    list_s.add(s.getTree());
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop55;
+            	    break loop58;
                 }
             } while (true);
 
-            pushFollow(FOLLOW_body_in_sequence1840);
+            pushFollow(FOLLOW_body_in_sequence1884);
             b=body();
 
             state._fsp--;
@@ -5380,38 +5578,39 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: std_attr, j, b, s
+            // elements: std_attr, j, s, b
             // token labels: 
             // rule labels: retval, b
             // token list labels: 
             // rule list labels: s, j
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
-            RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"token b",b!=null?b.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.tree:null);
             RewriteRuleSubtreeStream stream_s=new RewriteRuleSubtreeStream(adaptor,"token s",list_s);
             RewriteRuleSubtreeStream stream_j=new RewriteRuleSubtreeStream(adaptor,"token j",list_j);
             root_0 = (CommonTree)adaptor.nil();
-            // 198:2: -> ^( SEQUENCE ( $j)? $b ( $s)* ( std_attr )? )
+            // 200:2: -> ^( SEQUENCE ( $j)? $b ( $s)* ( std_attr )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:198:5: ^( SEQUENCE ( $j)? $b ( $s)* ( std_attr )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:200:5: ^( SEQUENCE ( $j)? $b ( $s)* ( std_attr )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SEQUENCE, "SEQUENCE"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:198:16: ( $j)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:200:16: ( $j)?
                 if ( stream_j.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_j.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_j.nextTree());
 
                 }
                 stream_j.reset();
                 adaptor.addChild(root_1, stream_b.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:198:23: ( $s)*
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:200:23: ( $s)*
                 while ( stream_s.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_s.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_s.nextTree());
 
                 }
                 stream_s.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:198:27: ( std_attr )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:200:27: ( std_attr )?
                 if ( stream_std_attr.hasNext() ) {
                     adaptor.addChild(root_1, stream_std_attr.nextTree());
 
@@ -5423,7 +5622,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -5450,7 +5649,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "scope_sequence"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:201:1: scope_sequence : (j+= ajoin )? (s+= asignal )* b= scope_block -> ^( SEQUENCE ( $j)? $b ( $s)* ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:203:1: scope_sequence : (j+= ajoin )? (s+= asignal )* b= scope_block -> ^( SEQUENCE ( $j)? $b ( $s)* ) ;
     public final BPELscriptParser.scope_sequence_return scope_sequence() throws RecognitionException {
         BPELscriptParser.scope_sequence_return retval = new BPELscriptParser.scope_sequence_return();
         retval.start = input.LT(1);
@@ -5461,34 +5660,36 @@ public class BPELscriptParser extends Parser {
         List list_s=null;
         BPELscriptParser.scope_block_return b = null;
 
-        RuleReturnScope j = null;
-        RuleReturnScope s = null;
+        BPELscriptParser.ajoin_return j = null;
+         j = null;
+        BPELscriptParser.asignal_return s = null;
+         s = null;
         RewriteRuleSubtreeStream stream_asignal=new RewriteRuleSubtreeStream(adaptor,"rule asignal");
         RewriteRuleSubtreeStream stream_scope_block=new RewriteRuleSubtreeStream(adaptor,"rule scope_block");
         RewriteRuleSubtreeStream stream_ajoin=new RewriteRuleSubtreeStream(adaptor,"rule ajoin");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:202:2: ( (j+= ajoin )? (s+= asignal )* b= scope_block -> ^( SEQUENCE ( $j)? $b ( $s)* ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:202:4: (j+= ajoin )? (s+= asignal )* b= scope_block
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:2: ( (j+= ajoin )? (s+= asignal )* b= scope_block -> ^( SEQUENCE ( $j)? $b ( $s)* ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:4: (j+= ajoin )? (s+= asignal )* b= scope_block
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:202:5: (j+= ajoin )?
-            int alt56=2;
-            int LA56_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:5: (j+= ajoin )?
+            int alt59=2;
+            int LA59_0 = input.LA(1);
 
-            if ( (LA56_0==126) ) {
-                alt56=1;
+            if ( (LA59_0==126) ) {
+                alt59=1;
             }
-            switch (alt56) {
+            switch (alt59) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:202:5: j+= ajoin
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:5: j+= ajoin
                     {
-                    pushFollow(FOLLOW_ajoin_in_scope_sequence1873);
+                    pushFollow(FOLLOW_ajoin_in_scope_sequence1917);
                     j=ajoin();
 
                     state._fsp--;
 
                     stream_ajoin.add(j.getTree());
                     if (list_j==null) list_j=new ArrayList();
-                    list_j.add(j);
+                    list_j.add(j.getTree());
 
 
                     }
@@ -5496,40 +5697,40 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:202:15: (s+= asignal )*
-            loop57:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:15: (s+= asignal )*
+            loop60:
             do {
-                int alt57=2;
-                int LA57_0 = input.LA(1);
+                int alt60=2;
+                int LA60_0 = input.LA(1);
 
-                if ( (LA57_0==125) ) {
-                    alt57=1;
+                if ( (LA60_0==125) ) {
+                    alt60=1;
                 }
 
 
-                switch (alt57) {
+                switch (alt60) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:202:15: s+= asignal
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:15: s+= asignal
             	    {
-            	    pushFollow(FOLLOW_asignal_in_scope_sequence1878);
+            	    pushFollow(FOLLOW_asignal_in_scope_sequence1922);
             	    s=asignal();
 
             	    state._fsp--;
 
             	    stream_asignal.add(s.getTree());
             	    if (list_s==null) list_s=new ArrayList();
-            	    list_s.add(s);
+            	    list_s.add(s.getTree());
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop57;
+            	    break loop60;
                 }
             } while (true);
 
-            pushFollow(FOLLOW_scope_block_in_scope_sequence1886);
+            pushFollow(FOLLOW_scope_block_in_scope_sequence1930);
             b=scope_block();
 
             state._fsp--;
@@ -5538,34 +5739,35 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: s, b, j
+            // elements: j, b, s
             // token labels: 
             // rule labels: retval, b
             // token list labels: 
             // rule list labels: s, j
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
-            RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"token b",b!=null?b.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.tree:null);
             RewriteRuleSubtreeStream stream_s=new RewriteRuleSubtreeStream(adaptor,"token s",list_s);
             RewriteRuleSubtreeStream stream_j=new RewriteRuleSubtreeStream(adaptor,"token j",list_j);
             root_0 = (CommonTree)adaptor.nil();
-            // 204:2: -> ^( SEQUENCE ( $j)? $b ( $s)* )
+            // 206:2: -> ^( SEQUENCE ( $j)? $b ( $s)* )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:5: ^( SEQUENCE ( $j)? $b ( $s)* )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:5: ^( SEQUENCE ( $j)? $b ( $s)* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SEQUENCE, "SEQUENCE"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:16: ( $j)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:16: ( $j)?
                 if ( stream_j.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_j.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_j.nextTree());
 
                 }
                 stream_j.reset();
                 adaptor.addChild(root_1, stream_b.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:204:23: ( $s)*
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:23: ( $s)*
                 while ( stream_s.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_s.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_s.nextTree());
 
                 }
                 stream_s.reset();
@@ -5575,7 +5777,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -5602,7 +5804,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "while_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:1: while_ex : ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'while' '(' ( expr | OPAQUE_EXPR ) ')' s= sequence -> ^( WHILE ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:1: while_ex : ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'while' '(' ( expr | OPAQUE_EXPR ) ')' s= sequence -> ^( WHILE ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) ;
     public final BPELscriptParser.while_ex_return while_ex() throws RecognitionException {
         BPELscriptParser.while_ex_return retval = new BPELscriptParser.while_ex_return();
         retval.start = input.LT(1);
@@ -5644,47 +5846,47 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         RewriteRuleSubtreeStream stream_exprLg=new RewriteRuleSubtreeStream(adaptor,"rule exprLg");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:10: ( ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'while' '(' ( expr | OPAQUE_EXPR ) ')' s= sequence -> ^( WHILE ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:12: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'while' '(' ( expr | OPAQUE_EXPR ) ')' s= sequence
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:10: ( ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'while' '(' ( expr | OPAQUE_EXPR ) ')' s= sequence -> ^( WHILE ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:12: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'while' '(' ( expr | OPAQUE_EXPR ) ')' s= sequence
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:12: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop58:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:12: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop61:
             do {
-                int alt58=5;
+                int alt61=5;
                 switch ( input.LA(1) ) {
                 case 194:
                 case 195:
                     {
-                    alt58=1;
+                    alt61=1;
                     }
                     break;
                 case 192:
                 case 193:
                     {
-                    alt58=2;
+                    alt61=2;
                     }
                     break;
                 case 114:
                     {
-                    alt58=3;
+                    alt61=3;
                     }
                     break;
                 case SJF:
                     {
-                    alt58=4;
+                    alt61=4;
                     }
                     break;
 
                 }
 
-                switch (alt58) {
+                switch (alt61) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:14: {...}?q= queryLg
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:14: {...}?q= queryLg
             	    {
-            	    if ( !(q==null) ) {
+            	    if ( !((q==null)) ) {
             	        throw new FailedPredicateException(input, "while_ex", "q==null");
             	    }
-            	    pushFollow(FOLLOW_queryLg_in_while_ex1918);
+            	    pushFollow(FOLLOW_queryLg_in_while_ex1962);
             	    q=queryLg();
 
             	    state._fsp--;
@@ -5694,12 +5896,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:206:38: {...}?e= exprLg
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:38: {...}?e= exprLg
             	    {
-            	    if ( !(e==null) ) {
+            	    if ( !((e==null)) ) {
             	        throw new FailedPredicateException(input, "while_ex", "e==null");
             	    }
-            	    pushFollow(FOLLOW_exprLg_in_while_ex1927);
+            	    pushFollow(FOLLOW_exprLg_in_while_ex1971);
             	    e=exprLg();
 
             	    state._fsp--;
@@ -5709,18 +5911,18 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:12: {...}? ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:210:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "while_ex", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:26: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:27: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:210:26: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:210:27: '@name' name= STRING
             	    {
-            	    string_literal135=(Token)match(input,114,FOLLOW_114_in_while_ex1955);  
+            	    string_literal135=(Token)match(input,114,FOLLOW_114_in_while_ex1999);  
             	    stream_114.add(string_literal135);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_while_ex1959);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_while_ex2003);  
             	    stream_STRING.add(name);
 
 
@@ -5730,12 +5932,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 4 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:208:50: {...}?suppressJoinFailure= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:210:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "while_ex", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_while_ex1968);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_while_ex2012);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -5743,37 +5945,37 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop58;
+            	    break loop61;
                 }
             } while (true);
 
-            string_literal136=(Token)match(input,131,FOLLOW_131_in_while_ex1976);  
+            string_literal136=(Token)match(input,131,FOLLOW_131_in_while_ex2020);  
             stream_131.add(string_literal136);
 
-            char_literal137=(Token)match(input,117,FOLLOW_117_in_while_ex1978);  
+            char_literal137=(Token)match(input,117,FOLLOW_117_in_while_ex2022);  
             stream_117.add(char_literal137);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:16: ( expr | OPAQUE_EXPR )
-            int alt59=2;
-            int LA59_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:16: ( expr | OPAQUE_EXPR )
+            int alt62=2;
+            int LA62_0 = input.LA(1);
 
-            if ( (LA59_0==EXT_EXPR||LA59_0==ID||LA59_0==STRING||LA59_0==INT||LA59_0==117) ) {
-                alt59=1;
+            if ( (LA62_0==EXT_EXPR||LA62_0==ID||LA62_0==STRING||LA62_0==INT||LA62_0==117) ) {
+                alt62=1;
             }
-            else if ( (LA59_0==OPAQUE_EXPR) ) {
-                alt59=2;
+            else if ( (LA62_0==OPAQUE_EXPR) ) {
+                alt62=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 59, 0, input);
+                    new NoViableAltException("", 62, 0, input);
 
                 throw nvae;
             }
-            switch (alt59) {
+            switch (alt62) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:17: expr
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:17: expr
                     {
-                    pushFollow(FOLLOW_expr_in_while_ex1981);
+                    pushFollow(FOLLOW_expr_in_while_ex2025);
                     expr138=expr();
 
                     state._fsp--;
@@ -5783,9 +5985,9 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:22: OPAQUE_EXPR
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:22: OPAQUE_EXPR
                     {
-                    OPAQUE_EXPR139=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_while_ex1983);  
+                    OPAQUE_EXPR139=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_while_ex2027);  
                     stream_OPAQUE_EXPR.add(OPAQUE_EXPR139);
 
 
@@ -5794,10 +5996,10 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal140=(Token)match(input,118,FOLLOW_118_in_while_ex1986);  
+            char_literal140=(Token)match(input,118,FOLLOW_118_in_while_ex2030);  
             stream_118.add(char_literal140);
 
-            pushFollow(FOLLOW_sequence_in_while_ex1990);
+            pushFollow(FOLLOW_sequence_in_while_ex2034);
             s=sequence();
 
             state._fsp--;
@@ -5806,55 +6008,56 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: expr, exprLg, queryLg, sequence, SJF, name, OPAQUE_EXPR
+            // elements: expr, name, OPAQUE_EXPR, queryLg, SJF, exprLg, sequence
             // token labels: name
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 209:50: -> ^( WHILE ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
+            // 211:50: -> ^( WHILE ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:53: ^( WHILE ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:53: ^( WHILE ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(WHILE, "WHILE"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:61: ( expr )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:61: ( expr )?
                 if ( stream_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_expr.nextTree());
 
                 }
                 stream_expr.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:67: ( OPAQUE_EXPR )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:67: ( OPAQUE_EXPR )?
                 if ( stream_OPAQUE_EXPR.hasNext() ) {
                     adaptor.addChild(root_1, stream_OPAQUE_EXPR.nextNode());
 
                 }
                 stream_OPAQUE_EXPR.reset();
                 adaptor.addChild(root_1, stream_sequence.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:89: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:89: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:96: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:96: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
                 }
                 stream_SJF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:101: ( queryLg )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:101: ( queryLg )?
                 if ( stream_queryLg.hasNext() ) {
                     adaptor.addChild(root_1, stream_queryLg.nextTree());
 
                 }
                 stream_queryLg.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:209:110: ( exprLg )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:110: ( exprLg )?
                 if ( stream_exprLg.hasNext() ) {
                     adaptor.addChild(root_1, stream_exprLg.nextTree());
 
@@ -5866,7 +6069,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -5893,7 +6096,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "until_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:1: until_ex : ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'repeat' s= sequence 'until' '(' ( expr | OPAQUE_EXPR ) ')' -> ^( UNTIL ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:1: until_ex : ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'repeat' s= sequence 'until' '(' ( expr | OPAQUE_EXPR ) ')' -> ^( UNTIL ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) ;
     public final BPELscriptParser.until_ex_return until_ex() throws RecognitionException {
         BPELscriptParser.until_ex_return retval = new BPELscriptParser.until_ex_return();
         retval.start = input.LT(1);
@@ -5938,47 +6141,47 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         RewriteRuleSubtreeStream stream_exprLg=new RewriteRuleSubtreeStream(adaptor,"rule exprLg");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:10: ( ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'repeat' s= sequence 'until' '(' ( expr | OPAQUE_EXPR ) ')' -> ^( UNTIL ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:12: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'repeat' s= sequence 'until' '(' ( expr | OPAQUE_EXPR ) ')'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:10: ( ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'repeat' s= sequence 'until' '(' ( expr | OPAQUE_EXPR ) ')' -> ^( UNTIL ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:12: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'repeat' s= sequence 'until' '(' ( expr | OPAQUE_EXPR ) ')'
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:12: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop60:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:12: ({...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop63:
             do {
-                int alt60=5;
+                int alt63=5;
                 switch ( input.LA(1) ) {
                 case 194:
                 case 195:
                     {
-                    alt60=1;
+                    alt63=1;
                     }
                     break;
                 case 192:
                 case 193:
                     {
-                    alt60=2;
+                    alt63=2;
                     }
                     break;
                 case 114:
                     {
-                    alt60=3;
+                    alt63=3;
                     }
                     break;
                 case SJF:
                     {
-                    alt60=4;
+                    alt63=4;
                     }
                     break;
 
                 }
 
-                switch (alt60) {
+                switch (alt63) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:14: {...}?q= queryLg
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:14: {...}?q= queryLg
             	    {
-            	    if ( !(q==null) ) {
+            	    if ( !((q==null)) ) {
             	        throw new FailedPredicateException(input, "until_ex", "q==null");
             	    }
-            	    pushFollow(FOLLOW_queryLg_in_until_ex2031);
+            	    pushFollow(FOLLOW_queryLg_in_until_ex2075);
             	    q=queryLg();
 
             	    state._fsp--;
@@ -5988,12 +6191,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:211:38: {...}?e= exprLg
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:38: {...}?e= exprLg
             	    {
-            	    if ( !(e==null) ) {
+            	    if ( !((e==null)) ) {
             	        throw new FailedPredicateException(input, "until_ex", "e==null");
             	    }
-            	    pushFollow(FOLLOW_exprLg_in_until_ex2040);
+            	    pushFollow(FOLLOW_exprLg_in_until_ex2084);
             	    e=exprLg();
 
             	    state._fsp--;
@@ -6003,18 +6206,18 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:12: {...}? ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:215:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "until_ex", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:26: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:27: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:215:26: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:215:27: '@name' name= STRING
             	    {
-            	    string_literal141=(Token)match(input,114,FOLLOW_114_in_until_ex2068);  
+            	    string_literal141=(Token)match(input,114,FOLLOW_114_in_until_ex2112);  
             	    stream_114.add(string_literal141);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_until_ex2072);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_until_ex2116);  
             	    stream_STRING.add(name);
 
 
@@ -6024,12 +6227,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 4 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:213:50: {...}?suppressJoinFailure= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:215:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "until_ex", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_until_ex2081);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_until_ex2125);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -6037,46 +6240,46 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop60;
+            	    break loop63;
                 }
             } while (true);
 
-            string_literal142=(Token)match(input,132,FOLLOW_132_in_until_ex2089);  
+            string_literal142=(Token)match(input,132,FOLLOW_132_in_until_ex2133);  
             stream_132.add(string_literal142);
 
-            pushFollow(FOLLOW_sequence_in_until_ex2093);
+            pushFollow(FOLLOW_sequence_in_until_ex2137);
             s=sequence();
 
             state._fsp--;
 
             stream_sequence.add(s.getTree());
-            string_literal143=(Token)match(input,133,FOLLOW_133_in_until_ex2095);  
+            string_literal143=(Token)match(input,133,FOLLOW_133_in_until_ex2139);  
             stream_133.add(string_literal143);
 
-            char_literal144=(Token)match(input,117,FOLLOW_117_in_until_ex2097);  
+            char_literal144=(Token)match(input,117,FOLLOW_117_in_until_ex2141);  
             stream_117.add(char_literal144);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:36: ( expr | OPAQUE_EXPR )
-            int alt61=2;
-            int LA61_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:36: ( expr | OPAQUE_EXPR )
+            int alt64=2;
+            int LA64_0 = input.LA(1);
 
-            if ( (LA61_0==EXT_EXPR||LA61_0==ID||LA61_0==STRING||LA61_0==INT||LA61_0==117) ) {
-                alt61=1;
+            if ( (LA64_0==EXT_EXPR||LA64_0==ID||LA64_0==STRING||LA64_0==INT||LA64_0==117) ) {
+                alt64=1;
             }
-            else if ( (LA61_0==OPAQUE_EXPR) ) {
-                alt61=2;
+            else if ( (LA64_0==OPAQUE_EXPR) ) {
+                alt64=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 61, 0, input);
+                    new NoViableAltException("", 64, 0, input);
 
                 throw nvae;
             }
-            switch (alt61) {
+            switch (alt64) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:37: expr
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:37: expr
                     {
-                    pushFollow(FOLLOW_expr_in_until_ex2100);
+                    pushFollow(FOLLOW_expr_in_until_ex2144);
                     expr145=expr();
 
                     state._fsp--;
@@ -6086,9 +6289,9 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:42: OPAQUE_EXPR
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:42: OPAQUE_EXPR
                     {
-                    OPAQUE_EXPR146=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_until_ex2102);  
+                    OPAQUE_EXPR146=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_until_ex2146);  
                     stream_OPAQUE_EXPR.add(OPAQUE_EXPR146);
 
 
@@ -6097,61 +6300,62 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal147=(Token)match(input,118,FOLLOW_118_in_until_ex2105);  
+            char_literal147=(Token)match(input,118,FOLLOW_118_in_until_ex2149);  
             stream_118.add(char_literal147);
 
 
 
             // AST REWRITE
-            // elements: exprLg, SJF, expr, OPAQUE_EXPR, sequence, queryLg, name
+            // elements: sequence, exprLg, SJF, queryLg, OPAQUE_EXPR, name, expr
             // token labels: name
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 214:59: -> ^( UNTIL ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
+            // 216:59: -> ^( UNTIL ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:62: ^( UNTIL ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:62: ^( UNTIL ( expr )? ( OPAQUE_EXPR )? sequence ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UNTIL, "UNTIL"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:70: ( expr )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:70: ( expr )?
                 if ( stream_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_expr.nextTree());
 
                 }
                 stream_expr.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:76: ( OPAQUE_EXPR )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:76: ( OPAQUE_EXPR )?
                 if ( stream_OPAQUE_EXPR.hasNext() ) {
                     adaptor.addChild(root_1, stream_OPAQUE_EXPR.nextNode());
 
                 }
                 stream_OPAQUE_EXPR.reset();
                 adaptor.addChild(root_1, stream_sequence.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:98: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:98: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:105: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:105: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
                 }
                 stream_SJF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:110: ( queryLg )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:110: ( queryLg )?
                 if ( stream_queryLg.hasNext() ) {
                     adaptor.addChild(root_1, stream_queryLg.nextTree());
 
                 }
                 stream_queryLg.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:214:119: ( exprLg )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:119: ( exprLg )?
                 if ( stream_exprLg.hasNext() ) {
                     adaptor.addChild(root_1, stream_exprLg.nextTree());
 
@@ -6163,7 +6367,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -6190,7 +6394,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "foreach"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:216:1: foreach : ({...}?par= PARALLEL | {...}?successfulBranchesOnly= SBO | {...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'for' '(' cName= ID '=' (init= expr | initop= OPAQUE_EXPR ) ( 'to' | SEMI ) (cond= expr | condop= OPAQUE_EXPR ) ( ( 'finish' | SEMI ) (complete+= expr | compop+= OPAQUE_EXPR ) )? ')' scope_short -> ^( FOR $cName ( $init)? ( $initop)? ( ^( FINAL ( $cond)? ( $condop)? ) )? ( ^( BRANCH ( $complete)? ( $compop)? ) )? scope_short ( PARALLEL )? ( SBO )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:218:1: foreach : ({...}?par= PARALLEL | {...}?successfulBranchesOnly= SBO | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'for' '(' ({...}?q= queryLg | {...}?e= exprLg )* cName= ID '=' (init= expr | initop= OPAQUE_EXPR ) ( 'to' | SEMI ) ({...}?qt= queryLg | {...}?et= exprLg )* (cond= expr | condop= OPAQUE_EXPR ) ( ( 'finish' | SEMI ) ({...}?qf= queryLg | {...}?ef= exprLg )* (complete+= expr | compop+= OPAQUE_EXPR ) )? ')' scope_short -> ^( FOR $cName ( $init)? ( $initop)? ( ^( FINAL ( $cond)? ( $condop)? ( $qt)? ( $et)? ) )? ( ^( BRANCH ( $complete)? ( $compop)? ( $qf)? ( $ef)? ) )? scope_short ( PARALLEL )? ( SBO )? ( $name)? ( SJF )? ( $q)? ( $e)? ) ;
     public final BPELscriptParser.foreach_return foreach() throws RecognitionException {
         BPELscriptParser.foreach_return retval = new BPELscriptParser.foreach_return();
         retval.start = input.LT(1);
@@ -6222,11 +6426,20 @@ public class BPELscriptParser extends Parser {
 
         BPELscriptParser.expr_return init = null;
 
+        BPELscriptParser.queryLg_return qt = null;
+
+        BPELscriptParser.exprLg_return et = null;
+
         BPELscriptParser.expr_return cond = null;
+
+        BPELscriptParser.queryLg_return qf = null;
+
+        BPELscriptParser.exprLg_return ef = null;
 
         BPELscriptParser.scope_short_return scope_short157 = null;
 
-        RuleReturnScope complete = null;
+        BPELscriptParser.expr_return complete = null;
+         complete = null;
         CommonTree par_tree=null;
         CommonTree successfulBranchesOnly_tree=null;
         CommonTree name_tree=null;
@@ -6263,117 +6476,75 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
         RewriteRuleSubtreeStream stream_exprLg=new RewriteRuleSubtreeStream(adaptor,"rule exprLg");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:217:2: ( ({...}?par= PARALLEL | {...}?successfulBranchesOnly= SBO | {...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'for' '(' cName= ID '=' (init= expr | initop= OPAQUE_EXPR ) ( 'to' | SEMI ) (cond= expr | condop= OPAQUE_EXPR ) ( ( 'finish' | SEMI ) (complete+= expr | compop+= OPAQUE_EXPR ) )? ')' scope_short -> ^( FOR $cName ( $init)? ( $initop)? ( ^( FINAL ( $cond)? ( $condop)? ) )? ( ^( BRANCH ( $complete)? ( $compop)? ) )? scope_short ( PARALLEL )? ( SBO )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:217:4: ({...}?par= PARALLEL | {...}?successfulBranchesOnly= SBO | {...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'for' '(' cName= ID '=' (init= expr | initop= OPAQUE_EXPR ) ( 'to' | SEMI ) (cond= expr | condop= OPAQUE_EXPR ) ( ( 'finish' | SEMI ) (complete+= expr | compop+= OPAQUE_EXPR ) )? ')' scope_short
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:2: ( ({...}?par= PARALLEL | {...}?successfulBranchesOnly= SBO | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'for' '(' ({...}?q= queryLg | {...}?e= exprLg )* cName= ID '=' (init= expr | initop= OPAQUE_EXPR ) ( 'to' | SEMI ) ({...}?qt= queryLg | {...}?et= exprLg )* (cond= expr | condop= OPAQUE_EXPR ) ( ( 'finish' | SEMI ) ({...}?qf= queryLg | {...}?ef= exprLg )* (complete+= expr | compop+= OPAQUE_EXPR ) )? ')' scope_short -> ^( FOR $cName ( $init)? ( $initop)? ( ^( FINAL ( $cond)? ( $condop)? ( $qt)? ( $et)? ) )? ( ^( BRANCH ( $complete)? ( $compop)? ( $qf)? ( $ef)? ) )? scope_short ( PARALLEL )? ( SBO )? ( $name)? ( SJF )? ( $q)? ( $e)? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:4: ({...}?par= PARALLEL | {...}?successfulBranchesOnly= SBO | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'for' '(' ({...}?q= queryLg | {...}?e= exprLg )* cName= ID '=' (init= expr | initop= OPAQUE_EXPR ) ( 'to' | SEMI ) ({...}?qt= queryLg | {...}?et= exprLg )* (cond= expr | condop= OPAQUE_EXPR ) ( ( 'finish' | SEMI ) ({...}?qf= queryLg | {...}?ef= exprLg )* (complete+= expr | compop+= OPAQUE_EXPR ) )? ')' scope_short
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:217:4: ({...}?par= PARALLEL | {...}?successfulBranchesOnly= SBO | {...}?q= queryLg | {...}?e= exprLg | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop62:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:4: ({...}?par= PARALLEL | {...}?successfulBranchesOnly= SBO | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop65:
             do {
-                int alt62=7;
+                int alt65=5;
                 switch ( input.LA(1) ) {
                 case PARALLEL:
                     {
-                    alt62=1;
+                    alt65=1;
                     }
                     break;
                 case SBO:
                     {
-                    alt62=2;
-                    }
-                    break;
-                case 194:
-                case 195:
-                    {
-                    alt62=3;
-                    }
-                    break;
-                case 192:
-                case 193:
-                    {
-                    alt62=4;
+                    alt65=2;
                     }
                     break;
                 case 114:
                     {
-                    alt62=5;
+                    alt65=3;
                     }
                     break;
                 case SJF:
                     {
-                    alt62=6;
+                    alt65=4;
                     }
                     break;
 
                 }
 
-                switch (alt62) {
+                switch (alt65) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:217:5: {...}?par= PARALLEL
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:5: {...}?par= PARALLEL
             	    {
-            	    if ( !(par==null) ) {
+            	    if ( !((par==null)) ) {
             	        throw new FailedPredicateException(input, "foreach", "par==null");
             	    }
-            	    par=(Token)match(input,PARALLEL,FOLLOW_PARALLEL_in_foreach2147);  
+            	    par=(Token)match(input,PARALLEL,FOLLOW_PARALLEL_in_foreach2191);  
             	    stream_PARALLEL.add(par);
 
 
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:217:33: {...}?successfulBranchesOnly= SBO
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:33: {...}?successfulBranchesOnly= SBO
             	    {
-            	    if ( !(successfulBranchesOnly==null) ) {
+            	    if ( !((successfulBranchesOnly==null)) ) {
             	        throw new FailedPredicateException(input, "foreach", "successfulBranchesOnly==null");
             	    }
-            	    successfulBranchesOnly=(Token)match(input,SBO,FOLLOW_SBO_in_foreach2155);  
+            	    successfulBranchesOnly=(Token)match(input,SBO,FOLLOW_SBO_in_foreach2199);  
             	    stream_SBO.add(successfulBranchesOnly);
 
 
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:217:94: {...}?q= queryLg
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(q==null) ) {
-            	        throw new FailedPredicateException(input, "foreach", "q==null");
-            	    }
-            	    pushFollow(FOLLOW_queryLg_in_foreach2163);
-            	    q=queryLg();
-
-            	    state._fsp--;
-
-            	    stream_queryLg.add(q.getTree());
-
-            	    }
-            	    break;
-            	case 4 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:217:118: {...}?e= exprLg
-            	    {
-            	    if ( !(e==null) ) {
-            	        throw new FailedPredicateException(input, "foreach", "e==null");
-            	    }
-            	    pushFollow(FOLLOW_exprLg_in_foreach2172);
-            	    e=exprLg();
-
-            	    state._fsp--;
-
-            	    stream_exprLg.add(e.getTree());
-
-            	    }
-            	    break;
-            	case 5 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:12: {...}? ( '@name' name= STRING )
-            	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "foreach", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:26: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:27: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:26: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:27: '@name' name= STRING
             	    {
-            	    string_literal148=(Token)match(input,114,FOLLOW_114_in_foreach2198);  
+            	    string_literal148=(Token)match(input,114,FOLLOW_114_in_foreach2226);  
             	    stream_114.add(string_literal148);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_foreach2202);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_foreach2230);  
             	    stream_STRING.add(name);
 
 
@@ -6382,13 +6553,13 @@ public class BPELscriptParser extends Parser {
 
             	    }
             	    break;
-            	case 6 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:219:50: {...}?suppressJoinFailure= SJF
+            	case 4 :
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "foreach", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_foreach2211);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_foreach2239);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -6396,43 +6567,94 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop62;
+            	    break loop65;
                 }
             } while (true);
 
-            string_literal149=(Token)match(input,134,FOLLOW_134_in_foreach2218);  
+            string_literal149=(Token)match(input,134,FOLLOW_134_in_foreach2246);  
             stream_134.add(string_literal149);
 
-            char_literal150=(Token)match(input,117,FOLLOW_117_in_foreach2220);  
+            char_literal150=(Token)match(input,117,FOLLOW_117_in_foreach2248);  
             stream_117.add(char_literal150);
 
-            cName=(Token)match(input,ID,FOLLOW_ID_in_foreach2224);  
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:14: ({...}?q= queryLg | {...}?e= exprLg )*
+            loop66:
+            do {
+                int alt66=3;
+                int LA66_0 = input.LA(1);
+
+                if ( ((LA66_0>=194 && LA66_0<=195)) ) {
+                    alt66=1;
+                }
+                else if ( ((LA66_0>=192 && LA66_0<=193)) ) {
+                    alt66=2;
+                }
+
+
+                switch (alt66) {
+            	case 1 :
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:15: {...}?q= queryLg
+            	    {
+            	    if ( !((q==null)) ) {
+            	        throw new FailedPredicateException(input, "foreach", "q==null");
+            	    }
+            	    pushFollow(FOLLOW_queryLg_in_foreach2256);
+            	    q=queryLg();
+
+            	    state._fsp--;
+
+            	    stream_queryLg.add(q.getTree());
+
+            	    }
+            	    break;
+            	case 2 :
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:39: {...}?e= exprLg
+            	    {
+            	    if ( !((e==null)) ) {
+            	        throw new FailedPredicateException(input, "foreach", "e==null");
+            	    }
+            	    pushFollow(FOLLOW_exprLg_in_foreach2265);
+            	    e=exprLg();
+
+            	    state._fsp--;
+
+            	    stream_exprLg.add(e.getTree());
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop66;
+                }
+            } while (true);
+
+            cName=(Token)match(input,ID,FOLLOW_ID_in_foreach2271);  
             stream_ID.add(cName);
 
-            char_literal151=(Token)match(input,135,FOLLOW_135_in_foreach2226);  
+            char_literal151=(Token)match(input,135,FOLLOW_135_in_foreach2273);  
             stream_135.add(char_literal151);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:26: (init= expr | initop= OPAQUE_EXPR )
-            int alt63=2;
-            int LA63_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:74: (init= expr | initop= OPAQUE_EXPR )
+            int alt67=2;
+            int LA67_0 = input.LA(1);
 
-            if ( (LA63_0==EXT_EXPR||LA63_0==ID||LA63_0==STRING||LA63_0==INT||LA63_0==117) ) {
-                alt63=1;
+            if ( (LA67_0==EXT_EXPR||LA67_0==ID||LA67_0==STRING||LA67_0==INT||LA67_0==117) ) {
+                alt67=1;
             }
-            else if ( (LA63_0==OPAQUE_EXPR) ) {
-                alt63=2;
+            else if ( (LA67_0==OPAQUE_EXPR) ) {
+                alt67=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 63, 0, input);
+                    new NoViableAltException("", 67, 0, input);
 
                 throw nvae;
             }
-            switch (alt63) {
+            switch (alt67) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:27: init= expr
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:75: init= expr
                     {
-                    pushFollow(FOLLOW_expr_in_foreach2231);
+                    pushFollow(FOLLOW_expr_in_foreach2278);
                     init=expr();
 
                     state._fsp--;
@@ -6442,9 +6664,9 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:37: initop= OPAQUE_EXPR
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:87: initop= OPAQUE_EXPR
                     {
-                    initop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_foreach2235);  
+                    initop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_foreach2284);  
                     stream_OPAQUE_EXPR.add(initop);
 
 
@@ -6453,36 +6675,36 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:57: ( 'to' | SEMI )
-            int alt64=2;
-            int LA64_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:4: ( 'to' | SEMI )
+            int alt68=2;
+            int LA68_0 = input.LA(1);
 
-            if ( (LA64_0==136) ) {
-                alt64=1;
+            if ( (LA68_0==136) ) {
+                alt68=1;
             }
-            else if ( (LA64_0==SEMI) ) {
-                alt64=2;
+            else if ( (LA68_0==SEMI) ) {
+                alt68=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 64, 0, input);
+                    new NoViableAltException("", 68, 0, input);
 
                 throw nvae;
             }
-            switch (alt64) {
+            switch (alt68) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:58: 'to'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:5: 'to'
                     {
-                    string_literal152=(Token)match(input,136,FOLLOW_136_in_foreach2239);  
+                    string_literal152=(Token)match(input,136,FOLLOW_136_in_foreach2291);  
                     stream_136.add(string_literal152);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:63: SEMI
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:10: SEMI
                     {
-                    SEMI153=(Token)match(input,SEMI,FOLLOW_SEMI_in_foreach2241);  
+                    SEMI153=(Token)match(input,SEMI,FOLLOW_SEMI_in_foreach2293);  
                     stream_SEMI.add(SEMI153);
 
 
@@ -6491,27 +6713,78 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:69: (cond= expr | condop= OPAQUE_EXPR )
-            int alt65=2;
-            int LA65_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:16: ({...}?qt= queryLg | {...}?et= exprLg )*
+            loop69:
+            do {
+                int alt69=3;
+                int LA69_0 = input.LA(1);
 
-            if ( (LA65_0==EXT_EXPR||LA65_0==ID||LA65_0==STRING||LA65_0==INT||LA65_0==117) ) {
-                alt65=1;
+                if ( ((LA69_0>=194 && LA69_0<=195)) ) {
+                    alt69=1;
+                }
+                else if ( ((LA69_0>=192 && LA69_0<=193)) ) {
+                    alt69=2;
+                }
+
+
+                switch (alt69) {
+            	case 1 :
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:17: {...}?qt= queryLg
+            	    {
+            	    if ( !((qt==null)) ) {
+            	        throw new FailedPredicateException(input, "foreach", "qt==null");
+            	    }
+            	    pushFollow(FOLLOW_queryLg_in_foreach2301);
+            	    qt=queryLg();
+
+            	    state._fsp--;
+
+            	    stream_queryLg.add(qt.getTree());
+
+            	    }
+            	    break;
+            	case 2 :
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:43: {...}?et= exprLg
+            	    {
+            	    if ( !((et==null)) ) {
+            	        throw new FailedPredicateException(input, "foreach", "et==null");
+            	    }
+            	    pushFollow(FOLLOW_exprLg_in_foreach2310);
+            	    et=exprLg();
+
+            	    state._fsp--;
+
+            	    stream_exprLg.add(et.getTree());
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop69;
+                }
+            } while (true);
+
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:67: (cond= expr | condop= OPAQUE_EXPR )
+            int alt70=2;
+            int LA70_0 = input.LA(1);
+
+            if ( (LA70_0==EXT_EXPR||LA70_0==ID||LA70_0==STRING||LA70_0==INT||LA70_0==117) ) {
+                alt70=1;
             }
-            else if ( (LA65_0==OPAQUE_EXPR) ) {
-                alt65=2;
+            else if ( (LA70_0==OPAQUE_EXPR) ) {
+                alt70=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 65, 0, input);
+                    new NoViableAltException("", 70, 0, input);
 
                 throw nvae;
             }
-            switch (alt65) {
+            switch (alt70) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:70: cond= expr
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:68: cond= expr
                     {
-                    pushFollow(FOLLOW_expr_in_foreach2247);
+                    pushFollow(FOLLOW_expr_in_foreach2317);
                     cond=expr();
 
                     state._fsp--;
@@ -6521,9 +6794,9 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:82: condop= OPAQUE_EXPR
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:223:80: condop= OPAQUE_EXPR
                     {
-                    condop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_foreach2253);  
+                    condop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_foreach2323);  
                     stream_OPAQUE_EXPR.add(condop);
 
 
@@ -6532,47 +6805,47 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:102: ( ( 'finish' | SEMI ) (complete+= expr | compop+= OPAQUE_EXPR ) )?
-            int alt68=2;
-            int LA68_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:5: ( ( 'finish' | SEMI ) ({...}?qf= queryLg | {...}?ef= exprLg )* (complete+= expr | compop+= OPAQUE_EXPR ) )?
+            int alt74=2;
+            int LA74_0 = input.LA(1);
 
-            if ( (LA68_0==SEMI||LA68_0==137) ) {
-                alt68=1;
+            if ( (LA74_0==SEMI||LA74_0==137) ) {
+                alt74=1;
             }
-            switch (alt68) {
+            switch (alt74) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:103: ( 'finish' | SEMI ) (complete+= expr | compop+= OPAQUE_EXPR )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:6: ( 'finish' | SEMI ) ({...}?qf= queryLg | {...}?ef= exprLg )* (complete+= expr | compop+= OPAQUE_EXPR )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:103: ( 'finish' | SEMI )
-                    int alt66=2;
-                    int LA66_0 = input.LA(1);
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:6: ( 'finish' | SEMI )
+                    int alt71=2;
+                    int LA71_0 = input.LA(1);
 
-                    if ( (LA66_0==137) ) {
-                        alt66=1;
+                    if ( (LA71_0==137) ) {
+                        alt71=1;
                     }
-                    else if ( (LA66_0==SEMI) ) {
-                        alt66=2;
+                    else if ( (LA71_0==SEMI) ) {
+                        alt71=2;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 66, 0, input);
+                            new NoViableAltException("", 71, 0, input);
 
                         throw nvae;
                     }
-                    switch (alt66) {
+                    switch (alt71) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:104: 'finish'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:7: 'finish'
                             {
-                            string_literal154=(Token)match(input,137,FOLLOW_137_in_foreach2258);  
+                            string_literal154=(Token)match(input,137,FOLLOW_137_in_foreach2332);  
                             stream_137.add(string_literal154);
 
 
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:113: SEMI
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:16: SEMI
                             {
-                            SEMI155=(Token)match(input,SEMI,FOLLOW_SEMI_in_foreach2260);  
+                            SEMI155=(Token)match(input,SEMI,FOLLOW_SEMI_in_foreach2334);  
                             stream_SEMI.add(SEMI155);
 
 
@@ -6581,42 +6854,93 @@ public class BPELscriptParser extends Parser {
 
                     }
 
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:119: (complete+= expr | compop+= OPAQUE_EXPR )
-                    int alt67=2;
-                    int LA67_0 = input.LA(1);
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:22: ({...}?qf= queryLg | {...}?ef= exprLg )*
+                    loop72:
+                    do {
+                        int alt72=3;
+                        int LA72_0 = input.LA(1);
 
-                    if ( (LA67_0==EXT_EXPR||LA67_0==ID||LA67_0==STRING||LA67_0==INT||LA67_0==117) ) {
-                        alt67=1;
+                        if ( ((LA72_0>=194 && LA72_0<=195)) ) {
+                            alt72=1;
+                        }
+                        else if ( ((LA72_0>=192 && LA72_0<=193)) ) {
+                            alt72=2;
+                        }
+
+
+                        switch (alt72) {
+                    	case 1 :
+                    	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:23: {...}?qf= queryLg
+                    	    {
+                    	    if ( !((qf==null)) ) {
+                    	        throw new FailedPredicateException(input, "foreach", "qf==null");
+                    	    }
+                    	    pushFollow(FOLLOW_queryLg_in_foreach2342);
+                    	    qf=queryLg();
+
+                    	    state._fsp--;
+
+                    	    stream_queryLg.add(qf.getTree());
+
+                    	    }
+                    	    break;
+                    	case 2 :
+                    	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:49: {...}?ef= exprLg
+                    	    {
+                    	    if ( !((ef==null)) ) {
+                    	        throw new FailedPredicateException(input, "foreach", "ef==null");
+                    	    }
+                    	    pushFollow(FOLLOW_exprLg_in_foreach2351);
+                    	    ef=exprLg();
+
+                    	    state._fsp--;
+
+                    	    stream_exprLg.add(ef.getTree());
+
+                    	    }
+                    	    break;
+
+                    	default :
+                    	    break loop72;
+                        }
+                    } while (true);
+
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:73: (complete+= expr | compop+= OPAQUE_EXPR )
+                    int alt73=2;
+                    int LA73_0 = input.LA(1);
+
+                    if ( (LA73_0==EXT_EXPR||LA73_0==ID||LA73_0==STRING||LA73_0==INT||LA73_0==117) ) {
+                        alt73=1;
                     }
-                    else if ( (LA67_0==OPAQUE_EXPR) ) {
-                        alt67=2;
+                    else if ( (LA73_0==OPAQUE_EXPR) ) {
+                        alt73=2;
                     }
                     else {
                         NoViableAltException nvae =
-                            new NoViableAltException("", 67, 0, input);
+                            new NoViableAltException("", 73, 0, input);
 
                         throw nvae;
                     }
-                    switch (alt67) {
+                    switch (alt73) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:120: complete+= expr
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:74: complete+= expr
                             {
-                            pushFollow(FOLLOW_expr_in_foreach2266);
+                            pushFollow(FOLLOW_expr_in_foreach2358);
                             complete=expr();
 
                             state._fsp--;
 
                             stream_expr.add(complete.getTree());
                             if (list_complete==null) list_complete=new ArrayList();
-                            list_complete.add(complete);
+                            list_complete.add(complete.getTree());
 
 
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:220:135: compop+= OPAQUE_EXPR
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:224:91: compop+= OPAQUE_EXPR
                             {
-                            compop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_foreach2270);  
+                            compop=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_foreach2364);  
                             stream_OPAQUE_EXPR.add(compop);
 
                             if (list_compop==null) list_compop=new ArrayList();
@@ -6634,10 +6958,10 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal156=(Token)match(input,118,FOLLOW_118_in_foreach2275);  
+            char_literal156=(Token)match(input,118,FOLLOW_118_in_foreach2380);  
             stream_118.add(char_literal156);
 
-            pushFollow(FOLLOW_scope_short_in_foreach2277);
+            pushFollow(FOLLOW_scope_short_in_foreach2382);
             scope_short157=scope_short();
 
             state._fsp--;
@@ -6646,138 +6970,173 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: SJF, cName, PARALLEL, compop, cond, complete, queryLg, SBO, initop, name, scope_short, exprLg, init, condop
+            // elements: initop, PARALLEL, cName, name, et, qf, SBO, complete, ef, cond, condop, e, init, SJF, compop, scope_short, qt, q
             // token labels: condop, name, cName, initop
-            // rule labels: retval, init, cond
+            // rule labels: retval, ef, e, q, qf, init, et, qt, cond
             // token list labels: compop
             // rule list labels: complete
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_condop=new RewriteRuleTokenStream(adaptor,"token condop",condop);
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
             RewriteRuleTokenStream stream_cName=new RewriteRuleTokenStream(adaptor,"token cName",cName);
             RewriteRuleTokenStream stream_initop=new RewriteRuleTokenStream(adaptor,"token initop",initop);
             RewriteRuleTokenStream stream_compop=new RewriteRuleTokenStream(adaptor,"token compop", list_compop);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
-            RewriteRuleSubtreeStream stream_init=new RewriteRuleSubtreeStream(adaptor,"token init",init!=null?init.tree:null);
-            RewriteRuleSubtreeStream stream_cond=new RewriteRuleSubtreeStream(adaptor,"token cond",cond!=null?cond.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_ef=new RewriteRuleSubtreeStream(adaptor,"rule ef",ef!=null?ef.tree:null);
+            RewriteRuleSubtreeStream stream_e=new RewriteRuleSubtreeStream(adaptor,"rule e",e!=null?e.tree:null);
+            RewriteRuleSubtreeStream stream_q=new RewriteRuleSubtreeStream(adaptor,"rule q",q!=null?q.tree:null);
+            RewriteRuleSubtreeStream stream_qf=new RewriteRuleSubtreeStream(adaptor,"rule qf",qf!=null?qf.tree:null);
+            RewriteRuleSubtreeStream stream_init=new RewriteRuleSubtreeStream(adaptor,"rule init",init!=null?init.tree:null);
+            RewriteRuleSubtreeStream stream_et=new RewriteRuleSubtreeStream(adaptor,"rule et",et!=null?et.tree:null);
+            RewriteRuleSubtreeStream stream_qt=new RewriteRuleSubtreeStream(adaptor,"rule qt",qt!=null?qt.tree:null);
+            RewriteRuleSubtreeStream stream_cond=new RewriteRuleSubtreeStream(adaptor,"rule cond",cond!=null?cond.tree:null);
             RewriteRuleSubtreeStream stream_complete=new RewriteRuleSubtreeStream(adaptor,"token complete",list_complete);
             root_0 = (CommonTree)adaptor.nil();
-            // 221:2: -> ^( FOR $cName ( $init)? ( $initop)? ( ^( FINAL ( $cond)? ( $condop)? ) )? ( ^( BRANCH ( $complete)? ( $compop)? ) )? scope_short ( PARALLEL )? ( SBO )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
+            // 226:2: -> ^( FOR $cName ( $init)? ( $initop)? ( ^( FINAL ( $cond)? ( $condop)? ( $qt)? ( $et)? ) )? ( ^( BRANCH ( $complete)? ( $compop)? ( $qf)? ( $ef)? ) )? scope_short ( PARALLEL )? ( SBO )? ( $name)? ( SJF )? ( $q)? ( $e)? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:6: ^( FOR $cName ( $init)? ( $initop)? ( ^( FINAL ( $cond)? ( $condop)? ) )? ( ^( BRANCH ( $complete)? ( $compop)? ) )? scope_short ( PARALLEL )? ( SBO )? ( $name)? ( SJF )? ( queryLg )? ( exprLg )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:226:6: ^( FOR $cName ( $init)? ( $initop)? ( ^( FINAL ( $cond)? ( $condop)? ( $qt)? ( $et)? ) )? ( ^( BRANCH ( $complete)? ( $compop)? ( $qf)? ( $ef)? ) )? scope_short ( PARALLEL )? ( SBO )? ( $name)? ( SJF )? ( $q)? ( $e)? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FOR, "FOR"), root_1);
 
                 adaptor.addChild(root_1, stream_cName.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:19: ( $init)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:226:19: ( $init)?
                 if ( stream_init.hasNext() ) {
                     adaptor.addChild(root_1, stream_init.nextTree());
 
                 }
                 stream_init.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:26: ( $initop)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:226:26: ( $initop)?
                 if ( stream_initop.hasNext() ) {
                     adaptor.addChild(root_1, stream_initop.nextNode());
 
                 }
                 stream_initop.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:35: ( ^( FINAL ( $cond)? ( $condop)? ) )?
-                if ( stream_cond.hasNext()||stream_condop.hasNext() ) {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:36: ^( FINAL ( $cond)? ( $condop)? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:227:4: ( ^( FINAL ( $cond)? ( $condop)? ( $qt)? ( $et)? ) )?
+                if ( stream_et.hasNext()||stream_qt.hasNext()||stream_condop.hasNext()||stream_cond.hasNext() ) {
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:227:5: ^( FINAL ( $cond)? ( $condop)? ( $qt)? ( $et)? )
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
                     root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FINAL, "FINAL"), root_2);
 
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:44: ( $cond)?
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:227:13: ( $cond)?
                     if ( stream_cond.hasNext() ) {
                         adaptor.addChild(root_2, stream_cond.nextTree());
 
                     }
                     stream_cond.reset();
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:51: ( $condop)?
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:227:20: ( $condop)?
                     if ( stream_condop.hasNext() ) {
                         adaptor.addChild(root_2, stream_condop.nextNode());
 
                     }
                     stream_condop.reset();
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:227:29: ( $qt)?
+                    if ( stream_qt.hasNext() ) {
+                        adaptor.addChild(root_2, stream_qt.nextTree());
+
+                    }
+                    stream_qt.reset();
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:227:34: ( $et)?
+                    if ( stream_et.hasNext() ) {
+                        adaptor.addChild(root_2, stream_et.nextTree());
+
+                    }
+                    stream_et.reset();
 
                     adaptor.addChild(root_1, root_2);
                     }
 
                 }
-                stream_cond.reset();
+                stream_et.reset();
+                stream_qt.reset();
                 stream_condop.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:63: ( ^( BRANCH ( $complete)? ( $compop)? ) )?
-                if ( stream_compop.hasNext()||stream_complete.hasNext() ) {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:64: ^( BRANCH ( $complete)? ( $compop)? )
+                stream_cond.reset();
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:4: ( ^( BRANCH ( $complete)? ( $compop)? ( $qf)? ( $ef)? ) )?
+                if ( stream_compop.hasNext()||stream_qf.hasNext()||stream_complete.hasNext()||stream_ef.hasNext() ) {
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:5: ^( BRANCH ( $complete)? ( $compop)? ( $qf)? ( $ef)? )
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
                     root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BRANCH, "BRANCH"), root_2);
 
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:73: ( $complete)?
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:14: ( $complete)?
                     if ( stream_complete.hasNext() ) {
-                        adaptor.addChild(root_2, ((ParserRuleReturnScope)stream_complete.nextTree()).getTree());
+                        adaptor.addChild(root_2, stream_complete.nextTree());
 
                     }
                     stream_complete.reset();
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:221:84: ( $compop)?
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:25: ( $compop)?
                     if ( stream_compop.hasNext() ) {
                         adaptor.addChild(root_2, stream_compop.nextNode());
 
                     }
                     stream_compop.reset();
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:34: ( $qf)?
+                    if ( stream_qf.hasNext() ) {
+                        adaptor.addChild(root_2, stream_qf.nextTree());
+
+                    }
+                    stream_qf.reset();
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:39: ( $ef)?
+                    if ( stream_ef.hasNext() ) {
+                        adaptor.addChild(root_2, stream_ef.nextTree());
+
+                    }
+                    stream_ef.reset();
 
                     adaptor.addChild(root_1, root_2);
                     }
 
                 }
                 stream_compop.reset();
+                stream_qf.reset();
                 stream_complete.reset();
+                stream_ef.reset();
                 adaptor.addChild(root_1, stream_scope_short.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:16: ( PARALLEL )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:229:16: ( PARALLEL )?
                 if ( stream_PARALLEL.hasNext() ) {
                     adaptor.addChild(root_1, stream_PARALLEL.nextNode());
 
                 }
                 stream_PARALLEL.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:26: ( SBO )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:229:26: ( SBO )?
                 if ( stream_SBO.hasNext() ) {
                     adaptor.addChild(root_1, stream_SBO.nextNode());
 
                 }
                 stream_SBO.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:31: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:229:31: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:38: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:229:38: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
                 }
                 stream_SJF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:43: ( queryLg )?
-                if ( stream_queryLg.hasNext() ) {
-                    adaptor.addChild(root_1, stream_queryLg.nextTree());
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:229:43: ( $q)?
+                if ( stream_q.hasNext() ) {
+                    adaptor.addChild(root_1, stream_q.nextTree());
 
                 }
-                stream_queryLg.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:222:52: ( exprLg )?
-                if ( stream_exprLg.hasNext() ) {
-                    adaptor.addChild(root_1, stream_exprLg.nextTree());
+                stream_q.reset();
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:229:47: ( $e)?
+                if ( stream_e.hasNext() ) {
+                    adaptor.addChild(root_1, stream_e.nextTree());
 
                 }
-                stream_exprLg.reset();
+                stream_e.reset();
 
                 adaptor.addChild(root_0, root_1);
                 }
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -6801,7 +7160,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "try_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:1: try_ex : 'try' body ( catch_ex )* ( catchAll )? -> ^( TRY ( catch_ex )* ( body )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:1: try_ex : 'try' body ( catch_ex )* ( catchAll )? -> ^( TRY ( catch_ex )* ( body )? ) ;
     public final BPELscriptParser.try_ex_return try_ex() throws RecognitionException {
         BPELscriptParser.try_ex_return retval = new BPELscriptParser.try_ex_return();
         retval.start = input.LT(1);
@@ -6822,46 +7181,46 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_catchAll=new RewriteRuleSubtreeStream(adaptor,"rule catchAll");
         RewriteRuleSubtreeStream stream_catch_ex=new RewriteRuleSubtreeStream(adaptor,"rule catch_ex");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:9: ( 'try' body ( catch_ex )* ( catchAll )? -> ^( TRY ( catch_ex )* ( body )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:11: 'try' body ( catch_ex )* ( catchAll )?
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:9: ( 'try' body ( catch_ex )* ( catchAll )? -> ^( TRY ( catch_ex )* ( body )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:11: 'try' body ( catch_ex )* ( catchAll )?
             {
-            string_literal158=(Token)match(input,138,FOLLOW_138_in_try_ex2366);  
+            string_literal158=(Token)match(input,138,FOLLOW_138_in_try_ex2497);  
             stream_138.add(string_literal158);
 
-            pushFollow(FOLLOW_body_in_try_ex2368);
+            pushFollow(FOLLOW_body_in_try_ex2499);
             body159=body();
 
             state._fsp--;
 
             stream_body.add(body159.getTree());
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:22: ( catch_ex )*
-            loop69:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:22: ( catch_ex )*
+            loop75:
             do {
-                int alt69=2;
+                int alt75=2;
                 switch ( input.LA(1) ) {
                 case 139:
                     {
-                    alt69=1;
+                    alt75=1;
                     }
                     break;
                 case 191:
                     {
-                    alt69=1;
+                    alt75=1;
                     }
                     break;
                 case 140:
                     {
-                    alt69=1;
+                    alt75=1;
                     }
                     break;
 
                 }
 
-                switch (alt69) {
+                switch (alt75) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:22: catch_ex
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:22: catch_ex
             	    {
-            	    pushFollow(FOLLOW_catch_ex_in_try_ex2370);
+            	    pushFollow(FOLLOW_catch_ex_in_try_ex2501);
             	    catch_ex160=catch_ex();
 
             	    state._fsp--;
@@ -6872,22 +7231,22 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop69;
+            	    break loop75;
                 }
             } while (true);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:32: ( catchAll )?
-            int alt70=2;
-            int LA70_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:32: ( catchAll )?
+            int alt76=2;
+            int LA76_0 = input.LA(1);
 
-            if ( (LA70_0==141) ) {
-                alt70=1;
+            if ( (LA76_0==141) ) {
+                alt76=1;
             }
-            switch (alt70) {
+            switch (alt76) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:32: catchAll
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:32: catchAll
                     {
-                    pushFollow(FOLLOW_catchAll_in_try_ex2373);
+                    pushFollow(FOLLOW_catchAll_in_try_ex2504);
                     catchAll161=catchAll();
 
                     state._fsp--;
@@ -6907,24 +7266,25 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 225:41: -> ^( TRY ( catch_ex )* ( body )? )
+            // 232:41: -> ^( TRY ( catch_ex )* ( body )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:44: ^( TRY ( catch_ex )* ( body )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:44: ^( TRY ( catch_ex )* ( body )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(TRY, "TRY"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:50: ( catch_ex )*
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:50: ( catch_ex )*
                 while ( stream_catch_ex.hasNext() ) {
                     adaptor.addChild(root_1, stream_catch_ex.nextTree());
 
                 }
                 stream_catch_ex.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:225:60: ( body )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:60: ( body )?
                 if ( stream_body.hasNext() ) {
                     adaptor.addChild(root_1, stream_body.nextTree());
 
@@ -6936,7 +7296,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -6963,7 +7323,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "catch_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:227:1: catch_ex : ( ( '@faultMessageType' fMT= STRING ) | faultElt )? 'catch' '(' ns_id ')' param_block -> ^( CATCH ns_id param_block ( $fMT)? ( faultElt )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:234:1: catch_ex : ( ( '@faultMessageType' fMT= STRING ) | faultElt )? 'catch' '(' ns_id ')' param_block -> ^( CATCH ns_id param_block ( $fMT)? ( faultElt )? ) ;
     public final BPELscriptParser.catch_ex_return catch_ex() throws RecognitionException {
         BPELscriptParser.catch_ex_return retval = new BPELscriptParser.catch_ex_return();
         retval.start = input.LT(1);
@@ -6996,30 +7356,30 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_param_block=new RewriteRuleSubtreeStream(adaptor,"rule param_block");
         RewriteRuleSubtreeStream stream_ns_id=new RewriteRuleSubtreeStream(adaptor,"rule ns_id");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:2: ( ( ( '@faultMessageType' fMT= STRING ) | faultElt )? 'catch' '(' ns_id ')' param_block -> ^( CATCH ns_id param_block ( $fMT)? ( faultElt )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:4: ( ( '@faultMessageType' fMT= STRING ) | faultElt )? 'catch' '(' ns_id ')' param_block
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:235:2: ( ( ( '@faultMessageType' fMT= STRING ) | faultElt )? 'catch' '(' ns_id ')' param_block -> ^( CATCH ns_id param_block ( $fMT)? ( faultElt )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:235:4: ( ( '@faultMessageType' fMT= STRING ) | faultElt )? 'catch' '(' ns_id ')' param_block
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:4: ( ( '@faultMessageType' fMT= STRING ) | faultElt )?
-            int alt71=3;
-            int LA71_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:235:4: ( ( '@faultMessageType' fMT= STRING ) | faultElt )?
+            int alt77=3;
+            int LA77_0 = input.LA(1);
 
-            if ( (LA71_0==139) ) {
-                alt71=1;
+            if ( (LA77_0==139) ) {
+                alt77=1;
             }
-            else if ( (LA71_0==191) ) {
-                alt71=2;
+            else if ( (LA77_0==191) ) {
+                alt77=2;
             }
-            switch (alt71) {
+            switch (alt77) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:5: ( '@faultMessageType' fMT= STRING )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:235:5: ( '@faultMessageType' fMT= STRING )
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:5: ( '@faultMessageType' fMT= STRING )
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:6: '@faultMessageType' fMT= STRING
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:235:5: ( '@faultMessageType' fMT= STRING )
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:235:6: '@faultMessageType' fMT= STRING
                     {
-                    string_literal162=(Token)match(input,139,FOLLOW_139_in_catch_ex2398);  
+                    string_literal162=(Token)match(input,139,FOLLOW_139_in_catch_ex2529);  
                     stream_139.add(string_literal162);
 
-                    fMT=(Token)match(input,STRING,FOLLOW_STRING_in_catch_ex2402);  
+                    fMT=(Token)match(input,STRING,FOLLOW_STRING_in_catch_ex2533);  
                     stream_STRING.add(fMT);
 
 
@@ -7029,9 +7389,9 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:228:41: faultElt
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:235:41: faultElt
                     {
-                    pushFollow(FOLLOW_faultElt_in_catch_ex2408);
+                    pushFollow(FOLLOW_faultElt_in_catch_ex2539);
                     faultElt163=faultElt();
 
                     state._fsp--;
@@ -7043,22 +7403,22 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            string_literal164=(Token)match(input,140,FOLLOW_140_in_catch_ex2414);  
+            string_literal164=(Token)match(input,140,FOLLOW_140_in_catch_ex2545);  
             stream_140.add(string_literal164);
 
-            char_literal165=(Token)match(input,117,FOLLOW_117_in_catch_ex2416);  
+            char_literal165=(Token)match(input,117,FOLLOW_117_in_catch_ex2547);  
             stream_117.add(char_literal165);
 
-            pushFollow(FOLLOW_ns_id_in_catch_ex2418);
+            pushFollow(FOLLOW_ns_id_in_catch_ex2549);
             ns_id166=ns_id();
 
             state._fsp--;
 
             stream_ns_id.add(ns_id166.getTree());
-            char_literal167=(Token)match(input,118,FOLLOW_118_in_catch_ex2421);  
+            char_literal167=(Token)match(input,118,FOLLOW_118_in_catch_ex2552);  
             stream_118.add(char_literal167);
 
-            pushFollow(FOLLOW_param_block_in_catch_ex2423);
+            pushFollow(FOLLOW_param_block_in_catch_ex2554);
             param_block168=param_block();
 
             state._fsp--;
@@ -7067,32 +7427,33 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: faultElt, fMT, param_block, ns_id
+            // elements: param_block, ns_id, faultElt, fMT
             // token labels: fMT
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_fMT=new RewriteRuleTokenStream(adaptor,"token fMT",fMT);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 230:2: -> ^( CATCH ns_id param_block ( $fMT)? ( faultElt )? )
+            // 237:2: -> ^( CATCH ns_id param_block ( $fMT)? ( faultElt )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:230:6: ^( CATCH ns_id param_block ( $fMT)? ( faultElt )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:6: ^( CATCH ns_id param_block ( $fMT)? ( faultElt )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CATCH, "CATCH"), root_1);
 
                 adaptor.addChild(root_1, stream_ns_id.nextTree());
                 adaptor.addChild(root_1, stream_param_block.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:230:32: ( $fMT)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:32: ( $fMT)?
                 if ( stream_fMT.hasNext() ) {
                     adaptor.addChild(root_1, stream_fMT.nextNode());
 
                 }
                 stream_fMT.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:230:38: ( faultElt )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:38: ( faultElt )?
                 if ( stream_faultElt.hasNext() ) {
                     adaptor.addChild(root_1, stream_faultElt.nextTree());
 
@@ -7104,7 +7465,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -7131,7 +7492,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "catchAll"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:232:1: catchAll : 'catchAll' block -> ^( CATCH block ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:239:1: catchAll : 'catchAll' block -> ^( CATCH block ) ;
     public final BPELscriptParser.catchAll_return catchAll() throws RecognitionException {
         BPELscriptParser.catchAll_return retval = new BPELscriptParser.catchAll_return();
         retval.start = input.LT(1);
@@ -7146,13 +7507,13 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_141=new RewriteRuleTokenStream(adaptor,"token 141");
         RewriteRuleSubtreeStream stream_block=new RewriteRuleSubtreeStream(adaptor,"rule block");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:233:2: ( 'catchAll' block -> ^( CATCH block ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:233:4: 'catchAll' block
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:240:2: ( 'catchAll' block -> ^( CATCH block ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:240:4: 'catchAll' block
             {
-            string_literal169=(Token)match(input,141,FOLLOW_141_in_catchAll2453);  
+            string_literal169=(Token)match(input,141,FOLLOW_141_in_catchAll2584);  
             stream_141.add(string_literal169);
 
-            pushFollow(FOLLOW_block_in_catchAll2455);
+            pushFollow(FOLLOW_block_in_catchAll2586);
             block170=block();
 
             state._fsp--;
@@ -7166,13 +7527,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 234:2: -> ^( CATCH block )
+            // 241:2: -> ^( CATCH block )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:234:6: ^( CATCH block )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:241:6: ^( CATCH block )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CATCH, "CATCH"), root_1);
@@ -7184,7 +7546,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -7211,7 +7573,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "scope_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:236:1: scope_ex : ({...}?i= ISOLATED | {...}?eosf= EOSF | {...}?sjf= SJF )* 'scope' ( '(' ( ID )? ')' )? scope_sequence scope_stmt -> ^( SCOPE ( ID )? scope_stmt scope_sequence ( ISOLATED )? ( EOSF )? ( SJF )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:243:1: scope_ex : ({...}?i= ISOLATED | {...}?eosf= EOSF | {...}?sjf= SJF )* 'scope' ( '(' ( ID )? ')' )? scope_sequence scope_stmt -> ^( SCOPE ( ID )? scope_stmt scope_sequence ( ISOLATED )? ( EOSF )? ( SJF )? ) ;
     public final BPELscriptParser.scope_ex_return scope_ex() throws RecognitionException {
         BPELscriptParser.scope_ex_return retval = new BPELscriptParser.scope_ex_return();
         retval.start = input.LT(1);
@@ -7247,64 +7609,64 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_scope_sequence=new RewriteRuleSubtreeStream(adaptor,"rule scope_sequence");
         RewriteRuleSubtreeStream stream_scope_stmt=new RewriteRuleSubtreeStream(adaptor,"rule scope_stmt");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:2: ( ({...}?i= ISOLATED | {...}?eosf= EOSF | {...}?sjf= SJF )* 'scope' ( '(' ( ID )? ')' )? scope_sequence scope_stmt -> ^( SCOPE ( ID )? scope_stmt scope_sequence ( ISOLATED )? ( EOSF )? ( SJF )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:4: ({...}?i= ISOLATED | {...}?eosf= EOSF | {...}?sjf= SJF )* 'scope' ( '(' ( ID )? ')' )? scope_sequence scope_stmt
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:244:2: ( ({...}?i= ISOLATED | {...}?eosf= EOSF | {...}?sjf= SJF )* 'scope' ( '(' ( ID )? ')' )? scope_sequence scope_stmt -> ^( SCOPE ( ID )? scope_stmt scope_sequence ( ISOLATED )? ( EOSF )? ( SJF )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:244:4: ({...}?i= ISOLATED | {...}?eosf= EOSF | {...}?sjf= SJF )* 'scope' ( '(' ( ID )? ')' )? scope_sequence scope_stmt
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:4: ({...}?i= ISOLATED | {...}?eosf= EOSF | {...}?sjf= SJF )*
-            loop72:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:244:4: ({...}?i= ISOLATED | {...}?eosf= EOSF | {...}?sjf= SJF )*
+            loop78:
             do {
-                int alt72=4;
+                int alt78=4;
                 switch ( input.LA(1) ) {
                 case ISOLATED:
                     {
-                    alt72=1;
+                    alt78=1;
                     }
                     break;
                 case EOSF:
                     {
-                    alt72=2;
+                    alt78=2;
                     }
                     break;
                 case SJF:
                     {
-                    alt72=3;
+                    alt78=3;
                     }
                     break;
 
                 }
 
-                switch (alt72) {
+                switch (alt78) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:6: {...}?i= ISOLATED
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:244:6: {...}?i= ISOLATED
             	    {
-            	    if ( !(i==null) ) {
+            	    if ( !((i==null)) ) {
             	        throw new FailedPredicateException(input, "scope_ex", "i==null");
             	    }
-            	    i=(Token)match(input,ISOLATED,FOLLOW_ISOLATED_in_scope_ex2480);  
+            	    i=(Token)match(input,ISOLATED,FOLLOW_ISOLATED_in_scope_ex2611);  
             	    stream_ISOLATED.add(i);
 
 
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:30: {...}?eosf= EOSF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:244:30: {...}?eosf= EOSF
             	    {
-            	    if ( !(eosf==null) ) {
+            	    if ( !((eosf==null)) ) {
             	        throw new FailedPredicateException(input, "scope_ex", "eosf==null");
             	    }
-            	    eosf=(Token)match(input,EOSF,FOLLOW_EOSF_in_scope_ex2488);  
+            	    eosf=(Token)match(input,EOSF,FOLLOW_EOSF_in_scope_ex2619);  
             	    stream_EOSF.add(eosf);
 
 
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:237:56: {...}?sjf= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:244:56: {...}?sjf= SJF
             	    {
-            	    if ( !(sjf==null) ) {
+            	    if ( !((sjf==null)) ) {
             	        throw new FailedPredicateException(input, "scope_ex", "sjf==null");
             	    }
-            	    sjf=(Token)match(input,SJF,FOLLOW_SJF_in_scope_ex2496);  
+            	    sjf=(Token)match(input,SJF,FOLLOW_SJF_in_scope_ex2627);  
             	    stream_SJF.add(sjf);
 
 
@@ -7312,39 +7674,39 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop72;
+            	    break loop78;
                 }
             } while (true);
 
-            string_literal171=(Token)match(input,142,FOLLOW_142_in_scope_ex2503);  
+            string_literal171=(Token)match(input,142,FOLLOW_142_in_scope_ex2634);  
             stream_142.add(string_literal171);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:238:11: ( '(' ( ID )? ')' )?
-            int alt74=2;
-            int LA74_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:245:11: ( '(' ( ID )? ')' )?
+            int alt80=2;
+            int LA80_0 = input.LA(1);
 
-            if ( (LA74_0==117) ) {
-                alt74=1;
+            if ( (LA80_0==117) ) {
+                alt80=1;
             }
-            switch (alt74) {
+            switch (alt80) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:238:12: '(' ( ID )? ')'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:245:12: '(' ( ID )? ')'
                     {
-                    char_literal172=(Token)match(input,117,FOLLOW_117_in_scope_ex2506);  
+                    char_literal172=(Token)match(input,117,FOLLOW_117_in_scope_ex2637);  
                     stream_117.add(char_literal172);
 
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:238:16: ( ID )?
-                    int alt73=2;
-                    int LA73_0 = input.LA(1);
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:245:16: ( ID )?
+                    int alt79=2;
+                    int LA79_0 = input.LA(1);
 
-                    if ( (LA73_0==ID) ) {
-                        alt73=1;
+                    if ( (LA79_0==ID) ) {
+                        alt79=1;
                     }
-                    switch (alt73) {
+                    switch (alt79) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:238:16: ID
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:245:16: ID
                             {
-                            ID173=(Token)match(input,ID,FOLLOW_ID_in_scope_ex2508);  
+                            ID173=(Token)match(input,ID,FOLLOW_ID_in_scope_ex2639);  
                             stream_ID.add(ID173);
 
 
@@ -7353,7 +7715,7 @@ public class BPELscriptParser extends Parser {
 
                     }
 
-                    char_literal174=(Token)match(input,118,FOLLOW_118_in_scope_ex2511);  
+                    char_literal174=(Token)match(input,118,FOLLOW_118_in_scope_ex2642);  
                     stream_118.add(char_literal174);
 
 
@@ -7362,13 +7724,13 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_scope_sequence_in_scope_ex2515);
+            pushFollow(FOLLOW_scope_sequence_in_scope_ex2646);
             scope_sequence175=scope_sequence();
 
             state._fsp--;
 
             stream_scope_sequence.add(scope_sequence175.getTree());
-            pushFollow(FOLLOW_scope_stmt_in_scope_ex2517);
+            pushFollow(FOLLOW_scope_stmt_in_scope_ex2648);
             scope_stmt176=scope_stmt();
 
             state._fsp--;
@@ -7377,23 +7739,24 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: SJF, scope_sequence, ISOLATED, EOSF, scope_stmt, ID
+            // elements: EOSF, ID, SJF, scope_sequence, scope_stmt, ISOLATED
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 239:2: -> ^( SCOPE ( ID )? scope_stmt scope_sequence ( ISOLATED )? ( EOSF )? ( SJF )? )
+            // 246:2: -> ^( SCOPE ( ID )? scope_stmt scope_sequence ( ISOLATED )? ( EOSF )? ( SJF )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:239:6: ^( SCOPE ( ID )? scope_stmt scope_sequence ( ISOLATED )? ( EOSF )? ( SJF )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:6: ^( SCOPE ( ID )? scope_stmt scope_sequence ( ISOLATED )? ( EOSF )? ( SJF )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SCOPE, "SCOPE"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:239:14: ( ID )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:14: ( ID )?
                 if ( stream_ID.hasNext() ) {
                     adaptor.addChild(root_1, stream_ID.nextNode());
 
@@ -7401,19 +7764,19 @@ public class BPELscriptParser extends Parser {
                 stream_ID.reset();
                 adaptor.addChild(root_1, stream_scope_stmt.nextTree());
                 adaptor.addChild(root_1, stream_scope_sequence.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:239:44: ( ISOLATED )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:44: ( ISOLATED )?
                 if ( stream_ISOLATED.hasNext() ) {
                     adaptor.addChild(root_1, stream_ISOLATED.nextNode());
 
                 }
                 stream_ISOLATED.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:239:54: ( EOSF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:54: ( EOSF )?
                 if ( stream_EOSF.hasNext() ) {
                     adaptor.addChild(root_1, stream_EOSF.nextNode());
 
                 }
                 stream_EOSF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:239:60: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:60: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
@@ -7425,7 +7788,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -7449,7 +7812,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "scope_short"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:242:1: scope_short : scope_sequence scope_stmt -> ^( SCOPE scope_stmt scope_sequence ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:249:1: scope_short : scope_sequence scope_stmt -> ^( SCOPE scope_stmt scope_sequence ) ;
     public final BPELscriptParser.scope_short_return scope_short() throws RecognitionException {
         BPELscriptParser.scope_short_return retval = new BPELscriptParser.scope_short_return();
         retval.start = input.LT(1);
@@ -7464,16 +7827,16 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_scope_sequence=new RewriteRuleSubtreeStream(adaptor,"rule scope_sequence");
         RewriteRuleSubtreeStream stream_scope_stmt=new RewriteRuleSubtreeStream(adaptor,"rule scope_stmt");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:243:2: ( scope_sequence scope_stmt -> ^( SCOPE scope_stmt scope_sequence ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:243:4: scope_sequence scope_stmt
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:250:2: ( scope_sequence scope_stmt -> ^( SCOPE scope_stmt scope_sequence ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:250:4: scope_sequence scope_stmt
             {
-            pushFollow(FOLLOW_scope_sequence_in_scope_short2560);
+            pushFollow(FOLLOW_scope_sequence_in_scope_short2691);
             scope_sequence177=scope_sequence();
 
             state._fsp--;
 
             stream_scope_sequence.add(scope_sequence177.getTree());
-            pushFollow(FOLLOW_scope_stmt_in_scope_short2562);
+            pushFollow(FOLLOW_scope_stmt_in_scope_short2693);
             scope_stmt178=scope_stmt();
 
             state._fsp--;
@@ -7482,18 +7845,19 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: scope_sequence, scope_stmt
+            // elements: scope_stmt, scope_sequence
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 243:30: -> ^( SCOPE scope_stmt scope_sequence )
+            // 250:30: -> ^( SCOPE scope_stmt scope_sequence )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:243:33: ^( SCOPE scope_stmt scope_sequence )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:250:33: ^( SCOPE scope_stmt scope_sequence )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SCOPE, "SCOPE"), root_1);
@@ -7506,7 +7870,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -7533,7 +7897,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "scope_stmt"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:245:1: scope_stmt : ({...}?c= compensation | {...}?t= termination | {...}?e= eventHdl )* -> ^( SCOPE ( compensation )? ( termination )? ( eventHdl )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:252:1: scope_stmt : ({...}?c= compensation | {...}?t= termination | {...}?e= eventHdl )* -> ^( SCOPE ( compensation )? ( termination )? ( eventHdl )? ) ;
     public final BPELscriptParser.scope_stmt_return scope_stmt() throws RecognitionException {
         BPELscriptParser.scope_stmt_return retval = new BPELscriptParser.scope_stmt_return();
         retval.start = input.LT(1);
@@ -7551,20 +7915,20 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_termination=new RewriteRuleSubtreeStream(adaptor,"rule termination");
         RewriteRuleSubtreeStream stream_eventHdl=new RewriteRuleSubtreeStream(adaptor,"rule eventHdl");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:2: ( ({...}?c= compensation | {...}?t= termination | {...}?e= eventHdl )* -> ^( SCOPE ( compensation )? ( termination )? ( eventHdl )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:4: ({...}?c= compensation | {...}?t= termination | {...}?e= eventHdl )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:253:2: ( ({...}?c= compensation | {...}?t= termination | {...}?e= eventHdl )* -> ^( SCOPE ( compensation )? ( termination )? ( eventHdl )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:253:4: ({...}?c= compensation | {...}?t= termination | {...}?e= eventHdl )*
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:4: ({...}?c= compensation | {...}?t= termination | {...}?e= eventHdl )*
-            loop75:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:253:4: ({...}?c= compensation | {...}?t= termination | {...}?e= eventHdl )*
+            loop81:
             do {
-                int alt75=4;
+                int alt81=4;
                 switch ( input.LA(1) ) {
                 case 146:
                     {
-                    int LA75_2 = input.LA(2);
+                    int LA81_2 = input.LA(2);
 
-                    if ( (c==null) ) {
-                        alt75=1;
+                    if ( ((c==null)) ) {
+                        alt81=1;
                     }
 
 
@@ -7572,10 +7936,10 @@ public class BPELscriptParser extends Parser {
                     break;
                 case 143:
                     {
-                    int LA75_3 = input.LA(2);
+                    int LA81_3 = input.LA(2);
 
-                    if ( (t==null) ) {
-                        alt75=2;
+                    if ( ((t==null)) ) {
+                        alt81=2;
                     }
 
 
@@ -7583,10 +7947,10 @@ public class BPELscriptParser extends Parser {
                     break;
                 case 144:
                     {
-                    int LA75_4 = input.LA(2);
+                    int LA81_4 = input.LA(2);
 
-                    if ( (e==null) ) {
-                        alt75=3;
+                    if ( ((e==null)) ) {
+                        alt81=3;
                     }
 
 
@@ -7595,14 +7959,14 @@ public class BPELscriptParser extends Parser {
 
                 }
 
-                switch (alt75) {
+                switch (alt81) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:6: {...}?c= compensation
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:253:6: {...}?c= compensation
             	    {
-            	    if ( !(c==null) ) {
+            	    if ( !((c==null)) ) {
             	        throw new FailedPredicateException(input, "scope_stmt", "c==null");
             	    }
-            	    pushFollow(FOLLOW_compensation_in_scope_stmt2587);
+            	    pushFollow(FOLLOW_compensation_in_scope_stmt2718);
             	    c=compensation();
 
             	    state._fsp--;
@@ -7612,12 +7976,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:34: {...}?t= termination
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:253:34: {...}?t= termination
             	    {
-            	    if ( !(t==null) ) {
+            	    if ( !((t==null)) ) {
             	        throw new FailedPredicateException(input, "scope_stmt", "t==null");
             	    }
-            	    pushFollow(FOLLOW_termination_in_scope_stmt2595);
+            	    pushFollow(FOLLOW_termination_in_scope_stmt2726);
             	    t=termination();
 
             	    state._fsp--;
@@ -7627,12 +7991,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:246:61: {...}?e= eventHdl
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:253:61: {...}?e= eventHdl
             	    {
-            	    if ( !(e==null) ) {
+            	    if ( !((e==null)) ) {
             	        throw new FailedPredicateException(input, "scope_stmt", "e==null");
             	    }
-            	    pushFollow(FOLLOW_eventHdl_in_scope_stmt2603);
+            	    pushFollow(FOLLOW_eventHdl_in_scope_stmt2734);
             	    e=eventHdl();
 
             	    state._fsp--;
@@ -7643,42 +8007,43 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop75;
+            	    break loop81;
                 }
             } while (true);
 
 
 
             // AST REWRITE
-            // elements: compensation, termination, eventHdl
+            // elements: eventHdl, termination, compensation
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 247:2: -> ^( SCOPE ( compensation )? ( termination )? ( eventHdl )? )
+            // 254:2: -> ^( SCOPE ( compensation )? ( termination )? ( eventHdl )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:247:5: ^( SCOPE ( compensation )? ( termination )? ( eventHdl )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:5: ^( SCOPE ( compensation )? ( termination )? ( eventHdl )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SCOPE, "SCOPE"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:247:13: ( compensation )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:13: ( compensation )?
                 if ( stream_compensation.hasNext() ) {
                     adaptor.addChild(root_1, stream_compensation.nextTree());
 
                 }
                 stream_compensation.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:247:27: ( termination )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:27: ( termination )?
                 if ( stream_termination.hasNext() ) {
                     adaptor.addChild(root_1, stream_termination.nextTree());
 
                 }
                 stream_termination.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:247:40: ( eventHdl )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:40: ( eventHdl )?
                 if ( stream_eventHdl.hasNext() ) {
                     adaptor.addChild(root_1, stream_eventHdl.nextTree());
 
@@ -7690,7 +8055,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -7714,7 +8079,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "termination"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:250:1: termination : 'onTermination' body -> ^( TERMINATION body ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:257:1: termination : 'onTermination' body -> ^( TERMINATION body ) ;
     public final BPELscriptParser.termination_return termination() throws RecognitionException {
         BPELscriptParser.termination_return retval = new BPELscriptParser.termination_return();
         retval.start = input.LT(1);
@@ -7729,13 +8094,13 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_143=new RewriteRuleTokenStream(adaptor,"token 143");
         RewriteRuleSubtreeStream stream_body=new RewriteRuleSubtreeStream(adaptor,"rule body");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:251:2: ( 'onTermination' body -> ^( TERMINATION body ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:251:4: 'onTermination' body
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:2: ( 'onTermination' body -> ^( TERMINATION body ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:4: 'onTermination' body
             {
-            string_literal179=(Token)match(input,143,FOLLOW_143_in_termination2639);  
+            string_literal179=(Token)match(input,143,FOLLOW_143_in_termination2770);  
             stream_143.add(string_literal179);
 
-            pushFollow(FOLLOW_body_in_termination2641);
+            pushFollow(FOLLOW_body_in_termination2772);
             body180=body();
 
             state._fsp--;
@@ -7749,13 +8114,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 251:25: -> ^( TERMINATION body )
+            // 258:25: -> ^( TERMINATION body )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:251:28: ^( TERMINATION body )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:28: ^( TERMINATION body )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(TERMINATION, "TERMINATION"), root_1);
@@ -7767,7 +8133,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -7794,7 +8160,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "eventHdl"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:253:1: eventHdl : 'events' '{' ( onEvent )* ( onAlarm )* '}' -> ^( EVENTHDL ( onEvent )* ( onAlarm )* ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:1: eventHdl : 'events' '{' ( onEvent )* ( onAlarm )* '}' -> ^( EVENTHDL ( onEvent )* ( onAlarm )* ) ;
     public final BPELscriptParser.eventHdl_return eventHdl() throws RecognitionException {
         BPELscriptParser.eventHdl_return retval = new BPELscriptParser.eventHdl_return();
         retval.start = input.LT(1);
@@ -7818,31 +8184,31 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_onEvent=new RewriteRuleSubtreeStream(adaptor,"rule onEvent");
         RewriteRuleSubtreeStream stream_onAlarm=new RewriteRuleSubtreeStream(adaptor,"rule onAlarm");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:2: ( 'events' '{' ( onEvent )* ( onAlarm )* '}' -> ^( EVENTHDL ( onEvent )* ( onAlarm )* ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:4: 'events' '{' ( onEvent )* ( onAlarm )* '}'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:261:2: ( 'events' '{' ( onEvent )* ( onAlarm )* '}' -> ^( EVENTHDL ( onEvent )* ( onAlarm )* ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:261:4: 'events' '{' ( onEvent )* ( onAlarm )* '}'
             {
-            string_literal181=(Token)match(input,144,FOLLOW_144_in_eventHdl2659);  
+            string_literal181=(Token)match(input,144,FOLLOW_144_in_eventHdl2790);  
             stream_144.add(string_literal181);
 
-            char_literal182=(Token)match(input,110,FOLLOW_110_in_eventHdl2661);  
+            char_literal182=(Token)match(input,110,FOLLOW_110_in_eventHdl2792);  
             stream_110.add(char_literal182);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:17: ( onEvent )*
-            loop76:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:261:17: ( onEvent )*
+            loop82:
             do {
-                int alt76=2;
-                int LA76_0 = input.LA(1);
+                int alt82=2;
+                int LA82_0 = input.LA(1);
 
-                if ( (LA76_0==ID||LA76_0==145||(LA76_0>=181 && LA76_0<=186)||LA76_0==188) ) {
-                    alt76=1;
+                if ( (LA82_0==ID||LA82_0==145||(LA82_0>=181 && LA82_0<=186)||LA82_0==188) ) {
+                    alt82=1;
                 }
 
 
-                switch (alt76) {
+                switch (alt82) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:17: onEvent
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:261:17: onEvent
             	    {
-            	    pushFollow(FOLLOW_onEvent_in_eventHdl2663);
+            	    pushFollow(FOLLOW_onEvent_in_eventHdl2794);
             	    onEvent183=onEvent();
 
             	    state._fsp--;
@@ -7853,26 +8219,26 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop76;
+            	    break loop82;
                 }
             } while (true);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:26: ( onAlarm )*
-            loop77:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:261:26: ( onAlarm )*
+            loop83:
             do {
-                int alt77=2;
-                int LA77_0 = input.LA(1);
+                int alt83=2;
+                int LA83_0 = input.LA(1);
 
-                if ( (LA77_0==SJF||LA77_0==110||LA77_0==114||(LA77_0>=119 && LA77_0<=121)||(LA77_0>=125 && LA77_0<=126)||(LA77_0>=192 && LA77_0<=195)) ) {
-                    alt77=1;
+                if ( (LA83_0==SJF||LA83_0==110||LA83_0==114||(LA83_0>=119 && LA83_0<=121)||(LA83_0>=125 && LA83_0<=126)||(LA83_0>=192 && LA83_0<=195)) ) {
+                    alt83=1;
                 }
 
 
-                switch (alt77) {
+                switch (alt83) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:254:26: onAlarm
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:261:26: onAlarm
             	    {
-            	    pushFollow(FOLLOW_onAlarm_in_eventHdl2666);
+            	    pushFollow(FOLLOW_onAlarm_in_eventHdl2797);
             	    onAlarm184=onAlarm();
 
             	    state._fsp--;
@@ -7883,39 +8249,40 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop77;
+            	    break loop83;
                 }
             } while (true);
 
-            char_literal185=(Token)match(input,111,FOLLOW_111_in_eventHdl2669);  
+            char_literal185=(Token)match(input,111,FOLLOW_111_in_eventHdl2800);  
             stream_111.add(char_literal185);
 
 
 
             // AST REWRITE
-            // elements: onEvent, onAlarm
+            // elements: onAlarm, onEvent
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 255:3: -> ^( EVENTHDL ( onEvent )* ( onAlarm )* )
+            // 262:3: -> ^( EVENTHDL ( onEvent )* ( onAlarm )* )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:255:6: ^( EVENTHDL ( onEvent )* ( onAlarm )* )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:262:6: ^( EVENTHDL ( onEvent )* ( onAlarm )* )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EVENTHDL, "EVENTHDL"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:255:17: ( onEvent )*
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:262:17: ( onEvent )*
                 while ( stream_onEvent.hasNext() ) {
                     adaptor.addChild(root_1, stream_onEvent.nextTree());
 
                 }
                 stream_onEvent.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:255:26: ( onAlarm )*
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:262:26: ( onAlarm )*
                 while ( stream_onAlarm.hasNext() ) {
                     adaptor.addChild(root_1, stream_onAlarm.nextTree());
 
@@ -7927,7 +8294,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -7954,7 +8321,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "onEvent"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:257:1: onEvent : ({...}?pt= portType | {...}?msg= msgEx | {...}?te= ( msgType | viElt ) )* (var= ID '=' )? 'event' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? scope_short -> ^( EVENT $p $o ( correlation )? ( with_ex )? scope_short ( $var)? ( portType )? ( msgEx )? ( msgType )? ( viElt )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:264:1: onEvent : ({...}?pt= portType | {...}?msg= msgEx | {...}?te= ( msgType | viElt ) )* (var= ID '=' )? 'event' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? scope_short -> ^( EVENT $p $o ( correlation )? ( with_ex )? scope_short ( $var)? ( portType )? ( msgEx )? ( msgType )? ( viElt )? ) ;
     public final BPELscriptParser.onEvent_return onEvent() throws RecognitionException {
         BPELscriptParser.onEvent_return retval = new BPELscriptParser.onEvent_return();
         retval.start = input.LT(1);
@@ -8010,44 +8377,44 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_msgType=new RewriteRuleSubtreeStream(adaptor,"rule msgType");
         RewriteRuleSubtreeStream stream_correlation=new RewriteRuleSubtreeStream(adaptor,"rule correlation");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:2: ( ({...}?pt= portType | {...}?msg= msgEx | {...}?te= ( msgType | viElt ) )* (var= ID '=' )? 'event' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? scope_short -> ^( EVENT $p $o ( correlation )? ( with_ex )? scope_short ( $var)? ( portType )? ( msgEx )? ( msgType )? ( viElt )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:4: ({...}?pt= portType | {...}?msg= msgEx | {...}?te= ( msgType | viElt ) )* (var= ID '=' )? 'event' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? scope_short
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:2: ( ({...}?pt= portType | {...}?msg= msgEx | {...}?te= ( msgType | viElt ) )* (var= ID '=' )? 'event' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? scope_short -> ^( EVENT $p $o ( correlation )? ( with_ex )? scope_short ( $var)? ( portType )? ( msgEx )? ( msgType )? ( viElt )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:4: ({...}?pt= portType | {...}?msg= msgEx | {...}?te= ( msgType | viElt ) )* (var= ID '=' )? 'event' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? scope_short
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:4: ({...}?pt= portType | {...}?msg= msgEx | {...}?te= ( msgType | viElt ) )*
-            loop79:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:4: ({...}?pt= portType | {...}?msg= msgEx | {...}?te= ( msgType | viElt ) )*
+            loop85:
             do {
-                int alt79=4;
+                int alt85=4;
                 switch ( input.LA(1) ) {
                 case 181:
                 case 182:
                     {
-                    alt79=1;
+                    alt85=1;
                     }
                     break;
                 case 183:
                 case 184:
                     {
-                    alt79=2;
+                    alt85=2;
                     }
                     break;
                 case 185:
                 case 186:
                 case 188:
                     {
-                    alt79=3;
+                    alt85=3;
                     }
                     break;
 
                 }
 
-                switch (alt79) {
+                switch (alt85) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:6: {...}?pt= portType
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:6: {...}?pt= portType
             	    {
-            	    if ( !(pt==null) ) {
+            	    if ( !((pt==null)) ) {
             	        throw new FailedPredicateException(input, "onEvent", "pt==null");
             	    }
-            	    pushFollow(FOLLOW_portType_in_onEvent2700);
+            	    pushFollow(FOLLOW_portType_in_onEvent2831);
             	    pt=portType();
 
             	    state._fsp--;
@@ -8057,12 +8424,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:32: {...}?msg= msgEx
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:32: {...}?msg= msgEx
             	    {
-            	    if ( !(msg==null) ) {
+            	    if ( !((msg==null)) ) {
             	        throw new FailedPredicateException(input, "onEvent", "msg==null");
             	    }
-            	    pushFollow(FOLLOW_msgEx_in_onEvent2708);
+            	    pushFollow(FOLLOW_msgEx_in_onEvent2839);
             	    msg=msgEx();
 
             	    state._fsp--;
@@ -8072,32 +8439,32 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:57: {...}?te= ( msgType | viElt )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:57: {...}?te= ( msgType | viElt )
             	    {
-            	    if ( !(te==null) ) {
+            	    if ( !((te==null)) ) {
             	        throw new FailedPredicateException(input, "onEvent", "te==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:72: ( msgType | viElt )
-            	    int alt78=2;
-            	    int LA78_0 = input.LA(1);
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:72: ( msgType | viElt )
+            	    int alt84=2;
+            	    int LA84_0 = input.LA(1);
 
-            	    if ( ((LA78_0>=185 && LA78_0<=186)) ) {
-            	        alt78=1;
+            	    if ( ((LA84_0>=185 && LA84_0<=186)) ) {
+            	        alt84=1;
             	    }
-            	    else if ( (LA78_0==188) ) {
-            	        alt78=2;
+            	    else if ( (LA84_0==188) ) {
+            	        alt84=2;
             	    }
             	    else {
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 78, 0, input);
+            	            new NoViableAltException("", 84, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt78) {
+            	    switch (alt84) {
             	        case 1 :
-            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:74: msgType
+            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:74: msgType
             	            {
-            	            pushFollow(FOLLOW_msgType_in_onEvent2718);
+            	            pushFollow(FOLLOW_msgType_in_onEvent2849);
             	            msgType186=msgType();
 
             	            state._fsp--;
@@ -8107,9 +8474,9 @@ public class BPELscriptParser extends Parser {
             	            }
             	            break;
             	        case 2 :
-            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:258:84: viElt
+            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:265:84: viElt
             	            {
-            	            pushFollow(FOLLOW_viElt_in_onEvent2722);
+            	            pushFollow(FOLLOW_viElt_in_onEvent2853);
             	            viElt187=viElt();
 
             	            state._fsp--;
@@ -8126,25 +8493,25 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop79;
+            	    break loop85;
                 }
             } while (true);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:259:3: (var= ID '=' )?
-            int alt80=2;
-            int LA80_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:266:3: (var= ID '=' )?
+            int alt86=2;
+            int LA86_0 = input.LA(1);
 
-            if ( (LA80_0==ID) ) {
-                alt80=1;
+            if ( (LA86_0==ID) ) {
+                alt86=1;
             }
-            switch (alt80) {
+            switch (alt86) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:259:4: var= ID '='
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:266:4: var= ID '='
                     {
-                    var=(Token)match(input,ID,FOLLOW_ID_in_onEvent2734);  
+                    var=(Token)match(input,ID,FOLLOW_ID_in_onEvent2865);  
                     stream_ID.add(var);
 
-                    char_literal188=(Token)match(input,135,FOLLOW_135_in_onEvent2736);  
+                    char_literal188=(Token)match(input,135,FOLLOW_135_in_onEvent2867);  
                     stream_135.add(char_literal188);
 
 
@@ -8153,36 +8520,36 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            string_literal189=(Token)match(input,145,FOLLOW_145_in_onEvent2741);  
+            string_literal189=(Token)match(input,145,FOLLOW_145_in_onEvent2872);  
             stream_145.add(string_literal189);
 
-            char_literal190=(Token)match(input,117,FOLLOW_117_in_onEvent2743);  
+            char_literal190=(Token)match(input,117,FOLLOW_117_in_onEvent2874);  
             stream_117.add(char_literal190);
 
-            p=(Token)match(input,ID,FOLLOW_ID_in_onEvent2747);  
+            p=(Token)match(input,ID,FOLLOW_ID_in_onEvent2878);  
             stream_ID.add(p);
 
-            char_literal191=(Token)match(input,113,FOLLOW_113_in_onEvent2749);  
+            char_literal191=(Token)match(input,113,FOLLOW_113_in_onEvent2880);  
             stream_113.add(char_literal191);
 
-            o=(Token)match(input,ID,FOLLOW_ID_in_onEvent2753);  
+            o=(Token)match(input,ID,FOLLOW_ID_in_onEvent2884);  
             stream_ID.add(o);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:259:44: ( ',' correlation )?
-            int alt81=2;
-            int LA81_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:266:44: ( ',' correlation )?
+            int alt87=2;
+            int LA87_0 = input.LA(1);
 
-            if ( (LA81_0==113) ) {
-                alt81=1;
+            if ( (LA87_0==113) ) {
+                alt87=1;
             }
-            switch (alt81) {
+            switch (alt87) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:259:45: ',' correlation
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:266:45: ',' correlation
                     {
-                    char_literal192=(Token)match(input,113,FOLLOW_113_in_onEvent2756);  
+                    char_literal192=(Token)match(input,113,FOLLOW_113_in_onEvent2887);  
                     stream_113.add(char_literal192);
 
-                    pushFollow(FOLLOW_correlation_in_onEvent2758);
+                    pushFollow(FOLLOW_correlation_in_onEvent2889);
                     correlation193=correlation();
 
                     state._fsp--;
@@ -8194,21 +8561,21 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal194=(Token)match(input,118,FOLLOW_118_in_onEvent2762);  
+            char_literal194=(Token)match(input,118,FOLLOW_118_in_onEvent2893);  
             stream_118.add(char_literal194);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:259:67: ( with_ex )?
-            int alt82=2;
-            int LA82_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:266:67: ( with_ex )?
+            int alt88=2;
+            int LA88_0 = input.LA(1);
 
-            if ( (LA82_0==147) ) {
-                alt82=1;
+            if ( (LA88_0==147) ) {
+                alt88=1;
             }
-            switch (alt82) {
+            switch (alt88) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:259:67: with_ex
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:266:67: with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_onEvent2764);
+                    pushFollow(FOLLOW_with_ex_in_onEvent2895);
                     with_ex195=with_ex();
 
                     state._fsp--;
@@ -8220,7 +8587,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_scope_short_in_onEvent2767);
+            pushFollow(FOLLOW_scope_short_in_onEvent2898);
             scope_short196=scope_short();
 
             state._fsp--;
@@ -8229,65 +8596,66 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: scope_short, o, portType, viElt, with_ex, var, correlation, msgEx, msgType, p
+            // elements: o, portType, with_ex, msgType, correlation, var, p, scope_short, viElt, msgEx
             // token labels: var, p, o
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_var=new RewriteRuleTokenStream(adaptor,"token var",var);
             RewriteRuleTokenStream stream_p=new RewriteRuleTokenStream(adaptor,"token p",p);
             RewriteRuleTokenStream stream_o=new RewriteRuleTokenStream(adaptor,"token o",o);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 260:2: -> ^( EVENT $p $o ( correlation )? ( with_ex )? scope_short ( $var)? ( portType )? ( msgEx )? ( msgType )? ( viElt )? )
+            // 267:2: -> ^( EVENT $p $o ( correlation )? ( with_ex )? scope_short ( $var)? ( portType )? ( msgEx )? ( msgType )? ( viElt )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:6: ^( EVENT $p $o ( correlation )? ( with_ex )? scope_short ( $var)? ( portType )? ( msgEx )? ( msgType )? ( viElt )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:6: ^( EVENT $p $o ( correlation )? ( with_ex )? scope_short ( $var)? ( portType )? ( msgEx )? ( msgType )? ( viElt )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EVENT, "EVENT"), root_1);
 
                 adaptor.addChild(root_1, stream_p.nextNode());
                 adaptor.addChild(root_1, stream_o.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:20: ( correlation )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:20: ( correlation )?
                 if ( stream_correlation.hasNext() ) {
                     adaptor.addChild(root_1, stream_correlation.nextTree());
 
                 }
                 stream_correlation.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:33: ( with_ex )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:33: ( with_ex )?
                 if ( stream_with_ex.hasNext() ) {
                     adaptor.addChild(root_1, stream_with_ex.nextTree());
 
                 }
                 stream_with_ex.reset();
                 adaptor.addChild(root_1, stream_scope_short.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:54: ( $var)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:54: ( $var)?
                 if ( stream_var.hasNext() ) {
                     adaptor.addChild(root_1, stream_var.nextNode());
 
                 }
                 stream_var.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:60: ( portType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:60: ( portType )?
                 if ( stream_portType.hasNext() ) {
                     adaptor.addChild(root_1, stream_portType.nextTree());
 
                 }
                 stream_portType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:70: ( msgEx )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:70: ( msgEx )?
                 if ( stream_msgEx.hasNext() ) {
                     adaptor.addChild(root_1, stream_msgEx.nextTree());
 
                 }
                 stream_msgEx.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:77: ( msgType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:77: ( msgType )?
                 if ( stream_msgType.hasNext() ) {
                     adaptor.addChild(root_1, stream_msgType.nextTree());
 
                 }
                 stream_msgType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:260:86: ( viElt )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:86: ( viElt )?
                 if ( stream_viElt.hasNext() ) {
                     adaptor.addChild(root_1, stream_viElt.nextTree());
 
@@ -8299,7 +8667,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -8323,7 +8691,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "compensation"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:263:1: compensation : 'compensation' body -> ^( COMPENSATION body ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:270:1: compensation : 'compensation' body -> ^( COMPENSATION body ) ;
     public final BPELscriptParser.compensation_return compensation() throws RecognitionException {
         BPELscriptParser.compensation_return retval = new BPELscriptParser.compensation_return();
         retval.start = input.LT(1);
@@ -8338,13 +8706,13 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_146=new RewriteRuleTokenStream(adaptor,"token 146");
         RewriteRuleSubtreeStream stream_body=new RewriteRuleSubtreeStream(adaptor,"rule body");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:264:2: ( 'compensation' body -> ^( COMPENSATION body ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:264:4: 'compensation' body
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:271:2: ( 'compensation' body -> ^( COMPENSATION body ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:271:4: 'compensation' body
             {
-            string_literal197=(Token)match(input,146,FOLLOW_146_in_compensation2825);  
+            string_literal197=(Token)match(input,146,FOLLOW_146_in_compensation2956);  
             stream_146.add(string_literal197);
 
-            pushFollow(FOLLOW_body_in_compensation2827);
+            pushFollow(FOLLOW_body_in_compensation2958);
             body198=body();
 
             state._fsp--;
@@ -8358,13 +8726,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 264:24: -> ^( COMPENSATION body )
+            // 271:24: -> ^( COMPENSATION body )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:264:27: ^( COMPENSATION body )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:271:27: ^( COMPENSATION body )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(COMPENSATION, "COMPENSATION"), root_1);
@@ -8376,7 +8745,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -8403,7 +8772,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "with_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:266:1: with_ex : 'with' '(' wm+= with_map ( ',' wm+= with_map )* ')' -> ^( WITH ( $wm)+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:273:1: with_ex : 'with' '(' wm+= with_map ( ',' wm+= with_map )* ')' -> ^( WITH ( $wm)+ ) ;
     public final BPELscriptParser.with_ex_return with_ex() throws RecognitionException {
         BPELscriptParser.with_ex_return retval = new BPELscriptParser.with_ex_return();
         retval.start = input.LT(1);
@@ -8415,7 +8784,8 @@ public class BPELscriptParser extends Parser {
         Token char_literal201=null;
         Token char_literal202=null;
         List list_wm=null;
-        RuleReturnScope wm = null;
+        BPELscriptParser.with_map_return wm = null;
+         wm = null;
         CommonTree string_literal199_tree=null;
         CommonTree char_literal200_tree=null;
         CommonTree char_literal201_tree=null;
@@ -8426,61 +8796,61 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_118=new RewriteRuleTokenStream(adaptor,"token 118");
         RewriteRuleSubtreeStream stream_with_map=new RewriteRuleSubtreeStream(adaptor,"rule with_map");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:3: ( 'with' '(' wm+= with_map ( ',' wm+= with_map )* ')' -> ^( WITH ( $wm)+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:6: 'with' '(' wm+= with_map ( ',' wm+= with_map )* ')'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:3: ( 'with' '(' wm+= with_map ( ',' wm+= with_map )* ')' -> ^( WITH ( $wm)+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:6: 'with' '(' wm+= with_map ( ',' wm+= with_map )* ')'
             {
-            string_literal199=(Token)match(input,147,FOLLOW_147_in_with_ex2846);  
+            string_literal199=(Token)match(input,147,FOLLOW_147_in_with_ex2977);  
             stream_147.add(string_literal199);
 
-            char_literal200=(Token)match(input,117,FOLLOW_117_in_with_ex2848);  
+            char_literal200=(Token)match(input,117,FOLLOW_117_in_with_ex2979);  
             stream_117.add(char_literal200);
 
-            pushFollow(FOLLOW_with_map_in_with_ex2852);
+            pushFollow(FOLLOW_with_map_in_with_ex2983);
             wm=with_map();
 
             state._fsp--;
 
             stream_with_map.add(wm.getTree());
             if (list_wm==null) list_wm=new ArrayList();
-            list_wm.add(wm);
+            list_wm.add(wm.getTree());
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:30: ( ',' wm+= with_map )*
-            loop83:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:30: ( ',' wm+= with_map )*
+            loop89:
             do {
-                int alt83=2;
-                int LA83_0 = input.LA(1);
+                int alt89=2;
+                int LA89_0 = input.LA(1);
 
-                if ( (LA83_0==113) ) {
-                    alt83=1;
+                if ( (LA89_0==113) ) {
+                    alt89=1;
                 }
 
 
-                switch (alt83) {
+                switch (alt89) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:31: ',' wm+= with_map
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:31: ',' wm+= with_map
             	    {
-            	    char_literal201=(Token)match(input,113,FOLLOW_113_in_with_ex2855);  
+            	    char_literal201=(Token)match(input,113,FOLLOW_113_in_with_ex2986);  
             	    stream_113.add(char_literal201);
 
-            	    pushFollow(FOLLOW_with_map_in_with_ex2859);
+            	    pushFollow(FOLLOW_with_map_in_with_ex2990);
             	    wm=with_map();
 
             	    state._fsp--;
 
             	    stream_with_map.add(wm.getTree());
             	    if (list_wm==null) list_wm=new ArrayList();
-            	    list_wm.add(wm);
+            	    list_wm.add(wm.getTree());
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop83;
+            	    break loop89;
                 }
             } while (true);
 
-            char_literal202=(Token)match(input,118,FOLLOW_118_in_with_ex2863);  
+            char_literal202=(Token)match(input,118,FOLLOW_118_in_with_ex2994);  
             stream_118.add(char_literal202);
 
 
@@ -8491,13 +8861,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: wm
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
             RewriteRuleSubtreeStream stream_wm=new RewriteRuleSubtreeStream(adaptor,"token wm",list_wm);
             root_0 = (CommonTree)adaptor.nil();
-            // 267:54: -> ^( WITH ( $wm)+ )
+            // 274:54: -> ^( WITH ( $wm)+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:267:57: ^( WITH ( $wm)+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:57: ^( WITH ( $wm)+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(WITH, "WITH"), root_1);
@@ -8506,7 +8877,7 @@ public class BPELscriptParser extends Parser {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_wm.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_wm.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_wm.nextTree());
 
                 }
                 stream_wm.reset();
@@ -8516,7 +8887,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -8543,7 +8914,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "with_map"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:269:1: with_map : ID ':' ( KEY )? path_expr -> ^( MAP ID ( KEY )? path_expr ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:276:1: with_map : ID ':' ( KEY )? path_expr -> ^( MAP ID ( KEY )? path_expr ) ;
     public final BPELscriptParser.with_map_return with_map() throws RecognitionException {
         BPELscriptParser.with_map_return retval = new BPELscriptParser.with_map_return();
         retval.start = input.LT(1);
@@ -8564,27 +8935,27 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_KEY=new RewriteRuleTokenStream(adaptor,"token KEY");
         RewriteRuleSubtreeStream stream_path_expr=new RewriteRuleSubtreeStream(adaptor,"rule path_expr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:270:2: ( ID ':' ( KEY )? path_expr -> ^( MAP ID ( KEY )? path_expr ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:270:11: ID ':' ( KEY )? path_expr
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:2: ( ID ':' ( KEY )? path_expr -> ^( MAP ID ( KEY )? path_expr ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:11: ID ':' ( KEY )? path_expr
             {
-            ID203=(Token)match(input,ID,FOLLOW_ID_in_with_map2889);  
+            ID203=(Token)match(input,ID,FOLLOW_ID_in_with_map3020);  
             stream_ID.add(ID203);
 
-            char_literal204=(Token)match(input,148,FOLLOW_148_in_with_map2891);  
+            char_literal204=(Token)match(input,148,FOLLOW_148_in_with_map3022);  
             stream_148.add(char_literal204);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:270:18: ( KEY )?
-            int alt84=2;
-            int LA84_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:18: ( KEY )?
+            int alt90=2;
+            int LA90_0 = input.LA(1);
 
-            if ( (LA84_0==KEY) ) {
-                alt84=1;
+            if ( (LA90_0==KEY) ) {
+                alt90=1;
             }
-            switch (alt84) {
+            switch (alt90) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:270:18: KEY
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:18: KEY
                     {
-                    KEY205=(Token)match(input,KEY,FOLLOW_KEY_in_with_map2893);  
+                    KEY205=(Token)match(input,KEY,FOLLOW_KEY_in_with_map3024);  
                     stream_KEY.add(KEY205);
 
 
@@ -8593,7 +8964,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_path_expr_in_with_map2896);
+            pushFollow(FOLLOW_path_expr_in_with_map3027);
             path_expr206=path_expr();
 
             state._fsp--;
@@ -8602,24 +8973,25 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: KEY, ID, path_expr
+            // elements: ID, KEY, path_expr
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 270:33: -> ^( MAP ID ( KEY )? path_expr )
+            // 277:33: -> ^( MAP ID ( KEY )? path_expr )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:270:36: ^( MAP ID ( KEY )? path_expr )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:36: ^( MAP ID ( KEY )? path_expr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MAP, "MAP"), root_1);
 
                 adaptor.addChild(root_1, stream_ID.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:270:45: ( KEY )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:45: ( KEY )?
                 if ( stream_KEY.hasNext() ) {
                     adaptor.addChild(root_1, stream_KEY.nextNode());
 
@@ -8632,7 +9004,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -8659,7 +9031,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "receive"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:273:1: receive : ({...}?pt= portType | {...}?msg= msgEx | {...}?ci= CREATE_INST | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'receive' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? -> ^( RECEIVE $p $o ( correlation )? ( portType )? ( CREATE_INST )? ( msgEx )? ( $name)? ( SJF )? ( with_ex )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:280:1: receive : ({...}?pt= portType | {...}?msg= msgEx | {...}?ci= CREATE_INST | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'receive' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? -> ^( RECEIVE $p $o ( correlation )? ( portType )? ( CREATE_INST )? ( msgEx )? ( $name)? ( SJF )? ( with_ex )? ) ;
     public final BPELscriptParser.receive_return receive() throws RecognitionException {
         BPELscriptParser.receive_return retval = new BPELscriptParser.receive_return();
         retval.start = input.LT(1);
@@ -8711,52 +9083,52 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_msgEx=new RewriteRuleSubtreeStream(adaptor,"rule msgEx");
         RewriteRuleSubtreeStream stream_correlation=new RewriteRuleSubtreeStream(adaptor,"rule correlation");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:9: ( ({...}?pt= portType | {...}?msg= msgEx | {...}?ci= CREATE_INST | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'receive' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? -> ^( RECEIVE $p $o ( correlation )? ( portType )? ( CREATE_INST )? ( msgEx )? ( $name)? ( SJF )? ( with_ex )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:12: ({...}?pt= portType | {...}?msg= msgEx | {...}?ci= CREATE_INST | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'receive' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )?
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:281:9: ( ({...}?pt= portType | {...}?msg= msgEx | {...}?ci= CREATE_INST | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'receive' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )? -> ^( RECEIVE $p $o ( correlation )? ( portType )? ( CREATE_INST )? ( msgEx )? ( $name)? ( SJF )? ( with_ex )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:281:12: ({...}?pt= portType | {...}?msg= msgEx | {...}?ci= CREATE_INST | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'receive' '(' p= ID ',' o= ID ( ',' correlation )? ')' ( with_ex )?
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:12: ({...}?pt= portType | {...}?msg= msgEx | {...}?ci= CREATE_INST | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop85:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:281:12: ({...}?pt= portType | {...}?msg= msgEx | {...}?ci= CREATE_INST | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop91:
             do {
-                int alt85=6;
+                int alt91=6;
                 switch ( input.LA(1) ) {
                 case 181:
                 case 182:
                     {
-                    alt85=1;
+                    alt91=1;
                     }
                     break;
                 case 183:
                 case 184:
                     {
-                    alt85=2;
+                    alt91=2;
                     }
                     break;
                 case CREATE_INST:
                     {
-                    alt85=3;
+                    alt91=3;
                     }
                     break;
                 case 114:
                     {
-                    alt85=4;
+                    alt91=4;
                     }
                     break;
                 case SJF:
                     {
-                    alt85=5;
+                    alt91=5;
                     }
                     break;
 
                 }
 
-                switch (alt85) {
+                switch (alt91) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:14: {...}?pt= portType
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:281:14: {...}?pt= portType
             	    {
-            	    if ( !(pt==null) ) {
+            	    if ( !((pt==null)) ) {
             	        throw new FailedPredicateException(input, "receive", "pt==null");
             	    }
-            	    pushFollow(FOLLOW_portType_in_receive2933);
+            	    pushFollow(FOLLOW_portType_in_receive3064);
             	    pt=portType();
 
             	    state._fsp--;
@@ -8766,12 +9138,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:40: {...}?msg= msgEx
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:281:40: {...}?msg= msgEx
             	    {
-            	    if ( !(msg==null) ) {
+            	    if ( !((msg==null)) ) {
             	        throw new FailedPredicateException(input, "receive", "msg==null");
             	    }
-            	    pushFollow(FOLLOW_msgEx_in_receive2941);
+            	    pushFollow(FOLLOW_msgEx_in_receive3072);
             	    msg=msgEx();
 
             	    state._fsp--;
@@ -8781,30 +9153,30 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:274:65: {...}?ci= CREATE_INST
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:281:65: {...}?ci= CREATE_INST
             	    {
-            	    if ( !(ci==null) ) {
+            	    if ( !((ci==null)) ) {
             	        throw new FailedPredicateException(input, "receive", "ci==null");
             	    }
-            	    ci=(Token)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_receive2949);  
+            	    ci=(Token)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_receive3080);  
             	    stream_CREATE_INST.add(ci);
 
 
             	    }
             	    break;
             	case 4 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:276:12: {...}? ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:283:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "receive", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:276:26: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:276:27: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:283:26: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:283:27: '@name' name= STRING
             	    {
-            	    string_literal207=(Token)match(input,114,FOLLOW_114_in_receive2975);  
+            	    string_literal207=(Token)match(input,114,FOLLOW_114_in_receive3106);  
             	    stream_114.add(string_literal207);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_receive2979);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_receive3110);  
             	    stream_STRING.add(name);
 
 
@@ -8814,12 +9186,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 5 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:276:50: {...}?suppressJoinFailure= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:283:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "receive", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_receive2988);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_receive3119);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -8827,40 +9199,40 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop85;
+            	    break loop91;
                 }
             } while (true);
 
-            string_literal208=(Token)match(input,149,FOLLOW_149_in_receive2995);  
+            string_literal208=(Token)match(input,149,FOLLOW_149_in_receive3126);  
             stream_149.add(string_literal208);
 
-            char_literal209=(Token)match(input,117,FOLLOW_117_in_receive2997);  
+            char_literal209=(Token)match(input,117,FOLLOW_117_in_receive3128);  
             stream_117.add(char_literal209);
 
-            p=(Token)match(input,ID,FOLLOW_ID_in_receive3001);  
+            p=(Token)match(input,ID,FOLLOW_ID_in_receive3132);  
             stream_ID.add(p);
 
-            char_literal210=(Token)match(input,113,FOLLOW_113_in_receive3003);  
+            char_literal210=(Token)match(input,113,FOLLOW_113_in_receive3134);  
             stream_113.add(char_literal210);
 
-            o=(Token)match(input,ID,FOLLOW_ID_in_receive3007);  
+            o=(Token)match(input,ID,FOLLOW_ID_in_receive3138);  
             stream_ID.add(o);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:31: ( ',' correlation )?
-            int alt86=2;
-            int LA86_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:284:31: ( ',' correlation )?
+            int alt92=2;
+            int LA92_0 = input.LA(1);
 
-            if ( (LA86_0==113) ) {
-                alt86=1;
+            if ( (LA92_0==113) ) {
+                alt92=1;
             }
-            switch (alt86) {
+            switch (alt92) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:32: ',' correlation
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:284:32: ',' correlation
                     {
-                    char_literal211=(Token)match(input,113,FOLLOW_113_in_receive3010);  
+                    char_literal211=(Token)match(input,113,FOLLOW_113_in_receive3141);  
                     stream_113.add(char_literal211);
 
-                    pushFollow(FOLLOW_correlation_in_receive3012);
+                    pushFollow(FOLLOW_correlation_in_receive3143);
                     correlation212=correlation();
 
                     state._fsp--;
@@ -8872,21 +9244,21 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal213=(Token)match(input,118,FOLLOW_118_in_receive3016);  
+            char_literal213=(Token)match(input,118,FOLLOW_118_in_receive3147);  
             stream_118.add(char_literal213);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:54: ( with_ex )?
-            int alt87=2;
-            int LA87_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:284:54: ( with_ex )?
+            int alt93=2;
+            int LA93_0 = input.LA(1);
 
-            if ( (LA87_0==147) ) {
-                alt87=1;
+            if ( (LA93_0==147) ) {
+                alt93=1;
             }
-            switch (alt87) {
+            switch (alt93) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:277:54: with_ex
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:284:54: with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_receive3018);
+                    pushFollow(FOLLOW_with_ex_in_receive3149);
                     with_ex214=with_ex();
 
                     state._fsp--;
@@ -8901,64 +9273,65 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: o, portType, with_ex, name, msgEx, CREATE_INST, SJF, correlation, p
+            // elements: o, with_ex, SJF, name, CREATE_INST, p, portType, correlation, msgEx
             // token labels: p, name, o
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_p=new RewriteRuleTokenStream(adaptor,"token p",p);
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
             RewriteRuleTokenStream stream_o=new RewriteRuleTokenStream(adaptor,"token o",o);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 278:2: -> ^( RECEIVE $p $o ( correlation )? ( portType )? ( CREATE_INST )? ( msgEx )? ( $name)? ( SJF )? ( with_ex )? )
+            // 285:2: -> ^( RECEIVE $p $o ( correlation )? ( portType )? ( CREATE_INST )? ( msgEx )? ( $name)? ( SJF )? ( with_ex )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:278:6: ^( RECEIVE $p $o ( correlation )? ( portType )? ( CREATE_INST )? ( msgEx )? ( $name)? ( SJF )? ( with_ex )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:6: ^( RECEIVE $p $o ( correlation )? ( portType )? ( CREATE_INST )? ( msgEx )? ( $name)? ( SJF )? ( with_ex )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(RECEIVE, "RECEIVE"), root_1);
 
                 adaptor.addChild(root_1, stream_p.nextNode());
                 adaptor.addChild(root_1, stream_o.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:278:22: ( correlation )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:22: ( correlation )?
                 if ( stream_correlation.hasNext() ) {
                     adaptor.addChild(root_1, stream_correlation.nextTree());
 
                 }
                 stream_correlation.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:278:35: ( portType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:35: ( portType )?
                 if ( stream_portType.hasNext() ) {
                     adaptor.addChild(root_1, stream_portType.nextTree());
 
                 }
                 stream_portType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:278:45: ( CREATE_INST )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:45: ( CREATE_INST )?
                 if ( stream_CREATE_INST.hasNext() ) {
                     adaptor.addChild(root_1, stream_CREATE_INST.nextNode());
 
                 }
                 stream_CREATE_INST.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:278:58: ( msgEx )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:58: ( msgEx )?
                 if ( stream_msgEx.hasNext() ) {
                     adaptor.addChild(root_1, stream_msgEx.nextTree());
 
                 }
                 stream_msgEx.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:278:65: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:65: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:278:72: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:72: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
                 }
                 stream_SJF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:278:77: ( with_ex )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:77: ( with_ex )?
                 if ( stream_with_ex.hasNext() ) {
                     adaptor.addChild(root_1, stream_with_ex.nextTree());
 
@@ -8970,7 +9343,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -8994,7 +9367,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "reply"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:281:1: reply : ({...}?pt= portType | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'reply' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? -> ^( REPLY ID ID ( ID )? ( correlation )? ( portType )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( with_ex )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:288:1: reply : ({...}?pt= portType | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'reply' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? -> ^( REPLY ID ID ( ID )? ( correlation )? ( portType )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( with_ex )? ) ;
     public final BPELscriptParser.reply_return reply() throws RecognitionException {
         BPELscriptParser.reply_return retval = new BPELscriptParser.reply_return();
         retval.start = input.LT(1);
@@ -9050,53 +9423,53 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_msgEx=new RewriteRuleSubtreeStream(adaptor,"rule msgEx");
         RewriteRuleSubtreeStream stream_correlation=new RewriteRuleSubtreeStream(adaptor,"rule correlation");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:282:2: ( ({...}?pt= portType | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'reply' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? -> ^( REPLY ID ID ( ID )? ( correlation )? ( portType )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( with_ex )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:282:4: ({...}?pt= portType | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'reply' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )?
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:289:2: ( ({...}?pt= portType | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'reply' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? -> ^( REPLY ID ID ( ID )? ( correlation )? ( portType )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( with_ex )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:289:4: ({...}?pt= portType | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'reply' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )?
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:282:4: ({...}?pt= portType | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop88:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:289:4: ({...}?pt= portType | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop94:
             do {
-                int alt88=6;
+                int alt94=6;
                 switch ( input.LA(1) ) {
                 case 181:
                 case 182:
                     {
-                    alt88=1;
+                    alt94=1;
                     }
                     break;
                 case 189:
                 case 190:
                     {
-                    alt88=2;
+                    alt94=2;
                     }
                     break;
                 case 183:
                 case 184:
                     {
-                    alt88=3;
+                    alt94=3;
                     }
                     break;
                 case 114:
                     {
-                    alt88=4;
+                    alt94=4;
                     }
                     break;
                 case SJF:
                     {
-                    alt88=5;
+                    alt94=5;
                     }
                     break;
 
                 }
 
-                switch (alt88) {
+                switch (alt94) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:282:6: {...}?pt= portType
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:289:6: {...}?pt= portType
             	    {
-            	    if ( !(pt==null) ) {
+            	    if ( !((pt==null)) ) {
             	        throw new FailedPredicateException(input, "reply", "pt==null");
             	    }
-            	    pushFollow(FOLLOW_portType_in_reply3077);
+            	    pushFollow(FOLLOW_portType_in_reply3208);
             	    pt=portType();
 
             	    state._fsp--;
@@ -9106,12 +9479,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:282:32: {...}?fn= faultName
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:289:32: {...}?fn= faultName
             	    {
-            	    if ( !(fn==null) ) {
+            	    if ( !((fn==null)) ) {
             	        throw new FailedPredicateException(input, "reply", "fn==null");
             	    }
-            	    pushFollow(FOLLOW_faultName_in_reply3085);
+            	    pushFollow(FOLLOW_faultName_in_reply3216);
             	    fn=faultName();
 
             	    state._fsp--;
@@ -9121,12 +9494,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:282:59: {...}?msg= msgEx
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:289:59: {...}?msg= msgEx
             	    {
-            	    if ( !(msg==null) ) {
+            	    if ( !((msg==null)) ) {
             	        throw new FailedPredicateException(input, "reply", "msg==null");
             	    }
-            	    pushFollow(FOLLOW_msgEx_in_reply3093);
+            	    pushFollow(FOLLOW_msgEx_in_reply3224);
             	    msg=msgEx();
 
             	    state._fsp--;
@@ -9136,18 +9509,18 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 4 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:284:12: {...}? ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:291:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "reply", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:284:26: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:284:27: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:291:26: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:291:27: '@name' name= STRING
             	    {
-            	    string_literal215=(Token)match(input,114,FOLLOW_114_in_reply3118);  
+            	    string_literal215=(Token)match(input,114,FOLLOW_114_in_reply3249);  
             	    stream_114.add(string_literal215);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_reply3122);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_reply3253);  
             	    stream_STRING.add(name);
 
 
@@ -9157,12 +9530,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 5 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:284:50: {...}?suppressJoinFailure= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:291:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "reply", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_reply3131);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_reply3262);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -9170,44 +9543,44 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop88;
+            	    break loop94;
                 }
             } while (true);
 
-            string_literal216=(Token)match(input,150,FOLLOW_150_in_reply3138);  
+            string_literal216=(Token)match(input,150,FOLLOW_150_in_reply3269);  
             stream_150.add(string_literal216);
 
-            char_literal217=(Token)match(input,117,FOLLOW_117_in_reply3140);  
+            char_literal217=(Token)match(input,117,FOLLOW_117_in_reply3271);  
             stream_117.add(char_literal217);
 
-            p=(Token)match(input,ID,FOLLOW_ID_in_reply3144);  
+            p=(Token)match(input,ID,FOLLOW_ID_in_reply3275);  
             stream_ID.add(p);
 
-            char_literal218=(Token)match(input,113,FOLLOW_113_in_reply3146);  
+            char_literal218=(Token)match(input,113,FOLLOW_113_in_reply3277);  
             stream_113.add(char_literal218);
 
-            o=(Token)match(input,ID,FOLLOW_ID_in_reply3150);  
+            o=(Token)match(input,ID,FOLLOW_ID_in_reply3281);  
             stream_ID.add(o);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:29: ( ',' in= ID )?
-            int alt89=2;
-            int LA89_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:29: ( ',' in= ID )?
+            int alt95=2;
+            int LA95_0 = input.LA(1);
 
-            if ( (LA89_0==113) ) {
-                int LA89_1 = input.LA(2);
+            if ( (LA95_0==113) ) {
+                int LA95_1 = input.LA(2);
 
-                if ( (LA89_1==ID) ) {
-                    alt89=1;
+                if ( (LA95_1==ID) ) {
+                    alt95=1;
                 }
             }
-            switch (alt89) {
+            switch (alt95) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:30: ',' in= ID
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:30: ',' in= ID
                     {
-                    char_literal219=(Token)match(input,113,FOLLOW_113_in_reply3153);  
+                    char_literal219=(Token)match(input,113,FOLLOW_113_in_reply3284);  
                     stream_113.add(char_literal219);
 
-                    in=(Token)match(input,ID,FOLLOW_ID_in_reply3157);  
+                    in=(Token)match(input,ID,FOLLOW_ID_in_reply3288);  
                     stream_ID.add(in);
 
 
@@ -9216,21 +9589,21 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:42: ( ',' correlation )?
-            int alt90=2;
-            int LA90_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:42: ( ',' correlation )?
+            int alt96=2;
+            int LA96_0 = input.LA(1);
 
-            if ( (LA90_0==113) ) {
-                alt90=1;
+            if ( (LA96_0==113) ) {
+                alt96=1;
             }
-            switch (alt90) {
+            switch (alt96) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:43: ',' correlation
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:43: ',' correlation
                     {
-                    char_literal220=(Token)match(input,113,FOLLOW_113_in_reply3162);  
+                    char_literal220=(Token)match(input,113,FOLLOW_113_in_reply3293);  
                     stream_113.add(char_literal220);
 
-                    pushFollow(FOLLOW_correlation_in_reply3164);
+                    pushFollow(FOLLOW_correlation_in_reply3295);
                     correlation221=correlation();
 
                     state._fsp--;
@@ -9242,21 +9615,21 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal222=(Token)match(input,118,FOLLOW_118_in_reply3168);  
+            char_literal222=(Token)match(input,118,FOLLOW_118_in_reply3299);  
             stream_118.add(char_literal222);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:66: ( with_ex )?
-            int alt91=2;
-            int LA91_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:66: ( with_ex )?
+            int alt97=2;
+            int LA97_0 = input.LA(1);
 
-            if ( (LA91_0==147) ) {
-                alt91=1;
+            if ( (LA97_0==147) ) {
+                alt97=1;
             }
-            switch (alt91) {
+            switch (alt97) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:285:66: with_ex
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:66: with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_reply3171);
+                    pushFollow(FOLLOW_with_ex_in_reply3302);
                     with_ex223=with_ex();
 
                     state._fsp--;
@@ -9271,68 +9644,69 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: ID, ID, ID, with_ex, msgEx, portType, SJF, name, correlation, faultName
+            // elements: ID, ID, faultName, name, portType, SJF, correlation, ID, with_ex, msgEx
             // token labels: name
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 286:2: -> ^( REPLY ID ID ( ID )? ( correlation )? ( portType )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( with_ex )? )
+            // 293:2: -> ^( REPLY ID ID ( ID )? ( correlation )? ( portType )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( with_ex )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:6: ^( REPLY ID ID ( ID )? ( correlation )? ( portType )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( with_ex )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:6: ^( REPLY ID ID ( ID )? ( correlation )? ( portType )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( with_ex )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(REPLY, "REPLY"), root_1);
 
                 adaptor.addChild(root_1, stream_ID.nextNode());
                 adaptor.addChild(root_1, stream_ID.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:20: ( ID )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:20: ( ID )?
                 if ( stream_ID.hasNext() ) {
                     adaptor.addChild(root_1, stream_ID.nextNode());
 
                 }
                 stream_ID.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:24: ( correlation )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:24: ( correlation )?
                 if ( stream_correlation.hasNext() ) {
                     adaptor.addChild(root_1, stream_correlation.nextTree());
 
                 }
                 stream_correlation.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:37: ( portType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:37: ( portType )?
                 if ( stream_portType.hasNext() ) {
                     adaptor.addChild(root_1, stream_portType.nextTree());
 
                 }
                 stream_portType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:47: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:47: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:54: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:54: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
                 }
                 stream_SJF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:59: ( faultName )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:59: ( faultName )?
                 if ( stream_faultName.hasNext() ) {
                     adaptor.addChild(root_1, stream_faultName.nextTree());
 
                 }
                 stream_faultName.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:70: ( msgEx )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:70: ( msgEx )?
                 if ( stream_msgEx.hasNext() ) {
                     adaptor.addChild(root_1, stream_msgEx.nextTree());
 
                 }
                 stream_msgEx.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:286:77: ( with_ex )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:77: ( with_ex )?
                 if ( stream_with_ex.hasNext() ) {
                     adaptor.addChild(root_1, stream_with_ex.nextTree());
 
@@ -9344,7 +9718,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -9368,7 +9742,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "invoke"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:289:1: invoke : ({...}?pt= portType | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'invoke' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? ( compensation )? -> ^( INVOKE $p $o ( $in)? ( correlation )? ( portType )? ( $name)? ( SJF )? ( with_ex )? ( compensation )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:296:1: invoke : ({...}?pt= portType | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'invoke' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? ( compensation )? -> ^( INVOKE $p $o ( $in)? ( correlation )? ( portType )? ( $name)? ( SJF )? ( with_ex )? ( compensation )? ) ;
     public final BPELscriptParser.invoke_return invoke() throws RecognitionException {
         BPELscriptParser.invoke_return retval = new BPELscriptParser.invoke_return();
         retval.start = input.LT(1);
@@ -9421,41 +9795,41 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_with_ex=new RewriteRuleSubtreeStream(adaptor,"rule with_ex");
         RewriteRuleSubtreeStream stream_correlation=new RewriteRuleSubtreeStream(adaptor,"rule correlation");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:290:2: ( ({...}?pt= portType | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'invoke' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? ( compensation )? -> ^( INVOKE $p $o ( $in)? ( correlation )? ( portType )? ( $name)? ( SJF )? ( with_ex )? ( compensation )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:290:4: ({...}?pt= portType | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'invoke' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? ( compensation )?
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:2: ( ({...}?pt= portType | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'invoke' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? ( compensation )? -> ^( INVOKE $p $o ( $in)? ( correlation )? ( portType )? ( $name)? ( SJF )? ( with_ex )? ( compensation )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:4: ({...}?pt= portType | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'invoke' '(' p= ID ',' o= ID ( ',' in= ID )? ( ',' correlation )? ')' ( with_ex )? ( compensation )?
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:290:4: ({...}?pt= portType | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop92:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:4: ({...}?pt= portType | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop98:
             do {
-                int alt92=4;
+                int alt98=4;
                 switch ( input.LA(1) ) {
                 case 181:
                 case 182:
                     {
-                    alt92=1;
+                    alt98=1;
                     }
                     break;
                 case 114:
                     {
-                    alt92=2;
+                    alt98=2;
                     }
                     break;
                 case SJF:
                     {
-                    alt92=3;
+                    alt98=3;
                     }
                     break;
 
                 }
 
-                switch (alt92) {
+                switch (alt98) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:290:6: {...}?pt= portType
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:6: {...}?pt= portType
             	    {
-            	    if ( !(pt==null) ) {
+            	    if ( !((pt==null)) ) {
             	        throw new FailedPredicateException(input, "invoke", "pt==null");
             	    }
-            	    pushFollow(FOLLOW_portType_in_invoke3231);
+            	    pushFollow(FOLLOW_portType_in_invoke3362);
             	    pt=portType();
 
             	    state._fsp--;
@@ -9465,18 +9839,18 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:291:12: {...}? ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:298:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "invoke", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:291:26: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:291:27: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:298:26: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:298:27: '@name' name= STRING
             	    {
-            	    string_literal224=(Token)match(input,114,FOLLOW_114_in_invoke3256);  
+            	    string_literal224=(Token)match(input,114,FOLLOW_114_in_invoke3387);  
             	    stream_114.add(string_literal224);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_invoke3260);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_invoke3391);  
             	    stream_STRING.add(name);
 
 
@@ -9486,12 +9860,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:291:50: {...}?suppressJoinFailure= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:298:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "invoke", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_invoke3269);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_invoke3400);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -9499,44 +9873,44 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop92;
+            	    break loop98;
                 }
             } while (true);
 
-            string_literal225=(Token)match(input,151,FOLLOW_151_in_invoke3276);  
+            string_literal225=(Token)match(input,151,FOLLOW_151_in_invoke3407);  
             stream_151.add(string_literal225);
 
-            char_literal226=(Token)match(input,117,FOLLOW_117_in_invoke3278);  
+            char_literal226=(Token)match(input,117,FOLLOW_117_in_invoke3409);  
             stream_117.add(char_literal226);
 
-            p=(Token)match(input,ID,FOLLOW_ID_in_invoke3282);  
+            p=(Token)match(input,ID,FOLLOW_ID_in_invoke3413);  
             stream_ID.add(p);
 
-            char_literal227=(Token)match(input,113,FOLLOW_113_in_invoke3284);  
+            char_literal227=(Token)match(input,113,FOLLOW_113_in_invoke3415);  
             stream_113.add(char_literal227);
 
-            o=(Token)match(input,ID,FOLLOW_ID_in_invoke3288);  
+            o=(Token)match(input,ID,FOLLOW_ID_in_invoke3419);  
             stream_ID.add(o);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:30: ( ',' in= ID )?
-            int alt93=2;
-            int LA93_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:299:30: ( ',' in= ID )?
+            int alt99=2;
+            int LA99_0 = input.LA(1);
 
-            if ( (LA93_0==113) ) {
-                int LA93_1 = input.LA(2);
+            if ( (LA99_0==113) ) {
+                int LA99_1 = input.LA(2);
 
-                if ( (LA93_1==ID) ) {
-                    alt93=1;
+                if ( (LA99_1==ID) ) {
+                    alt99=1;
                 }
             }
-            switch (alt93) {
+            switch (alt99) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:31: ',' in= ID
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:299:31: ',' in= ID
                     {
-                    char_literal228=(Token)match(input,113,FOLLOW_113_in_invoke3291);  
+                    char_literal228=(Token)match(input,113,FOLLOW_113_in_invoke3422);  
                     stream_113.add(char_literal228);
 
-                    in=(Token)match(input,ID,FOLLOW_ID_in_invoke3295);  
+                    in=(Token)match(input,ID,FOLLOW_ID_in_invoke3426);  
                     stream_ID.add(in);
 
 
@@ -9545,21 +9919,21 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:43: ( ',' correlation )?
-            int alt94=2;
-            int LA94_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:299:43: ( ',' correlation )?
+            int alt100=2;
+            int LA100_0 = input.LA(1);
 
-            if ( (LA94_0==113) ) {
-                alt94=1;
+            if ( (LA100_0==113) ) {
+                alt100=1;
             }
-            switch (alt94) {
+            switch (alt100) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:44: ',' correlation
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:299:44: ',' correlation
                     {
-                    char_literal229=(Token)match(input,113,FOLLOW_113_in_invoke3300);  
+                    char_literal229=(Token)match(input,113,FOLLOW_113_in_invoke3431);  
                     stream_113.add(char_literal229);
 
-                    pushFollow(FOLLOW_correlation_in_invoke3302);
+                    pushFollow(FOLLOW_correlation_in_invoke3433);
                     correlation230=correlation();
 
                     state._fsp--;
@@ -9571,21 +9945,21 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal231=(Token)match(input,118,FOLLOW_118_in_invoke3306);  
+            char_literal231=(Token)match(input,118,FOLLOW_118_in_invoke3437);  
             stream_118.add(char_literal231);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:66: ( with_ex )?
-            int alt95=2;
-            int LA95_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:299:66: ( with_ex )?
+            int alt101=2;
+            int LA101_0 = input.LA(1);
 
-            if ( (LA95_0==147) ) {
-                alt95=1;
+            if ( (LA101_0==147) ) {
+                alt101=1;
             }
-            switch (alt95) {
+            switch (alt101) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:66: with_ex
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:299:66: with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_invoke3308);
+                    pushFollow(FOLLOW_with_ex_in_invoke3439);
                     with_ex232=with_ex();
 
                     state._fsp--;
@@ -9597,18 +9971,18 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:75: ( compensation )?
-            int alt96=2;
-            int LA96_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:299:75: ( compensation )?
+            int alt102=2;
+            int LA102_0 = input.LA(1);
 
-            if ( (LA96_0==146) ) {
-                alt96=1;
+            if ( (LA102_0==146) ) {
+                alt102=1;
             }
-            switch (alt96) {
+            switch (alt102) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:292:75: compensation
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:299:75: compensation
                     {
-                    pushFollow(FOLLOW_compensation_in_invoke3311);
+                    pushFollow(FOLLOW_compensation_in_invoke3442);
                     compensation233=compensation();
 
                     state._fsp--;
@@ -9623,65 +9997,66 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: compensation, correlation, o, SJF, name, portType, in, p, with_ex
+            // elements: o, in, name, compensation, portType, SJF, with_ex, correlation, p
             // token labels: p, name, o, in
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_p=new RewriteRuleTokenStream(adaptor,"token p",p);
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
             RewriteRuleTokenStream stream_o=new RewriteRuleTokenStream(adaptor,"token o",o);
             RewriteRuleTokenStream stream_in=new RewriteRuleTokenStream(adaptor,"token in",in);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 293:2: -> ^( INVOKE $p $o ( $in)? ( correlation )? ( portType )? ( $name)? ( SJF )? ( with_ex )? ( compensation )? )
+            // 300:2: -> ^( INVOKE $p $o ( $in)? ( correlation )? ( portType )? ( $name)? ( SJF )? ( with_ex )? ( compensation )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:6: ^( INVOKE $p $o ( $in)? ( correlation )? ( portType )? ( $name)? ( SJF )? ( with_ex )? ( compensation )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:6: ^( INVOKE $p $o ( $in)? ( correlation )? ( portType )? ( $name)? ( SJF )? ( with_ex )? ( compensation )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(INVOKE, "INVOKE"), root_1);
 
                 adaptor.addChild(root_1, stream_p.nextNode());
                 adaptor.addChild(root_1, stream_o.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:21: ( $in)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:21: ( $in)?
                 if ( stream_in.hasNext() ) {
                     adaptor.addChild(root_1, stream_in.nextNode());
 
                 }
                 stream_in.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:26: ( correlation )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:26: ( correlation )?
                 if ( stream_correlation.hasNext() ) {
                     adaptor.addChild(root_1, stream_correlation.nextTree());
 
                 }
                 stream_correlation.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:39: ( portType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:39: ( portType )?
                 if ( stream_portType.hasNext() ) {
                     adaptor.addChild(root_1, stream_portType.nextTree());
 
                 }
                 stream_portType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:49: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:49: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:56: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:56: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
                 }
                 stream_SJF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:61: ( with_ex )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:61: ( with_ex )?
                 if ( stream_with_ex.hasNext() ) {
                     adaptor.addChild(root_1, stream_with_ex.nextTree());
 
                 }
                 stream_with_ex.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:293:70: ( compensation )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:70: ( compensation )?
                 if ( stream_compensation.hasNext() ) {
                     adaptor.addChild(root_1, stream_compensation.nextTree());
 
@@ -9693,7 +10068,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -9717,7 +10092,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "assign"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:296:1: assign : ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* (lhs_opaque= OPAQUE_EXPR | path_expr ( PROP )? ) '=' rvalue -> ^( ASSIGN ( path_expr )? ( PROP )? ( $lhs_opaque)? ( portType )? ( CREATE_INST )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? ( rvalue )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:303:1: assign : ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* (lhs_opaque= OPAQUE_EXPR | path_expr ( PROP )? ) '=' rvalue -> ^( ASSIGN ( path_expr )? ( PROP )? ( $lhs_opaque)? ( portType )? ( CREATE_INST )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? ( rvalue )? ) ;
     public final BPELscriptParser.assign_return assign() throws RecognitionException {
         BPELscriptParser.assign_return retval = new BPELscriptParser.assign_return();
         retval.start = input.LT(1);
@@ -9771,22 +10146,22 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_rvalue=new RewriteRuleSubtreeStream(adaptor,"rule rvalue");
         RewriteRuleSubtreeStream stream_path_expr=new RewriteRuleSubtreeStream(adaptor,"rule path_expr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:2: ( ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* (lhs_opaque= OPAQUE_EXPR | path_expr ( PROP )? ) '=' rvalue -> ^( ASSIGN ( path_expr )? ( PROP )? ( $lhs_opaque)? ( portType )? ( CREATE_INST )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? ( rvalue )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:4: ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* (lhs_opaque= OPAQUE_EXPR | path_expr ( PROP )? ) '=' rvalue
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:304:2: ( ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* (lhs_opaque= OPAQUE_EXPR | path_expr ( PROP )? ) '=' rvalue -> ^( ASSIGN ( path_expr )? ( PROP )? ( $lhs_opaque)? ( portType )? ( CREATE_INST )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? ( rvalue )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:304:4: ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* (lhs_opaque= OPAQUE_EXPR | path_expr ( PROP )? ) '=' rvalue
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:4: ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop97:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:304:4: ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop103:
             do {
-                int alt97=10;
-                alt97 = dfa97.predict(input);
-                switch (alt97) {
+                int alt103=10;
+                alt103 = dfa103.predict(input);
+                switch (alt103) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:6: {...}?pt= portType
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:304:6: {...}?pt= portType
             	    {
-            	    if ( !(pt==null) ) {
+            	    if ( !((pt==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "pt==null");
             	    }
-            	    pushFollow(FOLLOW_portType_in_assign3372);
+            	    pushFollow(FOLLOW_portType_in_assign3503);
             	    pt=portType();
 
             	    state._fsp--;
@@ -9796,60 +10171,60 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:32: {...}?ci= CREATE_INST
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:304:32: {...}?ci= CREATE_INST
             	    {
-            	    if ( !(ci==null) ) {
+            	    if ( !((ci==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "ci==null");
             	    }
-            	    ci=(Token)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_assign3380);  
+            	    ci=(Token)match(input,CREATE_INST,FOLLOW_CREATE_INST_in_assign3511);  
             	    stream_CREATE_INST.add(ci);
 
 
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:61: {...}?val= VALID
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:304:61: {...}?val= VALID
             	    {
-            	    if ( !(val==null) ) {
+            	    if ( !((val==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "val==null");
             	    }
-            	    val=(Token)match(input,VALID,FOLLOW_VALID_in_assign3388);  
+            	    val=(Token)match(input,VALID,FOLLOW_VALID_in_assign3519);  
             	    stream_VALID.add(val);
 
 
             	    }
             	    break;
             	case 4 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:297:86: {...}?ke= KEEPSRC
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:304:86: {...}?ke= KEEPSRC
             	    {
-            	    if ( !(ke==null) ) {
+            	    if ( !((ke==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "ke==null");
             	    }
-            	    ke=(Token)match(input,KEEPSRC,FOLLOW_KEEPSRC_in_assign3396);  
+            	    ke=(Token)match(input,KEEPSRC,FOLLOW_KEEPSRC_in_assign3527);  
             	    stream_KEEPSRC.add(ke);
 
 
             	    }
             	    break;
             	case 5 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:298:6: {...}?ig= IGNORE
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:305:6: {...}?ig= IGNORE
             	    {
-            	    if ( !(ig==null) ) {
+            	    if ( !((ig==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "ig==null");
             	    }
-            	    ig=(Token)match(input,IGNORE,FOLLOW_IGNORE_in_assign3408);  
+            	    ig=(Token)match(input,IGNORE,FOLLOW_IGNORE_in_assign3539);  
             	    stream_IGNORE.add(ig);
 
 
             	    }
             	    break;
             	case 6 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:298:30: {...}?fn= faultName
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:305:30: {...}?fn= faultName
             	    {
-            	    if ( !(fn==null) ) {
+            	    if ( !((fn==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "fn==null");
             	    }
-            	    pushFollow(FOLLOW_faultName_in_assign3416);
+            	    pushFollow(FOLLOW_faultName_in_assign3547);
             	    fn=faultName();
 
             	    state._fsp--;
@@ -9859,12 +10234,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 7 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:298:57: {...}?msg= msgEx
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:305:57: {...}?msg= msgEx
             	    {
-            	    if ( !(msg==null) ) {
+            	    if ( !((msg==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "msg==null");
             	    }
-            	    pushFollow(FOLLOW_msgEx_in_assign3424);
+            	    pushFollow(FOLLOW_msgEx_in_assign3555);
             	    msg=msgEx();
 
             	    state._fsp--;
@@ -9874,18 +10249,18 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 8 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:12: {...}? ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:307:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:26: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:27: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:307:26: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:307:27: '@name' name= STRING
             	    {
-            	    string_literal234=(Token)match(input,114,FOLLOW_114_in_assign3452);  
+            	    string_literal234=(Token)match(input,114,FOLLOW_114_in_assign3583);  
             	    stream_114.add(string_literal234);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_assign3456);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_assign3587);  
             	    stream_STRING.add(name);
 
 
@@ -9895,12 +10270,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 9 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:300:50: {...}?suppressJoinFailure= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:307:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "assign", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_assign3465);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_assign3596);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -9908,57 +10283,57 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop97;
+            	    break loop103;
                 }
             } while (true);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:301:3: (lhs_opaque= OPAQUE_EXPR | path_expr ( PROP )? )
-            int alt99=2;
-            int LA99_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:308:3: (lhs_opaque= OPAQUE_EXPR | path_expr ( PROP )? )
+            int alt105=2;
+            int LA105_0 = input.LA(1);
 
-            if ( (LA99_0==OPAQUE_EXPR) ) {
-                alt99=1;
+            if ( (LA105_0==OPAQUE_EXPR) ) {
+                alt105=1;
             }
-            else if ( (LA99_0==ID) ) {
-                alt99=2;
+            else if ( (LA105_0==ID) ) {
+                alt105=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 99, 0, input);
+                    new NoViableAltException("", 105, 0, input);
 
                 throw nvae;
             }
-            switch (alt99) {
+            switch (alt105) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:301:4: lhs_opaque= OPAQUE_EXPR
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:308:4: lhs_opaque= OPAQUE_EXPR
                     {
-                    lhs_opaque=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_assign3475);  
+                    lhs_opaque=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_assign3606);  
                     stream_OPAQUE_EXPR.add(lhs_opaque);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:301:29: path_expr ( PROP )?
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:308:29: path_expr ( PROP )?
                     {
-                    pushFollow(FOLLOW_path_expr_in_assign3479);
+                    pushFollow(FOLLOW_path_expr_in_assign3610);
                     path_expr235=path_expr();
 
                     state._fsp--;
 
                     stream_path_expr.add(path_expr235.getTree());
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:301:39: ( PROP )?
-                    int alt98=2;
-                    int LA98_0 = input.LA(1);
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:308:39: ( PROP )?
+                    int alt104=2;
+                    int LA104_0 = input.LA(1);
 
-                    if ( (LA98_0==PROP) ) {
-                        alt98=1;
+                    if ( (LA104_0==PROP) ) {
+                        alt104=1;
                     }
-                    switch (alt98) {
+                    switch (alt104) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:301:39: PROP
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:308:39: PROP
                             {
-                            PROP236=(Token)match(input,PROP,FOLLOW_PROP_in_assign3481);  
+                            PROP236=(Token)match(input,PROP,FOLLOW_PROP_in_assign3612);  
                             stream_PROP.add(PROP236);
 
 
@@ -9973,10 +10348,10 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal237=(Token)match(input,135,FOLLOW_135_in_assign3485);  
+            char_literal237=(Token)match(input,135,FOLLOW_135_in_assign3616);  
             stream_135.add(char_literal237);
 
-            pushFollow(FOLLOW_rvalue_in_assign3487);
+            pushFollow(FOLLOW_rvalue_in_assign3618);
             rvalue238=rvalue();
 
             state._fsp--;
@@ -9985,97 +10360,98 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: KEEPSRC, IGNORE, portType, path_expr, faultName, rvalue, name, PROP, lhs_opaque, CREATE_INST, msgEx, VALID, SJF
+            // elements: SJF, CREATE_INST, IGNORE, path_expr, lhs_opaque, PROP, msgEx, VALID, KEEPSRC, rvalue, name, portType, faultName
             // token labels: name, lhs_opaque
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
             RewriteRuleTokenStream stream_lhs_opaque=new RewriteRuleTokenStream(adaptor,"token lhs_opaque",lhs_opaque);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 302:2: -> ^( ASSIGN ( path_expr )? ( PROP )? ( $lhs_opaque)? ( portType )? ( CREATE_INST )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? ( rvalue )? )
+            // 309:2: -> ^( ASSIGN ( path_expr )? ( PROP )? ( $lhs_opaque)? ( portType )? ( CREATE_INST )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? ( rvalue )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:6: ^( ASSIGN ( path_expr )? ( PROP )? ( $lhs_opaque)? ( portType )? ( CREATE_INST )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? ( rvalue )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:6: ^( ASSIGN ( path_expr )? ( PROP )? ( $lhs_opaque)? ( portType )? ( CREATE_INST )? ( $name)? ( SJF )? ( faultName )? ( msgEx )? ( VALID )? ( KEEPSRC )? ( IGNORE )? ( rvalue )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ASSIGN, "ASSIGN"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:15: ( path_expr )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:15: ( path_expr )?
                 if ( stream_path_expr.hasNext() ) {
                     adaptor.addChild(root_1, stream_path_expr.nextTree());
 
                 }
                 stream_path_expr.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:26: ( PROP )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:26: ( PROP )?
                 if ( stream_PROP.hasNext() ) {
                     adaptor.addChild(root_1, stream_PROP.nextNode());
 
                 }
                 stream_PROP.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:32: ( $lhs_opaque)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:32: ( $lhs_opaque)?
                 if ( stream_lhs_opaque.hasNext() ) {
                     adaptor.addChild(root_1, stream_lhs_opaque.nextNode());
 
                 }
                 stream_lhs_opaque.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:45: ( portType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:45: ( portType )?
                 if ( stream_portType.hasNext() ) {
                     adaptor.addChild(root_1, stream_portType.nextTree());
 
                 }
                 stream_portType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:55: ( CREATE_INST )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:55: ( CREATE_INST )?
                 if ( stream_CREATE_INST.hasNext() ) {
                     adaptor.addChild(root_1, stream_CREATE_INST.nextNode());
 
                 }
                 stream_CREATE_INST.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:68: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:68: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:75: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:75: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
                 }
                 stream_SJF.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:80: ( faultName )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:80: ( faultName )?
                 if ( stream_faultName.hasNext() ) {
                     adaptor.addChild(root_1, stream_faultName.nextTree());
 
                 }
                 stream_faultName.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:91: ( msgEx )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:91: ( msgEx )?
                 if ( stream_msgEx.hasNext() ) {
                     adaptor.addChild(root_1, stream_msgEx.nextTree());
 
                 }
                 stream_msgEx.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:98: ( VALID )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:98: ( VALID )?
                 if ( stream_VALID.hasNext() ) {
                     adaptor.addChild(root_1, stream_VALID.nextNode());
 
                 }
                 stream_VALID.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:105: ( KEEPSRC )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:105: ( KEEPSRC )?
                 if ( stream_KEEPSRC.hasNext() ) {
                     adaptor.addChild(root_1, stream_KEEPSRC.nextNode());
 
                 }
                 stream_KEEPSRC.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:114: ( IGNORE )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:114: ( IGNORE )?
                 if ( stream_IGNORE.hasNext() ) {
                     adaptor.addChild(root_1, stream_IGNORE.nextNode());
 
                 }
                 stream_IGNORE.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:302:122: ( rvalue )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:122: ( rvalue )?
                 if ( stream_rvalue.hasNext() ) {
                     adaptor.addChild(root_1, stream_rvalue.nextTree());
 
@@ -10087,7 +10463,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -10111,7 +10487,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "rvalue"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:305:1: rvalue : ( receive | invoke | expr ( PROP )? | OPAQUE_EXPR );
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:312:1: rvalue : ( receive | invoke | expr ( PROP )? | OPAQUE_EXPR );
     public final BPELscriptParser.rvalue_return rvalue() throws RecognitionException {
         BPELscriptParser.rvalue_return retval = new BPELscriptParser.rvalue_return();
         retval.start = input.LT(1);
@@ -10131,16 +10507,16 @@ public class BPELscriptParser extends Parser {
         CommonTree OPAQUE_EXPR243_tree=null;
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:306:2: ( receive | invoke | expr ( PROP )? | OPAQUE_EXPR )
-            int alt101=4;
-            alt101 = dfa101.predict(input);
-            switch (alt101) {
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:2: ( receive | invoke | expr ( PROP )? | OPAQUE_EXPR )
+            int alt107=4;
+            alt107 = dfa107.predict(input);
+            switch (alt107) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:306:4: receive
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:4: receive
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_receive_in_rvalue3552);
+                    pushFollow(FOLLOW_receive_in_rvalue3683);
                     receive239=receive();
 
                     state._fsp--;
@@ -10150,11 +10526,11 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:307:4: invoke
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:314:4: invoke
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_invoke_in_rvalue3557);
+                    pushFollow(FOLLOW_invoke_in_rvalue3688);
                     invoke240=invoke();
 
                     state._fsp--;
@@ -10164,28 +10540,28 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:308:4: expr ( PROP )?
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:315:4: expr ( PROP )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_expr_in_rvalue3562);
+                    pushFollow(FOLLOW_expr_in_rvalue3693);
                     expr241=expr();
 
                     state._fsp--;
 
                     adaptor.addChild(root_0, expr241.getTree());
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:308:9: ( PROP )?
-                    int alt100=2;
-                    int LA100_0 = input.LA(1);
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:315:9: ( PROP )?
+                    int alt106=2;
+                    int LA106_0 = input.LA(1);
 
-                    if ( (LA100_0==PROP) ) {
-                        alt100=1;
+                    if ( (LA106_0==PROP) ) {
+                        alt106=1;
                     }
-                    switch (alt100) {
+                    switch (alt106) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:308:9: PROP
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:315:9: PROP
                             {
-                            PROP242=(Token)match(input,PROP,FOLLOW_PROP_in_rvalue3564); 
+                            PROP242=(Token)match(input,PROP,FOLLOW_PROP_in_rvalue3695); 
                             PROP242_tree = (CommonTree)adaptor.create(PROP242);
                             adaptor.addChild(root_0, PROP242_tree);
 
@@ -10199,11 +10575,11 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:309:4: OPAQUE_EXPR
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:316:4: OPAQUE_EXPR
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    OPAQUE_EXPR243=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_rvalue3570); 
+                    OPAQUE_EXPR243=(Token)match(input,OPAQUE_EXPR,FOLLOW_OPAQUE_EXPR_in_rvalue3701); 
                     OPAQUE_EXPR243_tree = (CommonTree)adaptor.create(OPAQUE_EXPR243);
                     adaptor.addChild(root_0, OPAQUE_EXPR243_tree);
 
@@ -10236,7 +10612,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "throw_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:312:1: throw_ex : ({...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID ) | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'throw' '(' ns_id ')' -> ^( THROW ns_id ( $faultVar)? ( $name)? ( SJF )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:319:1: throw_ex : ({...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID ) | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'throw' '(' ns_id ')' -> ^( THROW ns_id ( $faultVar)? ( $name)? ( SJF )? ) ;
     public final BPELscriptParser.throw_ex_return throw_ex() throws RecognitionException {
         BPELscriptParser.throw_ex_return retval = new BPELscriptParser.throw_ex_return();
         retval.start = input.LT(1);
@@ -10277,73 +10653,73 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_154=new RewriteRuleTokenStream(adaptor,"token 154");
         RewriteRuleSubtreeStream stream_ns_id=new RewriteRuleSubtreeStream(adaptor,"rule ns_id");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:2: ( ({...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID ) | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'throw' '(' ns_id ')' -> ^( THROW ns_id ( $faultVar)? ( $name)? ( SJF )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:4: ({...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID ) | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'throw' '(' ns_id ')'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:2: ( ({...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID ) | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'throw' '(' ns_id ')' -> ^( THROW ns_id ( $faultVar)? ( $name)? ( SJF )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:4: ({...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID ) | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* 'throw' '(' ns_id ')'
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:4: ({...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID ) | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop103:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:4: ({...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID ) | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop109:
             do {
-                int alt103=4;
+                int alt109=4;
                 switch ( input.LA(1) ) {
                 case 152:
                 case 153:
                     {
-                    alt103=1;
+                    alt109=1;
                     }
                     break;
                 case 114:
                     {
-                    alt103=2;
+                    alt109=2;
                     }
                     break;
                 case SJF:
                     {
-                    alt103=3;
+                    alt109=3;
                     }
                     break;
 
                 }
 
-                switch (alt103) {
+                switch (alt109) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:6: {...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:6: {...}?f= ( ( '@faultVariable' | '@faultVar' ) faultVar= ID )
             	    {
-            	    if ( !(f==null) ) {
+            	    if ( !((f==null)) ) {
             	        throw new FailedPredicateException(input, "throw_ex", "f==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:19: ( ( '@faultVariable' | '@faultVar' ) faultVar= ID )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:20: ( '@faultVariable' | '@faultVar' ) faultVar= ID
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:19: ( ( '@faultVariable' | '@faultVar' ) faultVar= ID )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:20: ( '@faultVariable' | '@faultVar' ) faultVar= ID
             	    {
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:20: ( '@faultVariable' | '@faultVar' )
-            	    int alt102=2;
-            	    int LA102_0 = input.LA(1);
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:20: ( '@faultVariable' | '@faultVar' )
+            	    int alt108=2;
+            	    int LA108_0 = input.LA(1);
 
-            	    if ( (LA102_0==152) ) {
-            	        alt102=1;
+            	    if ( (LA108_0==152) ) {
+            	        alt108=1;
             	    }
-            	    else if ( (LA102_0==153) ) {
-            	        alt102=2;
+            	    else if ( (LA108_0==153) ) {
+            	        alt108=2;
             	    }
             	    else {
             	        NoViableAltException nvae =
-            	            new NoViableAltException("", 102, 0, input);
+            	            new NoViableAltException("", 108, 0, input);
 
             	        throw nvae;
             	    }
-            	    switch (alt102) {
+            	    switch (alt108) {
             	        case 1 :
-            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:21: '@faultVariable'
+            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:21: '@faultVariable'
             	            {
-            	            string_literal244=(Token)match(input,152,FOLLOW_152_in_throw_ex3590);  
+            	            string_literal244=(Token)match(input,152,FOLLOW_152_in_throw_ex3721);  
             	            stream_152.add(string_literal244);
 
 
             	            }
             	            break;
             	        case 2 :
-            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:313:39: '@faultVar'
+            	            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:39: '@faultVar'
             	            {
-            	            string_literal245=(Token)match(input,153,FOLLOW_153_in_throw_ex3593);  
+            	            string_literal245=(Token)match(input,153,FOLLOW_153_in_throw_ex3724);  
             	            stream_153.add(string_literal245);
 
 
@@ -10352,7 +10728,7 @@ public class BPELscriptParser extends Parser {
 
             	    }
 
-            	    faultVar=(Token)match(input,ID,FOLLOW_ID_in_throw_ex3598);  
+            	    faultVar=(Token)match(input,ID,FOLLOW_ID_in_throw_ex3729);  
             	    stream_ID.add(faultVar);
 
 
@@ -10362,18 +10738,18 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:315:12: {...}? ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:322:12: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "throw_ex", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:315:26: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:315:27: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:322:26: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:322:27: '@name' name= STRING
             	    {
-            	    string_literal246=(Token)match(input,114,FOLLOW_114_in_throw_ex3618);  
+            	    string_literal246=(Token)match(input,114,FOLLOW_114_in_throw_ex3749);  
             	    stream_114.add(string_literal246);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_throw_ex3622);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_throw_ex3753);  
             	    stream_STRING.add(name);
 
 
@@ -10383,12 +10759,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:315:50: {...}?suppressJoinFailure= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:322:50: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "throw_ex", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_throw_ex3631);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_throw_ex3762);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -10396,60 +10772,61 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop103;
+            	    break loop109;
                 }
             } while (true);
 
-            string_literal247=(Token)match(input,154,FOLLOW_154_in_throw_ex3638);  
+            string_literal247=(Token)match(input,154,FOLLOW_154_in_throw_ex3769);  
             stream_154.add(string_literal247);
 
-            char_literal248=(Token)match(input,117,FOLLOW_117_in_throw_ex3640);  
+            char_literal248=(Token)match(input,117,FOLLOW_117_in_throw_ex3771);  
             stream_117.add(char_literal248);
 
-            pushFollow(FOLLOW_ns_id_in_throw_ex3642);
+            pushFollow(FOLLOW_ns_id_in_throw_ex3773);
             ns_id249=ns_id();
 
             state._fsp--;
 
             stream_ns_id.add(ns_id249.getTree());
-            char_literal250=(Token)match(input,118,FOLLOW_118_in_throw_ex3644);  
+            char_literal250=(Token)match(input,118,FOLLOW_118_in_throw_ex3775);  
             stream_118.add(char_literal250);
 
 
 
             // AST REWRITE
-            // elements: name, ns_id, SJF, faultVar
+            // elements: name, faultVar, SJF, ns_id
             // token labels: faultVar, name
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_faultVar=new RewriteRuleTokenStream(adaptor,"token faultVar",faultVar);
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 316:25: -> ^( THROW ns_id ( $faultVar)? ( $name)? ( SJF )? )
+            // 323:25: -> ^( THROW ns_id ( $faultVar)? ( $name)? ( SJF )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:316:28: ^( THROW ns_id ( $faultVar)? ( $name)? ( SJF )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:323:28: ^( THROW ns_id ( $faultVar)? ( $name)? ( SJF )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(THROW, "THROW"), root_1);
 
                 adaptor.addChild(root_1, stream_ns_id.nextTree());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:316:42: ( $faultVar)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:323:42: ( $faultVar)?
                 if ( stream_faultVar.hasNext() ) {
                     adaptor.addChild(root_1, stream_faultVar.nextNode());
 
                 }
                 stream_faultVar.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:316:53: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:323:53: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:316:60: ( SJF )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:323:60: ( SJF )?
                 if ( stream_SJF.hasNext() ) {
                     adaptor.addChild(root_1, stream_SJF.nextNode());
 
@@ -10461,7 +10838,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -10485,7 +10862,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "rethrow_ex"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:319:1: rethrow_ex : std_attr 'rethrow' -> ^( RETHROW std_attr ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:326:1: rethrow_ex : std_attr 'rethrow' -> ^( RETHROW std_attr ) ;
     public final BPELscriptParser.rethrow_ex_return rethrow_ex() throws RecognitionException {
         BPELscriptParser.rethrow_ex_return retval = new BPELscriptParser.rethrow_ex_return();
         retval.start = input.LT(1);
@@ -10500,16 +10877,16 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_155=new RewriteRuleTokenStream(adaptor,"token 155");
         RewriteRuleSubtreeStream stream_std_attr=new RewriteRuleSubtreeStream(adaptor,"rule std_attr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:2: ( std_attr 'rethrow' -> ^( RETHROW std_attr ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:320:4: std_attr 'rethrow'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:327:2: ( std_attr 'rethrow' -> ^( RETHROW std_attr ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:327:4: std_attr 'rethrow'
             {
-            pushFollow(FOLLOW_std_attr_in_rethrow_ex3681);
+            pushFollow(FOLLOW_std_attr_in_rethrow_ex3812);
             std_attr251=std_attr();
 
             state._fsp--;
 
             stream_std_attr.add(std_attr251.getTree());
-            string_literal252=(Token)match(input,155,FOLLOW_155_in_rethrow_ex3685);  
+            string_literal252=(Token)match(input,155,FOLLOW_155_in_rethrow_ex3816);  
             stream_155.add(string_literal252);
 
 
@@ -10520,13 +10897,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 321:13: -> ^( RETHROW std_attr )
+            // 328:13: -> ^( RETHROW std_attr )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:321:16: ^( RETHROW std_attr )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:328:16: ^( RETHROW std_attr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(RETHROW, "RETHROW"), root_1);
@@ -10538,7 +10916,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -10565,7 +10943,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "compensate"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:323:1: compensate : std_attr 'compensate' ( '(' target= ID ')' )? -> ^( COMPENSATE ( ID )? std_attr ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:330:1: compensate : std_attr 'compensate' ( '(' target= ID ')' )? -> ^( COMPENSATE ( ID )? std_attr ) ;
     public final BPELscriptParser.compensate_return compensate() throws RecognitionException {
         BPELscriptParser.compensate_return retval = new BPELscriptParser.compensate_return();
         retval.start = input.LT(1);
@@ -10589,36 +10967,36 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_118=new RewriteRuleTokenStream(adaptor,"token 118");
         RewriteRuleSubtreeStream stream_std_attr=new RewriteRuleSubtreeStream(adaptor,"rule std_attr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:324:2: ( std_attr 'compensate' ( '(' target= ID ')' )? -> ^( COMPENSATE ( ID )? std_attr ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:324:4: std_attr 'compensate' ( '(' target= ID ')' )?
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:331:2: ( std_attr 'compensate' ( '(' target= ID ')' )? -> ^( COMPENSATE ( ID )? std_attr ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:331:4: std_attr 'compensate' ( '(' target= ID ')' )?
             {
-            pushFollow(FOLLOW_std_attr_in_compensate3702);
+            pushFollow(FOLLOW_std_attr_in_compensate3833);
             std_attr253=std_attr();
 
             state._fsp--;
 
             stream_std_attr.add(std_attr253.getTree());
-            string_literal254=(Token)match(input,156,FOLLOW_156_in_compensate3706);  
+            string_literal254=(Token)match(input,156,FOLLOW_156_in_compensate3837);  
             stream_156.add(string_literal254);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:325:16: ( '(' target= ID ')' )?
-            int alt104=2;
-            int LA104_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:332:16: ( '(' target= ID ')' )?
+            int alt110=2;
+            int LA110_0 = input.LA(1);
 
-            if ( (LA104_0==117) ) {
-                alt104=1;
+            if ( (LA110_0==117) ) {
+                alt110=1;
             }
-            switch (alt104) {
+            switch (alt110) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:325:17: '(' target= ID ')'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:332:17: '(' target= ID ')'
                     {
-                    char_literal255=(Token)match(input,117,FOLLOW_117_in_compensate3709);  
+                    char_literal255=(Token)match(input,117,FOLLOW_117_in_compensate3840);  
                     stream_117.add(char_literal255);
 
-                    target=(Token)match(input,ID,FOLLOW_ID_in_compensate3713);  
+                    target=(Token)match(input,ID,FOLLOW_ID_in_compensate3844);  
                     stream_ID.add(target);
 
-                    char_literal256=(Token)match(input,118,FOLLOW_118_in_compensate3715);  
+                    char_literal256=(Token)match(input,118,FOLLOW_118_in_compensate3846);  
                     stream_118.add(char_literal256);
 
 
@@ -10635,18 +11013,19 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 326:2: -> ^( COMPENSATE ( ID )? std_attr )
+            // 333:2: -> ^( COMPENSATE ( ID )? std_attr )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:326:6: ^( COMPENSATE ( ID )? std_attr )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:333:6: ^( COMPENSATE ( ID )? std_attr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(COMPENSATE, "COMPENSATE"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:326:19: ( ID )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:333:19: ( ID )?
                 if ( stream_ID.hasNext() ) {
                     adaptor.addChild(root_1, stream_ID.nextNode());
 
@@ -10659,7 +11038,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -10686,7 +11065,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "exit"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:328:1: exit : std_attr 'exit' -> ^( EXIT std_attr ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:335:1: exit : std_attr 'exit' -> ^( EXIT std_attr ) ;
     public final BPELscriptParser.exit_return exit() throws RecognitionException {
         BPELscriptParser.exit_return retval = new BPELscriptParser.exit_return();
         retval.start = input.LT(1);
@@ -10701,16 +11080,16 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_157=new RewriteRuleTokenStream(adaptor,"token 157");
         RewriteRuleSubtreeStream stream_std_attr=new RewriteRuleSubtreeStream(adaptor,"rule std_attr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:328:7: ( std_attr 'exit' -> ^( EXIT std_attr ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:328:9: std_attr 'exit'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:335:7: ( std_attr 'exit' -> ^( EXIT std_attr ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:335:9: std_attr 'exit'
             {
-            pushFollow(FOLLOW_std_attr_in_exit3740);
+            pushFollow(FOLLOW_std_attr_in_exit3871);
             std_attr257=std_attr();
 
             state._fsp--;
 
             stream_std_attr.add(std_attr257.getTree());
-            string_literal258=(Token)match(input,157,FOLLOW_157_in_exit3745);  
+            string_literal258=(Token)match(input,157,FOLLOW_157_in_exit3876);  
             stream_157.add(string_literal258);
 
 
@@ -10721,13 +11100,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 329:11: -> ^( EXIT std_attr )
+            // 336:11: -> ^( EXIT std_attr )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:329:14: ^( EXIT std_attr )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:336:14: ^( EXIT std_attr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EXIT, "EXIT"), root_1);
@@ -10739,7 +11119,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -10766,7 +11146,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "validate"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:331:1: validate : std_attr 'validate' v+= ID ( ',' v+= ID )* -> ^( VALIDATE ( $v)+ std_attr ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:338:1: validate : std_attr 'validate' v+= ID ( ',' v+= ID )* -> ^( VALIDATE ( $v)+ std_attr ) ;
     public final BPELscriptParser.validate_return validate() throws RecognitionException {
         BPELscriptParser.validate_return retval = new BPELscriptParser.validate_return();
         retval.start = input.LT(1);
@@ -10788,43 +11168,43 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_158=new RewriteRuleTokenStream(adaptor,"token 158");
         RewriteRuleSubtreeStream stream_std_attr=new RewriteRuleSubtreeStream(adaptor,"rule std_attr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:331:10: ( std_attr 'validate' v+= ID ( ',' v+= ID )* -> ^( VALIDATE ( $v)+ std_attr ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:331:12: std_attr 'validate' v+= ID ( ',' v+= ID )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:338:10: ( std_attr 'validate' v+= ID ( ',' v+= ID )* -> ^( VALIDATE ( $v)+ std_attr ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:338:12: std_attr 'validate' v+= ID ( ',' v+= ID )*
             {
-            pushFollow(FOLLOW_std_attr_in_validate3762);
+            pushFollow(FOLLOW_std_attr_in_validate3893);
             std_attr259=std_attr();
 
             state._fsp--;
 
             stream_std_attr.add(std_attr259.getTree());
-            string_literal260=(Token)match(input,158,FOLLOW_158_in_validate3767);  
+            string_literal260=(Token)match(input,158,FOLLOW_158_in_validate3898);  
             stream_158.add(string_literal260);
 
-            v=(Token)match(input,ID,FOLLOW_ID_in_validate3771);  
+            v=(Token)match(input,ID,FOLLOW_ID_in_validate3902);  
             stream_ID.add(v);
 
             if (list_v==null) list_v=new ArrayList();
             list_v.add(v);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:332:21: ( ',' v+= ID )*
-            loop105:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:339:21: ( ',' v+= ID )*
+            loop111:
             do {
-                int alt105=2;
-                int LA105_0 = input.LA(1);
+                int alt111=2;
+                int LA111_0 = input.LA(1);
 
-                if ( (LA105_0==113) ) {
-                    alt105=1;
+                if ( (LA111_0==113) ) {
+                    alt111=1;
                 }
 
 
-                switch (alt105) {
+                switch (alt111) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:332:22: ',' v+= ID
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:339:22: ',' v+= ID
             	    {
-            	    char_literal261=(Token)match(input,113,FOLLOW_113_in_validate3774);  
+            	    char_literal261=(Token)match(input,113,FOLLOW_113_in_validate3905);  
             	    stream_113.add(char_literal261);
 
-            	    v=(Token)match(input,ID,FOLLOW_ID_in_validate3778);  
+            	    v=(Token)match(input,ID,FOLLOW_ID_in_validate3909);  
             	    stream_ID.add(v);
 
             	    if (list_v==null) list_v=new ArrayList();
@@ -10835,7 +11215,7 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop105;
+            	    break loop111;
                 }
             } while (true);
 
@@ -10847,14 +11227,15 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: v
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_v=new RewriteRuleTokenStream(adaptor,"token v", list_v);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 332:33: -> ^( VALIDATE ( $v)+ std_attr )
+            // 339:33: -> ^( VALIDATE ( $v)+ std_attr )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:332:36: ^( VALIDATE ( $v)+ std_attr )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:339:36: ^( VALIDATE ( $v)+ std_attr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VALIDATE, "VALIDATE"), root_1);
@@ -10874,7 +11255,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -10901,7 +11282,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "ext_act"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:334:1: ext_act : std_attr e= EXT_ACT -> ^( EXTENSIONACT $e std_attr ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:341:1: ext_act : std_attr e= EXT_ACT -> ^( EXTENSIONACT $e std_attr ) ;
     public final BPELscriptParser.ext_act_return ext_act() throws RecognitionException {
         BPELscriptParser.ext_act_return retval = new BPELscriptParser.ext_act_return();
         retval.start = input.LT(1);
@@ -10916,16 +11297,16 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_EXT_ACT=new RewriteRuleTokenStream(adaptor,"token EXT_ACT");
         RewriteRuleSubtreeStream stream_std_attr=new RewriteRuleSubtreeStream(adaptor,"rule std_attr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:334:11: ( std_attr e= EXT_ACT -> ^( EXTENSIONACT $e std_attr ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:334:13: std_attr e= EXT_ACT
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:341:11: ( std_attr e= EXT_ACT -> ^( EXTENSIONACT $e std_attr ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:341:13: std_attr e= EXT_ACT
             {
-            pushFollow(FOLLOW_std_attr_in_ext_act3802);
+            pushFollow(FOLLOW_std_attr_in_ext_act3933);
             std_attr262=std_attr();
 
             state._fsp--;
 
             stream_std_attr.add(std_attr262.getTree());
-            e=(Token)match(input,EXT_ACT,FOLLOW_EXT_ACT_in_ext_act3809);  
+            e=(Token)match(input,EXT_ACT,FOLLOW_EXT_ACT_in_ext_act3940);  
             stream_EXT_ACT.add(e);
 
 
@@ -10936,14 +11317,15 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_e=new RewriteRuleTokenStream(adaptor,"token e",e);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 335:14: -> ^( EXTENSIONACT $e std_attr )
+            // 342:14: -> ^( EXTENSIONACT $e std_attr )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:335:18: ^( EXTENSIONACT $e std_attr )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:342:18: ^( EXTENSIONACT $e std_attr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EXTENSIONACT, "EXTENSIONACT"), root_1);
@@ -10956,7 +11338,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -10983,7 +11365,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "nop"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:337:1: nop : std_attr 'nop' -> ^( NOP std_attr ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:344:1: nop : std_attr 'nop' -> ^( NOP std_attr ) ;
     public final BPELscriptParser.nop_return nop() throws RecognitionException {
         BPELscriptParser.nop_return retval = new BPELscriptParser.nop_return();
         retval.start = input.LT(1);
@@ -10998,16 +11380,16 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_159=new RewriteRuleTokenStream(adaptor,"token 159");
         RewriteRuleSubtreeStream stream_std_attr=new RewriteRuleSubtreeStream(adaptor,"rule std_attr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:337:6: ( std_attr 'nop' -> ^( NOP std_attr ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:337:8: std_attr 'nop'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:344:6: ( std_attr 'nop' -> ^( NOP std_attr ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:344:8: std_attr 'nop'
             {
-            pushFollow(FOLLOW_std_attr_in_nop3830);
+            pushFollow(FOLLOW_std_attr_in_nop3961);
             std_attr263=std_attr();
 
             state._fsp--;
 
             stream_std_attr.add(std_attr263.getTree());
-            string_literal264=(Token)match(input,159,FOLLOW_159_in_nop3835);  
+            string_literal264=(Token)match(input,159,FOLLOW_159_in_nop3966);  
             stream_159.add(string_literal264);
 
 
@@ -11018,13 +11400,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 338:10: -> ^( NOP std_attr )
+            // 345:10: -> ^( NOP std_attr )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:338:13: ^( NOP std_attr )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:345:13: ^( NOP std_attr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NOP, "NOP"), root_1);
@@ -11036,7 +11419,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -11063,7 +11446,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "opaque"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:340:1: opaque : std_attr 'opaque()' -> ^( OPAQUE std_attr ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:347:1: opaque : std_attr 'opaque()' -> ^( OPAQUE std_attr ) ;
     public final BPELscriptParser.opaque_return opaque() throws RecognitionException {
         BPELscriptParser.opaque_return retval = new BPELscriptParser.opaque_return();
         retval.start = input.LT(1);
@@ -11078,16 +11461,16 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_160=new RewriteRuleTokenStream(adaptor,"token 160");
         RewriteRuleSubtreeStream stream_std_attr=new RewriteRuleSubtreeStream(adaptor,"rule std_attr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:340:8: ( std_attr 'opaque()' -> ^( OPAQUE std_attr ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:340:10: std_attr 'opaque()'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:347:8: ( std_attr 'opaque()' -> ^( OPAQUE std_attr ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:347:10: std_attr 'opaque()'
             {
-            pushFollow(FOLLOW_std_attr_in_opaque3854);
+            pushFollow(FOLLOW_std_attr_in_opaque3985);
             std_attr265=std_attr();
 
             state._fsp--;
 
             stream_std_attr.add(std_attr265.getTree());
-            string_literal266=(Token)match(input,160,FOLLOW_160_in_opaque3859);  
+            string_literal266=(Token)match(input,160,FOLLOW_160_in_opaque3990);  
             stream_160.add(string_literal266);
 
 
@@ -11098,13 +11481,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 341:15: -> ^( OPAQUE std_attr )
+            // 348:15: -> ^( OPAQUE std_attr )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:341:18: ^( OPAQUE std_attr )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:348:18: ^( OPAQUE std_attr )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPAQUE, "OPAQUE"), root_1);
@@ -11116,7 +11500,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -11143,7 +11527,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "namespace"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:344:1: namespace : 'namespace' ID '=' STRING SEMI -> ^( NAMESPACE ID STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:351:1: namespace : 'namespace' ID '=' STRING SEMI -> ^( NAMESPACE ID STRING ) ;
     public final BPELscriptParser.namespace_return namespace() throws RecognitionException {
         BPELscriptParser.namespace_return retval = new BPELscriptParser.namespace_return();
         retval.start = input.LT(1);
@@ -11168,22 +11552,22 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:345:2: ( 'namespace' ID '=' STRING SEMI -> ^( NAMESPACE ID STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:345:4: 'namespace' ID '=' STRING SEMI
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:352:2: ( 'namespace' ID '=' STRING SEMI -> ^( NAMESPACE ID STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:352:4: 'namespace' ID '=' STRING SEMI
             {
-            string_literal267=(Token)match(input,161,FOLLOW_161_in_namespace3878);  
+            string_literal267=(Token)match(input,161,FOLLOW_161_in_namespace4009);  
             stream_161.add(string_literal267);
 
-            ID268=(Token)match(input,ID,FOLLOW_ID_in_namespace3880);  
+            ID268=(Token)match(input,ID,FOLLOW_ID_in_namespace4011);  
             stream_ID.add(ID268);
 
-            char_literal269=(Token)match(input,135,FOLLOW_135_in_namespace3882);  
+            char_literal269=(Token)match(input,135,FOLLOW_135_in_namespace4013);  
             stream_135.add(char_literal269);
 
-            STRING270=(Token)match(input,STRING,FOLLOW_STRING_in_namespace3884);  
+            STRING270=(Token)match(input,STRING,FOLLOW_STRING_in_namespace4015);  
             stream_STRING.add(STRING270);
 
-            SEMI271=(Token)match(input,SEMI,FOLLOW_SEMI_in_namespace3886);  
+            SEMI271=(Token)match(input,SEMI,FOLLOW_SEMI_in_namespace4017);  
             stream_SEMI.add(SEMI271);
 
 
@@ -11194,13 +11578,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 345:35: -> ^( NAMESPACE ID STRING )
+            // 352:35: -> ^( NAMESPACE ID STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:345:38: ^( NAMESPACE ID STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:352:38: ^( NAMESPACE ID STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NAMESPACE, "NAMESPACE"), root_1);
@@ -11213,7 +11598,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -11240,7 +11625,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "extension"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:347:1: extension : ( MUSTUND )? 'extension' ID '=' STRING SEMI -> ^( EXTENSION ID STRING ( MUSTUND )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:354:1: extension : ( MUSTUND )? 'extension' ID '=' STRING SEMI -> ^( EXTENSION ID STRING ( MUSTUND )? ) ;
     public final BPELscriptParser.extension_return extension() throws RecognitionException {
         BPELscriptParser.extension_return retval = new BPELscriptParser.extension_return();
         retval.start = input.LT(1);
@@ -11268,21 +11653,21 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:348:2: ( ( MUSTUND )? 'extension' ID '=' STRING SEMI -> ^( EXTENSION ID STRING ( MUSTUND )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:348:5: ( MUSTUND )? 'extension' ID '=' STRING SEMI
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:355:2: ( ( MUSTUND )? 'extension' ID '=' STRING SEMI -> ^( EXTENSION ID STRING ( MUSTUND )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:355:5: ( MUSTUND )? 'extension' ID '=' STRING SEMI
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:348:5: ( MUSTUND )?
-            int alt106=2;
-            int LA106_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:355:5: ( MUSTUND )?
+            int alt112=2;
+            int LA112_0 = input.LA(1);
 
-            if ( (LA106_0==MUSTUND) ) {
-                alt106=1;
+            if ( (LA112_0==MUSTUND) ) {
+                alt112=1;
             }
-            switch (alt106) {
+            switch (alt112) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:348:5: MUSTUND
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:355:5: MUSTUND
                     {
-                    MUSTUND272=(Token)match(input,MUSTUND,FOLLOW_MUSTUND_in_extension3907);  
+                    MUSTUND272=(Token)match(input,MUSTUND,FOLLOW_MUSTUND_in_extension4038);  
                     stream_MUSTUND.add(MUSTUND272);
 
 
@@ -11291,43 +11676,44 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            string_literal273=(Token)match(input,162,FOLLOW_162_in_extension3913);  
+            string_literal273=(Token)match(input,162,FOLLOW_162_in_extension4044);  
             stream_162.add(string_literal273);
 
-            ID274=(Token)match(input,ID,FOLLOW_ID_in_extension3915);  
+            ID274=(Token)match(input,ID,FOLLOW_ID_in_extension4046);  
             stream_ID.add(ID274);
 
-            char_literal275=(Token)match(input,135,FOLLOW_135_in_extension3917);  
+            char_literal275=(Token)match(input,135,FOLLOW_135_in_extension4048);  
             stream_135.add(char_literal275);
 
-            STRING276=(Token)match(input,STRING,FOLLOW_STRING_in_extension3919);  
+            STRING276=(Token)match(input,STRING,FOLLOW_STRING_in_extension4050);  
             stream_STRING.add(STRING276);
 
-            SEMI277=(Token)match(input,SEMI,FOLLOW_SEMI_in_extension3921);  
+            SEMI277=(Token)match(input,SEMI,FOLLOW_SEMI_in_extension4052);  
             stream_SEMI.add(SEMI277);
 
 
 
             // AST REWRITE
-            // elements: MUSTUND, ID, STRING
+            // elements: STRING, MUSTUND, ID
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 350:2: -> ^( EXTENSION ID STRING ( MUSTUND )? )
+            // 357:2: -> ^( EXTENSION ID STRING ( MUSTUND )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:350:6: ^( EXTENSION ID STRING ( MUSTUND )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:357:6: ^( EXTENSION ID STRING ( MUSTUND )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EXTENSION, "EXTENSION"), root_1);
 
                 adaptor.addChild(root_1, stream_ID.nextNode());
                 adaptor.addChild(root_1, stream_STRING.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:350:28: ( MUSTUND )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:357:28: ( MUSTUND )?
                 if ( stream_MUSTUND.hasNext() ) {
                     adaptor.addChild(root_1, stream_MUSTUND.nextNode());
 
@@ -11339,7 +11725,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -11366,7 +11752,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "imports"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:352:1: imports : viType 'import' (id= ID '=' (ns= ID '::' )? loc= STRING ) SEMI -> ^( IMPORT $id $loc ( $ns)? ( viType )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:359:1: imports : viType 'import' (id= ID '=' (ns= ID '::' )? loc= STRING ) SEMI -> ^( IMPORT $id $loc ( $ns)? ( viType )? ) ;
     public final BPELscriptParser.imports_return imports() throws RecognitionException {
         BPELscriptParser.imports_return retval = new BPELscriptParser.imports_return();
         retval.start = input.LT(1);
@@ -11398,42 +11784,42 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
         RewriteRuleSubtreeStream stream_viType=new RewriteRuleSubtreeStream(adaptor,"rule viType");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:353:2: ( viType 'import' (id= ID '=' (ns= ID '::' )? loc= STRING ) SEMI -> ^( IMPORT $id $loc ( $ns)? ( viType )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:353:5: viType 'import' (id= ID '=' (ns= ID '::' )? loc= STRING ) SEMI
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:360:2: ( viType 'import' (id= ID '=' (ns= ID '::' )? loc= STRING ) SEMI -> ^( IMPORT $id $loc ( $ns)? ( viType )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:360:5: viType 'import' (id= ID '=' (ns= ID '::' )? loc= STRING ) SEMI
             {
-            pushFollow(FOLLOW_viType_in_imports3946);
+            pushFollow(FOLLOW_viType_in_imports4077);
             viType278=viType();
 
             state._fsp--;
 
             stream_viType.add(viType278.getTree());
-            string_literal279=(Token)match(input,163,FOLLOW_163_in_imports3952);  
+            string_literal279=(Token)match(input,163,FOLLOW_163_in_imports4083);  
             stream_163.add(string_literal279);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:354:12: (id= ID '=' (ns= ID '::' )? loc= STRING )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:354:13: id= ID '=' (ns= ID '::' )? loc= STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:361:12: (id= ID '=' (ns= ID '::' )? loc= STRING )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:361:13: id= ID '=' (ns= ID '::' )? loc= STRING
             {
-            id=(Token)match(input,ID,FOLLOW_ID_in_imports3957);  
+            id=(Token)match(input,ID,FOLLOW_ID_in_imports4088);  
             stream_ID.add(id);
 
-            char_literal280=(Token)match(input,135,FOLLOW_135_in_imports3959);  
+            char_literal280=(Token)match(input,135,FOLLOW_135_in_imports4090);  
             stream_135.add(char_literal280);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:354:23: (ns= ID '::' )?
-            int alt107=2;
-            int LA107_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:361:23: (ns= ID '::' )?
+            int alt113=2;
+            int LA113_0 = input.LA(1);
 
-            if ( (LA107_0==ID) ) {
-                alt107=1;
+            if ( (LA113_0==ID) ) {
+                alt113=1;
             }
-            switch (alt107) {
+            switch (alt113) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:354:24: ns= ID '::'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:361:24: ns= ID '::'
                     {
-                    ns=(Token)match(input,ID,FOLLOW_ID_in_imports3964);  
+                    ns=(Token)match(input,ID,FOLLOW_ID_in_imports4095);  
                     stream_ID.add(ns);
 
-                    string_literal281=(Token)match(input,164,FOLLOW_164_in_imports3966);  
+                    string_literal281=(Token)match(input,164,FOLLOW_164_in_imports4097);  
                     stream_164.add(string_literal281);
 
 
@@ -11442,46 +11828,47 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            loc=(Token)match(input,STRING,FOLLOW_STRING_in_imports3973);  
+            loc=(Token)match(input,STRING,FOLLOW_STRING_in_imports4104);  
             stream_STRING.add(loc);
 
 
             }
 
-            SEMI282=(Token)match(input,SEMI,FOLLOW_SEMI_in_imports3977);  
+            SEMI282=(Token)match(input,SEMI,FOLLOW_SEMI_in_imports4108);  
             stream_SEMI.add(SEMI282);
 
 
 
             // AST REWRITE
-            // elements: id, viType, loc, ns
+            // elements: ns, loc, id, viType
             // token labels: id, ns, loc
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_id=new RewriteRuleTokenStream(adaptor,"token id",id);
             RewriteRuleTokenStream stream_ns=new RewriteRuleTokenStream(adaptor,"token ns",ns);
             RewriteRuleTokenStream stream_loc=new RewriteRuleTokenStream(adaptor,"token loc",loc);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 355:2: -> ^( IMPORT $id $loc ( $ns)? ( viType )? )
+            // 362:2: -> ^( IMPORT $id $loc ( $ns)? ( viType )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:355:6: ^( IMPORT $id $loc ( $ns)? ( viType )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:362:6: ^( IMPORT $id $loc ( $ns)? ( viType )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(IMPORT, "IMPORT"), root_1);
 
                 adaptor.addChild(root_1, stream_id.nextNode());
                 adaptor.addChild(root_1, stream_loc.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:355:24: ( $ns)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:362:24: ( $ns)?
                 if ( stream_ns.hasNext() ) {
                     adaptor.addChild(root_1, stream_ns.nextNode());
 
                 }
                 stream_ns.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:355:29: ( viType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:362:29: ( viType )?
                 if ( stream_viType.hasNext() ) {
                     adaptor.addChild(root_1, stream_viType.nextTree());
 
@@ -11493,7 +11880,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -11520,7 +11907,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "messages"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:357:1: messages : 'messages' m+= message ( ',' m+= message )* -> ^( MESSAGES ( message )+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:364:1: messages : 'messages' m+= message ( ',' m+= message )* -> ^( MESSAGES ( message )+ ) ;
     public final BPELscriptParser.messages_return messages() throws RecognitionException {
         BPELscriptParser.messages_return retval = new BPELscriptParser.messages_return();
         retval.start = input.LT(1);
@@ -11530,61 +11917,62 @@ public class BPELscriptParser extends Parser {
         Token string_literal283=null;
         Token char_literal284=null;
         List list_m=null;
-        RuleReturnScope m = null;
+        BPELscriptParser.message_return m = null;
+         m = null;
         CommonTree string_literal283_tree=null;
         CommonTree char_literal284_tree=null;
         RewriteRuleTokenStream stream_113=new RewriteRuleTokenStream(adaptor,"token 113");
         RewriteRuleTokenStream stream_165=new RewriteRuleTokenStream(adaptor,"token 165");
         RewriteRuleSubtreeStream stream_message=new RewriteRuleSubtreeStream(adaptor,"rule message");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:358:2: ( 'messages' m+= message ( ',' m+= message )* -> ^( MESSAGES ( message )+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:358:4: 'messages' m+= message ( ',' m+= message )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:365:2: ( 'messages' m+= message ( ',' m+= message )* -> ^( MESSAGES ( message )+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:365:4: 'messages' m+= message ( ',' m+= message )*
             {
-            string_literal283=(Token)match(input,165,FOLLOW_165_in_messages4009);  
+            string_literal283=(Token)match(input,165,FOLLOW_165_in_messages4140);  
             stream_165.add(string_literal283);
 
-            pushFollow(FOLLOW_message_in_messages4013);
+            pushFollow(FOLLOW_message_in_messages4144);
             m=message();
 
             state._fsp--;
 
             stream_message.add(m.getTree());
             if (list_m==null) list_m=new ArrayList();
-            list_m.add(m);
+            list_m.add(m.getTree());
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:358:26: ( ',' m+= message )*
-            loop108:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:365:26: ( ',' m+= message )*
+            loop114:
             do {
-                int alt108=2;
-                int LA108_0 = input.LA(1);
+                int alt114=2;
+                int LA114_0 = input.LA(1);
 
-                if ( (LA108_0==113) ) {
-                    alt108=1;
+                if ( (LA114_0==113) ) {
+                    alt114=1;
                 }
 
 
-                switch (alt108) {
+                switch (alt114) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:358:27: ',' m+= message
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:365:27: ',' m+= message
             	    {
-            	    char_literal284=(Token)match(input,113,FOLLOW_113_in_messages4016);  
+            	    char_literal284=(Token)match(input,113,FOLLOW_113_in_messages4147);  
             	    stream_113.add(char_literal284);
 
-            	    pushFollow(FOLLOW_message_in_messages4020);
+            	    pushFollow(FOLLOW_message_in_messages4151);
             	    m=message();
 
             	    state._fsp--;
 
             	    stream_message.add(m.getTree());
             	    if (list_m==null) list_m=new ArrayList();
-            	    list_m.add(m);
+            	    list_m.add(m.getTree());
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop108;
+            	    break loop114;
                 }
             } while (true);
 
@@ -11596,13 +11984,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 358:44: -> ^( MESSAGES ( message )+ )
+            // 365:44: -> ^( MESSAGES ( message )+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:358:47: ^( MESSAGES ( message )+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:365:47: ^( MESSAGES ( message )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MESSAGES, "MESSAGES"), root_1);
@@ -11621,7 +12010,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -11648,7 +12037,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "message"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:360:1: message : ID -> ^( MESSAGE ID ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:367:1: message : ID -> ^( MESSAGE ID ) ;
     public final BPELscriptParser.message_return message() throws RecognitionException {
         BPELscriptParser.message_return retval = new BPELscriptParser.message_return();
         retval.start = input.LT(1);
@@ -11661,10 +12050,10 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:360:9: ( ID -> ^( MESSAGE ID ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:360:11: ID
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:367:9: ( ID -> ^( MESSAGE ID ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:367:11: ID
             {
-            ID285=(Token)match(input,ID,FOLLOW_ID_in_message4040);  
+            ID285=(Token)match(input,ID,FOLLOW_ID_in_message4171);  
             stream_ID.add(ID285);
 
 
@@ -11675,13 +12064,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 360:14: -> ^( MESSAGE ID )
+            // 367:14: -> ^( MESSAGE ID )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:360:17: ^( MESSAGE ID )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:367:17: ^( MESSAGE ID )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MESSAGE, "MESSAGE"), root_1);
@@ -11693,7 +12083,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -11720,7 +12110,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "variables"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:362:1: variables : 'var' v+= variable ( ',' v+= variable )* -> ^( VARIABLES ( variable )+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:369:1: variables : 'var' v+= variable ( ',' v+= variable )* -> ^( VARIABLES ( variable )+ ) ;
     public final BPELscriptParser.variables_return variables() throws RecognitionException {
         BPELscriptParser.variables_return retval = new BPELscriptParser.variables_return();
         retval.start = input.LT(1);
@@ -11730,61 +12120,62 @@ public class BPELscriptParser extends Parser {
         Token string_literal286=null;
         Token char_literal287=null;
         List list_v=null;
-        RuleReturnScope v = null;
+        BPELscriptParser.variable_return v = null;
+         v = null;
         CommonTree string_literal286_tree=null;
         CommonTree char_literal287_tree=null;
         RewriteRuleTokenStream stream_113=new RewriteRuleTokenStream(adaptor,"token 113");
         RewriteRuleTokenStream stream_166=new RewriteRuleTokenStream(adaptor,"token 166");
         RewriteRuleSubtreeStream stream_variable=new RewriteRuleSubtreeStream(adaptor,"rule variable");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:362:11: ( 'var' v+= variable ( ',' v+= variable )* -> ^( VARIABLES ( variable )+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:362:13: 'var' v+= variable ( ',' v+= variable )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:369:11: ( 'var' v+= variable ( ',' v+= variable )* -> ^( VARIABLES ( variable )+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:369:13: 'var' v+= variable ( ',' v+= variable )*
             {
-            string_literal286=(Token)match(input,166,FOLLOW_166_in_variables4058);  
+            string_literal286=(Token)match(input,166,FOLLOW_166_in_variables4189);  
             stream_166.add(string_literal286);
 
-            pushFollow(FOLLOW_variable_in_variables4062);
+            pushFollow(FOLLOW_variable_in_variables4193);
             v=variable();
 
             state._fsp--;
 
             stream_variable.add(v.getTree());
             if (list_v==null) list_v=new ArrayList();
-            list_v.add(v);
+            list_v.add(v.getTree());
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:362:31: ( ',' v+= variable )*
-            loop109:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:369:31: ( ',' v+= variable )*
+            loop115:
             do {
-                int alt109=2;
-                int LA109_0 = input.LA(1);
+                int alt115=2;
+                int LA115_0 = input.LA(1);
 
-                if ( (LA109_0==113) ) {
-                    alt109=1;
+                if ( (LA115_0==113) ) {
+                    alt115=1;
                 }
 
 
-                switch (alt109) {
+                switch (alt115) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:362:32: ',' v+= variable
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:369:32: ',' v+= variable
             	    {
-            	    char_literal287=(Token)match(input,113,FOLLOW_113_in_variables4065);  
+            	    char_literal287=(Token)match(input,113,FOLLOW_113_in_variables4196);  
             	    stream_113.add(char_literal287);
 
-            	    pushFollow(FOLLOW_variable_in_variables4069);
+            	    pushFollow(FOLLOW_variable_in_variables4200);
             	    v=variable();
 
             	    state._fsp--;
 
             	    stream_variable.add(v.getTree());
             	    if (list_v==null) list_v=new ArrayList();
-            	    list_v.add(v);
+            	    list_v.add(v.getTree());
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop109;
+            	    break loop115;
                 }
             } while (true);
 
@@ -11796,13 +12187,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 363:3: -> ^( VARIABLES ( variable )+ )
+            // 370:3: -> ^( VARIABLES ( variable )+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:363:7: ^( VARIABLES ( variable )+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:370:7: ^( VARIABLES ( variable )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VARIABLES, "VARIABLES"), root_1);
@@ -11821,7 +12213,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -11848,7 +12240,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "variable"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:365:1: variable : ({...}?msg= msgType | {...}?vi= viType | {...}?viE= viElt )* ID ( with_ex )? -> ^( VARIABLE ID ( msgType )? ( viType )? ( viElt )? ( with_ex )? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:1: variable : ({...}?msg= msgType | {...}?vi= viType | {...}?viE= viElt )* ID ( with_ex )? -> ^( VARIABLE ID ( msgType )? ( viType )? ( viElt )? ( with_ex )? ) ;
     public final BPELscriptParser.variable_return variable() throws RecognitionException {
         BPELscriptParser.variable_return retval = new BPELscriptParser.variable_return();
         retval.start = input.LT(1);
@@ -11872,41 +12264,41 @@ public class BPELscriptParser extends Parser {
         RewriteRuleSubtreeStream stream_msgType=new RewriteRuleSubtreeStream(adaptor,"rule msgType");
         RewriteRuleSubtreeStream stream_viType=new RewriteRuleSubtreeStream(adaptor,"rule viType");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:366:2: ( ({...}?msg= msgType | {...}?vi= viType | {...}?viE= viElt )* ID ( with_ex )? -> ^( VARIABLE ID ( msgType )? ( viType )? ( viElt )? ( with_ex )? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:366:4: ({...}?msg= msgType | {...}?vi= viType | {...}?viE= viElt )* ID ( with_ex )?
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:373:2: ( ({...}?msg= msgType | {...}?vi= viType | {...}?viE= viElt )* ID ( with_ex )? -> ^( VARIABLE ID ( msgType )? ( viType )? ( viElt )? ( with_ex )? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:373:4: ({...}?msg= msgType | {...}?vi= viType | {...}?viE= viElt )* ID ( with_ex )?
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:366:4: ({...}?msg= msgType | {...}?vi= viType | {...}?viE= viElt )*
-            loop110:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:373:4: ({...}?msg= msgType | {...}?vi= viType | {...}?viE= viElt )*
+            loop116:
             do {
-                int alt110=4;
+                int alt116=4;
                 switch ( input.LA(1) ) {
                 case 185:
                 case 186:
                     {
-                    alt110=1;
+                    alt116=1;
                     }
                     break;
                 case 187:
                     {
-                    alt110=2;
+                    alt116=2;
                     }
                     break;
                 case 188:
                     {
-                    alt110=3;
+                    alt116=3;
                     }
                     break;
 
                 }
 
-                switch (alt110) {
+                switch (alt116) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:366:6: {...}?msg= msgType
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:373:6: {...}?msg= msgType
             	    {
-            	    if ( !(msg==null) ) {
+            	    if ( !((msg==null)) ) {
             	        throw new FailedPredicateException(input, "variable", "msg==null");
             	    }
-            	    pushFollow(FOLLOW_msgType_in_variable4099);
+            	    pushFollow(FOLLOW_msgType_in_variable4230);
             	    msg=msgType();
 
             	    state._fsp--;
@@ -11916,12 +12308,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:366:33: {...}?vi= viType
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:373:33: {...}?vi= viType
             	    {
-            	    if ( !(vi==null) ) {
+            	    if ( !((vi==null)) ) {
             	        throw new FailedPredicateException(input, "variable", "vi==null");
             	    }
-            	    pushFollow(FOLLOW_viType_in_variable4107);
+            	    pushFollow(FOLLOW_viType_in_variable4238);
             	    vi=viType();
 
             	    state._fsp--;
@@ -11931,12 +12323,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:366:57: {...}?viE= viElt
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:373:57: {...}?viE= viElt
             	    {
-            	    if ( !(viE==null) ) {
+            	    if ( !((viE==null)) ) {
             	        throw new FailedPredicateException(input, "variable", "viE==null");
             	    }
-            	    pushFollow(FOLLOW_viElt_in_variable4115);
+            	    pushFollow(FOLLOW_viElt_in_variable4246);
             	    viE=viElt();
 
             	    state._fsp--;
@@ -11947,25 +12339,25 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop110;
+            	    break loop116;
                 }
             } while (true);
 
-            ID288=(Token)match(input,ID,FOLLOW_ID_in_variable4122);  
+            ID288=(Token)match(input,ID,FOLLOW_ID_in_variable4253);  
             stream_ID.add(ID288);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:367:7: ( with_ex )?
-            int alt111=2;
-            int LA111_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:374:7: ( with_ex )?
+            int alt117=2;
+            int LA117_0 = input.LA(1);
 
-            if ( (LA111_0==147) ) {
-                alt111=1;
+            if ( (LA117_0==147) ) {
+                alt117=1;
             }
-            switch (alt111) {
+            switch (alt117) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:367:7: with_ex
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:374:7: with_ex
                     {
-                    pushFollow(FOLLOW_with_ex_in_variable4125);
+                    pushFollow(FOLLOW_with_ex_in_variable4256);
                     with_ex289=with_ex();
 
                     state._fsp--;
@@ -11980,42 +12372,43 @@ public class BPELscriptParser extends Parser {
 
 
             // AST REWRITE
-            // elements: viElt, with_ex, msgType, viType, ID
+            // elements: with_ex, viType, msgType, ID, viElt
             // token labels: 
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 368:2: -> ^( VARIABLE ID ( msgType )? ( viType )? ( viElt )? ( with_ex )? )
+            // 375:2: -> ^( VARIABLE ID ( msgType )? ( viType )? ( viElt )? ( with_ex )? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:368:6: ^( VARIABLE ID ( msgType )? ( viType )? ( viElt )? ( with_ex )? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:6: ^( VARIABLE ID ( msgType )? ( viType )? ( viElt )? ( with_ex )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VARIABLE, "VARIABLE"), root_1);
 
                 adaptor.addChild(root_1, stream_ID.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:368:20: ( msgType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:20: ( msgType )?
                 if ( stream_msgType.hasNext() ) {
                     adaptor.addChild(root_1, stream_msgType.nextTree());
 
                 }
                 stream_msgType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:368:29: ( viType )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:29: ( viType )?
                 if ( stream_viType.hasNext() ) {
                     adaptor.addChild(root_1, stream_viType.nextTree());
 
                 }
                 stream_viType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:368:37: ( viElt )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:37: ( viElt )?
                 if ( stream_viElt.hasNext() ) {
                     adaptor.addChild(root_1, stream_viElt.nextTree());
 
                 }
                 stream_viElt.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:368:44: ( with_ex )?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:44: ( with_ex )?
                 if ( stream_with_ex.hasNext() ) {
                     adaptor.addChild(root_1, stream_with_ex.nextTree());
 
@@ -12027,7 +12420,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -12051,7 +12444,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "partner_links"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:371:1: partner_links : ( 'partnerLink' | 'partnerlink' ) pl+= partner_link ( ',' pl+= partner_link )* -> ^( PARTNERLINKS ( $pl)+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:378:1: partner_links : ( 'partnerLink' | 'partnerlink' ) pl+= partner_link ( ',' pl+= partner_link )* -> ^( PARTNERLINKS ( $pl)+ ) ;
     public final BPELscriptParser.partner_links_return partner_links() throws RecognitionException {
         BPELscriptParser.partner_links_return retval = new BPELscriptParser.partner_links_return();
         retval.start = input.LT(1);
@@ -12062,7 +12455,8 @@ public class BPELscriptParser extends Parser {
         Token string_literal291=null;
         Token char_literal292=null;
         List list_pl=null;
-        RuleReturnScope pl = null;
+        BPELscriptParser.partner_link_return pl = null;
+         pl = null;
         CommonTree string_literal290_tree=null;
         CommonTree string_literal291_tree=null;
         CommonTree char_literal292_tree=null;
@@ -12071,39 +12465,39 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_167=new RewriteRuleTokenStream(adaptor,"token 167");
         RewriteRuleSubtreeStream stream_partner_link=new RewriteRuleSubtreeStream(adaptor,"rule partner_link");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:2: ( ( 'partnerLink' | 'partnerlink' ) pl+= partner_link ( ',' pl+= partner_link )* -> ^( PARTNERLINKS ( $pl)+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:4: ( 'partnerLink' | 'partnerlink' ) pl+= partner_link ( ',' pl+= partner_link )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:2: ( ( 'partnerLink' | 'partnerlink' ) pl+= partner_link ( ',' pl+= partner_link )* -> ^( PARTNERLINKS ( $pl)+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:4: ( 'partnerLink' | 'partnerlink' ) pl+= partner_link ( ',' pl+= partner_link )*
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:4: ( 'partnerLink' | 'partnerlink' )
-            int alt112=2;
-            int LA112_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:4: ( 'partnerLink' | 'partnerlink' )
+            int alt118=2;
+            int LA118_0 = input.LA(1);
 
-            if ( (LA112_0==167) ) {
-                alt112=1;
+            if ( (LA118_0==167) ) {
+                alt118=1;
             }
-            else if ( (LA112_0==168) ) {
-                alt112=2;
+            else if ( (LA118_0==168) ) {
+                alt118=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 112, 0, input);
+                    new NoViableAltException("", 118, 0, input);
 
                 throw nvae;
             }
-            switch (alt112) {
+            switch (alt118) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:5: 'partnerLink'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:5: 'partnerLink'
                     {
-                    string_literal290=(Token)match(input,167,FOLLOW_167_in_partner_links4165);  
+                    string_literal290=(Token)match(input,167,FOLLOW_167_in_partner_links4296);  
                     stream_167.add(string_literal290);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:21: 'partnerlink'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:21: 'partnerlink'
                     {
-                    string_literal291=(Token)match(input,168,FOLLOW_168_in_partner_links4169);  
+                    string_literal291=(Token)match(input,168,FOLLOW_168_in_partner_links4300);  
                     stream_168.add(string_literal291);
 
 
@@ -12112,48 +12506,48 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            pushFollow(FOLLOW_partner_link_in_partner_links4174);
+            pushFollow(FOLLOW_partner_link_in_partner_links4305);
             pl=partner_link();
 
             state._fsp--;
 
             stream_partner_link.add(pl.getTree());
             if (list_pl==null) list_pl=new ArrayList();
-            list_pl.add(pl);
+            list_pl.add(pl.getTree());
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:53: ( ',' pl+= partner_link )*
-            loop113:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:53: ( ',' pl+= partner_link )*
+            loop119:
             do {
-                int alt113=2;
-                int LA113_0 = input.LA(1);
+                int alt119=2;
+                int LA119_0 = input.LA(1);
 
-                if ( (LA113_0==113) ) {
-                    alt113=1;
+                if ( (LA119_0==113) ) {
+                    alt119=1;
                 }
 
 
-                switch (alt113) {
+                switch (alt119) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:54: ',' pl+= partner_link
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:54: ',' pl+= partner_link
             	    {
-            	    char_literal292=(Token)match(input,113,FOLLOW_113_in_partner_links4177);  
+            	    char_literal292=(Token)match(input,113,FOLLOW_113_in_partner_links4308);  
             	    stream_113.add(char_literal292);
 
-            	    pushFollow(FOLLOW_partner_link_in_partner_links4181);
+            	    pushFollow(FOLLOW_partner_link_in_partner_links4312);
             	    pl=partner_link();
 
             	    state._fsp--;
 
             	    stream_partner_link.add(pl.getTree());
             	    if (list_pl==null) list_pl=new ArrayList();
-            	    list_pl.add(pl);
+            	    list_pl.add(pl.getTree());
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop113;
+            	    break loop119;
                 }
             } while (true);
 
@@ -12165,13 +12559,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: pl
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
             RewriteRuleSubtreeStream stream_pl=new RewriteRuleSubtreeStream(adaptor,"token pl",list_pl);
             root_0 = (CommonTree)adaptor.nil();
-            // 372:77: -> ^( PARTNERLINKS ( $pl)+ )
+            // 379:77: -> ^( PARTNERLINKS ( $pl)+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:372:80: ^( PARTNERLINKS ( $pl)+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:80: ^( PARTNERLINKS ( $pl)+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PARTNERLINKS, "PARTNERLINKS"), root_1);
@@ -12180,7 +12575,7 @@ public class BPELscriptParser extends Parser {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_pl.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_pl.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_pl.nextTree());
 
                 }
                 stream_pl.reset();
@@ -12190,7 +12585,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -12217,7 +12612,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "partner_link"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:374:1: partner_link : ID '=' '(' (plType= ns_id )? ( ',' roleA= ns_id )? ( ',' roleB= ns_id )? ( ',' init= INITPARTNER )? ')' -> ^( PID ID ( $plType)? ( $roleA)? ( $roleB)? ( $init)? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:381:1: partner_link : ID '=' '(' (plType= ns_id )? ( ',' roleA= ns_id )? ( ',' roleB= ns_id )? ( ',' init= INITPARTNER )? ')' -> ^( PID ID ( $plType)? ( $roleA)? ( $roleB)? ( $init)? ) ;
     public final BPELscriptParser.partner_link_return partner_link() throws RecognitionException {
         BPELscriptParser.partner_link_return retval = new BPELscriptParser.partner_link_return();
         retval.start = input.LT(1);
@@ -12255,30 +12650,30 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_118=new RewriteRuleTokenStream(adaptor,"token 118");
         RewriteRuleSubtreeStream stream_ns_id=new RewriteRuleSubtreeStream(adaptor,"rule ns_id");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:2: ( ID '=' '(' (plType= ns_id )? ( ',' roleA= ns_id )? ( ',' roleB= ns_id )? ( ',' init= INITPARTNER )? ')' -> ^( PID ID ( $plType)? ( $roleA)? ( $roleB)? ( $init)? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:4: ID '=' '(' (plType= ns_id )? ( ',' roleA= ns_id )? ( ',' roleB= ns_id )? ( ',' init= INITPARTNER )? ')'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:2: ( ID '=' '(' (plType= ns_id )? ( ',' roleA= ns_id )? ( ',' roleB= ns_id )? ( ',' init= INITPARTNER )? ')' -> ^( PID ID ( $plType)? ( $roleA)? ( $roleB)? ( $init)? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:4: ID '=' '(' (plType= ns_id )? ( ',' roleA= ns_id )? ( ',' roleB= ns_id )? ( ',' init= INITPARTNER )? ')'
             {
-            ID293=(Token)match(input,ID,FOLLOW_ID_in_partner_link4203);  
+            ID293=(Token)match(input,ID,FOLLOW_ID_in_partner_link4334);  
             stream_ID.add(ID293);
 
-            char_literal294=(Token)match(input,135,FOLLOW_135_in_partner_link4205);  
+            char_literal294=(Token)match(input,135,FOLLOW_135_in_partner_link4336);  
             stream_135.add(char_literal294);
 
-            char_literal295=(Token)match(input,117,FOLLOW_117_in_partner_link4207);  
+            char_literal295=(Token)match(input,117,FOLLOW_117_in_partner_link4338);  
             stream_117.add(char_literal295);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:21: (plType= ns_id )?
-            int alt114=2;
-            int LA114_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:21: (plType= ns_id )?
+            int alt120=2;
+            int LA120_0 = input.LA(1);
 
-            if ( (LA114_0==ID) ) {
-                alt114=1;
+            if ( (LA120_0==ID) ) {
+                alt120=1;
             }
-            switch (alt114) {
+            switch (alt120) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:21: plType= ns_id
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:21: plType= ns_id
                     {
-                    pushFollow(FOLLOW_ns_id_in_partner_link4211);
+                    pushFollow(FOLLOW_ns_id_in_partner_link4342);
                     plType=ns_id();
 
                     state._fsp--;
@@ -12290,25 +12685,25 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:29: ( ',' roleA= ns_id )?
-            int alt115=2;
-            int LA115_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:29: ( ',' roleA= ns_id )?
+            int alt121=2;
+            int LA121_0 = input.LA(1);
 
-            if ( (LA115_0==113) ) {
-                int LA115_1 = input.LA(2);
+            if ( (LA121_0==113) ) {
+                int LA121_1 = input.LA(2);
 
-                if ( (LA115_1==ID) ) {
-                    alt115=1;
+                if ( (LA121_1==ID) ) {
+                    alt121=1;
                 }
             }
-            switch (alt115) {
+            switch (alt121) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:30: ',' roleA= ns_id
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:30: ',' roleA= ns_id
                     {
-                    char_literal296=(Token)match(input,113,FOLLOW_113_in_partner_link4215);  
+                    char_literal296=(Token)match(input,113,FOLLOW_113_in_partner_link4346);  
                     stream_113.add(char_literal296);
 
-                    pushFollow(FOLLOW_ns_id_in_partner_link4219);
+                    pushFollow(FOLLOW_ns_id_in_partner_link4350);
                     roleA=ns_id();
 
                     state._fsp--;
@@ -12320,25 +12715,25 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:48: ( ',' roleB= ns_id )?
-            int alt116=2;
-            int LA116_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:48: ( ',' roleB= ns_id )?
+            int alt122=2;
+            int LA122_0 = input.LA(1);
 
-            if ( (LA116_0==113) ) {
-                int LA116_1 = input.LA(2);
+            if ( (LA122_0==113) ) {
+                int LA122_1 = input.LA(2);
 
-                if ( (LA116_1==ID) ) {
-                    alt116=1;
+                if ( (LA122_1==ID) ) {
+                    alt122=1;
                 }
             }
-            switch (alt116) {
+            switch (alt122) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:49: ',' roleB= ns_id
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:49: ',' roleB= ns_id
                     {
-                    char_literal297=(Token)match(input,113,FOLLOW_113_in_partner_link4224);  
+                    char_literal297=(Token)match(input,113,FOLLOW_113_in_partner_link4355);  
                     stream_113.add(char_literal297);
 
-                    pushFollow(FOLLOW_ns_id_in_partner_link4228);
+                    pushFollow(FOLLOW_ns_id_in_partner_link4359);
                     roleB=ns_id();
 
                     state._fsp--;
@@ -12350,21 +12745,21 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:67: ( ',' init= INITPARTNER )?
-            int alt117=2;
-            int LA117_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:67: ( ',' init= INITPARTNER )?
+            int alt123=2;
+            int LA123_0 = input.LA(1);
 
-            if ( (LA117_0==113) ) {
-                alt117=1;
+            if ( (LA123_0==113) ) {
+                alt123=1;
             }
-            switch (alt117) {
+            switch (alt123) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:375:68: ',' init= INITPARTNER
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:68: ',' init= INITPARTNER
                     {
-                    char_literal298=(Token)match(input,113,FOLLOW_113_in_partner_link4233);  
+                    char_literal298=(Token)match(input,113,FOLLOW_113_in_partner_link4364);  
                     stream_113.add(char_literal298);
 
-                    init=(Token)match(input,INITPARTNER,FOLLOW_INITPARTNER_in_partner_link4237);  
+                    init=(Token)match(input,INITPARTNER,FOLLOW_INITPARTNER_in_partner_link4368);  
                     stream_INITPARTNER.add(init);
 
 
@@ -12373,52 +12768,53 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            char_literal299=(Token)match(input,118,FOLLOW_118_in_partner_link4241);  
+            char_literal299=(Token)match(input,118,FOLLOW_118_in_partner_link4372);  
             stream_118.add(char_literal299);
 
 
 
             // AST REWRITE
-            // elements: plType, roleB, init, roleA, ID
+            // elements: init, plType, roleA, ID, roleB
             // token labels: init
             // rule labels: retval, roleA, roleB, plType
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_init=new RewriteRuleTokenStream(adaptor,"token init",init);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
-            RewriteRuleSubtreeStream stream_roleA=new RewriteRuleSubtreeStream(adaptor,"token roleA",roleA!=null?roleA.tree:null);
-            RewriteRuleSubtreeStream stream_roleB=new RewriteRuleSubtreeStream(adaptor,"token roleB",roleB!=null?roleB.tree:null);
-            RewriteRuleSubtreeStream stream_plType=new RewriteRuleSubtreeStream(adaptor,"token plType",plType!=null?plType.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_roleA=new RewriteRuleSubtreeStream(adaptor,"rule roleA",roleA!=null?roleA.tree:null);
+            RewriteRuleSubtreeStream stream_roleB=new RewriteRuleSubtreeStream(adaptor,"rule roleB",roleB!=null?roleB.tree:null);
+            RewriteRuleSubtreeStream stream_plType=new RewriteRuleSubtreeStream(adaptor,"rule plType",plType!=null?plType.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 376:3: -> ^( PID ID ( $plType)? ( $roleA)? ( $roleB)? ( $init)? )
+            // 383:3: -> ^( PID ID ( $plType)? ( $roleA)? ( $roleB)? ( $init)? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:376:7: ^( PID ID ( $plType)? ( $roleA)? ( $roleB)? ( $init)? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:383:7: ^( PID ID ( $plType)? ( $roleA)? ( $roleB)? ( $init)? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PID, "PID"), root_1);
 
                 adaptor.addChild(root_1, stream_ID.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:376:16: ( $plType)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:383:16: ( $plType)?
                 if ( stream_plType.hasNext() ) {
                     adaptor.addChild(root_1, stream_plType.nextTree());
 
                 }
                 stream_plType.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:376:25: ( $roleA)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:383:25: ( $roleA)?
                 if ( stream_roleA.hasNext() ) {
                     adaptor.addChild(root_1, stream_roleA.nextTree());
 
                 }
                 stream_roleA.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:376:33: ( $roleB)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:383:33: ( $roleB)?
                 if ( stream_roleB.hasNext() ) {
                     adaptor.addChild(root_1, stream_roleB.nextTree());
 
                 }
                 stream_roleB.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:376:41: ( $init)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:383:41: ( $init)?
                 if ( stream_init.hasNext() ) {
                     adaptor.addChild(root_1, stream_init.nextNode());
 
@@ -12430,7 +12826,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -12457,7 +12853,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "correlation"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:378:1: correlation : '{' corr_mapping ( ',' corr_mapping )* '}' -> ^( CORRELATION ( corr_mapping )+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:385:1: correlation : '{' corr_mapping ( ',' corr_mapping )* '}' -> ^( CORRELATION ( corr_mapping )+ ) ;
     public final BPELscriptParser.correlation_return correlation() throws RecognitionException {
         BPELscriptParser.correlation_return retval = new BPELscriptParser.correlation_return();
         retval.start = input.LT(1);
@@ -12480,37 +12876,37 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_111=new RewriteRuleTokenStream(adaptor,"token 111");
         RewriteRuleSubtreeStream stream_corr_mapping=new RewriteRuleSubtreeStream(adaptor,"rule corr_mapping");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:2: ( '{' corr_mapping ( ',' corr_mapping )* '}' -> ^( CORRELATION ( corr_mapping )+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:4: '{' corr_mapping ( ',' corr_mapping )* '}'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:386:2: ( '{' corr_mapping ( ',' corr_mapping )* '}' -> ^( CORRELATION ( corr_mapping )+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:386:4: '{' corr_mapping ( ',' corr_mapping )* '}'
             {
-            char_literal300=(Token)match(input,110,FOLLOW_110_in_correlation4277);  
+            char_literal300=(Token)match(input,110,FOLLOW_110_in_correlation4408);  
             stream_110.add(char_literal300);
 
-            pushFollow(FOLLOW_corr_mapping_in_correlation4279);
+            pushFollow(FOLLOW_corr_mapping_in_correlation4410);
             corr_mapping301=corr_mapping();
 
             state._fsp--;
 
             stream_corr_mapping.add(corr_mapping301.getTree());
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:21: ( ',' corr_mapping )*
-            loop118:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:386:21: ( ',' corr_mapping )*
+            loop124:
             do {
-                int alt118=2;
-                int LA118_0 = input.LA(1);
+                int alt124=2;
+                int LA124_0 = input.LA(1);
 
-                if ( (LA118_0==113) ) {
-                    alt118=1;
+                if ( (LA124_0==113) ) {
+                    alt124=1;
                 }
 
 
-                switch (alt118) {
+                switch (alt124) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:22: ',' corr_mapping
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:386:22: ',' corr_mapping
             	    {
-            	    char_literal302=(Token)match(input,113,FOLLOW_113_in_correlation4282);  
+            	    char_literal302=(Token)match(input,113,FOLLOW_113_in_correlation4413);  
             	    stream_113.add(char_literal302);
 
-            	    pushFollow(FOLLOW_corr_mapping_in_correlation4284);
+            	    pushFollow(FOLLOW_corr_mapping_in_correlation4415);
             	    corr_mapping303=corr_mapping();
 
             	    state._fsp--;
@@ -12521,11 +12917,11 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop118;
+            	    break loop124;
                 }
             } while (true);
 
-            char_literal304=(Token)match(input,111,FOLLOW_111_in_correlation4288);  
+            char_literal304=(Token)match(input,111,FOLLOW_111_in_correlation4419);  
             stream_111.add(char_literal304);
 
 
@@ -12536,13 +12932,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 379:45: -> ^( CORRELATION ( corr_mapping )+ )
+            // 386:45: -> ^( CORRELATION ( corr_mapping )+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:379:48: ^( CORRELATION ( corr_mapping )+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:386:48: ^( CORRELATION ( corr_mapping )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CORRELATION, "CORRELATION"), root_1);
@@ -12561,7 +12958,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -12588,7 +12985,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "corr_mapping"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:381:1: corr_mapping : ({...}?init= INIT_COR | {...}?pattern= PATTERN_COR )* f1= ID -> ^( CORR_MAP $f1 ( $init)? ( $pattern)? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:388:1: corr_mapping : ({...}?init= INIT_COR | {...}?pattern= PATTERN_COR )* f1= ID -> ^( CORR_MAP $f1 ( $init)? ( $pattern)? ) ;
     public final BPELscriptParser.corr_mapping_return corr_mapping() throws RecognitionException {
         BPELscriptParser.corr_mapping_return retval = new BPELscriptParser.corr_mapping_return();
         retval.start = input.LT(1);
@@ -12607,43 +13004,43 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_INIT_COR=new RewriteRuleTokenStream(adaptor,"token INIT_COR");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:2: ( ({...}?init= INIT_COR | {...}?pattern= PATTERN_COR )* f1= ID -> ^( CORR_MAP $f1 ( $init)? ( $pattern)? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:4: ({...}?init= INIT_COR | {...}?pattern= PATTERN_COR )* f1= ID
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:2: ( ({...}?init= INIT_COR | {...}?pattern= PATTERN_COR )* f1= ID -> ^( CORR_MAP $f1 ( $init)? ( $pattern)? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:4: ({...}?init= INIT_COR | {...}?pattern= PATTERN_COR )* f1= ID
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:4: ({...}?init= INIT_COR | {...}?pattern= PATTERN_COR )*
-            loop119:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:4: ({...}?init= INIT_COR | {...}?pattern= PATTERN_COR )*
+            loop125:
             do {
-                int alt119=3;
-                int LA119_0 = input.LA(1);
+                int alt125=3;
+                int LA125_0 = input.LA(1);
 
-                if ( (LA119_0==INIT_COR) ) {
-                    alt119=1;
+                if ( (LA125_0==INIT_COR) ) {
+                    alt125=1;
                 }
-                else if ( (LA119_0==PATTERN_COR) ) {
-                    alt119=2;
+                else if ( (LA125_0==PATTERN_COR) ) {
+                    alt125=2;
                 }
 
 
-                switch (alt119) {
+                switch (alt125) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:6: {...}?init= INIT_COR
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:6: {...}?init= INIT_COR
             	    {
-            	    if ( !(init==null) ) {
+            	    if ( !((init==null)) ) {
             	        throw new FailedPredicateException(input, "corr_mapping", "init==null");
             	    }
-            	    init=(Token)match(input,INIT_COR,FOLLOW_INIT_COR_in_corr_mapping4312);  
+            	    init=(Token)match(input,INIT_COR,FOLLOW_INIT_COR_in_corr_mapping4443);  
             	    stream_INIT_COR.add(init);
 
 
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:382:36: {...}?pattern= PATTERN_COR
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:36: {...}?pattern= PATTERN_COR
             	    {
-            	    if ( !(pattern==null) ) {
+            	    if ( !((pattern==null)) ) {
             	        throw new FailedPredicateException(input, "corr_mapping", "pattern==null");
             	    }
-            	    pattern=(Token)match(input,PATTERN_COR,FOLLOW_PATTERN_COR_in_corr_mapping4320);  
+            	    pattern=(Token)match(input,PATTERN_COR,FOLLOW_PATTERN_COR_in_corr_mapping4451);  
             	    stream_PATTERN_COR.add(pattern);
 
 
@@ -12651,43 +13048,44 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop119;
+            	    break loop125;
                 }
             } while (true);
 
-            f1=(Token)match(input,ID,FOLLOW_ID_in_corr_mapping4329);  
+            f1=(Token)match(input,ID,FOLLOW_ID_in_corr_mapping4460);  
             stream_ID.add(f1);
 
 
 
             // AST REWRITE
-            // elements: pattern, f1, init
+            // elements: f1, init, pattern
             // token labels: pattern, init, f1
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_pattern=new RewriteRuleTokenStream(adaptor,"token pattern",pattern);
             RewriteRuleTokenStream stream_init=new RewriteRuleTokenStream(adaptor,"token init",init);
             RewriteRuleTokenStream stream_f1=new RewriteRuleTokenStream(adaptor,"token f1",f1);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 384:2: -> ^( CORR_MAP $f1 ( $init)? ( $pattern)? )
+            // 391:2: -> ^( CORR_MAP $f1 ( $init)? ( $pattern)? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:384:6: ^( CORR_MAP $f1 ( $init)? ( $pattern)? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:391:6: ^( CORR_MAP $f1 ( $init)? ( $pattern)? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CORR_MAP, "CORR_MAP"), root_1);
 
                 adaptor.addChild(root_1, stream_f1.nextNode());
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:384:21: ( $init)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:391:21: ( $init)?
                 if ( stream_init.hasNext() ) {
                     adaptor.addChild(root_1, stream_init.nextNode());
 
                 }
                 stream_init.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:384:28: ( $pattern)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:391:28: ( $pattern)?
                 if ( stream_pattern.hasNext() ) {
                     adaptor.addChild(root_1, stream_pattern.nextNode());
 
@@ -12699,7 +13097,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -12723,7 +13121,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "corr_sets"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:387:1: corr_sets : 'correlates' '{' cs+= corr_set ';' (cs+= corr_set ';' )* '}' -> ^( CORRSETS ( $cs)+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:1: corr_sets : 'correlates' '{' cs+= corr_set ';' (cs+= corr_set ';' )* '}' -> ^( CORRSETS ( $cs)+ ) ;
     public final BPELscriptParser.corr_sets_return corr_sets() throws RecognitionException {
         BPELscriptParser.corr_sets_return retval = new BPELscriptParser.corr_sets_return();
         retval.start = input.LT(1);
@@ -12736,7 +13134,8 @@ public class BPELscriptParser extends Parser {
         Token char_literal308=null;
         Token char_literal309=null;
         List list_cs=null;
-        RuleReturnScope cs = null;
+        BPELscriptParser.corr_set_return cs = null;
+         cs = null;
         CommonTree string_literal305_tree=null;
         CommonTree char_literal306_tree=null;
         CommonTree char_literal307_tree=null;
@@ -12748,52 +13147,52 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_SEMI=new RewriteRuleTokenStream(adaptor,"token SEMI");
         RewriteRuleSubtreeStream stream_corr_set=new RewriteRuleSubtreeStream(adaptor,"rule corr_set");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:387:12: ( 'correlates' '{' cs+= corr_set ';' (cs+= corr_set ';' )* '}' -> ^( CORRSETS ( $cs)+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:387:14: 'correlates' '{' cs+= corr_set ';' (cs+= corr_set ';' )* '}'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:12: ( 'correlates' '{' cs+= corr_set ';' (cs+= corr_set ';' )* '}' -> ^( CORRSETS ( $cs)+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:14: 'correlates' '{' cs+= corr_set ';' (cs+= corr_set ';' )* '}'
             {
-            string_literal305=(Token)match(input,169,FOLLOW_169_in_corr_sets4364);  
+            string_literal305=(Token)match(input,169,FOLLOW_169_in_corr_sets4495);  
             stream_169.add(string_literal305);
 
-            char_literal306=(Token)match(input,110,FOLLOW_110_in_corr_sets4366);  
+            char_literal306=(Token)match(input,110,FOLLOW_110_in_corr_sets4497);  
             stream_110.add(char_literal306);
 
-            pushFollow(FOLLOW_corr_set_in_corr_sets4369);
+            pushFollow(FOLLOW_corr_set_in_corr_sets4500);
             cs=corr_set();
 
             state._fsp--;
 
             stream_corr_set.add(cs.getTree());
             if (list_cs==null) list_cs=new ArrayList();
-            list_cs.add(cs);
+            list_cs.add(cs.getTree());
 
-            char_literal307=(Token)match(input,SEMI,FOLLOW_SEMI_in_corr_sets4371);  
+            char_literal307=(Token)match(input,SEMI,FOLLOW_SEMI_in_corr_sets4502);  
             stream_SEMI.add(char_literal307);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:387:47: (cs+= corr_set ';' )*
-            loop120:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:47: (cs+= corr_set ';' )*
+            loop126:
             do {
-                int alt120=2;
-                int LA120_0 = input.LA(1);
+                int alt126=2;
+                int LA126_0 = input.LA(1);
 
-                if ( (LA120_0==ID) ) {
-                    alt120=1;
+                if ( (LA126_0==ID) ) {
+                    alt126=1;
                 }
 
 
-                switch (alt120) {
+                switch (alt126) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:387:48: cs+= corr_set ';'
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:48: cs+= corr_set ';'
             	    {
-            	    pushFollow(FOLLOW_corr_set_in_corr_sets4376);
+            	    pushFollow(FOLLOW_corr_set_in_corr_sets4507);
             	    cs=corr_set();
 
             	    state._fsp--;
 
             	    stream_corr_set.add(cs.getTree());
             	    if (list_cs==null) list_cs=new ArrayList();
-            	    list_cs.add(cs);
+            	    list_cs.add(cs.getTree());
 
-            	    char_literal308=(Token)match(input,SEMI,FOLLOW_SEMI_in_corr_sets4378);  
+            	    char_literal308=(Token)match(input,SEMI,FOLLOW_SEMI_in_corr_sets4509);  
             	    stream_SEMI.add(char_literal308);
 
 
@@ -12801,11 +13200,11 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop120;
+            	    break loop126;
                 }
             } while (true);
 
-            char_literal309=(Token)match(input,111,FOLLOW_111_in_corr_sets4382);  
+            char_literal309=(Token)match(input,111,FOLLOW_111_in_corr_sets4513);  
             stream_111.add(char_literal309);
 
 
@@ -12816,13 +13215,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: cs
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
             RewriteRuleSubtreeStream stream_cs=new RewriteRuleSubtreeStream(adaptor,"token cs",list_cs);
             root_0 = (CommonTree)adaptor.nil();
-            // 387:71: -> ^( CORRSETS ( $cs)+ )
+            // 394:71: -> ^( CORRSETS ( $cs)+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:387:74: ^( CORRSETS ( $cs)+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:74: ^( CORRSETS ( $cs)+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CORRSETS, "CORRSETS"), root_1);
@@ -12831,7 +13231,7 @@ public class BPELscriptParser extends Parser {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_cs.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_cs.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_cs.nextTree());
 
                 }
                 stream_cs.reset();
@@ -12841,7 +13241,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -12868,7 +13268,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "corr_set"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:1: corr_set : f= ID '(' par+= ID ( ',' par+= ID )* ')' -> ^( CORRSET $f ( $par)+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:1: corr_set : f= ID '(' par+= ID ( ',' par+= ID )* ')' -> ^( CORRSET $f ( $par)+ ) ;
     public final BPELscriptParser.corr_set_return corr_set() throws RecognitionException {
         BPELscriptParser.corr_set_return retval = new BPELscriptParser.corr_set_return();
         retval.start = input.LT(1);
@@ -12893,40 +13293,40 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_118=new RewriteRuleTokenStream(adaptor,"token 118");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:10: (f= ID '(' par+= ID ( ',' par+= ID )* ')' -> ^( CORRSET $f ( $par)+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:12: f= ID '(' par+= ID ( ',' par+= ID )* ')'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:10: (f= ID '(' par+= ID ( ',' par+= ID )* ')' -> ^( CORRSET $f ( $par)+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:12: f= ID '(' par+= ID ( ',' par+= ID )* ')'
             {
-            f=(Token)match(input,ID,FOLLOW_ID_in_corr_set4402);  
+            f=(Token)match(input,ID,FOLLOW_ID_in_corr_set4533);  
             stream_ID.add(f);
 
-            char_literal310=(Token)match(input,117,FOLLOW_117_in_corr_set4404);  
+            char_literal310=(Token)match(input,117,FOLLOW_117_in_corr_set4535);  
             stream_117.add(char_literal310);
 
-            par=(Token)match(input,ID,FOLLOW_ID_in_corr_set4408);  
+            par=(Token)match(input,ID,FOLLOW_ID_in_corr_set4539);  
             stream_ID.add(par);
 
             if (list_par==null) list_par=new ArrayList();
             list_par.add(par);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:29: ( ',' par+= ID )*
-            loop121:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:29: ( ',' par+= ID )*
+            loop127:
             do {
-                int alt121=2;
-                int LA121_0 = input.LA(1);
+                int alt127=2;
+                int LA127_0 = input.LA(1);
 
-                if ( (LA121_0==113) ) {
-                    alt121=1;
+                if ( (LA127_0==113) ) {
+                    alt127=1;
                 }
 
 
-                switch (alt121) {
+                switch (alt127) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:30: ',' par+= ID
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:30: ',' par+= ID
             	    {
-            	    char_literal311=(Token)match(input,113,FOLLOW_113_in_corr_set4411);  
+            	    char_literal311=(Token)match(input,113,FOLLOW_113_in_corr_set4542);  
             	    stream_113.add(char_literal311);
 
-            	    par=(Token)match(input,ID,FOLLOW_ID_in_corr_set4415);  
+            	    par=(Token)match(input,ID,FOLLOW_ID_in_corr_set4546);  
             	    stream_ID.add(par);
 
             	    if (list_par==null) list_par=new ArrayList();
@@ -12937,11 +13337,11 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop121;
+            	    break loop127;
                 }
             } while (true);
 
-            char_literal312=(Token)match(input,118,FOLLOW_118_in_corr_set4419);  
+            char_literal312=(Token)match(input,118,FOLLOW_118_in_corr_set4550);  
             stream_118.add(char_literal312);
 
 
@@ -12952,15 +13352,16 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: par
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_f=new RewriteRuleTokenStream(adaptor,"token f",f);
             RewriteRuleTokenStream stream_par=new RewriteRuleTokenStream(adaptor,"token par", list_par);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 389:48: -> ^( CORRSET $f ( $par)+ )
+            // 396:48: -> ^( CORRSET $f ( $par)+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:389:51: ^( CORRSET $f ( $par)+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:51: ^( CORRSET $f ( $par)+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CORRSET, "CORRSET"), root_1);
@@ -12980,7 +13381,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -13007,7 +13408,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "expr"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:392:1: expr : ( s_expr | EXT_EXPR | funct_call );
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:1: expr : ( s_expr | EXT_EXPR | funct_call );
     public final BPELscriptParser.expr_return expr() throws RecognitionException {
         BPELscriptParser.expr_return retval = new BPELscriptParser.expr_return();
         retval.start = input.LT(1);
@@ -13023,22 +13424,22 @@ public class BPELscriptParser extends Parser {
         CommonTree EXT_EXPR314_tree=null;
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:392:7: ( s_expr | EXT_EXPR | funct_call )
-            int alt122=3;
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:7: ( s_expr | EXT_EXPR | funct_call )
+            int alt128=3;
             switch ( input.LA(1) ) {
             case ID:
                 {
-                int LA122_1 = input.LA(2);
+                int LA128_1 = input.LA(2);
 
-                if ( (LA122_1==SEMI||LA122_1==PROP||LA122_1==118||(LA122_1>=136 && LA122_1<=137)||LA122_1==164||(LA122_1>=170 && LA122_1<=180)) ) {
-                    alt122=1;
+                if ( (LA128_1==SEMI||LA128_1==PROP||LA128_1==118||(LA128_1>=136 && LA128_1<=137)||LA128_1==164||(LA128_1>=170 && LA128_1<=180)) ) {
+                    alt128=1;
                 }
-                else if ( (LA122_1==117) ) {
-                    alt122=3;
+                else if ( (LA128_1==117) ) {
+                    alt128=3;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 122, 1, input);
+                        new NoViableAltException("", 128, 1, input);
 
                     throw nvae;
                 }
@@ -13048,28 +13449,28 @@ public class BPELscriptParser extends Parser {
             case INT:
             case 117:
                 {
-                alt122=1;
+                alt128=1;
                 }
                 break;
             case EXT_EXPR:
                 {
-                alt122=2;
+                alt128=2;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 122, 0, input);
+                    new NoViableAltException("", 128, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt122) {
+            switch (alt128) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:392:9: s_expr
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:9: s_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_s_expr_in_expr4442);
+                    pushFollow(FOLLOW_s_expr_in_expr4573);
                     s_expr313=s_expr();
 
                     state._fsp--;
@@ -13079,11 +13480,11 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:392:18: EXT_EXPR
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:18: EXT_EXPR
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    EXT_EXPR314=(Token)match(input,EXT_EXPR,FOLLOW_EXT_EXPR_in_expr4446); 
+                    EXT_EXPR314=(Token)match(input,EXT_EXPR,FOLLOW_EXT_EXPR_in_expr4577); 
                     EXT_EXPR314_tree = (CommonTree)adaptor.create(EXT_EXPR314);
                     adaptor.addChild(root_0, EXT_EXPR314_tree);
 
@@ -13091,11 +13492,11 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:392:29: funct_call
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:29: funct_call
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_funct_call_in_expr4450);
+                    pushFollow(FOLLOW_funct_call_in_expr4581);
                     funct_call315=funct_call();
 
                     state._fsp--;
@@ -13130,7 +13531,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "funct_call"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:393:1: funct_call : p+= ID '(' (p+= ID )* ')' -> ^( CALL ( ID )+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:1: funct_call : p+= ID '(' (p+= ID )* ')' -> ^( CALL ( ID )+ ) ;
     public final BPELscriptParser.funct_call_return funct_call() throws RecognitionException {
         BPELscriptParser.funct_call_return retval = new BPELscriptParser.funct_call_return();
         retval.start = input.LT(1);
@@ -13150,34 +13551,34 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_118=new RewriteRuleTokenStream(adaptor,"token 118");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:393:12: (p+= ID '(' (p+= ID )* ')' -> ^( CALL ( ID )+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:393:14: p+= ID '(' (p+= ID )* ')'
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:12: (p+= ID '(' (p+= ID )* ')' -> ^( CALL ( ID )+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:14: p+= ID '(' (p+= ID )* ')'
             {
-            p=(Token)match(input,ID,FOLLOW_ID_in_funct_call4459);  
+            p=(Token)match(input,ID,FOLLOW_ID_in_funct_call4590);  
             stream_ID.add(p);
 
             if (list_p==null) list_p=new ArrayList();
             list_p.add(p);
 
-            char_literal316=(Token)match(input,117,FOLLOW_117_in_funct_call4461);  
+            char_literal316=(Token)match(input,117,FOLLOW_117_in_funct_call4592);  
             stream_117.add(char_literal316);
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:393:25: (p+= ID )*
-            loop123:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:25: (p+= ID )*
+            loop129:
             do {
-                int alt123=2;
-                int LA123_0 = input.LA(1);
+                int alt129=2;
+                int LA129_0 = input.LA(1);
 
-                if ( (LA123_0==ID) ) {
-                    alt123=1;
+                if ( (LA129_0==ID) ) {
+                    alt129=1;
                 }
 
 
-                switch (alt123) {
+                switch (alt129) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:393:25: p+= ID
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:25: p+= ID
             	    {
-            	    p=(Token)match(input,ID,FOLLOW_ID_in_funct_call4465);  
+            	    p=(Token)match(input,ID,FOLLOW_ID_in_funct_call4596);  
             	    stream_ID.add(p);
 
             	    if (list_p==null) list_p=new ArrayList();
@@ -13188,11 +13589,11 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop123;
+            	    break loop129;
                 }
             } while (true);
 
-            char_literal317=(Token)match(input,118,FOLLOW_118_in_funct_call4468);  
+            char_literal317=(Token)match(input,118,FOLLOW_118_in_funct_call4599);  
             stream_118.add(char_literal317);
 
 
@@ -13203,13 +13604,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 393:35: -> ^( CALL ( ID )+ )
+            // 400:35: -> ^( CALL ( ID )+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:393:38: ^( CALL ( ID )+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:38: ^( CALL ( ID )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CALL, "CALL"), root_1);
@@ -13228,7 +13630,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -13255,7 +13657,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "s_expr"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:1: s_expr : condExpr ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:401:1: s_expr : condExpr ;
     public final BPELscriptParser.s_expr_return s_expr() throws RecognitionException {
         BPELscriptParser.s_expr_return retval = new BPELscriptParser.s_expr_return();
         retval.start = input.LT(1);
@@ -13267,12 +13669,12 @@ public class BPELscriptParser extends Parser {
 
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:9: ( condExpr )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:394:11: condExpr
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:401:9: ( condExpr )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:401:11: condExpr
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_condExpr_in_s_expr4485);
+            pushFollow(FOLLOW_condExpr_in_s_expr4616);
             condExpr318=condExpr();
 
             state._fsp--;
@@ -13305,7 +13707,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "condExpr"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:1: condExpr : aexpr ( ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr )? ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:1: condExpr : aexpr ( ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr )? ;
     public final BPELscriptParser.condExpr_return condExpr() throws RecognitionException {
         BPELscriptParser.condExpr_return retval = new BPELscriptParser.condExpr_return();
         retval.start = input.LT(1);
@@ -13331,73 +13733,73 @@ public class BPELscriptParser extends Parser {
         CommonTree string_literal325_tree=null;
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:11: ( aexpr ( ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr )? )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:13: aexpr ( ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr )?
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:11: ( aexpr ( ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr )? )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:13: aexpr ( ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr )?
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_aexpr_in_condExpr4493);
+            pushFollow(FOLLOW_aexpr_in_condExpr4624);
             aexpr319=aexpr();
 
             state._fsp--;
 
             adaptor.addChild(root_0, aexpr319.getTree());
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:19: ( ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr )?
-            int alt125=2;
-            int LA125_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:19: ( ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr )?
+            int alt131=2;
+            int LA131_0 = input.LA(1);
 
-            if ( ((LA125_0>=170 && LA125_0<=175)) ) {
-                alt125=1;
+            if ( ((LA131_0>=170 && LA131_0<=175)) ) {
+                alt131=1;
             }
-            switch (alt125) {
+            switch (alt131) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:21: ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:21: ( '==' | '!=' | '<' | '>' | '<=' | '>=' ) aexpr
                     {
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:21: ( '==' | '!=' | '<' | '>' | '<=' | '>=' )
-                    int alt124=6;
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:21: ( '==' | '!=' | '<' | '>' | '<=' | '>=' )
+                    int alt130=6;
                     switch ( input.LA(1) ) {
                     case 170:
                         {
-                        alt124=1;
+                        alt130=1;
                         }
                         break;
                     case 171:
                         {
-                        alt124=2;
+                        alt130=2;
                         }
                         break;
                     case 172:
                         {
-                        alt124=3;
+                        alt130=3;
                         }
                         break;
                     case 173:
                         {
-                        alt124=4;
+                        alt130=4;
                         }
                         break;
                     case 174:
                         {
-                        alt124=5;
+                        alt130=5;
                         }
                         break;
                     case 175:
                         {
-                        alt124=6;
+                        alt130=6;
                         }
                         break;
                     default:
                         NoViableAltException nvae =
-                            new NoViableAltException("", 124, 0, input);
+                            new NoViableAltException("", 130, 0, input);
 
                         throw nvae;
                     }
 
-                    switch (alt124) {
+                    switch (alt130) {
                         case 1 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:22: '=='
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:22: '=='
                             {
-                            string_literal320=(Token)match(input,170,FOLLOW_170_in_condExpr4498); 
+                            string_literal320=(Token)match(input,170,FOLLOW_170_in_condExpr4629); 
                             string_literal320_tree = (CommonTree)adaptor.create(string_literal320);
                             root_0 = (CommonTree)adaptor.becomeRoot(string_literal320_tree, root_0);
 
@@ -13405,9 +13807,9 @@ public class BPELscriptParser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:29: '!='
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:29: '!='
                             {
-                            string_literal321=(Token)match(input,171,FOLLOW_171_in_condExpr4502); 
+                            string_literal321=(Token)match(input,171,FOLLOW_171_in_condExpr4633); 
                             string_literal321_tree = (CommonTree)adaptor.create(string_literal321);
                             root_0 = (CommonTree)adaptor.becomeRoot(string_literal321_tree, root_0);
 
@@ -13415,9 +13817,9 @@ public class BPELscriptParser extends Parser {
                             }
                             break;
                         case 3 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:36: '<'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:36: '<'
                             {
-                            char_literal322=(Token)match(input,172,FOLLOW_172_in_condExpr4506); 
+                            char_literal322=(Token)match(input,172,FOLLOW_172_in_condExpr4637); 
                             char_literal322_tree = (CommonTree)adaptor.create(char_literal322);
                             root_0 = (CommonTree)adaptor.becomeRoot(char_literal322_tree, root_0);
 
@@ -13425,9 +13827,9 @@ public class BPELscriptParser extends Parser {
                             }
                             break;
                         case 4 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:42: '>'
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:42: '>'
                             {
-                            char_literal323=(Token)match(input,173,FOLLOW_173_in_condExpr4510); 
+                            char_literal323=(Token)match(input,173,FOLLOW_173_in_condExpr4641); 
                             char_literal323_tree = (CommonTree)adaptor.create(char_literal323);
                             root_0 = (CommonTree)adaptor.becomeRoot(char_literal323_tree, root_0);
 
@@ -13435,9 +13837,9 @@ public class BPELscriptParser extends Parser {
                             }
                             break;
                         case 5 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:48: '<='
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:48: '<='
                             {
-                            string_literal324=(Token)match(input,174,FOLLOW_174_in_condExpr4514); 
+                            string_literal324=(Token)match(input,174,FOLLOW_174_in_condExpr4645); 
                             string_literal324_tree = (CommonTree)adaptor.create(string_literal324);
                             root_0 = (CommonTree)adaptor.becomeRoot(string_literal324_tree, root_0);
 
@@ -13445,9 +13847,9 @@ public class BPELscriptParser extends Parser {
                             }
                             break;
                         case 6 :
-                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:395:55: '>='
+                            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:402:55: '>='
                             {
-                            string_literal325=(Token)match(input,175,FOLLOW_175_in_condExpr4518); 
+                            string_literal325=(Token)match(input,175,FOLLOW_175_in_condExpr4649); 
                             string_literal325_tree = (CommonTree)adaptor.create(string_literal325);
                             root_0 = (CommonTree)adaptor.becomeRoot(string_literal325_tree, root_0);
 
@@ -13457,7 +13859,7 @@ public class BPELscriptParser extends Parser {
 
                     }
 
-                    pushFollow(FOLLOW_aexpr_in_condExpr4523);
+                    pushFollow(FOLLOW_aexpr_in_condExpr4654);
                     aexpr326=aexpr();
 
                     state._fsp--;
@@ -13496,7 +13898,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "aexpr"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:1: aexpr : mexpr ( ( '+' | '-' ) mexpr )* ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:403:1: aexpr : mexpr ( ( '+' | '-' ) mexpr )* ;
     public final BPELscriptParser.aexpr_return aexpr() throws RecognitionException {
         BPELscriptParser.aexpr_return retval = new BPELscriptParser.aexpr_return();
         retval.start = input.LT(1);
@@ -13512,31 +13914,31 @@ public class BPELscriptParser extends Parser {
         CommonTree set328_tree=null;
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:8: ( mexpr ( ( '+' | '-' ) mexpr )* )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:10: mexpr ( ( '+' | '-' ) mexpr )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:403:8: ( mexpr ( ( '+' | '-' ) mexpr )* )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:403:10: mexpr ( ( '+' | '-' ) mexpr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            pushFollow(FOLLOW_mexpr_in_aexpr4534);
+            pushFollow(FOLLOW_mexpr_in_aexpr4665);
             mexpr327=mexpr();
 
             state._fsp--;
 
             adaptor.addChild(root_0, mexpr327.getTree());
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:16: ( ( '+' | '-' ) mexpr )*
-            loop126:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:403:16: ( ( '+' | '-' ) mexpr )*
+            loop132:
             do {
-                int alt126=2;
-                int LA126_0 = input.LA(1);
+                int alt132=2;
+                int LA132_0 = input.LA(1);
 
-                if ( ((LA126_0>=176 && LA126_0<=177)) ) {
-                    alt126=1;
+                if ( ((LA132_0>=176 && LA132_0<=177)) ) {
+                    alt132=1;
                 }
 
 
-                switch (alt126) {
+                switch (alt132) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:396:17: ( '+' | '-' ) mexpr
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:403:17: ( '+' | '-' ) mexpr
             	    {
             	    set328=(Token)input.LT(1);
             	    set328=(Token)input.LT(1);
@@ -13550,7 +13952,7 @@ public class BPELscriptParser extends Parser {
             	        throw mse;
             	    }
 
-            	    pushFollow(FOLLOW_mexpr_in_aexpr4545);
+            	    pushFollow(FOLLOW_mexpr_in_aexpr4676);
             	    mexpr329=mexpr();
 
             	    state._fsp--;
@@ -13561,7 +13963,7 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop126;
+            	    break loop132;
                 }
             } while (true);
 
@@ -13592,7 +13994,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "mexpr"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:397:1: mexpr : ( atom ( ( '*' | '/' ) atom )* | STRING );
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:1: mexpr : ( atom ( ( '*' | '/' ) atom )* | STRING );
     public final BPELscriptParser.mexpr_return mexpr() throws RecognitionException {
         BPELscriptParser.mexpr_return retval = new BPELscriptParser.mexpr_return();
         retval.start = input.LT(1);
@@ -13610,48 +14012,48 @@ public class BPELscriptParser extends Parser {
         CommonTree STRING333_tree=null;
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:397:8: ( atom ( ( '*' | '/' ) atom )* | STRING )
-            int alt128=2;
-            int LA128_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:8: ( atom ( ( '*' | '/' ) atom )* | STRING )
+            int alt134=2;
+            int LA134_0 = input.LA(1);
 
-            if ( (LA128_0==ID||LA128_0==INT||LA128_0==117) ) {
-                alt128=1;
+            if ( (LA134_0==ID||LA134_0==INT||LA134_0==117) ) {
+                alt134=1;
             }
-            else if ( (LA128_0==STRING) ) {
-                alt128=2;
+            else if ( (LA134_0==STRING) ) {
+                alt134=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 128, 0, input);
+                    new NoViableAltException("", 134, 0, input);
 
                 throw nvae;
             }
-            switch (alt128) {
+            switch (alt134) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:397:10: atom ( ( '*' | '/' ) atom )*
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:10: atom ( ( '*' | '/' ) atom )*
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_atom_in_mexpr4555);
+                    pushFollow(FOLLOW_atom_in_mexpr4686);
                     atom330=atom();
 
                     state._fsp--;
 
                     adaptor.addChild(root_0, atom330.getTree());
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:397:15: ( ( '*' | '/' ) atom )*
-                    loop127:
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:15: ( ( '*' | '/' ) atom )*
+                    loop133:
                     do {
-                        int alt127=2;
-                        int LA127_0 = input.LA(1);
+                        int alt133=2;
+                        int LA133_0 = input.LA(1);
 
-                        if ( ((LA127_0>=178 && LA127_0<=179)) ) {
-                            alt127=1;
+                        if ( ((LA133_0>=178 && LA133_0<=179)) ) {
+                            alt133=1;
                         }
 
 
-                        switch (alt127) {
+                        switch (alt133) {
                     	case 1 :
-                    	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:397:16: ( '*' | '/' ) atom
+                    	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:16: ( '*' | '/' ) atom
                     	    {
                     	    set331=(Token)input.LT(1);
                     	    set331=(Token)input.LT(1);
@@ -13665,7 +14067,7 @@ public class BPELscriptParser extends Parser {
                     	        throw mse;
                     	    }
 
-                    	    pushFollow(FOLLOW_atom_in_mexpr4566);
+                    	    pushFollow(FOLLOW_atom_in_mexpr4697);
                     	    atom332=atom();
 
                     	    state._fsp--;
@@ -13676,7 +14078,7 @@ public class BPELscriptParser extends Parser {
                     	    break;
 
                     	default :
-                    	    break loop127;
+                    	    break loop133;
                         }
                     } while (true);
 
@@ -13684,11 +14086,11 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:397:37: STRING
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:37: STRING
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    STRING333=(Token)match(input,STRING,FOLLOW_STRING_in_mexpr4572); 
+                    STRING333=(Token)match(input,STRING,FOLLOW_STRING_in_mexpr4703); 
                     STRING333_tree = (CommonTree)adaptor.create(STRING333);
                     adaptor.addChild(root_0, STRING333_tree);
 
@@ -13721,7 +14123,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "atom"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:398:1: atom : ( path_expr | INT | '(' s_expr ')' -> s_expr );
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:405:1: atom : ( path_expr | INT | '(' s_expr ')' -> s_expr );
     public final BPELscriptParser.atom_return atom() throws RecognitionException {
         BPELscriptParser.atom_return retval = new BPELscriptParser.atom_return();
         retval.start = input.LT(1);
@@ -13743,38 +14145,38 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_118=new RewriteRuleTokenStream(adaptor,"token 118");
         RewriteRuleSubtreeStream stream_s_expr=new RewriteRuleSubtreeStream(adaptor,"rule s_expr");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:398:7: ( path_expr | INT | '(' s_expr ')' -> s_expr )
-            int alt129=3;
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:405:7: ( path_expr | INT | '(' s_expr ')' -> s_expr )
+            int alt135=3;
             switch ( input.LA(1) ) {
             case ID:
                 {
-                alt129=1;
+                alt135=1;
                 }
                 break;
             case INT:
                 {
-                alt129=2;
+                alt135=2;
                 }
                 break;
             case 117:
                 {
-                alt129=3;
+                alt135=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 129, 0, input);
+                    new NoViableAltException("", 135, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt129) {
+            switch (alt135) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:398:9: path_expr
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:405:9: path_expr
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    pushFollow(FOLLOW_path_expr_in_atom4580);
+                    pushFollow(FOLLOW_path_expr_in_atom4711);
                     path_expr334=path_expr();
 
                     state._fsp--;
@@ -13784,11 +14186,11 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:398:21: INT
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:405:21: INT
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
-                    INT335=(Token)match(input,INT,FOLLOW_INT_in_atom4584); 
+                    INT335=(Token)match(input,INT,FOLLOW_INT_in_atom4715); 
                     INT335_tree = (CommonTree)adaptor.create(INT335);
                     adaptor.addChild(root_0, INT335_tree);
 
@@ -13796,18 +14198,18 @@ public class BPELscriptParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:398:27: '(' s_expr ')'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:405:27: '(' s_expr ')'
                     {
-                    char_literal336=(Token)match(input,117,FOLLOW_117_in_atom4588);  
+                    char_literal336=(Token)match(input,117,FOLLOW_117_in_atom4719);  
                     stream_117.add(char_literal336);
 
-                    pushFollow(FOLLOW_s_expr_in_atom4590);
+                    pushFollow(FOLLOW_s_expr_in_atom4721);
                     s_expr337=s_expr();
 
                     state._fsp--;
 
                     stream_s_expr.add(s_expr337.getTree());
-                    char_literal338=(Token)match(input,118,FOLLOW_118_in_atom4592);  
+                    char_literal338=(Token)match(input,118,FOLLOW_118_in_atom4723);  
                     stream_118.add(char_literal338);
 
 
@@ -13818,17 +14220,18 @@ public class BPELscriptParser extends Parser {
                     // rule labels: retval
                     // token list labels: 
                     // rule list labels: 
+                    // wildcard labels: 
                     retval.tree = root_0;
-                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+                    RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 398:42: -> s_expr
+                    // 405:42: -> s_expr
                     {
                         adaptor.addChild(root_0, stream_s_expr.nextTree());
 
                     }
 
-                    retval.tree = root_0;retval.tree = root_0;
+                    retval.tree = root_0;
                     }
                     break;
 
@@ -13857,7 +14260,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "path_expr"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:1: path_expr : pelmt+= ns_id ( '.' pelmt+= ns_id )* -> ^( PATH ( $pelmt)+ ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:406:1: path_expr : pelmt+= ns_id ( '.' pelmt+= ns_id )* -> ^( PATH ( $pelmt)+ ) ;
     public final BPELscriptParser.path_expr_return path_expr() throws RecognitionException {
         BPELscriptParser.path_expr_return retval = new BPELscriptParser.path_expr_return();
         retval.start = input.LT(1);
@@ -13866,56 +14269,57 @@ public class BPELscriptParser extends Parser {
 
         Token char_literal339=null;
         List list_pelmt=null;
-        RuleReturnScope pelmt = null;
+        BPELscriptParser.ns_id_return pelmt = null;
+         pelmt = null;
         CommonTree char_literal339_tree=null;
         RewriteRuleTokenStream stream_180=new RewriteRuleTokenStream(adaptor,"token 180");
         RewriteRuleSubtreeStream stream_ns_id=new RewriteRuleSubtreeStream(adaptor,"rule ns_id");
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:11: (pelmt+= ns_id ( '.' pelmt+= ns_id )* -> ^( PATH ( $pelmt)+ ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:13: pelmt+= ns_id ( '.' pelmt+= ns_id )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:406:11: (pelmt+= ns_id ( '.' pelmt+= ns_id )* -> ^( PATH ( $pelmt)+ ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:406:13: pelmt+= ns_id ( '.' pelmt+= ns_id )*
             {
-            pushFollow(FOLLOW_ns_id_in_path_expr4605);
+            pushFollow(FOLLOW_ns_id_in_path_expr4736);
             pelmt=ns_id();
 
             state._fsp--;
 
             stream_ns_id.add(pelmt.getTree());
             if (list_pelmt==null) list_pelmt=new ArrayList();
-            list_pelmt.add(pelmt);
+            list_pelmt.add(pelmt.getTree());
 
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:26: ( '.' pelmt+= ns_id )*
-            loop130:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:406:26: ( '.' pelmt+= ns_id )*
+            loop136:
             do {
-                int alt130=2;
-                int LA130_0 = input.LA(1);
+                int alt136=2;
+                int LA136_0 = input.LA(1);
 
-                if ( (LA130_0==180) ) {
-                    alt130=1;
+                if ( (LA136_0==180) ) {
+                    alt136=1;
                 }
 
 
-                switch (alt130) {
+                switch (alt136) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:27: '.' pelmt+= ns_id
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:406:27: '.' pelmt+= ns_id
             	    {
-            	    char_literal339=(Token)match(input,180,FOLLOW_180_in_path_expr4608);  
+            	    char_literal339=(Token)match(input,180,FOLLOW_180_in_path_expr4739);  
             	    stream_180.add(char_literal339);
 
-            	    pushFollow(FOLLOW_ns_id_in_path_expr4612);
+            	    pushFollow(FOLLOW_ns_id_in_path_expr4743);
             	    pelmt=ns_id();
 
             	    state._fsp--;
 
             	    stream_ns_id.add(pelmt.getTree());
             	    if (list_pelmt==null) list_pelmt=new ArrayList();
-            	    list_pelmt.add(pelmt);
+            	    list_pelmt.add(pelmt.getTree());
 
 
             	    }
             	    break;
 
             	default :
-            	    break loop130;
+            	    break loop136;
                 }
             } while (true);
 
@@ -13927,13 +14331,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: pelmt
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
             RewriteRuleSubtreeStream stream_pelmt=new RewriteRuleSubtreeStream(adaptor,"token pelmt",list_pelmt);
             root_0 = (CommonTree)adaptor.nil();
-            // 399:46: -> ^( PATH ( $pelmt)+ )
+            // 406:46: -> ^( PATH ( $pelmt)+ )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:399:49: ^( PATH ( $pelmt)+ )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:406:49: ^( PATH ( $pelmt)+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PATH, "PATH"), root_1);
@@ -13942,7 +14347,7 @@ public class BPELscriptParser extends Parser {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_pelmt.hasNext() ) {
-                    adaptor.addChild(root_1, ((ParserRuleReturnScope)stream_pelmt.nextTree()).getTree());
+                    adaptor.addChild(root_1, stream_pelmt.nextTree());
 
                 }
                 stream_pelmt.reset();
@@ -13952,7 +14357,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -13979,7 +14384,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "ns_id"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:1: ns_id : (pr= ID '::' )? loc= ID -> ^( NS ( $pr)? $loc) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:1: ns_id : (pr= ID '::' )? loc= ID -> ^( NS ( $pr)? $loc) ;
     public final BPELscriptParser.ns_id_return ns_id() throws RecognitionException {
         BPELscriptParser.ns_id_return retval = new BPELscriptParser.ns_id_return();
         retval.start = input.LT(1);
@@ -13997,28 +14402,28 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_ID=new RewriteRuleTokenStream(adaptor,"token ID");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:8: ( (pr= ID '::' )? loc= ID -> ^( NS ( $pr)? $loc) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:10: (pr= ID '::' )? loc= ID
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:8: ( (pr= ID '::' )? loc= ID -> ^( NS ( $pr)? $loc) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:10: (pr= ID '::' )? loc= ID
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:10: (pr= ID '::' )?
-            int alt131=2;
-            int LA131_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:10: (pr= ID '::' )?
+            int alt137=2;
+            int LA137_0 = input.LA(1);
 
-            if ( (LA131_0==ID) ) {
-                int LA131_1 = input.LA(2);
+            if ( (LA137_0==ID) ) {
+                int LA137_1 = input.LA(2);
 
-                if ( (LA131_1==164) ) {
-                    alt131=1;
+                if ( (LA137_1==164) ) {
+                    alt137=1;
                 }
             }
-            switch (alt131) {
+            switch (alt137) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:11: pr= ID '::'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:11: pr= ID '::'
                     {
-                    pr=(Token)match(input,ID,FOLLOW_ID_in_ns_id4635);  
+                    pr=(Token)match(input,ID,FOLLOW_ID_in_ns_id4766);  
                     stream_ID.add(pr);
 
-                    string_literal340=(Token)match(input,164,FOLLOW_164_in_ns_id4637);  
+                    string_literal340=(Token)match(input,164,FOLLOW_164_in_ns_id4768);  
                     stream_164.add(string_literal340);
 
 
@@ -14027,31 +14432,32 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            loc=(Token)match(input,ID,FOLLOW_ID_in_ns_id4643);  
+            loc=(Token)match(input,ID,FOLLOW_ID_in_ns_id4774);  
             stream_ID.add(loc);
 
 
 
             // AST REWRITE
-            // elements: loc, pr
+            // elements: pr, loc
             // token labels: loc, pr
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_loc=new RewriteRuleTokenStream(adaptor,"token loc",loc);
             RewriteRuleTokenStream stream_pr=new RewriteRuleTokenStream(adaptor,"token pr",pr);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 400:31: -> ^( NS ( $pr)? $loc)
+            // 407:31: -> ^( NS ( $pr)? $loc)
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:34: ^( NS ( $pr)? $loc)
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:34: ^( NS ( $pr)? $loc)
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NS, "NS"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:400:39: ( $pr)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:39: ( $pr)?
                 if ( stream_pr.hasNext() ) {
                     adaptor.addChild(root_1, stream_pr.nextNode());
 
@@ -14064,7 +14470,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14091,7 +14497,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "portType"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:1: portType : ( '@portType' | '@pt' ) STRING -> ^( PORTTYPE STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:411:1: portType : ( '@portType' | '@pt' ) STRING -> ^( PORTTYPE STRING ) ;
     public final BPELscriptParser.portType_return portType() throws RecognitionException {
         BPELscriptParser.portType_return retval = new BPELscriptParser.portType_return();
         retval.start = input.LT(1);
@@ -14110,39 +14516,39 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:11: ( ( '@portType' | '@pt' ) STRING -> ^( PORTTYPE STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:13: ( '@portType' | '@pt' ) STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:411:11: ( ( '@portType' | '@pt' ) STRING -> ^( PORTTYPE STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:411:13: ( '@portType' | '@pt' ) STRING
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:13: ( '@portType' | '@pt' )
-            int alt132=2;
-            int LA132_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:411:13: ( '@portType' | '@pt' )
+            int alt138=2;
+            int LA138_0 = input.LA(1);
 
-            if ( (LA132_0==181) ) {
-                alt132=1;
+            if ( (LA138_0==181) ) {
+                alt138=1;
             }
-            else if ( (LA132_0==182) ) {
-                alt132=2;
+            else if ( (LA138_0==182) ) {
+                alt138=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 132, 0, input);
+                    new NoViableAltException("", 138, 0, input);
 
                 throw nvae;
             }
-            switch (alt132) {
+            switch (alt138) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:14: '@portType'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:411:14: '@portType'
                     {
-                    string_literal341=(Token)match(input,181,FOLLOW_181_in_portType4668);  
+                    string_literal341=(Token)match(input,181,FOLLOW_181_in_portType4799);  
                     stream_181.add(string_literal341);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:404:28: '@pt'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:411:28: '@pt'
                     {
-                    string_literal342=(Token)match(input,182,FOLLOW_182_in_portType4672);  
+                    string_literal342=(Token)match(input,182,FOLLOW_182_in_portType4803);  
                     stream_182.add(string_literal342);
 
 
@@ -14151,7 +14557,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            STRING343=(Token)match(input,STRING,FOLLOW_STRING_in_portType4675);  
+            STRING343=(Token)match(input,STRING,FOLLOW_STRING_in_portType4806);  
             stream_STRING.add(STRING343);
 
 
@@ -14162,13 +14568,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 405:3: -> ^( PORTTYPE STRING )
+            // 412:3: -> ^( PORTTYPE STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:405:6: ^( PORTTYPE STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:6: ^( PORTTYPE STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PORTTYPE, "PORTTYPE"), root_1);
@@ -14180,7 +14587,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14207,7 +14614,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "std_attr"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:1: std_attr : ({...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* -> ^( STD_ATTR ( $name)? ( $suppressJoinFailure)? ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:414:1: std_attr : ({...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* -> ^( STD_ATTR ( $name)? ( $suppressJoinFailure)? ) ;
     public final BPELscriptParser.std_attr_return std_attr() throws RecognitionException {
         BPELscriptParser.std_attr_return retval = new BPELscriptParser.std_attr_return();
         retval.start = input.LT(1);
@@ -14226,49 +14633,49 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:10: ( ({...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* -> ^( STD_ATTR ( $name)? ( $suppressJoinFailure)? ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:12: ({...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:414:10: ( ({...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )* -> ^( STD_ATTR ( $name)? ( $suppressJoinFailure)? ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:414:12: ({...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:12: ({...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
-            loop133:
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:414:12: ({...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*
+            loop139:
             do {
-                int alt133=3;
-                int LA133_0 = input.LA(1);
+                int alt139=3;
+                int LA139_0 = input.LA(1);
 
-                if ( (LA133_0==114) ) {
-                    int LA133_2 = input.LA(2);
+                if ( (LA139_0==114) ) {
+                    int LA139_2 = input.LA(2);
 
-                    if ( (name==null) ) {
-                        alt133=1;
+                    if ( ((name==null)) ) {
+                        alt139=1;
                     }
 
 
                 }
-                else if ( (LA133_0==SJF) ) {
-                    int LA133_3 = input.LA(2);
+                else if ( (LA139_0==SJF) ) {
+                    int LA139_3 = input.LA(2);
 
-                    if ( (suppressJoinFailure==null) ) {
-                        alt133=2;
+                    if ( ((suppressJoinFailure==null)) ) {
+                        alt139=2;
                     }
 
 
                 }
 
 
-                switch (alt133) {
+                switch (alt139) {
             	case 1 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:14: {...}? ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:414:14: {...}? ( '@name' name= STRING )
             	    {
-            	    if ( !(name==null) ) {
+            	    if ( !((name==null)) ) {
             	        throw new FailedPredicateException(input, "std_attr", "name==null");
             	    }
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:28: ( '@name' name= STRING )
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:29: '@name' name= STRING
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:414:28: ( '@name' name= STRING )
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:414:29: '@name' name= STRING
             	    {
-            	    string_literal344=(Token)match(input,114,FOLLOW_114_in_std_attr4699);  
+            	    string_literal344=(Token)match(input,114,FOLLOW_114_in_std_attr4830);  
             	    stream_114.add(string_literal344);
 
-            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_std_attr4703);  
+            	    name=(Token)match(input,STRING,FOLLOW_STRING_in_std_attr4834);  
             	    stream_STRING.add(name);
 
 
@@ -14278,12 +14685,12 @@ public class BPELscriptParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:407:52: {...}?suppressJoinFailure= SJF
+            	    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:414:52: {...}?suppressJoinFailure= SJF
             	    {
-            	    if ( !(suppressJoinFailure==null) ) {
+            	    if ( !((suppressJoinFailure==null)) ) {
             	        throw new FailedPredicateException(input, "std_attr", "suppressJoinFailure==null");
             	    }
-            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_std_attr4712);  
+            	    suppressJoinFailure=(Token)match(input,SJF,FOLLOW_SJF_in_std_attr4843);  
             	    stream_SJF.add(suppressJoinFailure);
 
 
@@ -14291,7 +14698,7 @@ public class BPELscriptParser extends Parser {
             	    break;
 
             	default :
-            	    break loop133;
+            	    break loop139;
                 }
             } while (true);
 
@@ -14303,26 +14710,27 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
             RewriteRuleTokenStream stream_suppressJoinFailure=new RewriteRuleTokenStream(adaptor,"token suppressJoinFailure",suppressJoinFailure);
             RewriteRuleTokenStream stream_name=new RewriteRuleTokenStream(adaptor,"token name",name);
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 408:3: -> ^( STD_ATTR ( $name)? ( $suppressJoinFailure)? )
+            // 415:3: -> ^( STD_ATTR ( $name)? ( $suppressJoinFailure)? )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:408:6: ^( STD_ATTR ( $name)? ( $suppressJoinFailure)? )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:6: ^( STD_ATTR ( $name)? ( $suppressJoinFailure)? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(STD_ATTR, "STD_ATTR"), root_1);
 
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:408:17: ( $name)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:17: ( $name)?
                 if ( stream_name.hasNext() ) {
                     adaptor.addChild(root_1, stream_name.nextNode());
 
                 }
                 stream_name.reset();
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:408:24: ( $suppressJoinFailure)?
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:24: ( $suppressJoinFailure)?
                 if ( stream_suppressJoinFailure.hasNext() ) {
                     adaptor.addChild(root_1, stream_suppressJoinFailure.nextNode());
 
@@ -14334,7 +14742,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14358,7 +14766,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "msgEx"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:1: msgEx : ( '@messageExchange' | '@mex' ) STRING -> ^( MSGEX STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:1: msgEx : ( '@messageExchange' | '@mex' ) STRING -> ^( MSGEX STRING ) ;
     public final BPELscriptParser.msgEx_return msgEx() throws RecognitionException {
         BPELscriptParser.msgEx_return retval = new BPELscriptParser.msgEx_return();
         retval.start = input.LT(1);
@@ -14377,39 +14785,39 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:8: ( ( '@messageExchange' | '@mex' ) STRING -> ^( MSGEX STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:10: ( '@messageExchange' | '@mex' ) STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:8: ( ( '@messageExchange' | '@mex' ) STRING -> ^( MSGEX STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:10: ( '@messageExchange' | '@mex' ) STRING
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:10: ( '@messageExchange' | '@mex' )
-            int alt134=2;
-            int LA134_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:10: ( '@messageExchange' | '@mex' )
+            int alt140=2;
+            int LA140_0 = input.LA(1);
 
-            if ( (LA134_0==183) ) {
-                alt134=1;
+            if ( (LA140_0==183) ) {
+                alt140=1;
             }
-            else if ( (LA134_0==184) ) {
-                alt134=2;
+            else if ( (LA140_0==184) ) {
+                alt140=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 134, 0, input);
+                    new NoViableAltException("", 140, 0, input);
 
                 throw nvae;
             }
-            switch (alt134) {
+            switch (alt140) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:11: '@messageExchange'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:11: '@messageExchange'
                     {
-                    string_literal345=(Token)match(input,183,FOLLOW_183_in_msgEx4751);  
+                    string_literal345=(Token)match(input,183,FOLLOW_183_in_msgEx4882);  
                     stream_183.add(string_literal345);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:412:32: '@mex'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:32: '@mex'
                     {
-                    string_literal346=(Token)match(input,184,FOLLOW_184_in_msgEx4755);  
+                    string_literal346=(Token)match(input,184,FOLLOW_184_in_msgEx4886);  
                     stream_184.add(string_literal346);
 
 
@@ -14418,7 +14826,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            STRING347=(Token)match(input,STRING,FOLLOW_STRING_in_msgEx4758);  
+            STRING347=(Token)match(input,STRING,FOLLOW_STRING_in_msgEx4889);  
             stream_STRING.add(STRING347);
 
 
@@ -14429,13 +14837,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 413:3: -> ^( MSGEX STRING )
+            // 420:3: -> ^( MSGEX STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:413:6: ^( MSGEX STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:420:6: ^( MSGEX STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MSGEX, "MSGEX"), root_1);
@@ -14447,7 +14856,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14474,7 +14883,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "msgType"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:1: msgType : ( '@messageType' | '@msgType' ) msgT= STRING -> ^( MSGTYPE STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:1: msgType : ( '@messageType' | '@msgType' ) msgT= STRING -> ^( MSGTYPE STRING ) ;
     public final BPELscriptParser.msgType_return msgType() throws RecognitionException {
         BPELscriptParser.msgType_return retval = new BPELscriptParser.msgType_return();
         retval.start = input.LT(1);
@@ -14493,39 +14902,39 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:10: ( ( '@messageType' | '@msgType' ) msgT= STRING -> ^( MSGTYPE STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:12: ( '@messageType' | '@msgType' ) msgT= STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:10: ( ( '@messageType' | '@msgType' ) msgT= STRING -> ^( MSGTYPE STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:12: ( '@messageType' | '@msgType' ) msgT= STRING
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:12: ( '@messageType' | '@msgType' )
-            int alt135=2;
-            int LA135_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:12: ( '@messageType' | '@msgType' )
+            int alt141=2;
+            int LA141_0 = input.LA(1);
 
-            if ( (LA135_0==185) ) {
-                alt135=1;
+            if ( (LA141_0==185) ) {
+                alt141=1;
             }
-            else if ( (LA135_0==186) ) {
-                alt135=2;
+            else if ( (LA141_0==186) ) {
+                alt141=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 135, 0, input);
+                    new NoViableAltException("", 141, 0, input);
 
                 throw nvae;
             }
-            switch (alt135) {
+            switch (alt141) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:13: '@messageType'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:13: '@messageType'
                     {
-                    string_literal348=(Token)match(input,185,FOLLOW_185_in_msgType4778);  
+                    string_literal348=(Token)match(input,185,FOLLOW_185_in_msgType4909);  
                     stream_185.add(string_literal348);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:415:30: '@msgType'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:30: '@msgType'
                     {
-                    string_literal349=(Token)match(input,186,FOLLOW_186_in_msgType4782);  
+                    string_literal349=(Token)match(input,186,FOLLOW_186_in_msgType4913);  
                     stream_186.add(string_literal349);
 
 
@@ -14534,7 +14943,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            msgT=(Token)match(input,STRING,FOLLOW_STRING_in_msgType4787);  
+            msgT=(Token)match(input,STRING,FOLLOW_STRING_in_msgType4918);  
             stream_STRING.add(msgT);
 
 
@@ -14545,13 +14954,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 416:3: -> ^( MSGTYPE STRING )
+            // 423:3: -> ^( MSGTYPE STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:416:6: ^( MSGTYPE STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:423:6: ^( MSGTYPE STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MSGTYPE, "MSGTYPE"), root_1);
@@ -14563,7 +14973,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14590,7 +15000,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "viType"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:1: viType : '@type' type= STRING -> ^( VITYPE STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:426:1: viType : '@type' type= STRING -> ^( VITYPE STRING ) ;
     public final BPELscriptParser.viType_return viType() throws RecognitionException {
         BPELscriptParser.viType_return retval = new BPELscriptParser.viType_return();
         retval.start = input.LT(1);
@@ -14606,13 +15016,13 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:9: ( '@type' type= STRING -> ^( VITYPE STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:419:11: '@type' type= STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:426:9: ( '@type' type= STRING -> ^( VITYPE STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:426:11: '@type' type= STRING
             {
-            string_literal350=(Token)match(input,187,FOLLOW_187_in_viType4807);  
+            string_literal350=(Token)match(input,187,FOLLOW_187_in_viType4938);  
             stream_187.add(string_literal350);
 
-            type=(Token)match(input,STRING,FOLLOW_STRING_in_viType4811);  
+            type=(Token)match(input,STRING,FOLLOW_STRING_in_viType4942);  
             stream_STRING.add(type);
 
 
@@ -14623,13 +15033,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 420:3: -> ^( VITYPE STRING )
+            // 427:3: -> ^( VITYPE STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:420:6: ^( VITYPE STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:427:6: ^( VITYPE STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VITYPE, "VITYPE"), root_1);
@@ -14641,7 +15052,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14668,7 +15079,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "viElt"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:1: viElt : '@element' elt= STRING -> ^( VIELT STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:429:1: viElt : '@element' elt= STRING -> ^( VIELT STRING ) ;
     public final BPELscriptParser.viElt_return viElt() throws RecognitionException {
         BPELscriptParser.viElt_return retval = new BPELscriptParser.viElt_return();
         retval.start = input.LT(1);
@@ -14684,13 +15095,13 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:8: ( '@element' elt= STRING -> ^( VIELT STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:422:10: '@element' elt= STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:429:8: ( '@element' elt= STRING -> ^( VIELT STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:429:10: '@element' elt= STRING
             {
-            string_literal351=(Token)match(input,188,FOLLOW_188_in_viElt4831);  
+            string_literal351=(Token)match(input,188,FOLLOW_188_in_viElt4962);  
             stream_188.add(string_literal351);
 
-            elt=(Token)match(input,STRING,FOLLOW_STRING_in_viElt4835);  
+            elt=(Token)match(input,STRING,FOLLOW_STRING_in_viElt4966);  
             stream_STRING.add(elt);
 
 
@@ -14701,13 +15112,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 423:3: -> ^( VIELT STRING )
+            // 430:3: -> ^( VIELT STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:423:6: ^( VIELT STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:430:6: ^( VIELT STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VIELT, "VIELT"), root_1);
@@ -14719,7 +15131,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14746,7 +15158,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "faultName"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:425:1: faultName : ( '@faultName' | '@fault' ) STRING -> ^( FAULTNAME STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:1: faultName : ( '@faultName' | '@fault' ) STRING -> ^( FAULTNAME STRING ) ;
     public final BPELscriptParser.faultName_return faultName() throws RecognitionException {
         BPELscriptParser.faultName_return retval = new BPELscriptParser.faultName_return();
         retval.start = input.LT(1);
@@ -14765,39 +15177,39 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:425:11: ( ( '@faultName' | '@fault' ) STRING -> ^( FAULTNAME STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:425:13: ( '@faultName' | '@fault' ) STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:11: ( ( '@faultName' | '@fault' ) STRING -> ^( FAULTNAME STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:13: ( '@faultName' | '@fault' ) STRING
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:425:13: ( '@faultName' | '@fault' )
-            int alt136=2;
-            int LA136_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:13: ( '@faultName' | '@fault' )
+            int alt142=2;
+            int LA142_0 = input.LA(1);
 
-            if ( (LA136_0==189) ) {
-                alt136=1;
+            if ( (LA142_0==189) ) {
+                alt142=1;
             }
-            else if ( (LA136_0==190) ) {
-                alt136=2;
+            else if ( (LA142_0==190) ) {
+                alt142=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 136, 0, input);
+                    new NoViableAltException("", 142, 0, input);
 
                 throw nvae;
             }
-            switch (alt136) {
+            switch (alt142) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:425:14: '@faultName'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:14: '@faultName'
                     {
-                    string_literal352=(Token)match(input,189,FOLLOW_189_in_faultName4854);  
+                    string_literal352=(Token)match(input,189,FOLLOW_189_in_faultName4985);  
                     stream_189.add(string_literal352);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:425:29: '@fault'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:29: '@fault'
                     {
-                    string_literal353=(Token)match(input,190,FOLLOW_190_in_faultName4858);  
+                    string_literal353=(Token)match(input,190,FOLLOW_190_in_faultName4989);  
                     stream_190.add(string_literal353);
 
 
@@ -14806,7 +15218,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            STRING354=(Token)match(input,STRING,FOLLOW_STRING_in_faultName4861);  
+            STRING354=(Token)match(input,STRING,FOLLOW_STRING_in_faultName4992);  
             stream_STRING.add(STRING354);
 
 
@@ -14817,13 +15229,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 426:3: -> ^( FAULTNAME STRING )
+            // 433:3: -> ^( FAULTNAME STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:426:6: ^( FAULTNAME STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:433:6: ^( FAULTNAME STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FAULTNAME, "FAULTNAME"), root_1);
@@ -14835,7 +15248,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14862,7 +15275,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "faultElt"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:428:1: faultElt : '@faultElement' STRING -> ^( FAULTELT STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:1: faultElt : '@faultElement' STRING -> ^( FAULTELT STRING ) ;
     public final BPELscriptParser.faultElt_return faultElt() throws RecognitionException {
         BPELscriptParser.faultElt_return retval = new BPELscriptParser.faultElt_return();
         retval.start = input.LT(1);
@@ -14878,13 +15291,13 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:428:10: ( '@faultElement' STRING -> ^( FAULTELT STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:428:12: '@faultElement' STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:10: ( '@faultElement' STRING -> ^( FAULTELT STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:12: '@faultElement' STRING
             {
-            string_literal355=(Token)match(input,191,FOLLOW_191_in_faultElt4879);  
+            string_literal355=(Token)match(input,191,FOLLOW_191_in_faultElt5010);  
             stream_191.add(string_literal355);
 
-            STRING356=(Token)match(input,STRING,FOLLOW_STRING_in_faultElt4881);  
+            STRING356=(Token)match(input,STRING,FOLLOW_STRING_in_faultElt5012);  
             stream_STRING.add(STRING356);
 
 
@@ -14895,13 +15308,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 429:3: -> ^( FAULTELT STRING )
+            // 436:3: -> ^( FAULTELT STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:429:6: ^( FAULTELT STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:436:6: ^( FAULTELT STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FAULTELT, "FAULTELT"), root_1);
@@ -14913,7 +15327,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -14940,7 +15354,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "exprLg"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:1: exprLg : ( '@expressionLanguage' | '@exprLg' ) STRING -> ^( EXPRLG STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:1: exprLg : ( '@expressionLanguage' | '@exprLg' ) STRING -> ^( EXPRLG STRING ) ;
     public final BPELscriptParser.exprLg_return exprLg() throws RecognitionException {
         BPELscriptParser.exprLg_return retval = new BPELscriptParser.exprLg_return();
         retval.start = input.LT(1);
@@ -14959,39 +15373,39 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_192=new RewriteRuleTokenStream(adaptor,"token 192");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:9: ( ( '@expressionLanguage' | '@exprLg' ) STRING -> ^( EXPRLG STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:11: ( '@expressionLanguage' | '@exprLg' ) STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:9: ( ( '@expressionLanguage' | '@exprLg' ) STRING -> ^( EXPRLG STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:11: ( '@expressionLanguage' | '@exprLg' ) STRING
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:11: ( '@expressionLanguage' | '@exprLg' )
-            int alt137=2;
-            int LA137_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:11: ( '@expressionLanguage' | '@exprLg' )
+            int alt143=2;
+            int LA143_0 = input.LA(1);
 
-            if ( (LA137_0==192) ) {
-                alt137=1;
+            if ( (LA143_0==192) ) {
+                alt143=1;
             }
-            else if ( (LA137_0==193) ) {
-                alt137=2;
+            else if ( (LA143_0==193) ) {
+                alt143=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 137, 0, input);
+                    new NoViableAltException("", 143, 0, input);
 
                 throw nvae;
             }
-            switch (alt137) {
+            switch (alt143) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:12: '@expressionLanguage'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:12: '@expressionLanguage'
                     {
-                    string_literal357=(Token)match(input,192,FOLLOW_192_in_exprLg4904);  
+                    string_literal357=(Token)match(input,192,FOLLOW_192_in_exprLg5035);  
                     stream_192.add(string_literal357);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:431:36: '@exprLg'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:438:36: '@exprLg'
                     {
-                    string_literal358=(Token)match(input,193,FOLLOW_193_in_exprLg4908);  
+                    string_literal358=(Token)match(input,193,FOLLOW_193_in_exprLg5039);  
                     stream_193.add(string_literal358);
 
 
@@ -15000,7 +15414,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            STRING359=(Token)match(input,STRING,FOLLOW_STRING_in_exprLg4911);  
+            STRING359=(Token)match(input,STRING,FOLLOW_STRING_in_exprLg5042);  
             stream_STRING.add(STRING359);
 
 
@@ -15011,13 +15425,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 432:3: -> ^( EXPRLG STRING )
+            // 439:3: -> ^( EXPRLG STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:432:6: ^( EXPRLG STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:439:6: ^( EXPRLG STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EXPRLG, "EXPRLG"), root_1);
@@ -15029,7 +15444,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -15056,7 +15471,7 @@ public class BPELscriptParser extends Parser {
     };
 
     // $ANTLR start "queryLg"
-    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:1: queryLg : ( '@queryLanguage' | '@queryLg' ) STRING -> ^( QUERYLG STRING ) ;
+    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:441:1: queryLg : ( '@queryLanguage' | '@queryLg' ) STRING -> ^( QUERYLG STRING ) ;
     public final BPELscriptParser.queryLg_return queryLg() throws RecognitionException {
         BPELscriptParser.queryLg_return retval = new BPELscriptParser.queryLg_return();
         retval.start = input.LT(1);
@@ -15075,39 +15490,39 @@ public class BPELscriptParser extends Parser {
         RewriteRuleTokenStream stream_STRING=new RewriteRuleTokenStream(adaptor,"token STRING");
 
         try {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:9: ( ( '@queryLanguage' | '@queryLg' ) STRING -> ^( QUERYLG STRING ) )
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:11: ( '@queryLanguage' | '@queryLg' ) STRING
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:441:9: ( ( '@queryLanguage' | '@queryLg' ) STRING -> ^( QUERYLG STRING ) )
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:441:11: ( '@queryLanguage' | '@queryLg' ) STRING
             {
-            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:11: ( '@queryLanguage' | '@queryLg' )
-            int alt138=2;
-            int LA138_0 = input.LA(1);
+            // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:441:11: ( '@queryLanguage' | '@queryLg' )
+            int alt144=2;
+            int LA144_0 = input.LA(1);
 
-            if ( (LA138_0==194) ) {
-                alt138=1;
+            if ( (LA144_0==194) ) {
+                alt144=1;
             }
-            else if ( (LA138_0==195) ) {
-                alt138=2;
+            else if ( (LA144_0==195) ) {
+                alt144=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 138, 0, input);
+                    new NoViableAltException("", 144, 0, input);
 
                 throw nvae;
             }
-            switch (alt138) {
+            switch (alt144) {
                 case 1 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:12: '@queryLanguage'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:441:12: '@queryLanguage'
                     {
-                    string_literal360=(Token)match(input,194,FOLLOW_194_in_queryLg4932);  
+                    string_literal360=(Token)match(input,194,FOLLOW_194_in_queryLg5063);  
                     stream_194.add(string_literal360);
 
 
                     }
                     break;
                 case 2 :
-                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:434:31: '@queryLg'
+                    // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:441:31: '@queryLg'
                     {
-                    string_literal361=(Token)match(input,195,FOLLOW_195_in_queryLg4936);  
+                    string_literal361=(Token)match(input,195,FOLLOW_195_in_queryLg5067);  
                     stream_195.add(string_literal361);
 
 
@@ -15116,7 +15531,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            STRING362=(Token)match(input,STRING,FOLLOW_STRING_in_queryLg4939);  
+            STRING362=(Token)match(input,STRING,FOLLOW_STRING_in_queryLg5070);  
             stream_STRING.add(STRING362);
 
 
@@ -15127,13 +15542,14 @@ public class BPELscriptParser extends Parser {
             // rule labels: retval
             // token list labels: 
             // rule list labels: 
+            // wildcard labels: 
             retval.tree = root_0;
-            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"token retval",retval!=null?retval.tree:null);
+            RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
             root_0 = (CommonTree)adaptor.nil();
-            // 435:3: -> ^( QUERYLG STRING )
+            // 442:3: -> ^( QUERYLG STRING )
             {
-                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:435:6: ^( QUERYLG STRING )
+                // /home/bischomc/bpelscript/src/main/resources/iaas/bpelscript/antlr/BPELscript.g:442:6: ^( QUERYLG STRING )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(QUERYLG, "QUERYLG"), root_1);
@@ -15145,7 +15561,7 @@ public class BPELscriptParser extends Parser {
 
             }
 
-            retval.tree = root_0;retval.tree = root_0;
+            retval.tree = root_0;
             }
 
             retval.stop = input.LT(-1);
@@ -15172,8 +15588,8 @@ public class BPELscriptParser extends Parser {
     protected DFA11 dfa11 = new DFA11(this);
     protected DFA10 dfa10 = new DFA10(this);
     protected DFA25 dfa25 = new DFA25(this);
-    protected DFA97 dfa97 = new DFA97(this);
-    protected DFA101 dfa101 = new DFA101(this);
+    protected DFA103 dfa103 = new DFA103(this);
+    protected DFA107 dfa107 = new DFA107(this);
     static final String DFA11_eotS =
         "\103\uffff";
     static final String DFA11_eofS =
@@ -15221,10 +15637,10 @@ public class BPELscriptParser extends Parser {
             "",
             "",
             "",
-            "\1\41\6\uffff\2\15\27\uffff\1\40\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\36\1\37\1\1\1\2",
-            "\1\45\6\uffff\2\15\27\uffff\1\44\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\3\1\4\1\42\1\43",
+            "\1\41\37\uffff\1\40\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\36\1\37\1\1\1\2",
+            "\1\45\37\uffff\1\44\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\3\1\4\1\42\1\43",
             "\1\46\2\uffff\1\22\1\47\1\uffff\1\22\2\15\2\uffff\3\22\1\uffff"+
             "\1\17\20\uffff\1\5\1\12\3\uffff\2\22\1\uffff\1\10\5\uffff\1"+
             "\7\2\uffff\1\13\1\14\1\uffff\1\15\16\uffff\14\22\24\uffff\4"+
@@ -15242,13 +15658,13 @@ public class BPELscriptParser extends Parser {
             "\1\62",
             "\1\62",
             "\1\63",
-            "\1\41\6\uffff\2\15\27\uffff\1\40\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\36\1\37\1\1\1\2",
+            "\1\41\37\uffff\1\40\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\36\1\37\1\1\1\2",
             "\1\64",
             "\1\64",
             "\1\65",
-            "\1\45\6\uffff\2\15\27\uffff\1\44\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\3\1\4\1\42\1\43",
+            "\1\45\37\uffff\1\44\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\3\1\4\1\42\1\43",
             "\1\46\2\uffff\1\22\1\47\1\uffff\1\22\2\15\2\uffff\3\22\1\uffff"+
             "\1\17\20\uffff\1\5\1\12\3\uffff\2\22\1\uffff\1\10\5\uffff\1"+
             "\7\2\uffff\1\13\1\14\1\uffff\1\15\16\uffff\14\22\24\uffff\4"+
@@ -15266,27 +15682,27 @@ public class BPELscriptParser extends Parser {
             "\1\17\20\uffff\1\27\1\12\3\uffff\2\22\1\uffff\1\10\5\uffff\1"+
             "\7\2\uffff\1\13\1\14\1\uffff\1\15\16\uffff\14\22\24\uffff\4"+
             "\22\4\uffff\2\22\1\uffff\1\32\1\33\1\30\1\31",
-            "\1\75\6\uffff\2\15\27\uffff\1\74\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\32\1\33\1\30\1\31",
-            "\1\75\6\uffff\2\15\27\uffff\1\74\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\32\1\33\1\30\1\31",
+            "\1\75\37\uffff\1\74\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\32\1\33\1\30\1\31",
+            "\1\75\37\uffff\1\74\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\32\1\33\1\30\1\31",
             "\1\35\2\uffff\1\22\1\11\1\uffff\1\22\4\uffff\3\22\22\uffff"+
             "\1\34\1\12\41\uffff\1\22\37\uffff\4\22\4\uffff\2\22",
-            "\1\41\6\uffff\2\15\27\uffff\1\40\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\36\1\37\1\1\1\2",
-            "\1\41\6\uffff\2\15\27\uffff\1\40\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\36\1\37\1\1\1\2",
-            "\1\45\6\uffff\2\15\27\uffff\1\44\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\3\1\4\1\42\1\43",
-            "\1\45\6\uffff\2\15\27\uffff\1\44\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\3\1\4\1\42\1\43",
+            "\1\41\37\uffff\1\40\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\36\1\37\1\1\1\2",
+            "\1\41\37\uffff\1\40\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\36\1\37\1\1\1\2",
+            "\1\45\37\uffff\1\44\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\3\1\4\1\42\1\43",
+            "\1\45\37\uffff\1\44\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\3\1\4\1\42\1\43",
             "\1\76",
             "\1\67\2\uffff\1\22\1\47\1\uffff\1\22\4\uffff\3\22\22\uffff"+
             "\1\66\1\12\41\uffff\1\22\37\uffff\4\22\4\uffff\2\22",
-            "\1\100\6\uffff\2\15\27\uffff\1\77\4\uffff\2\22\7\uffff\1\7"+
-            "\2\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\52\1\53\1\50\1\51",
-            "\1\100\6\uffff\2\15\27\uffff\1\77\4\uffff\2\22\7\uffff\1\7"+
-            "\2\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\52\1\53\1\50\1\51",
+            "\1\100\37\uffff\1\77\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13"+
+            "\1\14\73\uffff\1\52\1\53\1\50\1\51",
+            "\1\100\37\uffff\1\77\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13"+
+            "\1\14\73\uffff\1\52\1\53\1\50\1\51",
             "\1\55\2\uffff\1\22\1\26\1\uffff\1\22\4\uffff\3\22\22\uffff"+
             "\1\54\1\12\41\uffff\1\22\37\uffff\4\22\4\uffff\2\22",
             "\1\73\2\uffff\1\22\1\26\1\uffff\1\22\2\15\2\uffff\3\22\1\uffff"+
@@ -15294,17 +15710,17 @@ public class BPELscriptParser extends Parser {
             "\7\2\uffff\1\13\1\14\1\uffff\1\15\16\uffff\14\22\24\uffff\4"+
             "\22\4\uffff\2\22\1\uffff\1\32\1\33\1\30\1\31",
             "\1\101",
-            "\1\75\6\uffff\2\15\27\uffff\1\74\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\32\1\33\1\30\1\31",
+            "\1\75\37\uffff\1\74\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\32\1\33\1\30\1\31",
             "\1\67\2\uffff\1\22\1\47\1\uffff\1\22\4\uffff\3\22\22\uffff"+
             "\1\66\1\12\41\uffff\1\22\37\uffff\4\22\4\uffff\2\22",
             "\1\102",
-            "\1\100\6\uffff\2\15\27\uffff\1\77\4\uffff\2\22\7\uffff\1\7"+
-            "\2\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\52\1\53\1\50\1\51",
-            "\1\75\6\uffff\2\15\27\uffff\1\74\4\uffff\2\22\7\uffff\1\7\2"+
-            "\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\32\1\33\1\30\1\31",
-            "\1\100\6\uffff\2\15\27\uffff\1\77\4\uffff\2\22\7\uffff\1\7"+
-            "\2\uffff\1\13\1\14\1\uffff\1\15\71\uffff\1\52\1\53\1\50\1\51"
+            "\1\100\37\uffff\1\77\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13"+
+            "\1\14\73\uffff\1\52\1\53\1\50\1\51",
+            "\1\75\37\uffff\1\74\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13\1"+
+            "\14\73\uffff\1\32\1\33\1\30\1\31",
+            "\1\100\37\uffff\1\77\4\uffff\2\22\7\uffff\1\7\2\uffff\1\13"+
+            "\1\14\73\uffff\1\52\1\53\1\50\1\51"
     };
 
     static final short[] DFA11_eot = DFA.unpackEncodedString(DFA11_eotS);
@@ -15346,21 +15762,22 @@ public class BPELscriptParser extends Parser {
         "\u00df\uffff";
     static final String DFA10_minS =
         "\1\122\3\127\1\122\1\uffff\2\127\1\122\1\uffff\2\127\4\uffff\4\127"+
-        "\12\uffff\2\122\13\127\2\122\5\127\4\122\5\127\3\122\10\127\1\122"+
-        "\2\127\6\122\5\127\1\122\5\127\5\122\5\127\1\122\3\127\1\122\3\127"+
-        "\4\122\5\127\5\122\5\127\2\122\1\127\1\122\1\127\1\122\5\127\1\122"+
-        "\3\127\7\122\5\127\10\122\5\127\1\122\3\127\4\122\1\127\1\122\1"+
-        "\127\1\122\3\127\4\122\5\127\10\122\5\127\23\122";
+        "\12\uffff\2\122\7\127\1\122\4\127\1\122\5\127\4\122\1\127\1\122"+
+        "\4\127\1\122\4\127\1\122\4\127\1\122\2\127\4\122\5\127\3\122\2\127"+
+        "\1\122\3\127\4\122\5\127\1\122\3\127\1\122\3\127\4\122\5\127\5\122"+
+        "\5\127\2\122\1\127\1\122\1\127\4\122\5\127\1\122\3\127\2\122\5\127"+
+        "\12\122\5\127\1\122\3\127\4\122\1\127\1\122\1\127\1\122\3\127\4"+
+        "\122\5\127\13\122\5\127\20\122";
     static final String DFA10_maxS =
         "\1\u00c3\3\127\1\u00c3\1\uffff\2\127\1\u00be\1\uffff\2\127\4\uffff"+
-        "\4\127\12\uffff\1\u00be\1\u00c3\13\127\2\u00be\5\127\2\u00be\2\u00c3"+
-        "\5\127\2\u00be\1\u00c3\10\127\1\u00be\2\127\1\u00c3\1\u00be\2\u00c3"+
-        "\2\u00be\5\127\1\u00be\5\127\5\u00be\5\127\1\u00be\3\127\1\u00c3"+
-        "\3\127\1\u00c3\3\u00be\5\127\1\u00be\2\u00c3\2\u00be\5\127\2\u00be"+
-        "\1\127\1\u00be\1\127\1\u00c3\5\127\1\u00be\3\127\7\u00be\5\127\4"+
-        "\u00be\4\u00c3\5\127\1\u00be\3\127\4\u00be\1\127\1\u00c3\1\127\1"+
-        "\u00be\3\127\4\u00be\5\127\2\u00be\1\u00c3\5\u00be\5\127\11\u00be"+
-        "\1\u00c3\11\u00be";
+        "\4\127\12\uffff\1\u00be\1\u00c3\7\127\1\u00be\4\127\1\u00be\5\127"+
+        "\2\u00be\2\u00c3\1\127\1\u00be\4\127\1\u00be\4\127\1\u00c3\4\127"+
+        "\1\u00be\2\127\3\u00c3\1\u00be\5\127\3\u00be\2\127\1\u00be\3\127"+
+        "\4\u00be\5\127\1\u00be\3\127\1\u00c3\3\127\1\u00c3\3\u00be\5\127"+
+        "\1\u00be\2\u00c3\2\u00be\5\127\2\u00be\1\127\1\u00c3\1\127\4\u00be"+
+        "\5\127\1\u00be\3\127\2\u00be\5\127\6\u00be\4\u00c3\5\127\1\u00be"+
+        "\3\127\4\u00be\1\127\1\u00c3\1\127\1\u00be\3\127\4\u00be\5\127\1"+
+        "\u00be\1\u00c3\11\u00be\5\127\6\u00be\1\u00c3\11\u00be";
     static final String DFA10_acceptS =
         "\5\uffff\1\1\3\uffff\1\2\2\uffff\1\3\1\4\1\5\1\6\4\uffff\1\7\1\10"+
         "\1\11\1\12\1\13\1\14\1\15\1\16\1\17\1\20\u00c1\uffff";
@@ -15374,10 +15791,10 @@ public class BPELscriptParser extends Parser {
             "\1\36",
             "\1\36",
             "\1\37",
-            "\1\4\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\1\4\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\40\4\uffff\1\24\1\25\34\uffff\1\11\1\14\1\5\3\16\1\17\1\32"+
-            "\1\26\1\30\1\33\1\35\24\uffff\1\41\1\42\1\51\1\52\4\uffff\1"+
-            "\47\1\50\1\uffff\1\45\1\46\1\43\1\44",
+            "\1\26\1\30\1\33\1\35\24\uffff\1\45\1\46\1\52\1\53\4\uffff\1"+
+            "\50\1\51\1\uffff\1\43\1\44\1\41\1\42",
             "",
             "\1\54",
             "\1\54",
@@ -15404,13 +15821,13 @@ public class BPELscriptParser extends Parser {
             "",
             "",
             "",
-            "\1\73\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\72\42\uffff\1\11\1\14\1\5\35\uffff\1\1\1\2\1\70\1\71\4\uffff"+
-            "\1\66\1\67",
-            "\1\75\2\uffff\1\15\1\106\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\67\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\66\42\uffff\1\11\1\14\1\5\35\uffff\1\1\1\2\1\72\1\73\4\uffff"+
+            "\1\70\1\71",
+            "\1\101\2\uffff\1\15\1\106\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\3\4\uffff\1\24\1\25\34\uffff\1\11\1\14\1\5\3\16\1\17\1\32"+
             "\1\26\1\30\1\33\1\35\24\uffff\1\102\1\103\1\104\1\105\4\uffff"+
-            "\1\107\1\110\1\uffff\1\100\1\101\1\76\1\77",
+            "\1\107\1\110\1\uffff\1\77\1\100\1\75\1\76",
             "\1\111",
             "\1\112",
             "\1\112",
@@ -15418,16 +15835,16 @@ public class BPELscriptParser extends Parser {
             "\1\113",
             "\1\114",
             "\1\114",
-            "\1\115",
-            "\1\115",
-            "\1\116",
-            "\1\116",
-            "\1\124\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\123\42\uffff\1\11\37\uffff\1\117\1\120\1\121\1\122\4\uffff"+
+            "\1\122\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\121\42\uffff\1\11\37\uffff\1\115\1\116\1\117\1\120\4\uffff"+
             "\2\15",
-            "\1\132\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\131\42\uffff\1\11\1\14\36\uffff\1\125\1\126\1\6\1\7\4\uffff"+
-            "\1\127\1\130",
+            "\1\123",
+            "\1\123",
+            "\1\124",
+            "\1\124",
+            "\1\133\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\132\42\uffff\1\11\1\14\36\uffff\1\125\1\126\1\6\1\7\4\uffff"+
+            "\1\130\1\131",
             "\1\134",
             "\1\134",
             "\1\135",
@@ -15443,24 +15860,24 @@ public class BPELscriptParser extends Parser {
             "\1\154\37\uffff\1\153\4\uffff\1\24\1\25\107\uffff\1\22\1\23"+
             "\1\151\1\152",
             "\1\155",
-            "\1\155",
+            "\1\67\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\66\42\uffff\1\11\1\14\1\5\35\uffff\1\1\1\2\1\72\1\73\4\uffff"+
+            "\1\70\1\71",
             "\1\156",
             "\1\156",
             "\1\157",
-            "\1\73\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\72\42\uffff\1\11\1\14\1\5\35\uffff\1\1\1\2\1\70\1\71\4\uffff"+
-            "\1\66\1\67",
+            "\1\157",
             "\1\165\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\164\42\uffff\1\11\37\uffff\1\160\1\161\1\162\1\163\4\uffff"+
             "\2\15",
-            "\1\75\2\uffff\1\15\1\106\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\166",
+            "\1\166",
+            "\1\167",
+            "\1\167",
+            "\1\101\2\uffff\1\15\1\106\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\3\4\uffff\1\24\1\25\34\uffff\1\11\1\14\1\5\3\16\1\17\1\32"+
             "\1\26\1\30\1\33\1\35\24\uffff\1\102\1\103\1\104\1\105\4\uffff"+
-            "\1\107\1\110\1\uffff\1\100\1\101\1\76\1\77",
-            "\1\166",
-            "\1\166",
-            "\1\167",
-            "\1\167",
+            "\1\107\1\110\1\uffff\1\77\1\100\1\75\1\76",
             "\1\170",
             "\1\170",
             "\1\171",
@@ -15470,42 +15887,42 @@ public class BPELscriptParser extends Parser {
             "\2\15",
             "\1\u0080",
             "\1\u0080",
-            "\1\4\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\1\4\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\40\4\uffff\1\24\1\25\34\uffff\1\11\1\14\1\5\3\16\1\17\1\32"+
-            "\1\26\1\30\1\33\1\35\24\uffff\1\41\1\42\1\51\1\52\4\uffff\1"+
-            "\47\1\50\1\uffff\1\45\1\46\1\43\1\44",
-            "\1\u0082\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u0081\42\uffff\1\11\1\14\1\5\35\uffff\1\41\1\42\1\51\1\52"+
-            "\4\uffff\1\47\1\50",
-            "\1\u0084\37\uffff\1\u0083\4\uffff\1\24\1\25\107\uffff\1\45"+
-            "\1\46\1\43\1\44",
-            "\1\u0084\37\uffff\1\u0083\4\uffff\1\24\1\25\107\uffff\1\45"+
-            "\1\46\1\43\1\44",
-            "\1\u008a\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u0089\43\uffff\1\14\36\uffff\1\u0085\1\u0086\1\u0087\1\u0088"+
-            "\4\uffff\1\47\1\50",
-            "\1\u008e\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u008d\42\uffff\1\11\1\14\36\uffff\1\u008b\1\u008c\1\51\1"+
-            "\52\4\uffff\1\47\1\50",
-            "\1\u008f",
-            "\1\u008f",
-            "\1\u0090",
-            "\1\u0090",
-            "\1\u0091",
-            "\1\124\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\123\42\uffff\1\11\37\uffff\1\117\1\120\1\121\1\122\4\uffff"+
+            "\1\26\1\30\1\33\1\35\24\uffff\1\45\1\46\1\52\1\53\4\uffff\1"+
+            "\50\1\51\1\uffff\1\43\1\44\1\41\1\42",
+            "\1\u0082\37\uffff\1\u0081\4\uffff\1\24\1\25\107\uffff\1\43"+
+            "\1\44\1\41\1\42",
+            "\1\u0082\37\uffff\1\u0081\4\uffff\1\24\1\25\107\uffff\1\43"+
+            "\1\44\1\41\1\42",
+            "\1\u0084\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0083\42\uffff\1\11\1\14\1\5\35\uffff\1\45\1\46\1\52\1\53"+
+            "\4\uffff\1\50\1\51",
+            "\1\u0085",
+            "\1\u0085",
+            "\1\u0086",
+            "\1\u0086",
+            "\1\u0087",
+            "\1\122\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\121\42\uffff\1\11\37\uffff\1\115\1\116\1\117\1\120\4\uffff"+
             "\2\15",
+            "\1\u008d\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u008c\43\uffff\1\14\36\uffff\1\u0088\1\u0089\1\u008a\1\u008b"+
+            "\4\uffff\1\50\1\51",
+            "\1\u0091\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0090\42\uffff\1\11\1\14\36\uffff\1\u008e\1\u008f\1\52\1"+
+            "\53\4\uffff\1\50\1\51",
             "\1\u0092",
             "\1\u0092",
-            "\1\u0093",
-            "\1\u0093",
-            "\1\u0094",
-            "\1\132\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\131\42\uffff\1\11\1\14\36\uffff\1\125\1\126\1\6\1\7\4\uffff"+
-            "\1\127\1\130",
-            "\1\u009a\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u0099\42\uffff\1\11\37\uffff\1\u0095\1\u0096\1\u0097\1\u0098"+
+            "\1\u0098\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0097\42\uffff\1\11\37\uffff\1\u0093\1\u0094\1\u0095\1\u0096"+
             "\4\uffff\2\15",
+            "\1\u0099",
+            "\1\u0099",
+            "\1\u009a",
+            "\1\133\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\132\42\uffff\1\11\1\14\36\uffff\1\125\1\126\1\6\1\7\4\uffff"+
+            "\1\130\1\131",
             "\1\62\2\uffff\1\15\1\10\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\61\42\uffff\1\11\37\uffff\1\55\1\56\1\57\1\60\4\uffff\2\15",
             "\1\62\2\uffff\1\15\1\10\1\uffff\1\15\4\uffff\3\15\22\uffff"+
@@ -15530,15 +15947,15 @@ public class BPELscriptParser extends Parser {
             "\1\u00a1",
             "\1\154\37\uffff\1\153\4\uffff\1\24\1\25\107\uffff\1\22\1\23"+
             "\1\151\1\152",
+            "\1\67\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\66\42\uffff\1\11\1\14\1\5\35\uffff\1\1\1\2\1\72\1\73\4\uffff"+
+            "\1\70\1\71",
             "\1\u00a7\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\u00a6\43\uffff\1\14\36\uffff\1\u00a2\1\u00a3\1\u00a4\1\u00a5"+
-            "\4\uffff\1\66\1\67",
+            "\4\uffff\1\70\1\71",
             "\1\u00ab\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u00aa\42\uffff\1\11\1\14\36\uffff\1\u00a8\1\u00a9\1\70\1"+
-            "\71\4\uffff\1\66\1\67",
-            "\1\73\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\72\42\uffff\1\11\1\14\1\5\35\uffff\1\1\1\2\1\70\1\71\4\uffff"+
-            "\1\66\1\67",
+            "\1\u00aa\42\uffff\1\11\1\14\36\uffff\1\u00a8\1\u00a9\1\72\1"+
+            "\73\4\uffff\1\70\1\71",
             "\1\u00ac",
             "\1\u00ac",
             "\1\u00ad",
@@ -15547,10 +15964,10 @@ public class BPELscriptParser extends Parser {
             "\1\165\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\164\42\uffff\1\11\37\uffff\1\160\1\161\1\162\1\163\4\uffff"+
             "\2\15",
-            "\1\u00b0\37\uffff\1\u00af\4\uffff\1\24\1\25\107\uffff\1\100"+
-            "\1\101\1\76\1\77",
-            "\1\u00b0\37\uffff\1\u00af\4\uffff\1\24\1\25\107\uffff\1\100"+
-            "\1\101\1\76\1\77",
+            "\1\u00b0\37\uffff\1\u00af\4\uffff\1\24\1\25\107\uffff\1\77"+
+            "\1\100\1\75\1\76",
+            "\1\u00b0\37\uffff\1\u00af\4\uffff\1\24\1\25\107\uffff\1\77"+
+            "\1\100\1\75\1\76",
             "\1\u00b2\2\uffff\1\15\1\106\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\u00b1\42\uffff\1\11\1\14\1\5\35\uffff\1\102\1\103\1\104\1"+
             "\105\4\uffff\1\107\1\110",
@@ -15569,52 +15986,52 @@ public class BPELscriptParser extends Parser {
             "\u00be\43\uffff\1\14\36\uffff\1\u00ba\1\u00bb\1\u00bc\1\u00bd"+
             "\4\uffff\1\107\1\110",
             "\1\u00c0",
-            "\1\u0082\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u0081\42\uffff\1\11\1\14\1\5\35\uffff\1\41\1\42\1\51\1\52"+
-            "\4\uffff\1\47\1\50",
+            "\1\u0082\37\uffff\1\u0081\4\uffff\1\24\1\25\107\uffff\1\43"+
+            "\1\44\1\41\1\42",
             "\1\u00c1",
-            "\1\u0084\37\uffff\1\u0083\4\uffff\1\24\1\25\107\uffff\1\45"+
-            "\1\46\1\43\1\44",
+            "\1\u0084\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0083\42\uffff\1\11\1\14\1\5\35\uffff\1\45\1\46\1\52\1\53"+
+            "\4\uffff\1\50\1\51",
+            "\1\122\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\121\42\uffff\1\11\37\uffff\1\115\1\116\1\117\1\120\4\uffff"+
+            "\2\15",
+            "\1\122\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\121\42\uffff\1\11\37\uffff\1\115\1\116\1\117\1\120\4\uffff"+
+            "\2\15",
+            "\1\122\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\121\42\uffff\1\11\37\uffff\1\115\1\116\1\117\1\120\4\uffff"+
+            "\2\15",
             "\1\u00c2",
             "\1\u00c2",
             "\1\u00c3",
             "\1\u00c3",
             "\1\u00c4",
-            "\1\u008a\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u0089\43\uffff\1\14\36\uffff\1\u0085\1\u0086\1\u0087\1\u0088"+
-            "\4\uffff\1\47\1\50",
+            "\1\u008d\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u008c\43\uffff\1\14\36\uffff\1\u0088\1\u0089\1\u008a\1\u008b"+
+            "\4\uffff\1\50\1\51",
             "\1\u00c5",
             "\1\u00c5",
             "\1\u00c6",
-            "\1\u008e\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u008d\42\uffff\1\11\1\14\36\uffff\1\u008b\1\u008c\1\51\1"+
-            "\52\4\uffff\1\47\1\50",
-            "\1\124\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\123\42\uffff\1\11\37\uffff\1\117\1\120\1\121\1\122\4\uffff"+
-            "\2\15",
-            "\1\124\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\123\42\uffff\1\11\37\uffff\1\117\1\120\1\121\1\122\4\uffff"+
-            "\2\15",
-            "\1\124\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\123\42\uffff\1\11\37\uffff\1\117\1\120\1\121\1\122\4\uffff"+
-            "\2\15",
-            "\1\132\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\131\42\uffff\1\11\1\14\36\uffff\1\125\1\126\1\6\1\7\4\uffff"+
-            "\1\127\1\130",
-            "\1\u00cc\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u00cb\43\uffff\1\14\36\uffff\1\u00c7\1\u00c8\1\u00c9\1\u00ca"+
-            "\4\uffff\1\127\1\130",
-            "\1\132\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\131\42\uffff\1\11\1\14\36\uffff\1\125\1\126\1\6\1\7\4\uffff"+
-            "\1\127\1\130",
-            "\1\u00cd",
-            "\1\u00cd",
-            "\1\u00ce",
-            "\1\u00ce",
-            "\1\u00cf",
-            "\1\u009a\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u0099\42\uffff\1\11\37\uffff\1\u0095\1\u0096\1\u0097\1\u0098"+
+            "\1\u0091\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0090\42\uffff\1\11\1\14\36\uffff\1\u008e\1\u008f\1\52\1"+
+            "\53\4\uffff\1\50\1\51",
+            "\1\133\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\132\42\uffff\1\11\1\14\36\uffff\1\125\1\126\1\6\1\7\4\uffff"+
+            "\1\130\1\131",
+            "\1\u00c7",
+            "\1\u00c7",
+            "\1\u00c8",
+            "\1\u00c8",
+            "\1\u00c9",
+            "\1\u0098\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0097\42\uffff\1\11\37\uffff\1\u0093\1\u0094\1\u0095\1\u0096"+
             "\4\uffff\2\15",
+            "\1\u00cf\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u00ce\43\uffff\1\14\36\uffff\1\u00ca\1\u00cb\1\u00cc\1\u00cd"+
+            "\4\uffff\1\130\1\131",
+            "\1\133\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\132\42\uffff\1\11\1\14\36\uffff\1\125\1\126\1\6\1\7\4\uffff"+
+            "\1\130\1\131",
             "\1\144\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1\143"+
             "\43\uffff\1\14\36\uffff\1\137\1\140\1\141\1\142\4\uffff\1\12"+
             "\1\13",
@@ -15639,13 +16056,13 @@ public class BPELscriptParser extends Parser {
             "\1\u00d2",
             "\1\u00a7\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\u00a6\43\uffff\1\14\36\uffff\1\u00a2\1\u00a3\1\u00a4\1\u00a5"+
-            "\4\uffff\1\66\1\67",
+            "\4\uffff\1\70\1\71",
             "\1\u00d3",
             "\1\u00d3",
             "\1\u00d4",
             "\1\u00ab\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u00aa\42\uffff\1\11\1\14\36\uffff\1\u00a8\1\u00a9\1\70\1"+
-            "\71\4\uffff\1\66\1\67",
+            "\1\u00aa\42\uffff\1\11\1\14\36\uffff\1\u00a8\1\u00a9\1\72\1"+
+            "\73\4\uffff\1\70\1\71",
             "\1\165\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\164\42\uffff\1\11\37\uffff\1\160\1\161\1\162\1\163\4\uffff"+
             "\2\15",
@@ -15656,8 +16073,8 @@ public class BPELscriptParser extends Parser {
             "\1\164\42\uffff\1\11\37\uffff\1\160\1\161\1\162\1\163\4\uffff"+
             "\2\15",
             "\1\u00d5",
-            "\1\u00b0\37\uffff\1\u00af\4\uffff\1\24\1\25\107\uffff\1\100"+
-            "\1\101\1\76\1\77",
+            "\1\u00b0\37\uffff\1\u00af\4\uffff\1\24\1\25\107\uffff\1\77"+
+            "\1\100\1\75\1\76",
             "\1\u00d6",
             "\1\u00b2\2\uffff\1\15\1\106\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\u00b1\42\uffff\1\11\1\14\1\5\35\uffff\1\102\1\103\1\104\1"+
@@ -15685,60 +16102,60 @@ public class BPELscriptParser extends Parser {
             "\1\u00bf\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\u00be\43\uffff\1\14\36\uffff\1\u00ba\1\u00bb\1\u00bc\1\u00bd"+
             "\4\uffff\1\107\1\110",
-            "\1\u0082\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u0081\42\uffff\1\11\1\14\1\5\35\uffff\1\41\1\42\1\51\1\52"+
-            "\4\uffff\1\47\1\50",
-            "\1\u0084\37\uffff\1\u0083\4\uffff\1\24\1\25\107\uffff\1\45"+
-            "\1\46\1\43\1\44",
-            "\1\u008a\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u0089\43\uffff\1\14\36\uffff\1\u0085\1\u0086\1\u0087\1\u0088"+
-            "\4\uffff\1\47\1\50",
-            "\1\u008a\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u0089\43\uffff\1\14\36\uffff\1\u0085\1\u0086\1\u0087\1\u0088"+
-            "\4\uffff\1\47\1\50",
-            "\1\u008a\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u0089\43\uffff\1\14\36\uffff\1\u0085\1\u0086\1\u0087\1\u0088"+
-            "\4\uffff\1\47\1\50",
-            "\1\u008e\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u008d\42\uffff\1\11\1\14\36\uffff\1\u008b\1\u008c\1\51\1"+
-            "\52\4\uffff\1\47\1\50",
-            "\1\u008e\2\uffff\1\15\1\53\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u008d\42\uffff\1\11\1\14\36\uffff\1\u008b\1\u008c\1\51\1"+
-            "\52\4\uffff\1\47\1\50",
+            "\1\u0082\37\uffff\1\u0081\4\uffff\1\24\1\25\107\uffff\1\43"+
+            "\1\44\1\41\1\42",
+            "\1\u0084\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0083\42\uffff\1\11\1\14\1\5\35\uffff\1\45\1\46\1\52\1\53"+
+            "\4\uffff\1\50\1\51",
+            "\1\u008d\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u008c\43\uffff\1\14\36\uffff\1\u0088\1\u0089\1\u008a\1\u008b"+
+            "\4\uffff\1\50\1\51",
+            "\1\u008d\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u008c\43\uffff\1\14\36\uffff\1\u0088\1\u0089\1\u008a\1\u008b"+
+            "\4\uffff\1\50\1\51",
+            "\1\u008d\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u008c\43\uffff\1\14\36\uffff\1\u0088\1\u0089\1\u008a\1\u008b"+
+            "\4\uffff\1\50\1\51",
+            "\1\u0091\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0090\42\uffff\1\11\1\14\36\uffff\1\u008e\1\u008f\1\52\1"+
+            "\53\4\uffff\1\50\1\51",
+            "\1\u0091\2\uffff\1\15\1\47\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0090\42\uffff\1\11\1\14\36\uffff\1\u008e\1\u008f\1\52\1"+
+            "\53\4\uffff\1\50\1\51",
+            "\1\u0098\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0097\42\uffff\1\11\37\uffff\1\u0093\1\u0094\1\u0095\1\u0096"+
+            "\4\uffff\2\15",
+            "\1\u0098\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0097\42\uffff\1\11\37\uffff\1\u0093\1\u0094\1\u0095\1\u0096"+
+            "\4\uffff\2\15",
+            "\1\u0098\2\uffff\1\15\1\127\1\uffff\1\15\4\uffff\3\15\22\uffff"+
+            "\1\u0097\42\uffff\1\11\37\uffff\1\u0093\1\u0094\1\u0095\1\u0096"+
+            "\4\uffff\2\15",
             "\1\u00dc",
             "\1\u00dc",
             "\1\u00dd",
             "\1\u00dd",
             "\1\u00de",
-            "\1\u00cc\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u00cb\43\uffff\1\14\36\uffff\1\u00c7\1\u00c8\1\u00c9\1\u00ca"+
-            "\4\uffff\1\127\1\130",
-            "\1\u009a\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u0099\42\uffff\1\11\37\uffff\1\u0095\1\u0096\1\u0097\1\u0098"+
-            "\4\uffff\2\15",
-            "\1\u009a\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u0099\42\uffff\1\11\37\uffff\1\u0095\1\u0096\1\u0097\1\u0098"+
-            "\4\uffff\2\15",
-            "\1\u009a\2\uffff\1\15\1\133\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u0099\42\uffff\1\11\37\uffff\1\u0095\1\u0096\1\u0097\1\u0098"+
-            "\4\uffff\2\15",
+            "\1\u00cf\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u00ce\43\uffff\1\14\36\uffff\1\u00ca\1\u00cb\1\u00cc\1\u00cd"+
+            "\4\uffff\1\130\1\131",
             "\1\u00a7\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\u00a6\43\uffff\1\14\36\uffff\1\u00a2\1\u00a3\1\u00a4\1\u00a5"+
-            "\4\uffff\1\66\1\67",
+            "\4\uffff\1\70\1\71",
             "\1\u00a7\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\u00a6\43\uffff\1\14\36\uffff\1\u00a2\1\u00a3\1\u00a4\1\u00a5"+
-            "\4\uffff\1\66\1\67",
+            "\4\uffff\1\70\1\71",
             "\1\u00a7\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\u00a6\43\uffff\1\14\36\uffff\1\u00a2\1\u00a3\1\u00a4\1\u00a5"+
-            "\4\uffff\1\66\1\67",
+            "\4\uffff\1\70\1\71",
             "\1\u00ab\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u00aa\42\uffff\1\11\1\14\36\uffff\1\u00a8\1\u00a9\1\70\1"+
-            "\71\4\uffff\1\66\1\67",
+            "\1\u00aa\42\uffff\1\11\1\14\36\uffff\1\u00a8\1\u00a9\1\72\1"+
+            "\73\4\uffff\1\70\1\71",
             "\1\u00ab\2\uffff\1\15\1\74\1\uffff\1\15\4\uffff\3\15\22\uffff"+
-            "\1\u00aa\42\uffff\1\11\1\14\36\uffff\1\u00a8\1\u00a9\1\70\1"+
-            "\71\4\uffff\1\66\1\67",
-            "\1\u00b0\37\uffff\1\u00af\4\uffff\1\24\1\25\107\uffff\1\100"+
-            "\1\101\1\76\1\77",
+            "\1\u00aa\42\uffff\1\11\1\14\36\uffff\1\u00a8\1\u00a9\1\72\1"+
+            "\73\4\uffff\1\70\1\71",
+            "\1\u00b0\37\uffff\1\u00af\4\uffff\1\24\1\25\107\uffff\1\77"+
+            "\1\100\1\75\1\76",
             "\1\u00b2\2\uffff\1\15\1\106\1\uffff\1\15\4\uffff\3\15\22\uffff"+
             "\1\u00b1\42\uffff\1\11\1\14\1\5\35\uffff\1\102\1\103\1\104\1"+
             "\105\4\uffff\1\107\1\110",
@@ -15757,15 +16174,15 @@ public class BPELscriptParser extends Parser {
             "\1\u00bf\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
             "\u00be\43\uffff\1\14\36\uffff\1\u00ba\1\u00bb\1\u00bc\1\u00bd"+
             "\4\uffff\1\107\1\110",
-            "\1\u00cc\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u00cb\43\uffff\1\14\36\uffff\1\u00c7\1\u00c8\1\u00c9\1\u00ca"+
-            "\4\uffff\1\127\1\130",
-            "\1\u00cc\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u00cb\43\uffff\1\14\36\uffff\1\u00c7\1\u00c8\1\u00c9\1\u00ca"+
-            "\4\uffff\1\127\1\130",
-            "\1\u00cc\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
-            "\u00cb\43\uffff\1\14\36\uffff\1\u00c7\1\u00c8\1\u00c9\1\u00ca"+
-            "\4\uffff\1\127\1\130"
+            "\1\u00cf\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u00ce\43\uffff\1\14\36\uffff\1\u00ca\1\u00cb\1\u00cc\1\u00cd"+
+            "\4\uffff\1\130\1\131",
+            "\1\u00cf\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u00ce\43\uffff\1\14\36\uffff\1\u00ca\1\u00cb\1\u00cc\1\u00cd"+
+            "\4\uffff\1\130\1\131",
+            "\1\u00cf\2\uffff\2\15\1\uffff\1\15\4\uffff\3\15\22\uffff\1"+
+            "\u00ce\43\uffff\1\14\36\uffff\1\u00ca\1\u00cb\1\u00cc\1\u00cd"+
+            "\4\uffff\1\130\1\131"
     };
 
     static final short[] DFA10_eot = DFA.unpackEncodedString(DFA10_eotS);
@@ -15908,19 +16325,19 @@ public class BPELscriptParser extends Parser {
             return "152:3: ( alarm | timeout )?";
         }
     }
-    static final String DFA97_eotS =
+    static final String DFA103_eotS =
         "\13\uffff";
-    static final String DFA97_eofS =
+    static final String DFA103_eofS =
         "\13\uffff";
-    static final String DFA97_minS =
+    static final String DFA103_minS =
         "\1\122\12\uffff";
-    static final String DFA97_maxS =
+    static final String DFA103_maxS =
         "\1\u00be\12\uffff";
-    static final String DFA97_acceptS =
+    static final String DFA103_acceptS =
         "\1\uffff\1\12\1\1\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11";
-    static final String DFA97_specialS =
+    static final String DFA103_specialS =
         "\13\uffff}>";
-    static final String[] DFA97_transitionS = {
+    static final String[] DFA103_transitionS = {
             "\1\12\2\uffff\1\1\1\3\1\uffff\1\1\4\uffff\1\4\1\5\1\6\22\uffff"+
             "\1\11\102\uffff\2\2\2\10\4\uffff\2\7",
             "",
@@ -15935,54 +16352,54 @@ public class BPELscriptParser extends Parser {
             ""
     };
 
-    static final short[] DFA97_eot = DFA.unpackEncodedString(DFA97_eotS);
-    static final short[] DFA97_eof = DFA.unpackEncodedString(DFA97_eofS);
-    static final char[] DFA97_min = DFA.unpackEncodedStringToUnsignedChars(DFA97_minS);
-    static final char[] DFA97_max = DFA.unpackEncodedStringToUnsignedChars(DFA97_maxS);
-    static final short[] DFA97_accept = DFA.unpackEncodedString(DFA97_acceptS);
-    static final short[] DFA97_special = DFA.unpackEncodedString(DFA97_specialS);
-    static final short[][] DFA97_transition;
+    static final short[] DFA103_eot = DFA.unpackEncodedString(DFA103_eotS);
+    static final short[] DFA103_eof = DFA.unpackEncodedString(DFA103_eofS);
+    static final char[] DFA103_min = DFA.unpackEncodedStringToUnsignedChars(DFA103_minS);
+    static final char[] DFA103_max = DFA.unpackEncodedStringToUnsignedChars(DFA103_maxS);
+    static final short[] DFA103_accept = DFA.unpackEncodedString(DFA103_acceptS);
+    static final short[] DFA103_special = DFA.unpackEncodedString(DFA103_specialS);
+    static final short[][] DFA103_transition;
 
     static {
-        int numStates = DFA97_transitionS.length;
-        DFA97_transition = new short[numStates][];
+        int numStates = DFA103_transitionS.length;
+        DFA103_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA97_transition[i] = DFA.unpackEncodedString(DFA97_transitionS[i]);
+            DFA103_transition[i] = DFA.unpackEncodedString(DFA103_transitionS[i]);
         }
     }
 
-    class DFA97 extends DFA {
+    class DFA103 extends DFA {
 
-        public DFA97(BaseRecognizer recognizer) {
+        public DFA103(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 97;
-            this.eot = DFA97_eot;
-            this.eof = DFA97_eof;
-            this.min = DFA97_min;
-            this.max = DFA97_max;
-            this.accept = DFA97_accept;
-            this.special = DFA97_special;
-            this.transition = DFA97_transition;
+            this.decisionNumber = 103;
+            this.eot = DFA103_eot;
+            this.eof = DFA103_eof;
+            this.min = DFA103_min;
+            this.max = DFA103_max;
+            this.accept = DFA103_accept;
+            this.special = DFA103_special;
+            this.transition = DFA103_transition;
         }
         public String getDescription() {
-            return "()* loopback of 297:4: ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*";
+            return "()* loopback of 304:4: ({...}?pt= portType | {...}?ci= CREATE_INST | {...}?val= VALID | {...}?ke= KEEPSRC | {...}?ig= IGNORE | {...}?fn= faultName | {...}?msg= msgEx | {...}? ( '@name' name= STRING ) | {...}?suppressJoinFailure= SJF )*";
         }
     }
-    static final String DFA101_eotS =
+    static final String DFA107_eotS =
         "\27\uffff";
-    static final String DFA101_eofS =
+    static final String DFA107_eofS =
         "\27\uffff";
-    static final String DFA101_minS =
+    static final String DFA107_minS =
         "\1\60\2\127\1\uffff\1\127\1\122\3\uffff\2\122\4\127\1\122\2\127"+
         "\5\122";
-    static final String DFA101_maxS =
+    static final String DFA107_maxS =
         "\1\u00b8\2\127\1\uffff\1\127\1\u00b8\3\uffff\2\u00b8\4\127\1\u00b8"+
         "\2\127\5\u00b8";
-    static final String DFA101_acceptS =
+    static final String DFA107_acceptS =
         "\3\uffff\1\1\2\uffff\1\2\1\3\1\4\16\uffff";
-    static final String DFA101_specialS =
+    static final String DFA107_specialS =
         "\27\uffff}>";
-    static final String[] DFA101_transitionS = {
+    static final String[] DFA107_transitionS = {
             "\1\7\41\uffff\1\5\2\uffff\1\7\1\3\1\7\1\10\15\uffff\1\7\13\uffff"+
             "\1\4\2\uffff\1\7\37\uffff\1\3\1\uffff\1\6\35\uffff\1\1\1\2\2"+
             "\3",
@@ -16019,37 +16436,37 @@ public class BPELscriptParser extends Parser {
             "\uffff\1\20\1\21\2\3"
     };
 
-    static final short[] DFA101_eot = DFA.unpackEncodedString(DFA101_eotS);
-    static final short[] DFA101_eof = DFA.unpackEncodedString(DFA101_eofS);
-    static final char[] DFA101_min = DFA.unpackEncodedStringToUnsignedChars(DFA101_minS);
-    static final char[] DFA101_max = DFA.unpackEncodedStringToUnsignedChars(DFA101_maxS);
-    static final short[] DFA101_accept = DFA.unpackEncodedString(DFA101_acceptS);
-    static final short[] DFA101_special = DFA.unpackEncodedString(DFA101_specialS);
-    static final short[][] DFA101_transition;
+    static final short[] DFA107_eot = DFA.unpackEncodedString(DFA107_eotS);
+    static final short[] DFA107_eof = DFA.unpackEncodedString(DFA107_eofS);
+    static final char[] DFA107_min = DFA.unpackEncodedStringToUnsignedChars(DFA107_minS);
+    static final char[] DFA107_max = DFA.unpackEncodedStringToUnsignedChars(DFA107_maxS);
+    static final short[] DFA107_accept = DFA.unpackEncodedString(DFA107_acceptS);
+    static final short[] DFA107_special = DFA.unpackEncodedString(DFA107_specialS);
+    static final short[][] DFA107_transition;
 
     static {
-        int numStates = DFA101_transitionS.length;
-        DFA101_transition = new short[numStates][];
+        int numStates = DFA107_transitionS.length;
+        DFA107_transition = new short[numStates][];
         for (int i=0; i<numStates; i++) {
-            DFA101_transition[i] = DFA.unpackEncodedString(DFA101_transitionS[i]);
+            DFA107_transition[i] = DFA.unpackEncodedString(DFA107_transitionS[i]);
         }
     }
 
-    class DFA101 extends DFA {
+    class DFA107 extends DFA {
 
-        public DFA101(BaseRecognizer recognizer) {
+        public DFA107(BaseRecognizer recognizer) {
             this.recognizer = recognizer;
-            this.decisionNumber = 101;
-            this.eot = DFA101_eot;
-            this.eof = DFA101_eof;
-            this.min = DFA101_min;
-            this.max = DFA101_max;
-            this.accept = DFA101_accept;
-            this.special = DFA101_special;
-            this.transition = DFA101_transition;
+            this.decisionNumber = 107;
+            this.eot = DFA107_eot;
+            this.eof = DFA107_eof;
+            this.min = DFA107_min;
+            this.max = DFA107_max;
+            this.accept = DFA107_accept;
+            this.special = DFA107_special;
+            this.transition = DFA107_transition;
         }
         public String getDescription() {
-            return "305:1: rvalue : ( receive | invoke | expr ( PROP )? | OPAQUE_EXPR );";
+            return "312:1: rvalue : ( receive | invoke | expr ( PROP )? | OPAQUE_EXPR );";
         }
     }
  
@@ -16103,20 +16520,20 @@ public class BPELscriptParser extends Parser {
     public static final BitSet FOLLOW_messages_in_proc_stmt654 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
     public static final BitSet FOLLOW_opaque_in_proc_stmt658 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
     public static final BitSet FOLLOW_SEMI_in_proc_stmt661 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_110_in_block672 = new BitSet(new long[]{0x0000000000000000L,0x958C0002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_proc_stmts_in_block674 = new BitSet(new long[]{0x0000000000000000L,0x958C8002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_110_in_block672 = new BitSet(new long[]{0x0000000000000000L,0x858C0002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_proc_stmts_in_block674 = new BitSet(new long[]{0x0000000000000000L,0x858C8002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
     public static final BitSet FOLLOW_111_in_block677 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_110_in_scope_block695 = new BitSet(new long[]{0x0000000000000000L,0x958CA006EF6C0000L,0x69E003E7FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_sub_declaration_in_scope_block697 = new BitSet(new long[]{0x0000000000000000L,0x958CA006EF6C0000L,0x69E003E7FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_proc_stmts_in_scope_block700 = new BitSet(new long[]{0x0000000000000000L,0x958C8002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_110_in_scope_block695 = new BitSet(new long[]{0x0000000000000000L,0x858C2006EF6C0000L,0x69E003E7FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_sub_declaration_in_scope_block697 = new BitSet(new long[]{0x0000000000000000L,0x858C2006EF6C0000L,0x69E003E7FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_proc_stmts_in_scope_block700 = new BitSet(new long[]{0x0000000000000000L,0x858C8002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
     public static final BitSet FOLLOW_111_in_scope_block703 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_110_in_param_block723 = new BitSet(new long[]{0x0000000000000000L,0x958D8002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_110_in_param_block723 = new BitSet(new long[]{0x0000000000000000L,0x858D0002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
     public static final BitSet FOLLOW_112_in_param_block726 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
     public static final BitSet FOLLOW_ID_in_param_block730 = new BitSet(new long[]{0x0000000000000000L,0x0003000000000000L});
     public static final BitSet FOLLOW_113_in_param_block733 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
     public static final BitSet FOLLOW_ID_in_param_block737 = new BitSet(new long[]{0x0000000000000000L,0x0003000000000000L});
-    public static final BitSet FOLLOW_112_in_param_block741 = new BitSet(new long[]{0x0000000000000000L,0x958D8002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_proc_stmts_in_param_block745 = new BitSet(new long[]{0x0000000000000000L,0x958D8002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_112_in_param_block741 = new BitSet(new long[]{0x0000000000000000L,0x858C0002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_proc_stmts_in_param_block745 = new BitSet(new long[]{0x0000000000000000L,0x858C8002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
     public static final BitSet FOLLOW_111_in_param_block748 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_block_in_body770 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_proc_stmts_in_body774 = new BitSet(new long[]{0x0000000000000002L});
@@ -16141,25 +16558,25 @@ public class BPELscriptParser extends Parser {
     public static final BitSet FOLLOW_118_in_onMessage935 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L,0x0000000000080000L});
     public static final BitSet FOLLOW_with_ex_in_onMessage937 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L,0x0000000000080000L});
     public static final BitSet FOLLOW_param_block_in_onMessage950 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_alarm_in_onAlarm1022 = new BitSet(new long[]{0x0000000000000000L,0x6384C00000040000L,0x0000000000000000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_timeout_in_onAlarm1026 = new BitSet(new long[]{0x0000000000000000L,0x6384C00000040000L,0x0000000000000000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_repeatEvery_in_onAlarm1030 = new BitSet(new long[]{0x0000000000000000L,0x6384C00000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_alarm_in_onAlarm1022 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_timeout_in_onAlarm1026 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_repeatEvery_in_onAlarm1030 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000000000L,0x000000000000000FL});
     public static final BitSet FOLLOW_scope_short_in_onAlarm1035 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_queryLg_in_alarm1076 = new BitSet(new long[]{0x0000000000000000L,0x1084000000040000L,0x0000000000000000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_exprLg_in_alarm1085 = new BitSet(new long[]{0x0000000000000000L,0x1084000000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_queryLg_in_alarm1076 = new BitSet(new long[]{0x0000000000000000L,0x0084000000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_alarm1085 = new BitSet(new long[]{0x0000000000000000L,0x0084000000040000L,0x0000000000000000L,0x000000000000000FL});
     public static final BitSet FOLLOW_114_in_alarm1113 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_alarm1117 = new BitSet(new long[]{0x0000000000000000L,0x1084000000040000L,0x0000000000000000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_SJF_in_alarm1126 = new BitSet(new long[]{0x0000000000000000L,0x1084000000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_STRING_in_alarm1117 = new BitSet(new long[]{0x0000000000000000L,0x0084000000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_SJF_in_alarm1126 = new BitSet(new long[]{0x0000000000000000L,0x0084000000040000L,0x0000000000000000L,0x000000000000000FL});
     public static final BitSet FOLLOW_119_in_alarm1134 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
     public static final BitSet FOLLOW_117_in_alarm1136 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
     public static final BitSet FOLLOW_expr_in_alarm1139 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_OPAQUE_EXPR_in_alarm1143 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_118_in_alarm1146 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_queryLg_in_timeout1191 = new BitSet(new long[]{0x0000000000000000L,0x1104000000040000L,0x0000000000000000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_exprLg_in_timeout1200 = new BitSet(new long[]{0x0000000000000000L,0x1104000000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_queryLg_in_timeout1191 = new BitSet(new long[]{0x0000000000000000L,0x0104000000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_timeout1200 = new BitSet(new long[]{0x0000000000000000L,0x0104000000040000L,0x0000000000000000L,0x000000000000000FL});
     public static final BitSet FOLLOW_114_in_timeout1228 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_timeout1232 = new BitSet(new long[]{0x0000000000000000L,0x1104000000040000L,0x0000000000000000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_SJF_in_timeout1241 = new BitSet(new long[]{0x0000000000000000L,0x1104000000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_STRING_in_timeout1232 = new BitSet(new long[]{0x0000000000000000L,0x0104000000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_SJF_in_timeout1241 = new BitSet(new long[]{0x0000000000000000L,0x0104000000040000L,0x0000000000000000L,0x000000000000000FL});
     public static final BitSet FOLLOW_120_in_timeout1249 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
     public static final BitSet FOLLOW_117_in_timeout1251 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
     public static final BitSet FOLLOW_expr_in_timeout1254 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
@@ -16171,9 +16588,9 @@ public class BPELscriptParser extends Parser {
     public static final BitSet FOLLOW_OPAQUE_EXPR_in_repeatEvery1308 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_118_in_repeatEvery1311 = new BitSet(new long[]{0x0000000000000002L});
     public static final BitSet FOLLOW_std_attr_in_flow1334 = new BitSet(new long[]{0x0000000000000000L,0x0400000000000000L});
-    public static final BitSet FOLLOW_122_in_flow1338 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_122_in_flow1338 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
     public static final BitSet FOLLOW_sequence_in_flow1342 = new BitSet(new long[]{0x0000000000000002L,0x0800000000000000L});
-    public static final BitSet FOLLOW_123_in_flow1346 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_123_in_flow1346 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
     public static final BitSet FOLLOW_sequence_in_flow1350 = new BitSet(new long[]{0x0000000000000002L,0x0800000000000000L});
     public static final BitSet FOLLOW_queryLg_in_signal1381 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000000L});
     public static final BitSet FOLLOW_exprLg_in_signal1387 = new BitSet(new long[]{0x0000000000000000L,0x1000000000000000L});
@@ -16213,369 +16630,375 @@ public class BPELscriptParser extends Parser {
     public static final BitSet FOLLOW_expr_in_join1593 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_OPAQUE_EXPR_in_join1597 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
     public static final BitSet FOLLOW_118_in_join1602 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_queryLg_in_if_ex1639 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000001L,0x000000000000000FL});
-    public static final BitSet FOLLOW_exprLg_in_if_ex1648 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000001L,0x000000000000000FL});
+    public static final BitSet FOLLOW_queryLg_in_if_ex1639 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000001L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_if_ex1648 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000001L,0x000000000000000FL});
     public static final BitSet FOLLOW_114_in_if_ex1676 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_if_ex1680 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000001L,0x000000000000000FL});
-    public static final BitSet FOLLOW_SJF_in_if_ex1689 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000001L,0x000000000000000FL});
+    public static final BitSet FOLLOW_STRING_in_if_ex1680 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000001L,0x000000000000000FL});
+    public static final BitSet FOLLOW_SJF_in_if_ex1689 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000001L,0x000000000000000FL});
     public static final BitSet FOLLOW_128_in_if_ex1696 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
     public static final BitSet FOLLOW_117_in_if_ex1698 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
     public static final BitSet FOLLOW_expr_in_if_ex1703 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_if_ex1707 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_if_ex1710 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_sequence_in_if_ex1714 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000000006L});
-    public static final BitSet FOLLOW_129_in_if_ex1720 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_if_ex1722 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_expr_in_if_ex1727 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_if_ex1731 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_if_ex1734 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_sequence_in_if_ex1738 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000000006L});
-    public static final BitSet FOLLOW_130_in_if_ex1746 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_sequence_in_if_ex1750 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_std_attr_in_sequence1822 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_ajoin_in_sequence1828 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_asignal_in_sequence1833 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_body_in_sequence1840 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ajoin_in_scope_sequence1873 = new BitSet(new long[]{0x0000000000000000L,0xF78DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_asignal_in_scope_sequence1878 = new BitSet(new long[]{0x0000000000000000L,0xF78DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_scope_block_in_scope_sequence1886 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_queryLg_in_while_ex1918 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000008L,0x000000000000000FL});
-    public static final BitSet FOLLOW_exprLg_in_while_ex1927 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000008L,0x000000000000000FL});
-    public static final BitSet FOLLOW_114_in_while_ex1955 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_while_ex1959 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000008L,0x000000000000000FL});
-    public static final BitSet FOLLOW_SJF_in_while_ex1968 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000008L,0x000000000000000FL});
-    public static final BitSet FOLLOW_131_in_while_ex1976 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_while_ex1978 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_expr_in_while_ex1981 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_while_ex1983 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_while_ex1986 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_sequence_in_while_ex1990 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_queryLg_in_until_ex2031 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000010L,0x000000000000000FL});
-    public static final BitSet FOLLOW_exprLg_in_until_ex2040 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000010L,0x000000000000000FL});
-    public static final BitSet FOLLOW_114_in_until_ex2068 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_until_ex2072 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000010L,0x000000000000000FL});
-    public static final BitSet FOLLOW_SJF_in_until_ex2081 = new BitSet(new long[]{0x0000000000000000L,0x1004000000040000L,0x0000000000000010L,0x000000000000000FL});
-    public static final BitSet FOLLOW_132_in_until_ex2089 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_sequence_in_until_ex2093 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000020L});
-    public static final BitSet FOLLOW_133_in_until_ex2095 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_until_ex2097 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_expr_in_until_ex2100 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_until_ex2102 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_until_ex2105 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_PARALLEL_in_foreach2147 = new BitSet(new long[]{0x0000000000000000L,0x1004000006040000L,0x0000000000000040L,0x000000000000000FL});
-    public static final BitSet FOLLOW_SBO_in_foreach2155 = new BitSet(new long[]{0x0000000000000000L,0x1004000006040000L,0x0000000000000040L,0x000000000000000FL});
-    public static final BitSet FOLLOW_queryLg_in_foreach2163 = new BitSet(new long[]{0x0000000000000000L,0x1004000006040000L,0x0000000000000040L,0x000000000000000FL});
-    public static final BitSet FOLLOW_exprLg_in_foreach2172 = new BitSet(new long[]{0x0000000000000000L,0x1004000006040000L,0x0000000000000040L,0x000000000000000FL});
-    public static final BitSet FOLLOW_114_in_foreach2198 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_foreach2202 = new BitSet(new long[]{0x0000000000000000L,0x1004000006040000L,0x0000000000000040L,0x000000000000000FL});
-    public static final BitSet FOLLOW_SJF_in_foreach2211 = new BitSet(new long[]{0x0000000000000000L,0x1004000006040000L,0x0000000000000040L,0x000000000000000FL});
-    public static final BitSet FOLLOW_134_in_foreach2218 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_foreach2220 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_foreach2224 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_135_in_foreach2226 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_expr_in_foreach2231 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L,0x0000000000000100L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_foreach2235 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L,0x0000000000000100L});
-    public static final BitSet FOLLOW_136_in_foreach2239 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_foreach2241 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_expr_in_foreach2247 = new BitSet(new long[]{0x0000000000000000L,0x0040000000100000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_foreach2253 = new BitSet(new long[]{0x0000000000000000L,0x0040000000100000L,0x0000000000000200L});
-    public static final BitSet FOLLOW_137_in_foreach2258 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_SEMI_in_foreach2260 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_expr_in_foreach2266 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_foreach2270 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_foreach2275 = new BitSet(new long[]{0x0000000000000000L,0xF78DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_scope_short_in_foreach2277 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_138_in_try_ex2366 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_body_in_try_ex2368 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x8000000000003800L});
-    public static final BitSet FOLLOW_catch_ex_in_try_ex2370 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x8000000000003800L});
-    public static final BitSet FOLLOW_catchAll_in_try_ex2373 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_139_in_catch_ex2398 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_catch_ex2402 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000001000L});
-    public static final BitSet FOLLOW_faultElt_in_catch_ex2408 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000001000L});
-    public static final BitSet FOLLOW_140_in_catch_ex2414 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_catch_ex2416 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_ns_id_in_catch_ex2418 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_catch_ex2421 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L,0x0000000000080000L});
-    public static final BitSet FOLLOW_param_block_in_catch_ex2423 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_141_in_catchAll2453 = new BitSet(new long[]{0x0000000000000000L,0x6004400000040000L});
-    public static final BitSet FOLLOW_block_in_catchAll2455 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ISOLATED_in_scope_ex2480 = new BitSet(new long[]{0x0000000000000000L,0x00000000080C0000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_EOSF_in_scope_ex2488 = new BitSet(new long[]{0x0000000000000000L,0x00000000080C0000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_SJF_in_scope_ex2496 = new BitSet(new long[]{0x0000000000000000L,0x00000000080C0000L,0x0000000000004000L});
-    public static final BitSet FOLLOW_142_in_scope_ex2503 = new BitSet(new long[]{0x0000000000000000L,0xF7ADC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_117_in_scope_ex2506 = new BitSet(new long[]{0x0000000000000000L,0x0040000000200000L});
-    public static final BitSet FOLLOW_ID_in_scope_ex2508 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_scope_ex2511 = new BitSet(new long[]{0x0000000000000000L,0xF7ADC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_scope_sequence_in_scope_ex2515 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000058000L});
-    public static final BitSet FOLLOW_scope_stmt_in_scope_ex2517 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_scope_sequence_in_scope_short2560 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000058000L});
-    public static final BitSet FOLLOW_scope_stmt_in_scope_short2562 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_compensation_in_scope_stmt2587 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000058000L});
-    public static final BitSet FOLLOW_termination_in_scope_stmt2595 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000058000L});
-    public static final BitSet FOLLOW_eventHdl_in_scope_stmt2603 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000058000L});
-    public static final BitSet FOLLOW_143_in_termination2639 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_body_in_termination2641 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_144_in_eventHdl2659 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
-    public static final BitSet FOLLOW_110_in_eventHdl2661 = new BitSet(new long[]{0x0000000000000000L,0xF7BDC002EF6C0000L,0x77E003E1FFE24459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_onEvent_in_eventHdl2663 = new BitSet(new long[]{0x0000000000000000L,0xF7BDC002EF6C0000L,0x77E003E1FFE24459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_onAlarm_in_eventHdl2666 = new BitSet(new long[]{0x0000000000000000L,0xF7ADC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_111_in_eventHdl2669 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_portType_in_onEvent2700 = new BitSet(new long[]{0x0000000000000000L,0x0010000000200000L,0x17E0000000020000L});
-    public static final BitSet FOLLOW_msgEx_in_onEvent2708 = new BitSet(new long[]{0x0000000000000000L,0x0010000000200000L,0x17E0000000020000L});
-    public static final BitSet FOLLOW_msgType_in_onEvent2718 = new BitSet(new long[]{0x0000000000000000L,0x0010000000200000L,0x17E0000000020000L});
-    public static final BitSet FOLLOW_viElt_in_onEvent2722 = new BitSet(new long[]{0x0000000000000000L,0x0010000000200000L,0x17E0000000020000L});
-    public static final BitSet FOLLOW_ID_in_onEvent2734 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_135_in_onEvent2736 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000020000L});
-    public static final BitSet FOLLOW_145_in_onEvent2741 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_onEvent2743 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_onEvent2747 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
-    public static final BitSet FOLLOW_113_in_onEvent2749 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_onEvent2753 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_onEvent2756 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
-    public static final BitSet FOLLOW_correlation_in_onEvent2758 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_onEvent2762 = new BitSet(new long[]{0x0000000000000000L,0xF7ADC002EF6C0000L,0x61E003E1FFE84459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_with_ex_in_onEvent2764 = new BitSet(new long[]{0x0000000000000000L,0xF7ADC002EF6C0000L,0x61E003E1FFE84459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_scope_short_in_onEvent2767 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_146_in_compensation2825 = new BitSet(new long[]{0x0000000000000000L,0xF58DC002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
-    public static final BitSet FOLLOW_body_in_compensation2827 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_147_in_with_ex2846 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_with_ex2848 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_with_map_in_with_ex2852 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_with_ex2855 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_with_map_in_with_ex2859 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_118_in_with_ex2863 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_with_map2889 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000100000L});
-    public static final BitSet FOLLOW_148_in_with_map2891 = new BitSet(new long[]{0x0000000000000000L,0x00040000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_KEY_in_with_map2893 = new BitSet(new long[]{0x0000000000000000L,0x00040000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_path_expr_in_with_map2896 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_portType_in_receive2933 = new BitSet(new long[]{0x0000000000000000L,0x0014000000440000L,0x01E0000000200000L});
-    public static final BitSet FOLLOW_msgEx_in_receive2941 = new BitSet(new long[]{0x0000000000000000L,0x0014000000440000L,0x01E0000000200000L});
-    public static final BitSet FOLLOW_CREATE_INST_in_receive2949 = new BitSet(new long[]{0x0000000000000000L,0x0014000000440000L,0x01E0000000200000L});
-    public static final BitSet FOLLOW_114_in_receive2975 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_receive2979 = new BitSet(new long[]{0x0000000000000000L,0x0014000000440000L,0x01E0000000200000L});
-    public static final BitSet FOLLOW_SJF_in_receive2988 = new BitSet(new long[]{0x0000000000000000L,0x0014000000440000L,0x01E0000000200000L});
-    public static final BitSet FOLLOW_149_in_receive2995 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_receive2997 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_receive3001 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
-    public static final BitSet FOLLOW_113_in_receive3003 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_receive3007 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_receive3010 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
-    public static final BitSet FOLLOW_correlation_in_receive3012 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_receive3016 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000080000L});
-    public static final BitSet FOLLOW_with_ex_in_receive3018 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_portType_in_reply3077 = new BitSet(new long[]{0x0000000000000000L,0x0014000000040000L,0x61E0000000400000L});
-    public static final BitSet FOLLOW_faultName_in_reply3085 = new BitSet(new long[]{0x0000000000000000L,0x0014000000040000L,0x61E0000000400000L});
-    public static final BitSet FOLLOW_msgEx_in_reply3093 = new BitSet(new long[]{0x0000000000000000L,0x0014000000040000L,0x61E0000000400000L});
-    public static final BitSet FOLLOW_114_in_reply3118 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_reply3122 = new BitSet(new long[]{0x0000000000000000L,0x0014000000040000L,0x61E0000000400000L});
-    public static final BitSet FOLLOW_SJF_in_reply3131 = new BitSet(new long[]{0x0000000000000000L,0x0014000000040000L,0x61E0000000400000L});
-    public static final BitSet FOLLOW_150_in_reply3138 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_reply3140 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_reply3144 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
-    public static final BitSet FOLLOW_113_in_reply3146 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_reply3150 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_reply3153 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_reply3157 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_reply3162 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
-    public static final BitSet FOLLOW_correlation_in_reply3164 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_reply3168 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000080000L});
-    public static final BitSet FOLLOW_with_ex_in_reply3171 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_portType_in_invoke3231 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0060000000800000L});
-    public static final BitSet FOLLOW_114_in_invoke3256 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_invoke3260 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0060000000800000L});
-    public static final BitSet FOLLOW_SJF_in_invoke3269 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0060000000800000L});
-    public static final BitSet FOLLOW_151_in_invoke3276 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_invoke3278 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_invoke3282 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
-    public static final BitSet FOLLOW_113_in_invoke3284 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_invoke3288 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_invoke3291 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_invoke3295 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_invoke3300 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
-    public static final BitSet FOLLOW_correlation_in_invoke3302 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_invoke3306 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x00000000000C0000L});
-    public static final BitSet FOLLOW_with_ex_in_invoke3308 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000040000L});
-    public static final BitSet FOLLOW_compensation_in_invoke3311 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_portType_in_assign3372 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_CREATE_INST_in_assign3380 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_VALID_in_assign3388 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_KEEPSRC_in_assign3396 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_IGNORE_in_assign3408 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_faultName_in_assign3416 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_msgEx_in_assign3424 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_114_in_assign3452 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_assign3456 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_SJF_in_assign3465 = new BitSet(new long[]{0x0000000000000000L,0x00140000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_assign3475 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_path_expr_in_assign3479 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_PROP_in_assign3481 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_135_in_assign3485 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000A00000L});
-    public static final BitSet FOLLOW_rvalue_in_assign3487 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_receive_in_rvalue3552 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_invoke_in_rvalue3557 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_expr_in_rvalue3562 = new BitSet(new long[]{0x0000000000000002L,0x0000000100000000L});
-    public static final BitSet FOLLOW_PROP_in_rvalue3564 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_OPAQUE_EXPR_in_rvalue3570 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_152_in_throw_ex3590 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_153_in_throw_ex3593 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_throw_ex3598 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000007000000L});
-    public static final BitSet FOLLOW_114_in_throw_ex3618 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_throw_ex3622 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000007000000L});
-    public static final BitSet FOLLOW_SJF_in_throw_ex3631 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000007000000L});
-    public static final BitSet FOLLOW_154_in_throw_ex3638 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_throw_ex3640 = new BitSet(new long[]{0x0000000000000000L,0x00040000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_ns_id_in_throw_ex3642 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_throw_ex3644 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_std_attr_in_rethrow_ex3681 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000008000000L});
-    public static final BitSet FOLLOW_155_in_rethrow_ex3685 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_std_attr_in_compensate3702 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000010000000L});
-    public static final BitSet FOLLOW_156_in_compensate3706 = new BitSet(new long[]{0x0000000000000002L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_compensate3709 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_compensate3713 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_compensate3715 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_std_attr_in_exit3740 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000020000000L});
-    public static final BitSet FOLLOW_157_in_exit3745 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_std_attr_in_validate3762 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000040000000L});
-    public static final BitSet FOLLOW_158_in_validate3767 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_validate3771 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
-    public static final BitSet FOLLOW_113_in_validate3774 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_validate3778 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
-    public static final BitSet FOLLOW_std_attr_in_ext_act3802 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
-    public static final BitSet FOLLOW_EXT_ACT_in_ext_act3809 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_std_attr_in_nop3830 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000080000000L});
-    public static final BitSet FOLLOW_159_in_nop3835 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_std_attr_in_opaque3854 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000100000000L});
-    public static final BitSet FOLLOW_160_in_opaque3859 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_161_in_namespace3878 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_namespace3880 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_135_in_namespace3882 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_namespace3884 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
-    public static final BitSet FOLLOW_SEMI_in_namespace3886 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_MUSTUND_in_extension3907 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000400000000L});
-    public static final BitSet FOLLOW_162_in_extension3913 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_extension3915 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_135_in_extension3917 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_extension3919 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
-    public static final BitSet FOLLOW_SEMI_in_extension3921 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_viType_in_imports3946 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000800000000L});
-    public static final BitSet FOLLOW_163_in_imports3952 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_imports3957 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_135_in_imports3959 = new BitSet(new long[]{0x0000000000000000L,0x0000000000A00000L});
-    public static final BitSet FOLLOW_ID_in_imports3964 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_164_in_imports3966 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_imports3973 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
-    public static final BitSet FOLLOW_SEMI_in_imports3977 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_165_in_messages4009 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_message_in_messages4013 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
-    public static final BitSet FOLLOW_113_in_messages4016 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_message_in_messages4020 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
-    public static final BitSet FOLLOW_ID_in_message4040 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_166_in_variables4058 = new BitSet(new long[]{0x0000000000000000L,0x00102004002C0000L,0x1FE0000600020000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_variable_in_variables4062 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
-    public static final BitSet FOLLOW_113_in_variables4065 = new BitSet(new long[]{0x0000000000000000L,0x00102004002C0000L,0x1FE0000600020000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_variable_in_variables4069 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
-    public static final BitSet FOLLOW_msgType_in_variable4099 = new BitSet(new long[]{0x0000000000000000L,0x00102004002C0000L,0x1FE0000600020000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_viType_in_variable4107 = new BitSet(new long[]{0x0000000000000000L,0x00102004002C0000L,0x1FE0000600020000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_viElt_in_variable4115 = new BitSet(new long[]{0x0000000000000000L,0x00102004002C0000L,0x1FE0000600020000L,0x000000000000000FL});
-    public static final BitSet FOLLOW_ID_in_variable4122 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000080000L});
-    public static final BitSet FOLLOW_with_ex_in_variable4125 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_167_in_partner_links4165 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_168_in_partner_links4169 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_partner_link_in_partner_links4174 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
-    public static final BitSet FOLLOW_113_in_partner_links4177 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_partner_link_in_partner_links4181 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
-    public static final BitSet FOLLOW_ID_in_partner_link4203 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
-    public static final BitSet FOLLOW_135_in_partner_link4205 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_partner_link4207 = new BitSet(new long[]{0x0000000000000000L,0x00460000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_ns_id_in_partner_link4211 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_partner_link4215 = new BitSet(new long[]{0x0000000000000000L,0x00040000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_ns_id_in_partner_link4219 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_partner_link4224 = new BitSet(new long[]{0x0000000000000000L,0x00040000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_ns_id_in_partner_link4228 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_partner_link4233 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L});
-    public static final BitSet FOLLOW_INITPARTNER_in_partner_link4237 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_partner_link4241 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_110_in_correlation4277 = new BitSet(new long[]{0x0000000000000000L,0x0000003000200000L});
-    public static final BitSet FOLLOW_corr_mapping_in_correlation4279 = new BitSet(new long[]{0x0000000000000000L,0x0002800000000000L});
-    public static final BitSet FOLLOW_113_in_correlation4282 = new BitSet(new long[]{0x0000000000000000L,0x0000003000200000L});
-    public static final BitSet FOLLOW_corr_mapping_in_correlation4284 = new BitSet(new long[]{0x0000000000000000L,0x0002800000000000L});
-    public static final BitSet FOLLOW_111_in_correlation4288 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INIT_COR_in_corr_mapping4312 = new BitSet(new long[]{0x0000000000000000L,0x0000003000200000L});
-    public static final BitSet FOLLOW_PATTERN_COR_in_corr_mapping4320 = new BitSet(new long[]{0x0000000000000000L,0x0000003000200000L});
-    public static final BitSet FOLLOW_ID_in_corr_mapping4329 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_169_in_corr_sets4364 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
-    public static final BitSet FOLLOW_110_in_corr_sets4366 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_corr_set_in_corr_sets4369 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
-    public static final BitSet FOLLOW_SEMI_in_corr_sets4371 = new BitSet(new long[]{0x0000000000000000L,0x0000800000200000L});
-    public static final BitSet FOLLOW_corr_set_in_corr_sets4376 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
-    public static final BitSet FOLLOW_SEMI_in_corr_sets4378 = new BitSet(new long[]{0x0000000000000000L,0x0000800000200000L});
-    public static final BitSet FOLLOW_111_in_corr_sets4382 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_corr_set4402 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_corr_set4404 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_corr_set4408 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_113_in_corr_set4411 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_corr_set4415 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
-    public static final BitSet FOLLOW_118_in_corr_set4419 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_s_expr_in_expr4442 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_EXT_EXPR_in_expr4446 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_funct_call_in_expr4450 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_funct_call4459 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
-    public static final BitSet FOLLOW_117_in_funct_call4461 = new BitSet(new long[]{0x0000000000000000L,0x0040000000200000L});
-    public static final BitSet FOLLOW_ID_in_funct_call4465 = new BitSet(new long[]{0x0000000000000000L,0x0040000000200000L});
-    public static final BitSet FOLLOW_118_in_funct_call4468 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_condExpr_in_s_expr4485 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_aexpr_in_condExpr4493 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000FC0000000000L});
-    public static final BitSet FOLLOW_170_in_condExpr4498 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_171_in_condExpr4502 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_172_in_condExpr4506 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_173_in_condExpr4510 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_174_in_condExpr4514 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_175_in_condExpr4518 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_aexpr_in_condExpr4523 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_mexpr_in_aexpr4534 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0003000000000000L});
-    public static final BitSet FOLLOW_set_in_aexpr4537 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_mexpr_in_aexpr4545 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0003000000000000L});
-    public static final BitSet FOLLOW_atom_in_mexpr4555 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x000C000000000000L});
-    public static final BitSet FOLLOW_set_in_mexpr4558 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_atom_in_mexpr4566 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x000C000000000000L});
-    public static final BitSet FOLLOW_STRING_in_mexpr4572 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_path_expr_in_atom4580 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_INT_in_atom4584 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_117_in_atom4588 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_s_expr_in_atom4590 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
-    public static final BitSet FOLLOW_118_in_atom4592 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ns_id_in_path_expr4605 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0010000000000000L});
-    public static final BitSet FOLLOW_180_in_path_expr4608 = new BitSet(new long[]{0x0000000000000000L,0x00040000F1640000L,0x61E0000000000000L});
-    public static final BitSet FOLLOW_ns_id_in_path_expr4612 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0010000000000000L});
-    public static final BitSet FOLLOW_ID_in_ns_id4635 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
-    public static final BitSet FOLLOW_164_in_ns_id4637 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
-    public static final BitSet FOLLOW_ID_in_ns_id4643 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_181_in_portType4668 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_182_in_portType4672 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_portType4675 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_114_in_std_attr4699 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_std_attr4703 = new BitSet(new long[]{0x0000000000000002L,0x0004000000040000L});
-    public static final BitSet FOLLOW_SJF_in_std_attr4712 = new BitSet(new long[]{0x0000000000000002L,0x0004000000040000L});
-    public static final BitSet FOLLOW_183_in_msgEx4751 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_184_in_msgEx4755 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_msgEx4758 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_185_in_msgType4778 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_186_in_msgType4782 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_msgType4787 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_187_in_viType4807 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_viType4811 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_188_in_viElt4831 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_viElt4835 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_189_in_faultName4854 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_190_in_faultName4858 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_faultName4861 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_191_in_faultElt4879 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_faultElt4881 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_192_in_exprLg4904 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_193_in_exprLg4908 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_exprLg4911 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_194_in_queryLg4932 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_195_in_queryLg4936 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
-    public static final BitSet FOLLOW_STRING_in_queryLg4939 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_if_ex1709 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_if_ex1712 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_sequence_in_if_ex1716 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000000006L,0x000000000000000FL});
+    public static final BitSet FOLLOW_queryLg_in_if_ex1729 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000002L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_if_ex1738 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000002L,0x000000000000000FL});
+    public static final BitSet FOLLOW_129_in_if_ex1747 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_if_ex1749 = new BitSet(new long[]{0x0001000000000000L,0x00640040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_expr_in_if_ex1754 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_if_ex1763 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_if_ex1769 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_sequence_in_if_ex1773 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000000006L,0x000000000000000FL});
+    public static final BitSet FOLLOW_130_in_if_ex1784 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_sequence_in_if_ex1788 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_std_attr_in_sequence1866 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_ajoin_in_sequence1872 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_asignal_in_sequence1877 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_body_in_sequence1884 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ajoin_in_scope_sequence1917 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_asignal_in_scope_sequence1922 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_scope_block_in_scope_sequence1930 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_queryLg_in_while_ex1962 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000008L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_while_ex1971 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000008L,0x000000000000000FL});
+    public static final BitSet FOLLOW_114_in_while_ex1999 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_while_ex2003 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000008L,0x000000000000000FL});
+    public static final BitSet FOLLOW_SJF_in_while_ex2012 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000008L,0x000000000000000FL});
+    public static final BitSet FOLLOW_131_in_while_ex2020 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_while_ex2022 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_expr_in_while_ex2025 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_while_ex2027 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_while_ex2030 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_sequence_in_while_ex2034 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_queryLg_in_until_ex2075 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000010L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_until_ex2084 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000010L,0x000000000000000FL});
+    public static final BitSet FOLLOW_114_in_until_ex2112 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_until_ex2116 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000010L,0x000000000000000FL});
+    public static final BitSet FOLLOW_SJF_in_until_ex2125 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000000000010L,0x000000000000000FL});
+    public static final BitSet FOLLOW_132_in_until_ex2133 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_sequence_in_until_ex2137 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000020L});
+    public static final BitSet FOLLOW_133_in_until_ex2139 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_until_ex2141 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_expr_in_until_ex2144 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_until_ex2146 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_until_ex2149 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_PARALLEL_in_foreach2191 = new BitSet(new long[]{0x0000000000000000L,0x0004000006040000L,0x0000000000000040L});
+    public static final BitSet FOLLOW_SBO_in_foreach2199 = new BitSet(new long[]{0x0000000000000000L,0x0004000006040000L,0x0000000000000040L});
+    public static final BitSet FOLLOW_114_in_foreach2226 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_foreach2230 = new BitSet(new long[]{0x0000000000000000L,0x0004000006040000L,0x0000000000000040L});
+    public static final BitSet FOLLOW_SJF_in_foreach2239 = new BitSet(new long[]{0x0000000000000000L,0x0004000006040000L,0x0000000000000040L});
+    public static final BitSet FOLLOW_134_in_foreach2246 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_foreach2248 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_queryLg_in_foreach2256 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_foreach2265 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_ID_in_foreach2271 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_135_in_foreach2273 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_expr_in_foreach2278 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L,0x0000000000000100L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_foreach2284 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L,0x0000000000000100L});
+    public static final BitSet FOLLOW_136_in_foreach2291 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_SEMI_in_foreach2293 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_queryLg_in_foreach2301 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_foreach2310 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_expr_in_foreach2317 = new BitSet(new long[]{0x0000000000000000L,0x0040000000100000L,0x0000000000000200L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_foreach2323 = new BitSet(new long[]{0x0000000000000000L,0x0040000000100000L,0x0000000000000200L});
+    public static final BitSet FOLLOW_137_in_foreach2332 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_SEMI_in_foreach2334 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_queryLg_in_foreach2342 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_exprLg_in_foreach2351 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_expr_in_foreach2358 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_foreach2364 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_foreach2380 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_scope_short_in_foreach2382 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_138_in_try_ex2497 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_body_in_try_ex2499 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x8000000000003800L});
+    public static final BitSet FOLLOW_catch_ex_in_try_ex2501 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x8000000000003800L});
+    public static final BitSet FOLLOW_catchAll_in_try_ex2504 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_139_in_catch_ex2529 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_catch_ex2533 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000001000L});
+    public static final BitSet FOLLOW_faultElt_in_catch_ex2539 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000001000L});
+    public static final BitSet FOLLOW_140_in_catch_ex2545 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_catch_ex2547 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ns_id_in_catch_ex2549 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_catch_ex2552 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L,0x0000000000080000L});
+    public static final BitSet FOLLOW_param_block_in_catch_ex2554 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_141_in_catchAll2584 = new BitSet(new long[]{0x0000000000000000L,0x6004400000040000L});
+    public static final BitSet FOLLOW_block_in_catchAll2586 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ISOLATED_in_scope_ex2611 = new BitSet(new long[]{0x0000000000000000L,0x00000000080C0000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_EOSF_in_scope_ex2619 = new BitSet(new long[]{0x0000000000000000L,0x00000000080C0000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_SJF_in_scope_ex2627 = new BitSet(new long[]{0x0000000000000000L,0x00000000080C0000L,0x0000000000004000L});
+    public static final BitSet FOLLOW_142_in_scope_ex2634 = new BitSet(new long[]{0x0000000000000000L,0x63A4400000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_117_in_scope_ex2637 = new BitSet(new long[]{0x0000000000000000L,0x0040000000200000L});
+    public static final BitSet FOLLOW_ID_in_scope_ex2639 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_scope_ex2642 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_scope_sequence_in_scope_ex2646 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000058000L});
+    public static final BitSet FOLLOW_scope_stmt_in_scope_ex2648 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_scope_sequence_in_scope_short2691 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000058000L});
+    public static final BitSet FOLLOW_scope_stmt_in_scope_short2693 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_compensation_in_scope_stmt2718 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000058000L});
+    public static final BitSet FOLLOW_termination_in_scope_stmt2726 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000058000L});
+    public static final BitSet FOLLOW_eventHdl_in_scope_stmt2734 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000058000L});
+    public static final BitSet FOLLOW_143_in_termination2770 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_body_in_termination2772 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_144_in_eventHdl2790 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_110_in_eventHdl2792 = new BitSet(new long[]{0x0000000000000000L,0x6384C00000240000L,0x17E0000000020000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_onEvent_in_eventHdl2794 = new BitSet(new long[]{0x0000000000000000L,0x6384C00000240000L,0x17E0000000020000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_onAlarm_in_eventHdl2797 = new BitSet(new long[]{0x0000000000000000L,0x6384C00000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_111_in_eventHdl2800 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_portType_in_onEvent2831 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L,0x17E0000000020000L});
+    public static final BitSet FOLLOW_msgEx_in_onEvent2839 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L,0x17E0000000020000L});
+    public static final BitSet FOLLOW_msgType_in_onEvent2849 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L,0x17E0000000020000L});
+    public static final BitSet FOLLOW_viElt_in_onEvent2853 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L,0x17E0000000020000L});
+    public static final BitSet FOLLOW_ID_in_onEvent2865 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_135_in_onEvent2867 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000020000L});
+    public static final BitSet FOLLOW_145_in_onEvent2872 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_onEvent2874 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_onEvent2878 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
+    public static final BitSet FOLLOW_113_in_onEvent2880 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_onEvent2884 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_onEvent2887 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_correlation_in_onEvent2889 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_onEvent2893 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000080000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_with_ex_in_onEvent2895 = new BitSet(new long[]{0x0000000000000000L,0x6384400000040000L,0x0000000000000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_scope_short_in_onEvent2898 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_146_in_compensation2956 = new BitSet(new long[]{0x0000000000000000L,0xE58C4002EF6C0000L,0x61E003E1FFE04459L,0x000000000000000FL});
+    public static final BitSet FOLLOW_body_in_compensation2958 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_147_in_with_ex2977 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_with_ex2979 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_with_map_in_with_ex2983 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_with_ex2986 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_with_map_in_with_ex2990 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_118_in_with_ex2994 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_with_map3020 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000100000L});
+    public static final BitSet FOLLOW_148_in_with_map3022 = new BitSet(new long[]{0x0000000000000000L,0x00040000F1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_KEY_in_with_map3024 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_path_expr_in_with_map3027 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_portType_in_receive3064 = new BitSet(new long[]{0x0000000000000000L,0x0004000000440000L,0x01E0000000200000L});
+    public static final BitSet FOLLOW_msgEx_in_receive3072 = new BitSet(new long[]{0x0000000000000000L,0x0004000000440000L,0x01E0000000200000L});
+    public static final BitSet FOLLOW_CREATE_INST_in_receive3080 = new BitSet(new long[]{0x0000000000000000L,0x0004000000440000L,0x01E0000000200000L});
+    public static final BitSet FOLLOW_114_in_receive3106 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_receive3110 = new BitSet(new long[]{0x0000000000000000L,0x0004000000440000L,0x01E0000000200000L});
+    public static final BitSet FOLLOW_SJF_in_receive3119 = new BitSet(new long[]{0x0000000000000000L,0x0004000000440000L,0x01E0000000200000L});
+    public static final BitSet FOLLOW_149_in_receive3126 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_receive3128 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_receive3132 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
+    public static final BitSet FOLLOW_113_in_receive3134 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_receive3138 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_receive3141 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_correlation_in_receive3143 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_receive3147 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000080000L});
+    public static final BitSet FOLLOW_with_ex_in_receive3149 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_portType_in_reply3208 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x61E0000000400000L});
+    public static final BitSet FOLLOW_faultName_in_reply3216 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x61E0000000400000L});
+    public static final BitSet FOLLOW_msgEx_in_reply3224 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x61E0000000400000L});
+    public static final BitSet FOLLOW_114_in_reply3249 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_reply3253 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x61E0000000400000L});
+    public static final BitSet FOLLOW_SJF_in_reply3262 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x61E0000000400000L});
+    public static final BitSet FOLLOW_150_in_reply3269 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_reply3271 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_reply3275 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
+    public static final BitSet FOLLOW_113_in_reply3277 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_reply3281 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_reply3284 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_reply3288 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_reply3293 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_correlation_in_reply3295 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_reply3299 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000080000L});
+    public static final BitSet FOLLOW_with_ex_in_reply3302 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_portType_in_invoke3362 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0060000000800000L});
+    public static final BitSet FOLLOW_114_in_invoke3387 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_invoke3391 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0060000000800000L});
+    public static final BitSet FOLLOW_SJF_in_invoke3400 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0060000000800000L});
+    public static final BitSet FOLLOW_151_in_invoke3407 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_invoke3409 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_invoke3413 = new BitSet(new long[]{0x0000000000000000L,0x0002000000000000L});
+    public static final BitSet FOLLOW_113_in_invoke3415 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_invoke3419 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_invoke3422 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_invoke3426 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_invoke3431 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_correlation_in_invoke3433 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_invoke3437 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x00000000000C0000L});
+    public static final BitSet FOLLOW_with_ex_in_invoke3439 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000040000L});
+    public static final BitSet FOLLOW_compensation_in_invoke3442 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_portType_in_assign3503 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_CREATE_INST_in_assign3511 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_VALID_in_assign3519 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_KEEPSRC_in_assign3527 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_IGNORE_in_assign3539 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_faultName_in_assign3547 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_msgEx_in_assign3555 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_114_in_assign3583 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_assign3587 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_SJF_in_assign3596 = new BitSet(new long[]{0x0000000000000000L,0x00040000E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_assign3606 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_path_expr_in_assign3610 = new BitSet(new long[]{0x0000000000000000L,0x0000000100000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_PROP_in_assign3612 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_135_in_assign3616 = new BitSet(new long[]{0x0001000000000000L,0x00240040E1E40000L,0x61E0000000A00000L});
+    public static final BitSet FOLLOW_rvalue_in_assign3618 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_receive_in_rvalue3683 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_invoke_in_rvalue3688 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_expr_in_rvalue3693 = new BitSet(new long[]{0x0000000000000002L,0x0000000100000000L});
+    public static final BitSet FOLLOW_PROP_in_rvalue3695 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_OPAQUE_EXPR_in_rvalue3701 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_152_in_throw_ex3721 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_153_in_throw_ex3724 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_throw_ex3729 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000007000000L});
+    public static final BitSet FOLLOW_114_in_throw_ex3749 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_throw_ex3753 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000007000000L});
+    public static final BitSet FOLLOW_SJF_in_throw_ex3762 = new BitSet(new long[]{0x0000000000000000L,0x0004000000040000L,0x0000000007000000L});
+    public static final BitSet FOLLOW_154_in_throw_ex3769 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_throw_ex3771 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ns_id_in_throw_ex3773 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_throw_ex3775 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_std_attr_in_rethrow_ex3812 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000008000000L});
+    public static final BitSet FOLLOW_155_in_rethrow_ex3816 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_std_attr_in_compensate3833 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000010000000L});
+    public static final BitSet FOLLOW_156_in_compensate3837 = new BitSet(new long[]{0x0000000000000002L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_compensate3840 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_compensate3844 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_compensate3846 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_std_attr_in_exit3871 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000020000000L});
+    public static final BitSet FOLLOW_157_in_exit3876 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_std_attr_in_validate3893 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000040000000L});
+    public static final BitSet FOLLOW_158_in_validate3898 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_validate3902 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
+    public static final BitSet FOLLOW_113_in_validate3905 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_validate3909 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
+    public static final BitSet FOLLOW_std_attr_in_ext_act3933 = new BitSet(new long[]{0x0000000000000000L,0x0000000200000000L});
+    public static final BitSet FOLLOW_EXT_ACT_in_ext_act3940 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_std_attr_in_nop3961 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000080000000L});
+    public static final BitSet FOLLOW_159_in_nop3966 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_std_attr_in_opaque3985 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000100000000L});
+    public static final BitSet FOLLOW_160_in_opaque3990 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_161_in_namespace4009 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_namespace4011 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_135_in_namespace4013 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_namespace4015 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
+    public static final BitSet FOLLOW_SEMI_in_namespace4017 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_MUSTUND_in_extension4038 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000400000000L});
+    public static final BitSet FOLLOW_162_in_extension4044 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_extension4046 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_135_in_extension4048 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_extension4050 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
+    public static final BitSet FOLLOW_SEMI_in_extension4052 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_viType_in_imports4077 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000800000000L});
+    public static final BitSet FOLLOW_163_in_imports4083 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_imports4088 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_135_in_imports4090 = new BitSet(new long[]{0x0000000000000000L,0x0000000000A00000L});
+    public static final BitSet FOLLOW_ID_in_imports4095 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_164_in_imports4097 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_imports4104 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
+    public static final BitSet FOLLOW_SEMI_in_imports4108 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_165_in_messages4140 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_message_in_messages4144 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
+    public static final BitSet FOLLOW_113_in_messages4147 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_message_in_messages4151 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
+    public static final BitSet FOLLOW_ID_in_message4171 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_166_in_variables4189 = new BitSet(new long[]{0x0000000000000000L,0x00002004002C0000L,0x1FE0000600000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_variable_in_variables4193 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
+    public static final BitSet FOLLOW_113_in_variables4196 = new BitSet(new long[]{0x0000000000000000L,0x00002004002C0000L,0x1FE0000600000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_variable_in_variables4200 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
+    public static final BitSet FOLLOW_msgType_in_variable4230 = new BitSet(new long[]{0x0000000000000000L,0x00002004002C0000L,0x1FE0000600000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_viType_in_variable4238 = new BitSet(new long[]{0x0000000000000000L,0x00002004002C0000L,0x1FE0000600000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_viElt_in_variable4246 = new BitSet(new long[]{0x0000000000000000L,0x00002004002C0000L,0x1FE0000600000000L,0x000000000000000FL});
+    public static final BitSet FOLLOW_ID_in_variable4253 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000000000080000L});
+    public static final BitSet FOLLOW_with_ex_in_variable4256 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_167_in_partner_links4296 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_168_in_partner_links4300 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_partner_link_in_partner_links4305 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
+    public static final BitSet FOLLOW_113_in_partner_links4308 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_partner_link_in_partner_links4312 = new BitSet(new long[]{0x0000000000000002L,0x0002000000000000L});
+    public static final BitSet FOLLOW_ID_in_partner_link4334 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000000000000080L});
+    public static final BitSet FOLLOW_135_in_partner_link4336 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_partner_link4338 = new BitSet(new long[]{0x0000000000000000L,0x0042000000200000L});
+    public static final BitSet FOLLOW_ns_id_in_partner_link4342 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_partner_link4346 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ns_id_in_partner_link4350 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_partner_link4355 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ns_id_in_partner_link4359 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_partner_link4364 = new BitSet(new long[]{0x0000000000000000L,0x0000000800000000L});
+    public static final BitSet FOLLOW_INITPARTNER_in_partner_link4368 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_partner_link4372 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_110_in_correlation4408 = new BitSet(new long[]{0x0000000000000000L,0x0000003000200000L});
+    public static final BitSet FOLLOW_corr_mapping_in_correlation4410 = new BitSet(new long[]{0x0000000000000000L,0x0002800000000000L});
+    public static final BitSet FOLLOW_113_in_correlation4413 = new BitSet(new long[]{0x0000000000000000L,0x0000003000200000L});
+    public static final BitSet FOLLOW_corr_mapping_in_correlation4415 = new BitSet(new long[]{0x0000000000000000L,0x0002800000000000L});
+    public static final BitSet FOLLOW_111_in_correlation4419 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INIT_COR_in_corr_mapping4443 = new BitSet(new long[]{0x0000000000000000L,0x0000003000200000L});
+    public static final BitSet FOLLOW_PATTERN_COR_in_corr_mapping4451 = new BitSet(new long[]{0x0000000000000000L,0x0000003000200000L});
+    public static final BitSet FOLLOW_ID_in_corr_mapping4460 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_169_in_corr_sets4495 = new BitSet(new long[]{0x0000000000000000L,0x0000400000000000L});
+    public static final BitSet FOLLOW_110_in_corr_sets4497 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_corr_set_in_corr_sets4500 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
+    public static final BitSet FOLLOW_SEMI_in_corr_sets4502 = new BitSet(new long[]{0x0000000000000000L,0x0000800000200000L});
+    public static final BitSet FOLLOW_corr_set_in_corr_sets4507 = new BitSet(new long[]{0x0000000000000000L,0x0000000000100000L});
+    public static final BitSet FOLLOW_SEMI_in_corr_sets4509 = new BitSet(new long[]{0x0000000000000000L,0x0000800000200000L});
+    public static final BitSet FOLLOW_111_in_corr_sets4513 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_corr_set4533 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_corr_set4535 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_corr_set4539 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_113_in_corr_set4542 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_corr_set4546 = new BitSet(new long[]{0x0000000000000000L,0x0042000000000000L});
+    public static final BitSet FOLLOW_118_in_corr_set4550 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_s_expr_in_expr4573 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_EXT_EXPR_in_expr4577 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_funct_call_in_expr4581 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_funct_call4590 = new BitSet(new long[]{0x0000000000000000L,0x0020000000000000L});
+    public static final BitSet FOLLOW_117_in_funct_call4592 = new BitSet(new long[]{0x0000000000000000L,0x0040000000200000L});
+    public static final BitSet FOLLOW_ID_in_funct_call4596 = new BitSet(new long[]{0x0000000000000000L,0x0040000000200000L});
+    public static final BitSet FOLLOW_118_in_funct_call4599 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_condExpr_in_s_expr4616 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_aexpr_in_condExpr4624 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0000FC0000000000L});
+    public static final BitSet FOLLOW_170_in_condExpr4629 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_171_in_condExpr4633 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_172_in_condExpr4637 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_173_in_condExpr4641 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_174_in_condExpr4645 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_175_in_condExpr4649 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_aexpr_in_condExpr4654 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_mexpr_in_aexpr4665 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0003000000000000L});
+    public static final BitSet FOLLOW_set_in_aexpr4668 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_mexpr_in_aexpr4676 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0003000000000000L});
+    public static final BitSet FOLLOW_atom_in_mexpr4686 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x000C000000000000L});
+    public static final BitSet FOLLOW_set_in_mexpr4689 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1640000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_atom_in_mexpr4697 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x000C000000000000L});
+    public static final BitSet FOLLOW_STRING_in_mexpr4703 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_path_expr_in_atom4711 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_INT_in_atom4715 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_117_in_atom4719 = new BitSet(new long[]{0x0000000000000000L,0x00240040E1E40000L,0x61E0000000000000L});
+    public static final BitSet FOLLOW_s_expr_in_atom4721 = new BitSet(new long[]{0x0000000000000000L,0x0040000000000000L});
+    public static final BitSet FOLLOW_118_in_atom4723 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ns_id_in_path_expr4736 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0010000000000000L});
+    public static final BitSet FOLLOW_180_in_path_expr4739 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ns_id_in_path_expr4743 = new BitSet(new long[]{0x0000000000000002L,0x0000000000000000L,0x0010000000000000L});
+    public static final BitSet FOLLOW_ID_in_ns_id4766 = new BitSet(new long[]{0x0000000000000000L,0x0000000000000000L,0x0000001000000000L});
+    public static final BitSet FOLLOW_164_in_ns_id4768 = new BitSet(new long[]{0x0000000000000000L,0x0000000000200000L});
+    public static final BitSet FOLLOW_ID_in_ns_id4774 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_181_in_portType4799 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_182_in_portType4803 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_portType4806 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_114_in_std_attr4830 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_std_attr4834 = new BitSet(new long[]{0x0000000000000002L,0x0004000000040000L});
+    public static final BitSet FOLLOW_SJF_in_std_attr4843 = new BitSet(new long[]{0x0000000000000002L,0x0004000000040000L});
+    public static final BitSet FOLLOW_183_in_msgEx4882 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_184_in_msgEx4886 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_msgEx4889 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_185_in_msgType4909 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_186_in_msgType4913 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_msgType4918 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_187_in_viType4938 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_viType4942 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_188_in_viElt4962 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_viElt4966 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_189_in_faultName4985 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_190_in_faultName4989 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_faultName4992 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_191_in_faultElt5010 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_faultElt5012 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_192_in_exprLg5035 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_193_in_exprLg5039 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_exprLg5042 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_194_in_queryLg5063 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_195_in_queryLg5067 = new BitSet(new long[]{0x0000000000000000L,0x0000000000800000L});
+    public static final BitSet FOLLOW_STRING_in_queryLg5070 = new BitSet(new long[]{0x0000000000000002L});
 
 }
