@@ -325,16 +325,21 @@ flow [List join, List signal, HashMap<String, String> _vars, HashMap<String, Str
 
 if_ex[List join, List signal, HashMap<String, String> _vars, HashMap<String, String> _pl, HashMap<String, String> _messages, 
 		HashMap<String, String> _cs, HashMap<String, String> _faults,HashMap<String, StringTemplate> _faults_pb, List comments]
+@init{int elsex=0, elsop=0;}
 	: 	^(IF iex=expr[null]? iop=OPAQUE_EXPR? s=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] 
-		(^(ELSIF eiex+=expr[null]? eiop+=OPAQUE_EXPR? {if ($eiop==null) $eiop=new ArrayList();$eiop.add(null);} {if ($eiex==null) $eiex=new ArrayList();$eiex.add(null);}sie+=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] qei+=queryLg? eie+=exprLg?))* 
+		(^(ELSIF eiex+=expr[null]? eiop+=OPAQUE_EXPR? 
+		{if ($eiop==null) {$eiop=new ArrayList();$eiop.add(null);} else if ($eiop.size()==elsop) {$eiop.add(null);} elsop++;} {if ($eiex==null) {$eiex=new ArrayList();$eiex.add(null);}else if ($eiex.size()==elsex) {$eiex.add(null);} elsex++;}sie+=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb] qei+=queryLg? eie+=exprLg?))* 
 		(^(ELSE se=sequence[_vars, _pl, _messages, _cs, _faults, _faults_pb]))? name=STRING? sjf=SJF? q=queryLg? e=exprLg?)
 	{
         		String std_attr =templateLib.getInstanceOf("std_attr",
               new STAttrMap().put("name", (name!=null?name.getText():null)).put("sjf", (sjf!=null?sjf.getText():null))).toString();
               
+//              	System.out.println($eiex+""+$eiop);
               	//remove additionally included last element of both list since it is null
-		$eiop.remove($eiop.size()-1);
-		$eiex.remove($eiex.size()-1);
+//              	if ($eiop!=null && $eiex!=null) {
+//		  $eiop.remove($eiop.size()-1);
+//		  $eiex.remove($eiex.size()-1);
+//		}
 	}
 
 	->	if_ex(iex={$iex.st}, iop={$iop.text}, seq={$s.st}, 

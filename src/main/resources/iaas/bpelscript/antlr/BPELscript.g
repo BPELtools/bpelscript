@@ -183,12 +183,13 @@ join		:	( q=queryLg?  | exprLg?  | {q==null}? q=queryLg)
 			'join' '(' k+=ID (',' k+=ID)* (',' (expr | OPAQUE_EXPR))? ')' -> ^(JOIN $k+ expr? OPAQUE_EXPR? queryLg? exprLg?);
 
 if_ex
+@init{int elsex = 0, elsop = 0;}
 	:	( {q==null}? q=queryLg  | {e==null}? e=exprLg 	        
 	//should be std_attr. but did not work with occurence-order-independency
         	| {name==null}? ('@name' name=STRING) | {suppressJoinFailure==null}? suppressJoinFailure=SJF )*
 		'if' '(' (iex=expr | iop=OPAQUE_EXPR) ')' s=sequence 
 		( ( {qie==null}? qie+=queryLg  | {eie==null}? eie+=exprLg )*
-		  'elseif' '(' (eiex+=expr? {if ($eiop==null) $eiop=new ArrayList();$eiop.add(null);} | eiop+=OPAQUE_EXPR? {if ($eiex==null) $eiex=new ArrayList();$eiex.add(null);}) ')' sei+=sequence 
+		  'elseif' '(' (eiex+=expr? {if ($eiop==null) {$eiop=new ArrayList();$eiop.add(null);}else if($eiop.size()==elsop) {$eiop.add(null);} elsop++;} | eiop+=OPAQUE_EXPR? {if ($eiex==null) {$eiex=new ArrayList();$eiex.add(null); }else if($eiex.size()==elsex) {$eiex.add(null);} elsex++;}) ')' sei+=sequence 
 		)*
 		('else' se=sequence)? 
 	-> 	^(IF $iex? $iop? $s (^(ELSIF $eiex $eiop $sei $qie? $eie?))* (^(ELSE $se))? $name? SJF? queryLg? exprLg?);
