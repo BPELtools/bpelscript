@@ -4,13 +4,12 @@ namespace pns = "http://example.com/loan-approval/";
 process pns::loanApprovalProcess {
 
 join(ifJoin1, ifJoin2);
-@exprLg "hh"
-if (##opaque) @join(a) {
+if (expr) @join(a) {
 exit;
 } elseif (expr) @signal(b) @signal(c) {
 exit;
-} elseif (##opaque) @join(d, e, f) @signal(g) {
-nop;
+} elseif (expr) @join(d, e, f) @signal(g) {
+exit;
 } else @join(a, b, g) @signal(g) @signal(k) @signal(i) {
 exit;
 }
