@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>{{ page.title }} @ taval.de</title> 
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="generator" content="emacs" />
+{% if page.keywords %}
+  <meta name="keywords" content="{{ page.keywords }}">
+{% endif %}
+{% if page.entry.keywords %}
+  <meta name="keywords" content="{{ page.entry.keywords }}">
+{% endif %}
+{% if page %}{% if page.excerpt %}
+  <meta name="description" content="{{ page.excerpt | xml_escape }}">
+{% else %}{% if page.entry.abstract %}
+  <meta name="description" content="{{ page.entry.abstract | html_truncate | xml_escape }}">
+{% else %}{% if page.content %}
+  <meta name="description" content="{{ page.content | html_truncate | xml_escape }}">
+{% endif %}{% endif %}{% endif %}{% endif %}
+
+  <link href="css/site.css" rel="stylesheet" type="text/css" />
+  <link type="text/css" rel="stylesheet" href="css/pygment_trac"></link>
+</head>
+
+<body>
+<div id="title"><h1>BPELscript</h1>
+<ul id="nav2">
+<li><a href="#future">Future Work</a></li>
+<li><a href="#pub">Publications</a></li>
+<li><a href="#contact">Contact</a></li>
+{% comment %} <li><a href="#trans">Online Translator</a></li> {% endcomment %} 
+</ul>
+<ul id="nav1">
+<li><a href="#desc">Description</a></li>
+<li><a href="#ex">Example</a></li>
+<li><a href="#down">Downloads</a></li>
+<li><a href="#relwork">Related Work</a></li>
+</ul>
+</div>
+
+<div id="maincontent">
+  {{ content }}
+<div id="footer">
+Copyright &copy; {{ site.time | date: "%Y" }}  by the authors.
+</div>
+</div>
+</body>
+</html>
+
+

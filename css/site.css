@@ -1,0 +1,79 @@
+* {
+	padding:0;
+	margin:0;
+}
+
+body {
+	color: #333333;
+	background-color:#FFFFFF;
+	font-family: Verdana, sans-serif;
+	font-size:0.83em;
+	margin:20px auto;
+	width:650px;
+    padding-left:10px;
+    padding-right:10px;
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6, p, pre, blockquote, label, ul, ol, dl, 
+fieldset, address { margin:0.75em 0;}
+
+a {
+   color: #666;
+   font-weight: bold;
+}
+
+h1 {
+  font-size:1.67em;
+  border-bottom: 1px solid #ccc;
+}
+
+h2 {font-size:1.39em;}
+
+h3 {font-size:1.2em;}
+
+h4 {font-size:1em;}
+
+#title {
+  background: transparent url(../img/logo.png) no-repeat;
+  height: 100px;
+  border-bottom: 1px solid #ccc;
+}
+
+#title h1 {
+  display: none;
+}
+
+#nav1, #nav2 {
+  float: right;
+  height: 100px;
+  padding: 0px;
+  margin: 0px 0px 0px 8px;
+}
+
+ul {
+  list-style-position: inside;
+  list-style-image: url(../img/item.png);
+}
+
+#pubul {
+  list-style: none;
+}
+
+#pubul li {
+  background: transparent url(../img/pdf_icon.jpg) no-repeat;
+  padding-left: 40px;
+}
+
+.codebox {
+  background: transparent url(../img/beta.jpg) no-repeat scroll 523px 0px;
+}
+
+#footer {
+	border-top:1px solid #ccc;
+	font-size:80%;
+	line-height:1.5em;
+	width: 650px;
+	clear:both;
+    margin-top: 15px;
+}
