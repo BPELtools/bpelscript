@@ -1,5 +1,4 @@
-BPELscript
-==========
+# BPELscript
 
 BPELscript is a compact syntax for WS-BPEL 2.0.
 
@@ -13,3 +12,22 @@ The syntax of BPEL is based on XML infoset. Since it is uncommon to write progra
   * a translation to WS-BPEL 2.0.
 
 The translation to WS-BPEL 2.0 ensures that BPELscript can be executed on all workflow engines supporting WS-BPEL 2.0. To enable programmers to maintain WS-BPEL 2.0 code, the translation of WS-BPEL 2.0 to BPELscript allows them to modify the code in a syntax more common to programmers.
+
+## Scientific Publication
+
+```bibtex
+@inproceedings{beplscript,
+  author       = {Marc Bischof and
+                  Oliver Kopp and
+                  Tammo van Lessen and
+                  Frank Leymann},
+  title        = {BPELscript: {A} Simplified Script Syntax for {WS-BPEL} 2.0},
+  booktitle    = {35th Euromicro Conference on Software Engineering and Advanced Applications {SEAA}},
+  pages        = {39--46},
+  publisher    = {{IEEE} Computer Society},
+  year         = {2009},
+  doi          = {10.1109/SEAA.2009.21},
+}
+```
+
+Read it at <https://doi.org/10.1109/SEAA.2009.21>.
